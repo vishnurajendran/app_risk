@@ -1,5 +1,9 @@
+import mapEditer.MapLoader;
+
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello world!");
+        MapLoader l_loader=new MapLoader("ameroki.map");
+        System.out.print(l_loader.getMap().toString());
+
     }
 }
