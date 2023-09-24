@@ -21,16 +21,16 @@ public class MapLoader {
 
     public boolean loadMap(String p_mapName) {
         try {
-            File l_mapFile = new File("maps/"+p_mapName);
+            File l_mapFile = new File(p_mapName);
             Scanner l_scanner = new Scanner(l_mapFile);
             while (l_scanner.hasNextLine()) {
                 String l_line = l_scanner.nextLine();
                 if (l_line.isEmpty()) {
-                    break;
+                    continue;
                 }
                 String[] l_linePieces = l_line.split(" ");
                 if (l_linePieces[0].equals(";")) {
-                    break;
+                    continue;
                 }
                 if (l_linePieces[0].equals("name")) {
                     d_map.setName(l_line.substring(l_line.indexOf(" ") + 1));
@@ -60,7 +60,7 @@ public class MapLoader {
                             break;
                         }
                     }
-                    break;
+
                 }
             }
 
@@ -68,6 +68,7 @@ public class MapLoader {
             l_scanner.close();
             return true;
         } catch (Exception e) {
+
             return false;
         }
     }
