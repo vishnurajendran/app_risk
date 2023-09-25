@@ -1,18 +1,21 @@
 package entity;
 
 import java.util.HashMap;
+import java.util.Set;
+
+import static java.util.Objects.isNull;
 
 public class Map {
     String d_name;
     //used for store data for demo only, can change to some other data structure
-    java.util.Map<Integer,Country> countries;
+    java.util.Map<Integer,Country> d_countries;
 
     public Map() {
-        countries=new HashMap<Integer,Country>();
+        d_countries =new HashMap<Integer,Country>();
     }
 
     public Map(String p_name){
-        countries=new HashMap<Integer,Country>();
+        d_countries =new HashMap<Integer,Country>();
         d_name=p_name;
     }
 
@@ -25,19 +28,36 @@ public class Map {
     }
 
     public void addCountry(Country p_Country){
-        countries.put(p_Country.getDId(),p_Country);
+        d_countries.put(p_Country.getDId(),p_Country);
     }
 
     public void addBorders(int p_countryId,String[] p_otherCountriesId){
-        Country l_country= countries.get(p_countryId);
+        Country l_country= d_countries.get(p_countryId);
         for(String l_oneCountry:p_otherCountriesId){
-            l_country.addBorder(Integer.parseInt(l_oneCountry));
+            l_country.addBorder(d_countries.get(l_oneCountry));
         }
     }
+
+    public Set getCountryIds(){
+        return d_countries.keySet();
+    }
+
+    public int getCountryArmyById(int p_countryId){
+        return d_countries.get(p_countryId).getArmy();
+    }
+    public boolean setCountryArmyById(int p_countryId,int p_army){
+        Country l_country=d_countries.get(p_countryId);
+        if(isNull(l_country)){
+            l_country.setArmy(p_army);
+            return true;
+        }
+        return false;
+    }
+
     public String toString(){
         String l_countriesString="";
-        for(Integer l_key:countries.keySet()){
-            l_countriesString+=(countries.get(l_key)+"\n");
+        for(Integer l_key: d_countries.keySet()){
+            l_countriesString+=(d_countries.get(l_key)+"\n");
         }
         return "Map "+d_name+"\n"+l_countriesString;
     }
