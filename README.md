@@ -1,5 +1,4 @@
-# app_risk
-![](https://github.com/vishnurajendran/app_risk/workflows/<WORKFLOW_NAME>/badge.svg)
+# app_risk [![tests](https://github.com/vishnurajendran/app_risk/actions/workflows/tests_actions.yml/badge.svg?branch=main)](https://github.com/vishnurajendran/app_risk/actions/workflows/tests_actions.yml)
 APP project
 
 ## Trello board
