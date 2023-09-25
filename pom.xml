@@ -10,7 +10,7 @@
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
-        <testSourceDirectory>src/main/test/java</testSourceDirectory>
+        <testSourceDirectory>src/test/java</testSourceDirectory>
     </properties>
     <dependencies>
         <dependency>
