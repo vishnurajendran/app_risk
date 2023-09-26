@@ -1,7 +1,9 @@
-package Application;
+package application;
+import common.Command;
+
 import static org.junit.jupiter.api.Assertions.*;
 
-class ApplicationCommandTest {
+class CommandTest {
 
     /**
      * this test is aimed at testing if
@@ -9,9 +11,9 @@ class ApplicationCommandTest {
      */
     @org.junit.jupiter.api.Test
     public void testCmdStringEmpty(){
-        assertNull(ApplicationCommand.parseString(""));
-        assertNull(ApplicationCommand.parseString(" "));
-        assertNull(ApplicationCommand.parseString(null));
+        assertNull(Command.parseString(""));
+        assertNull(Command.parseString(" "));
+        assertNull(Command.parseString(null));
     }
 
     /**
@@ -21,7 +23,7 @@ class ApplicationCommandTest {
      */
     @org.junit.jupiter.api.Test
     public void testNoOptionNoArgs() {
-        var l_cmd = ApplicationCommand.parseString("cmd");
+        var l_cmd = Command.parseString("cmd");
         assertEquals("cmd", l_cmd.getCmdName());
         assertTrue(l_cmd.getCmdOption().isBlank());
         assertTrue(l_cmd.getCmdArgs().isEmpty());
@@ -34,7 +36,7 @@ class ApplicationCommandTest {
      */
     @org.junit.jupiter.api.Test
     public void testNoOptionArgs() {
-        var l_cmd = ApplicationCommand.parseString("cmd arg1 arg2 arg3");
+        var l_cmd = Command.parseString("cmd arg1 arg2 arg3");
         assertEquals("cmd", l_cmd.getCmdName());
         assertTrue(l_cmd.getCmdOption().isBlank());
         String[] l_argsRef = {"arg1", "arg2", "arg3"};
@@ -48,7 +50,7 @@ class ApplicationCommandTest {
      */
     @org.junit.jupiter.api.Test
     public void testOptionNoArgs() {
-        var l_cmd = ApplicationCommand.parseString("cmd -option");
+        var l_cmd = Command.parseString("cmd -option");
         assertEquals("cmd", l_cmd.getCmdName());
         assertEquals(l_cmd.getCmdOption(),"option");
         assertTrue(l_cmd.getCmdArgs().isEmpty());
@@ -61,7 +63,7 @@ class ApplicationCommandTest {
      */
     @org.junit.jupiter.api.Test
     public void testOptionArgs() {
-        var l_cmd = ApplicationCommand.parseString("cmd -option arg1 arg2 arg3");
+        var l_cmd = Command.parseString("cmd -option arg1 arg2 arg3");
         assertEquals("cmd", l_cmd.getCmdName());
         assertEquals(l_cmd.getCmdOption(),"option");
         String[] l_argsRef = {"arg1", "arg2", "arg3"};

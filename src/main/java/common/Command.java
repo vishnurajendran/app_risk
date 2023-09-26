@@ -1,4 +1,4 @@
-package Application;
+package common;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -8,7 +8,7 @@ import java.util.Arrays;
  * @author vishnurajendran
  * Dated 23-09-2023
  */
-public class ApplicationCommand {
+public class Command {
 
     private static final String OPTION_PREFIX = "-";
 
@@ -20,7 +20,7 @@ public class ApplicationCommand {
      * default constructor,
      * Initialises an empty object
      */
-    public ApplicationCommand(){
+    public Command(){
         d_cmdName = "";
         d_option = "";
         d_arguments = new ArrayList<>();
@@ -32,7 +32,7 @@ public class ApplicationCommand {
      * @param p_option the option for this command. (can be empty)
      * @param p_arguments the list of arguments provided. (can be empty)
      */
-    public ApplicationCommand(String p_cmdName, String p_option, ArrayList<String> p_arguments){
+    public Command(String p_cmdName, String p_option, ArrayList<String> p_arguments){
         this();
         d_cmdName = p_cmdName;
         d_option = p_option;
@@ -55,10 +55,10 @@ public class ApplicationCommand {
     public ArrayList<String> getCmdArgs() {return d_arguments;}
 
     /**
-     * this method converts a flat string to and ApplicationCommand instance.
+     * this method converts a flat string to and Command instance.
      * @param p_inputString flat string for command processing.
      */
-    public static ApplicationCommand parseString(String p_inputString){
+    public static Command parseString(String p_inputString){
         if(p_inputString == null || p_inputString.isBlank())
             return null;
         //remove any trailing or leading spaces.
@@ -69,7 +69,7 @@ public class ApplicationCommand {
 
         //if we don't have more than a name, we just return from here.
         if(l_components.length == 1){
-            return new ApplicationCommand(l_cmdName, "", new ArrayList<String>());
+            return new Command(l_cmdName, "", new ArrayList<String>());
         }
 
         String l_cmdOption = "";
@@ -84,6 +84,6 @@ public class ApplicationCommand {
 
         //we add all the remaining as arguments.
         ArrayList<String> l_arguments = new ArrayList<>(Arrays.asList(l_components).subList(l_indx, l_components.length));
-        return new ApplicationCommand(l_cmdName, l_cmdOption, l_arguments);
+        return new Command(l_cmdName, l_cmdOption, l_arguments);
     }
 }

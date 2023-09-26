@@ -1,4 +1,4 @@
-package Application;
+package common;
 
 /**
  * @author vishnurajendran
@@ -18,7 +18,7 @@ public interface ISubApplication {
      * submit a command for processing to the sub application.
      * @param p_command
      */
-    public void submitCommand(ApplicationCommand p_command);
+    public void submitCommand(Command p_command);
 
     /**
      * this method will be called by the application class
