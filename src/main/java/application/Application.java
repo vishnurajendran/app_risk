@@ -15,8 +15,7 @@ public class Application {
     private ISubAppInstantiator d_gameInstantiator;
     private ISubAppInstantiator d_mapEditorInstantiator;
     private ISubApplication d_activeSubApplication;
-
-    private boolean initialised;
+    private boolean d_initialised;
 
     public Application(){
         this(null,null);
@@ -40,7 +39,7 @@ public class Application {
         //Todo: add startup code.
         if(d_gameInstantiator == null || d_mapEditorInstantiator == null)
             return;
-        initialised = true;
+        d_initialised = true;
     }
 
     /**
@@ -48,7 +47,7 @@ public class Application {
      * @param p_command command passed to application
      */
     public void processCommand(Command p_command){
-        if(!initialised){
+        if(!d_initialised){
             Logger.logWarning("Application is not initialised, skipping input command");
             return;
         }
