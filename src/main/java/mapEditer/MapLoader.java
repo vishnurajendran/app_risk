@@ -10,14 +10,27 @@ import java.util.Scanner;
 public class MapLoader {
     Map d_map;
 
+    /**
+     * Default constructor that initialize an empty map.
+     */
     public MapLoader() {
         d_map = new Map();
     }
+
+    /**
+     * Constructor that initialize a empty map with the given name.
+     * @param p_mapName
+     */
     public MapLoader(String p_mapName) {
         d_map = new Map();
         loadMap(p_mapName);
     }
 
+    /**
+     * Load a map from a file with the given name.
+     * @param p_mapName The file name of the map.
+     * @return A boolean of whether the load is succeeded.
+     */
     public boolean loadMap(String p_mapName) {
         try {
             File l_mapFile = new File(p_mapName);
@@ -72,6 +85,10 @@ public class MapLoader {
         }
     }
 
+    /**
+     * Getter for the map.
+     * @return The map that is loaded.
+     */
     public Map getMap() {
         return d_map;
     }
