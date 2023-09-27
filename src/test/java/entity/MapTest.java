@@ -20,6 +20,7 @@ class MapTest {
      * Setup for unit tests.
      * Map has a name of "Test Map".
      * Countries have detailed info below which is similar to CountryTest
+     *
      * @see CountryTest#setUp()
      * Sample data: p_id:1; p_name: Canada; p_continentId:2; p_xCoordinates: 3; p_yCoordinates: 4;
      * army: 10
@@ -32,14 +33,14 @@ class MapTest {
      */
     @BeforeEach
     void setUp() {
-        d_testCountry =new Country(1,"Canada",2,3,4);
+        d_testCountry = new Country(1, "Canada", 2, 3, 4);
         d_testCountry.setArmy(10);
-        d_testBorderCountry =new Country(2,"America",2,4,5);
+        d_testBorderCountry = new Country(2, "America", 2, 4, 5);
         d_testBorderCountry.setArmy(20);
-        d_testBorderCountry2 =new Country(3,"Mexico",3,5,6);
+        d_testBorderCountry2 = new Country(3, "Mexico", 3, 5, 6);
         d_testBorderCountry2.setArmy(1);
         d_testCountry.addBorder(d_testBorderCountry);
-        d_testMap=new Map("Test Map");
+        d_testMap = new Map("Test Map");
         d_testMap.addCountry(d_testCountry);
         d_testMap.addCountry(d_testBorderCountry);
 
@@ -51,7 +52,7 @@ class MapTest {
      */
     @Test
     void getName() {
-        assertEquals("Test Map",d_testMap.getName());
+        assertEquals("Test Map", d_testMap.getName());
 
     }
 
@@ -62,7 +63,7 @@ class MapTest {
     @Test
     void setName() {
         d_testMap.setName("Modified map");
-        assertEquals("Modified map",d_testMap.getName());
+        assertEquals("Modified map", d_testMap.getName());
     }
 
     /**
@@ -83,10 +84,10 @@ class MapTest {
     @Test
     void addBorders() {
         d_testMap.addCountry(d_testBorderCountry2);
-        assertEquals(0,d_testBorderCountry2.getBorders().size());
+        assertEquals(0, d_testBorderCountry2.getBorders().size());
 
         d_testMap.addBorders(3, new String[]{"1", "2"});
-        assertEquals(2,d_testBorderCountry2.getBorders().size());
+        assertEquals(2, d_testBorderCountry2.getBorders().size());
     }
 
     /**
@@ -95,7 +96,7 @@ class MapTest {
      */
     @Test
     void getCountryIds() {
-        Set l_IDs=d_testMap.getCountryIds();
+        Set l_IDs = d_testMap.getCountryIds();
         assertTrue(l_IDs.contains(1));
         assertTrue(l_IDs.contains(2));
         assertFalse(l_IDs.contains(3));
@@ -107,8 +108,8 @@ class MapTest {
      */
     @Test
     void getCountryArmyById() {
-        assertEquals(10,d_testMap.getCountryArmyById(1));
-        assertEquals(20,d_testMap.getCountryArmyById(2));
+        assertEquals(10, d_testMap.getCountryArmyById(1));
+        assertEquals(20, d_testMap.getCountryArmyById(2));
     }
 
     /**
@@ -117,22 +118,22 @@ class MapTest {
      */
     @Test
     void setCountryArmyById() {
-        assertEquals(10,d_testMap.getCountryArmyById(1));
-        d_testMap.setCountryArmyById(1,33);
-        assertEquals(33,d_testMap.getCountryArmyById(1));
+        assertEquals(10, d_testMap.getCountryArmyById(1));
+        d_testMap.setCountryArmyById(1, 33);
+        assertEquals(33, d_testMap.getCountryArmyById(1));
     }
 
     /**
      * Unit test for override toString
      * The Expected output is:
      * "Map Test Map\n" +
-     *                 "Id: 1 Name: Canada continentId: 2{2=Id: 2 Name: America continentId: 2{}}\n" +
-     *                 "Id: 2 Name: America continentId: 2{}\n"
+     * "Id: 1 Name: Canada continentId: 2{2=Id: 2 Name: America continentId: 2{}}\n" +
+     * "Id: 2 Name: America continentId: 2{}\n"
      */
     @Test
     void testToString() {
         assertEquals("Map Test Map\n" +
                 "Id: 1 Name: Canada continentId: 2{2=Id: 2 Name: America continentId: 2{}}\n" +
-                "Id: 2 Name: America continentId: 2{}\n",d_testMap.toString());
+                "Id: 2 Name: America continentId: 2{}\n", d_testMap.toString());
     }
 }

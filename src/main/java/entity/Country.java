@@ -72,6 +72,7 @@ public class Country {
 
     /**
      * Setter for YCoordinates
+     *
      * @param p_yCoordinates The Y Coordinates of this country coming from standard domination map.
      */
     public void setYCoordinates(int p_yCoordinates) {
@@ -80,6 +81,7 @@ public class Country {
 
     /**
      * Setter for name of the country.
+     *
      * @param d_name The name of the country.
      */
     public void setName(String d_name) {
@@ -88,6 +90,7 @@ public class Country {
 
     /**
      * Setter for number of army in the country.
+     *
      * @param d_army The amount of armies inside the country as an int.
      */
     public void setArmy(int d_army) {
@@ -96,6 +99,7 @@ public class Country {
 
     /**
      * Getter for armies in the country.
+     *
      * @return The amount of armies inside the country as an int.
      */
     public int getArmy() {
@@ -105,6 +109,7 @@ public class Country {
 
     /**
      * Getter for the name of the country.
+     *
      * @return The name of the country.
      */
     public String getName() {
@@ -113,6 +118,7 @@ public class Country {
 
     /**
      * Getter for the ID of the country.
+     *
      * @return The ID of the country.
      */
     public int getDId() {
@@ -121,6 +127,7 @@ public class Country {
 
     /**
      * Getter for continentId
+     *
      * @return The ID of continent that the country belong to.
      */
     public int getContinentId() {
@@ -129,6 +136,7 @@ public class Country {
 
     /**
      * Getter for X coordinates
+     *
      * @return X coordinates of the country
      */
     public int getXCoordinates() {
@@ -137,6 +145,7 @@ public class Country {
 
     /**
      * Getter for Y coordinates
+     *
      * @return Y coordinates of the country
      */
     public int getYCoordinates() {
@@ -145,6 +154,7 @@ public class Country {
 
     /**
      * Getter for borders
+     *
      * @return A java standard map represent other countries connected to the country.
      */
     public Map<Integer, Country> getBorders() {
@@ -153,6 +163,7 @@ public class Country {
 
     /**
      * Add a country to connect to this country.
+     *
      * @param p_border The ID for the country that is connected to this country
      * @return Whether the border is successfully added.
      */
@@ -167,6 +178,7 @@ public class Country {
 
     /**
      * Override the toString to show detailed info of the class
+     *
      * @return A string contain ID, name continentID and borders details.
      */
     public String toString() {

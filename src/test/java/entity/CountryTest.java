@@ -2,6 +2,7 @@ package entity;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -13,6 +14,7 @@ class CountryTest {
     Country d_testCountry;
     Country d_testBorderCountry;
     Country d_testBorderCountry2;
+
     /**
      * Setup for unit tests.
      * Sample data: p_id:1; p_name: Canada; p_continentId:2; p_xCoordinates: 3; p_yCoordinates: 4;
@@ -26,11 +28,11 @@ class CountryTest {
      */
     @BeforeEach
     void setUp() {
-        d_testCountry =new Country(1,"Canada",2,3,4);
+        d_testCountry = new Country(1, "Canada", 2, 3, 4);
         d_testCountry.setArmy(10);
-        d_testBorderCountry =new Country(2,"America",2,4,5);
+        d_testBorderCountry = new Country(2, "America", 2, 4, 5);
         d_testBorderCountry.setArmy(20);
-        d_testBorderCountry2 =new Country(3,"Mexico",3,5,6);
+        d_testBorderCountry2 = new Country(3, "Mexico", 3, 5, 6);
         d_testBorderCountry2.setArmy(1);
         d_testCountry.addBorder(d_testBorderCountry);
     }
@@ -74,7 +76,6 @@ class CountryTest {
     /**
      * Test getXCoordinates.
      * Expected value:3
-     *
      */
     @Test
     void getXCoordinates() {
@@ -84,7 +85,6 @@ class CountryTest {
     /**
      * Test getYCoordinates.
      * Expected value:4
-     *
      */
     @Test
     void getYCoordinates() {
@@ -98,8 +98,8 @@ class CountryTest {
      */
     @Test
     void getBorders() {
-        Map<Integer,Country> l_borders= d_testCountry.getBorders();
-        assertEquals("America",l_borders.get(d_testBorderCountry.getDId()).getName());
+        Map<Integer, Country> l_borders = d_testCountry.getBorders();
+        assertEquals("America", l_borders.get(d_testBorderCountry.getDId()).getName());
         assertNull(l_borders.get(d_testBorderCountry2.getDId()));
     }
 
@@ -122,6 +122,7 @@ class CountryTest {
         d_testCountry.setXCoordinates(11);
         assertEquals(11, d_testCountry.getXCoordinates());
     }
+
     /**
      * Test set Y coordinates
      * The y coordinates after set should be 12

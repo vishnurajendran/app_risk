@@ -11,15 +11,17 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 class MapLoaderTest {
     MapLoader d_loader;
+
     /**
      * Set up the mapLoader before testing
      * The map detail is in the "testMap.map".
      * The map file contains some country and have a name of "GreatMap ^_^"
+     *
      * @see <a href="file:testMap.map"></a>
      */
     @BeforeEach
     void setUp() {
-        d_loader=new MapLoader();
+        d_loader = new MapLoader();
     }
 
 
@@ -31,7 +33,7 @@ class MapLoaderTest {
     void loadMap() {
         assertNull(d_loader.getMap().getName());
         d_loader.loadMap("testMap.map");
-        assertEquals("GreatMap ^_^",d_loader.getMap().getName());
+        assertEquals("GreatMap ^_^", d_loader.getMap().getName());
 
     }
 
@@ -43,8 +45,8 @@ class MapLoaderTest {
     void getMap() {
         assertNull(d_loader.getMap().getName());
         d_loader.loadMap("testMap.map");
-        Map l_map=d_loader.getMap();
-        assertEquals(10,l_map.getCountryIds().size());
+        Map l_map = d_loader.getMap();
+        assertEquals(10, l_map.getCountryIds().size());
         assertTrue(l_map.getCountryIds().contains(10));
         assertFalse(l_map.getCountryIds().contains(0));
         assertFalse(l_map.getCountryIds().contains(11));

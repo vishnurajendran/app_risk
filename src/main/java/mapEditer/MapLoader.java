@@ -19,6 +19,7 @@ public class MapLoader {
 
     /**
      * Constructor that initialize an empty map with the given name.
+     *
      * @param p_mapName
      */
     public MapLoader(String p_mapName) {
@@ -28,6 +29,7 @@ public class MapLoader {
 
     /**
      * Load a map from a file with the given name.
+     *
      * @param p_mapName The file name of the map.
      * @return A boolean of whether the load is succeeded.
      */
@@ -58,9 +60,9 @@ public class MapLoader {
                         l_linePieces = l_line.split(" ");
                         d_map.addCountry(new Country(Integer.parseInt(l_linePieces[0]), l_linePieces[1],
                                 Integer.parseInt(l_linePieces[2]), Integer.parseInt(l_linePieces[3]), Integer.parseInt(l_linePieces[4])));
-                        if(l_scanner.hasNextLine()){
+                        if (l_scanner.hasNextLine()) {
                             l_line = l_scanner.nextLine();
-                        }else{
+                        } else {
                             break;
                         }
                     }
@@ -71,10 +73,10 @@ public class MapLoader {
                     l_line = l_scanner.nextLine();
                     while (!l_line.isEmpty()) {
                         l_linePieces = l_line.split(" ");
-                        d_map.addBorders(Integer.parseInt(l_linePieces[0]), Arrays.copyOfRange(l_linePieces,1,l_linePieces.length));
-                        if(l_scanner.hasNextLine()){
+                        d_map.addBorders(Integer.parseInt(l_linePieces[0]), Arrays.copyOfRange(l_linePieces, 1, l_linePieces.length));
+                        if (l_scanner.hasNextLine()) {
                             l_line = l_scanner.nextLine();
-                        }else{
+                        } else {
                             break;
                         }
                     }
@@ -93,6 +95,7 @@ public class MapLoader {
 
     /**
      * Getter for the map.
+     *
      * @return The map that is loaded.
      */
     public Map getMap() {
