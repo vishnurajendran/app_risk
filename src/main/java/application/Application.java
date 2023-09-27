@@ -22,9 +22,7 @@ public class Application {
     private ISubApplication d_activeSubApplication;
     private boolean d_initialised;
     private boolean d_hasQuit;
-
     private AppState d_appState = AppState.Standard;
-
     private final HashMap<String, IMethod> l_cmdToActionMap;
 
     /**
@@ -102,6 +100,7 @@ public class Application {
 
     /**
      * does a clean remove of the current active sub-application
+     * and sets app state to Standard
      */
     private void closeCurrSubAppInstance(){
         if(d_activeSubApplication != null){
@@ -115,7 +114,6 @@ public class Application {
     /**
      * This method is intended to do clean pass to
      * release any resources that was used by application.
-     * this instance.
      */
     public void cleanup(){
         closeCurrSubAppInstance();
@@ -123,7 +121,8 @@ public class Application {
     }
 
     /**
-     * @return true if application is quit, else false
+     * fetches the application quit status
+     * @return true if application has quit, else false
      */
     public boolean hasQuit(){
         return d_hasQuit;
@@ -133,8 +132,8 @@ public class Application {
 
     /**
      * this method will register all application level commands
-     * to the key, IMethod map. which will be later invoked by
-     * the process command.
+     * to the internal command map. which will be later invoked
+     * when processing commands.
      */
     private void registerAppCommands(){
         Logger.log("Registering App Commands");
@@ -150,7 +149,10 @@ public class Application {
      * @param p_command cmd object sent for additional processing
      */
     private void cmdExitSubApp(Command p_command){
-        closeCurrSubAppInstance();
+        if(d_activeSubApplication != null)
+            closeCurrSubAppInstance();
+        else
+            System.out.println("Nothing to exit from, to exit the app use " + ApplicationCommands.EXIT_APP);
     }
 
     /**
@@ -171,11 +173,12 @@ public class Application {
      */
     private void cmdStartGame(Command p_command){
         Logger.log("Loading new Game");
-        if(d_appState.equals(AppState.Game))
+        if(!d_appState.equals(AppState.Standard))
         {
             printInvalidCommandMessage(p_command);
             return;
         }
+
         closeCurrSubAppInstance();
         d_activeSubApplication = createInstance(d_gameInstantiator);
 
@@ -196,11 +199,13 @@ public class Application {
      */
     private void cmdStartMapEditor(Command p_command){
         Logger.log("Loading new Map editor");
-        if(d_appState.equals(AppState.MapEditor))
+
+        if(!d_appState.equals(AppState.Standard))
         {
             printInvalidCommandMessage(p_command);
             return;
         }
+
         closeCurrSubAppInstance();
         d_activeSubApplication = createInstance(d_mapEditorInstantiator);
 

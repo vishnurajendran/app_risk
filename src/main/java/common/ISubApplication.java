@@ -1,6 +1,9 @@
 package common;
 
 /**
+ * this interface act as the basis of any sub-applicaton
+ * it provides the required methods that needs to be defined to
+ * be compatible with application class.
  * @author vishnurajendran
  * Dated 23-09-2023
  */
