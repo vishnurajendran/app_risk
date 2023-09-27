@@ -82,7 +82,7 @@ public class Country {
      * Setter for name of the country.
      * @param d_name The name of the country.
      */
-    public void setD_name(String d_name) {
+    public void setName(String d_name) {
         this.d_name = d_name;
     }
 
@@ -107,7 +107,7 @@ public class Country {
      * Getter for the name of the country.
      * @return The name of the country.
      */
-    public String getD_name() {
+    public String getName() {
         return d_name;
     }
 

@@ -37,16 +37,20 @@ public class MapLoader {
             Scanner l_scanner = new Scanner(l_mapFile);
             while (l_scanner.hasNextLine()) {
                 String l_line = l_scanner.nextLine();
+                // skip empty lines
                 if (l_line.isEmpty()) {
                     continue;
                 }
                 String[] l_linePieces = l_line.split(" ");
+                //skip comments
                 if (l_linePieces[0].equals(";")) {
                     continue;
                 }
+                //load the name
                 if (l_linePieces[0].equals("name")) {
                     d_map.setName(l_line.substring(l_line.indexOf(" ") + 1));
                 }
+                // load countries
                 if (l_linePieces[0].equals("[countries]")) {
                     l_line = l_scanner.nextLine();
                     while (!l_line.isEmpty()) {
@@ -61,6 +65,7 @@ public class MapLoader {
                     }
 
                 }
+                // load borders
                 if (l_linePieces[0].equals("[borders]")) {
                     l_line = l_scanner.nextLine();
                     while (!l_line.isEmpty()) {
