@@ -7,7 +7,6 @@ import common.ISubApplication;
  *  * This class implements the ISubAppInstantiator
  *  * and serves as the instantiator for the game
  * @author vishnurajendran
- * Dated 26-09-2023
  */
 public class GameInstantiator implements ISubAppInstantiator {
 

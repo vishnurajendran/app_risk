@@ -7,7 +7,6 @@ import java.util.HashMap;
  * Application will manage switching of modes
  * and also interpreting first layer of commands.
  * @author vishnurajendran
- * Dated 23-09-2023
  */
 public class Application {
 
@@ -187,14 +186,14 @@ public class Application {
             Logger.logError("Game Instance is null");
         }
         else {
+            d_appState = AppState.Game;
             //this command will be further processed by the map editor
             d_activeSubApplication.submitCommand(p_command);
-            d_appState = AppState.Game;
         }
     }
 
     /**
-     * This method handles loads a new instance map editor.
+     * This method handles loads a new instance of the map editor.
      * @param p_command cmd object sent for additional processing
      */
     private void cmdStartMapEditor(Command p_command){
@@ -214,14 +213,20 @@ public class Application {
             Logger.logError("Map-Editor Instance is null");
         }
         else {
+            d_appState = AppState.MapEditor;
             //this command will be further processed by the map editor
             d_activeSubApplication.submitCommand(p_command);
-            d_appState = AppState.MapEditor;
         }
     }
 
-    private ISubApplication createInstance(ISubAppInstantiator instantiator){
-        ISubApplication l_subApp = instantiator.createInstane();
+    /**
+     * creates an instance of type ISubApplication using the instantitator provided.
+     * and also attempts at initialisation before returning the instance.
+     * @param p_instantiator the instantiator used for creating the instance for ISubApplication.
+     * @return instance of ISubApplication using the p_instantiator
+     */
+    private ISubApplication createInstance(ISubAppInstantiator p_instantiator){
+        ISubApplication l_subApp = p_instantiator.createInstane();
         if(l_subApp != null)
             l_subApp.initialise();
         return l_subApp;

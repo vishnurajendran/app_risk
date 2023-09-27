@@ -5,7 +5,6 @@ package common;
  * implementation for any factory or instantiater class
  * to provide ISubApplication instances
  * @author vishnurajendran
- * Dated 26-09-2023
  */
 public interface ISubAppInstantiator {
     /**

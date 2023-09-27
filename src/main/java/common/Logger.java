@@ -6,7 +6,6 @@ import java.util.Date;
 /**
  * Simple logging class
  * @author vishnurajendran
- * Dated 26-09-2023
  */
 public class Logger {
 

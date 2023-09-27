@@ -1,8 +1,8 @@
 package application;
 
 /**
- * @author ssj5v
- * Dated 26-09-2023
+ * Application command constants, used for command registrations.
+ * @author vishnurajendran
  */
 public class ApplicationCommands {
     public static final String EXIT_SUB_APPLICATION = "exit";

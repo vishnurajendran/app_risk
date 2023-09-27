@@ -10,7 +10,6 @@ import java.util.Scanner;
 /**
  * This class acts as the entry point to the application
  * @author vishnurajendran
- * Dated 23-09-2023
  */
 public class Main {
 
