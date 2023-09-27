@@ -10,9 +10,9 @@ import static org.junit.jupiter.api.Assertions.*;
  * Unit test class for Country Class.
  */
 class CountryTest {
-    Country testCountry;
-    Country testBorderCountry;
-    Country testBorderCountry2;
+    Country d_testCountry;
+    Country d_testBorderCountry;
+    Country d_testBorderCountry2;
     /**
      * Setup for unit tests.
      * Sample data: p_id:1; p_name: Canada; p_continentId:2; p_xCoordinates: 3; p_yCoordinates: 4;
@@ -26,13 +26,13 @@ class CountryTest {
      */
     @BeforeEach
     void setUp() {
-        testCountry=new Country(1,"Canada",2,3,4);
-        testCountry.setArmy(10);
-        testBorderCountry=new Country(2,"America",2,4,5);
-        testBorderCountry.setArmy(20);
-        testBorderCountry2=new Country(3,"Mexico",3,5,6);
-        testBorderCountry2.setArmy(1);
-        testCountry.addBorder(testBorderCountry);
+        d_testCountry =new Country(1,"Canada",2,3,4);
+        d_testCountry.setArmy(10);
+        d_testBorderCountry =new Country(2,"America",2,4,5);
+        d_testBorderCountry.setArmy(20);
+        d_testBorderCountry2 =new Country(3,"Mexico",3,5,6);
+        d_testBorderCountry2.setArmy(1);
+        d_testCountry.addBorder(d_testBorderCountry);
     }
 
     /**
@@ -41,7 +41,7 @@ class CountryTest {
      */
     @Test
     void getArmy() {
-        assertEquals(10,testCountry.getArmy());
+        assertEquals(10, d_testCountry.getArmy());
     }
 
     /**
@@ -50,7 +50,7 @@ class CountryTest {
      */
     @Test
     void getName() {
-        assertEquals("Canada",testCountry.getName());
+        assertEquals("Canada", d_testCountry.getName());
     }
 
     /**
@@ -59,7 +59,7 @@ class CountryTest {
      */
     @Test
     void getDId() {
-        assertEquals(1,testCountry.getDId());
+        assertEquals(1, d_testCountry.getDId());
     }
 
     /**
@@ -68,7 +68,7 @@ class CountryTest {
      */
     @Test
     void getContinentId() {
-        assertEquals(2,testCountry.getContinentId());
+        assertEquals(2, d_testCountry.getContinentId());
     }
 
     /**
@@ -78,7 +78,7 @@ class CountryTest {
      */
     @Test
     void getXCoordinates() {
-        assertEquals(3,testCountry.getXCoordinates());
+        assertEquals(3, d_testCountry.getXCoordinates());
     }
 
     /**
@@ -88,7 +88,7 @@ class CountryTest {
      */
     @Test
     void getYCoordinates() {
-        assertEquals(4,testCountry.getYCoordinates());
+        assertEquals(4, d_testCountry.getYCoordinates());
     }
 
     /**
@@ -98,9 +98,9 @@ class CountryTest {
      */
     @Test
     void getBorders() {
-        Map<Integer,Country> l_borders=testCountry.getBorders();
-        assertEquals("America",l_borders.get(testBorderCountry.getDId()).getName());
-        assertNull(l_borders.get(testBorderCountry2.getDId()));
+        Map<Integer,Country> l_borders= d_testCountry.getBorders();
+        assertEquals("America",l_borders.get(d_testBorderCountry.getDId()).getName());
+        assertNull(l_borders.get(d_testBorderCountry2.getDId()));
     }
 
     /**
@@ -109,8 +109,8 @@ class CountryTest {
      */
     @Test
     void setContinentId() {
-        testCountry.setContinentId(10);
-        assertEquals(10,testCountry.getContinentId());
+        d_testCountry.setContinentId(10);
+        assertEquals(10, d_testCountry.getContinentId());
     }
 
     /**
@@ -119,8 +119,8 @@ class CountryTest {
      */
     @Test
     void setXCoordinates() {
-        testCountry.setXCoordinates(11);
-        assertEquals(11,testCountry.getXCoordinates());
+        d_testCountry.setXCoordinates(11);
+        assertEquals(11, d_testCountry.getXCoordinates());
     }
     /**
      * Test set Y coordinates
@@ -128,8 +128,8 @@ class CountryTest {
      */
     @Test
     void setYCoordinates() {
-        testCountry.setYCoordinates(12);
-        assertEquals(12,testCountry.getYCoordinates());
+        d_testCountry.setYCoordinates(12);
+        assertEquals(12, d_testCountry.getYCoordinates());
     }
 
     /**
@@ -138,8 +138,8 @@ class CountryTest {
      */
     @Test
     void setName() {
-        testCountry.setName("England");
-        assertEquals("England",testCountry.getName());
+        d_testCountry.setName("England");
+        assertEquals("England", d_testCountry.getName());
     }
 
     /**
@@ -148,8 +148,8 @@ class CountryTest {
      */
     @Test
     void setArmy() {
-        testCountry.setArmy(100);
-        assertEquals(100,testCountry.getArmy());
+        d_testCountry.setArmy(100);
+        assertEquals(100, d_testCountry.getArmy());
     }
 
     /**
@@ -158,8 +158,8 @@ class CountryTest {
      */
     @Test
     void addBorder() {
-        testCountry.addBorder(testBorderCountry2);
-        assertEquals("Mexico",testCountry.getBorders().get(testBorderCountry2.getDId()).getName());
+        d_testCountry.addBorder(d_testBorderCountry2);
+        assertEquals("Mexico", d_testCountry.getBorders().get(d_testBorderCountry2.getDId()).getName());
 
     }
 
@@ -170,6 +170,6 @@ class CountryTest {
     @Test
     void testToString() {
         assertEquals("Id: 1 Name: Canada continentId: 2{2=Id: 2 Name: America continentId: 2{}}",
-                testCountry.toString());
+                d_testCountry.toString());
     }
 }

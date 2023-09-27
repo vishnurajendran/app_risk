@@ -18,7 +18,7 @@ public class MapLoader {
     }
 
     /**
-     * Constructor that initialize a empty map with the given name.
+     * Constructor that initialize an empty map with the given name.
      * @param p_mapName
      */
     public MapLoader(String p_mapName) {
@@ -46,7 +46,8 @@ public class MapLoader {
                 if (l_linePieces[0].equals(";")) {
                     continue;
                 }
-                //load the name
+                // load continents can be added here
+                // load the name
                 if (l_linePieces[0].equals("name")) {
                     d_map.setName(l_line.substring(l_line.indexOf(" ") + 1));
                 }

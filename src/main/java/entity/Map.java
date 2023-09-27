@@ -65,7 +65,7 @@ public class Map {
     public void addBorders(int p_countryId,String[] p_otherCountriesId){
         Country l_country= d_countries.get(p_countryId);
         for(String l_oneCountry:p_otherCountriesId){
-            l_country.addBorder(d_countries.get(l_oneCountry));
+            l_country.addBorder(d_countries.get(Integer.parseInt(l_oneCountry)));
         }
     }
 
