@@ -1,4 +1,4 @@
-package mapeditor;
+package mapEditer;
 
 import common.ISubAppInstantiator;
 import common.ISubApplication;

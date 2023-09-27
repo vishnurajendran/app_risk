@@ -5,7 +5,7 @@ import common.Command;
 import common.ISubAppInstantiator;
 import common.Logger;
 import game.GameInstantiator;
-import mapeditor.MapEditorInstantiator;
+import mapEditer.MapEditorInstantiator;
 import java.util.Scanner;
 /**
  * This class acts as the entry point to the application
