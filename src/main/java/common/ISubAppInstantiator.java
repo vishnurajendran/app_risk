@@ -12,5 +12,5 @@ public interface ISubAppInstantiator {
      * the class that implements ISubApplication.
      * @return ISubApplication
      */
-    public ISubApplication createInstane();
+    public ISubApplication createInstance();
 }

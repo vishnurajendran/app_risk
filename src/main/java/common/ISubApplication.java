@@ -20,10 +20,10 @@ public interface ISubApplication {
      * when it is processing a command from the user. this
      * method will validate if a certain command can be processed
      * by this instance.
-     * @param cmdName name of the command for validation.
+     * @param p_cmdName name of the command for validation.
      * @return true if cmdName can be processed, else false
      */
-    public boolean canProcess(String cmdName);
+    public boolean canProcess(String p_cmdName);
 
     /**
      * this method will be called by the application class to

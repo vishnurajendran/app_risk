@@ -1,5 +1,7 @@
 package application;
 import common.*;
+
+import java.text.MessageFormat;
 import java.util.HashMap;
 
 /**
@@ -9,12 +11,6 @@ import java.util.HashMap;
  * @author vishnurajendran
  */
 public class Application {
-
-    private enum AppState{
-        Standard,
-        Game,
-        MapEditor,
-    }
 
     private final ISubAppInstantiator d_gameInstantiator;
     private final ISubAppInstantiator d_mapEditorInstantiator;
@@ -42,6 +38,28 @@ public class Application {
         l_cmdToActionMap = new HashMap<>();
         d_gameInstantiator = p_gameInstantiator;
         d_mapEditorInstantiator = p_mapEditorInstantiator;
+    }
+
+    /**
+     * @return true if application is initialised else false
+     */
+    public boolean isInitialised(){
+        return d_initialised;
+    }
+
+    /**
+     * @return current state of application, values can be Standard, Game or MapEditor
+     */
+    public AppState getAppState(){
+        return d_appState;
+    }
+
+    /**
+     * fetches the application quit status
+     * @return true if application has quit, else false
+     */
+    public boolean hasQuit(){
+        return d_hasQuit;
     }
 
     /**
@@ -91,10 +109,10 @@ public class Application {
 
     /**
      * Prints the invalid command to the console
-     * @param cmd the command that was input by the user.
+     * @param p_cmd the command that was input by the user.
      */
-    private void printInvalidCommandMessage(Command cmd){
-        System.out.println("ERR: The command " + cmd.getCmdName() + " is invalid and cannot be processed");
+    private void printInvalidCommandMessage(Command p_cmd){
+        System.out.println(MessageFormat.format(ApplicationConstants.MSG_INVALID_CMD, p_cmd.getCmdName()));
     }
 
     /**
@@ -119,13 +137,6 @@ public class Application {
         l_cmdToActionMap.clear();
     }
 
-    /**
-     * fetches the application quit status
-     * @return true if application has quit, else false
-     */
-    public boolean hasQuit(){
-        return d_hasQuit;
-    }
 
     //region Aplication commands
 
@@ -136,10 +147,10 @@ public class Application {
      */
     private void registerAppCommands(){
         Logger.log("Registering App Commands");
-        l_cmdToActionMap.put(ApplicationCommands.EXIT_APP, this::cmdExitApp);
-        l_cmdToActionMap.put(ApplicationCommands.EXIT_SUB_APPLICATION, this::cmdExitSubApp);
-        l_cmdToActionMap.put(ApplicationCommands.START_GAME, this::cmdStartGame);
-        l_cmdToActionMap.put(ApplicationCommands.START_MAPEDITOR, this::cmdStartMapEditor);
+        l_cmdToActionMap.put(ApplicationConstants.EXIT_APP, this::cmdExitApp);
+        l_cmdToActionMap.put(ApplicationConstants.EXIT_SUB_APPLICATION, this::cmdExitSubApp);
+        l_cmdToActionMap.put(ApplicationConstants.START_GAME, this::cmdStartGame);
+        l_cmdToActionMap.put(ApplicationConstants.START_MAPEDITOR, this::cmdStartMapEditor);
         Logger.log("Registered " + l_cmdToActionMap.size() + " Entries");
     }
 
@@ -151,7 +162,7 @@ public class Application {
         if(d_activeSubApplication != null)
             closeCurrSubAppInstance();
         else
-            System.out.println("Nothing to exit from, to exit the app use " + ApplicationCommands.EXIT_APP);
+            System.out.println(ApplicationConstants.MSG_INVALID_EXIT_CMD);
     }
 
     /**
@@ -226,7 +237,7 @@ public class Application {
      * @return instance of ISubApplication using the p_instantiator
      */
     private ISubApplication createInstance(ISubAppInstantiator p_instantiator){
-        ISubApplication l_subApp = p_instantiator.createInstane();
+        ISubApplication l_subApp = p_instantiator.createInstance();
         if(l_subApp != null)
             l_subApp.initialise();
         return l_subApp;

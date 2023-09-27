@@ -2,6 +2,12 @@ package common;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * This class verifies the correctness of the
+ * Command class. the class test various types of
+ * commands that can be provided by user and checks if
+ * parsing of said commands happen correctly.
+ */
 class CommandTest {
 
     /**

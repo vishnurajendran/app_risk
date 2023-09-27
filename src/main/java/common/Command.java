@@ -35,7 +35,9 @@ public class Command {
     /**
      * @return name of the command
      */
-    public String getCmdName() {return d_cmdName;}
+    public String getCmdName() {
+        return d_cmdName;
+    }
 
 
     /**
