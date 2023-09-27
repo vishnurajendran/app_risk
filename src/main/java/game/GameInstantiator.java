@@ -10,7 +10,7 @@ import common.ISubApplication;
 public class GameInstantiator implements ISubAppInstantiator {
 
     @Override
-    public ISubApplication generateInstance() {
+    public ISubApplication createInstane() {
         return null;
     }
 }

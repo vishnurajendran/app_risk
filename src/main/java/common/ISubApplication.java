@@ -7,11 +7,21 @@ package common;
 public interface ISubApplication {
 
     /**
-     * this method will be called by the application class
+            * this method will be called by the application class
      * when sub application instance is created, its intended
      * to be an initialisation call.
      */
     public void initialise();
+
+    /**
+     * this method will be called by the application class
+     * when it is processing a command from the user. this
+     * method will validate if a certain command can be processed
+     * by this instance.
+     * @param cmdName name of the command for validation.
+     * @return true if cmdName can be processed, else false
+     */
+    public boolean canProcess(String cmdName);
 
     /**
      * this method will be called by the application class to

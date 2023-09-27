@@ -12,11 +12,16 @@ import java.util.Scanner;
  */
 public class Main {
 
+    private static final String SYMB_DEBUGGING = "--debug";
+
     private static boolean isDebuggingMode(){
         return true;
     }
 
     public static void main(String[] args){
+
+        Logger.SetConsolePrinting(args.length > 0 && args[0].equals(SYMB_DEBUGGING));
+
         Scanner l_sc = new Scanner(System.in);
 
         //create instance of game and map instantiators and application.
@@ -26,14 +31,6 @@ public class Main {
 
         //init application.
         l_app.startup();
-
-        //managing logging.
-        if(isDebuggingMode()){
-            Logger.SetConsolePrinting(true);
-        }
-        else {
-            Logger.SetConsolePrinting(false);
-        }
 
         //game loop
         while(!l_app.hasQuit()){

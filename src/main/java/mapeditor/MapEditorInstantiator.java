@@ -9,7 +9,7 @@ import common.ISubApplication;
  */
 public class MapEditorInstantiator implements ISubAppInstantiator {
     @Override
-    public ISubApplication generateInstance() {
+    public ISubApplication createInstane() {
         return null;
     }
 }
