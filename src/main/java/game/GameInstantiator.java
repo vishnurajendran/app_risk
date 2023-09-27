@@ -4,11 +4,16 @@ import common.ISubAppInstantiator;
 import common.ISubApplication;
 
 /**
- * @author ssj5v
+ *  * This class implements the ISubAppInstantiator
+ *  * and serves as the instantiator for the game
+ * @author vishnurajendran
  * Dated 26-09-2023
  */
 public class GameInstantiator implements ISubAppInstantiator {
 
+    /**
+     * @return instance of a game
+     */
     @Override
     public ISubApplication createInstane() {
         return null;

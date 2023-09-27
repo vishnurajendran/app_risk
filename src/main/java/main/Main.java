@@ -1,3 +1,5 @@
+package main;
+
 import application.Application;
 import common.Command;
 import common.ISubAppInstantiator;

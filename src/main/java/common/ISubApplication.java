@@ -10,7 +10,7 @@ package common;
 public interface ISubApplication {
 
     /**
-            * this method will be called by the application class
+     * this method will be called by the application class
      * when sub application instance is created, its intended
      * to be an initialisation call.
      */
