@@ -173,6 +173,7 @@ public class Map {
      * @return A string contain name of the country and the detail of the country
      */
     public String toString() {
+        //TODO: modify to include continents in a legible way.
         String l_countriesString = "";
         for (Integer l_key : d_countries.keySet()) {
             l_countriesString += (d_countries.get(l_key) + "\n");
