@@ -1,5 +1,6 @@
 package entity;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 
@@ -13,6 +14,10 @@ public class Map {
     String d_name;
     //used for store data for demo only, can change to some other data structure
     java.util.Map<Integer, Country> d_countries;
+
+    ArrayList<Country> d_countriesList;
+    // ArrayList<Continent> d_continents; //list of all continents for validating sub-graphs.
+    int d_numOfCountries;
 
     /**
      * Default Constructor that only initialize the array.
@@ -73,6 +78,15 @@ public class Map {
         }
     }
 
+    public int getNumberOfCountries() {
+        return this.d_numOfCountries;
+    }
+
+    public ArrayList<Country> getCountries() {
+        return this.d_countriesList;
+    }
+
+
     /**
      * Get a set of Ids of countries on the map.
      *
@@ -106,6 +120,10 @@ public class Map {
             return true;
         }
         return false;
+    }
+
+    public Country getCountryById(int p_countryId){
+        return d_countries.get(p_countryId);
     }
 
     /**
