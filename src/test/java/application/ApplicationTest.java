@@ -19,9 +19,9 @@ class ApplicationTest {
     private Application d_app;
 
     /**
-     * this method initialises each test by
+     * This method initialises each test by
      * creating a new application instance and
-     * redirecting the standard out stream.
+     * redirecting the standard output stream.
      */
     @BeforeEach
     void setUp() {
@@ -32,7 +32,7 @@ class ApplicationTest {
     }
 
     /**
-     * after each test we reset the standard out stream
+     * After each test we reset the standard out stream
      * and also cleanup the application
      */
     @AfterEach
@@ -45,7 +45,7 @@ class ApplicationTest {
     }
 
     /**
-     * tests if the application has initialised correctly
+     * Tests if the application has initialised correctly
      * isInitialised() should be true.
      */
     @Test
@@ -54,32 +54,32 @@ class ApplicationTest {
     }
 
     /**
-     * test application exit flow, using the appropriate command.
+     * Test application exit flow, using the appropriate command.
      * once the application has quit, hasQuit() should return true.
      */
     @Test
     void testApplicationExit() {
-        d_app.processCommand(Command.parseString(ApplicationConstants.EXIT_APP));
+        d_app.processCommand(Command.parseString(ApplicationConstants.CMD_EXIT_APP));
         assertTrue(d_app.hasQuit());
     }
 
     /**
-     * test gameLoad flow using the appropriate command.
+     * Test gameLoad flow using the appropriate command.
      * once the command is processed, application state should switch to Game.
      */
     @Test
     void testGameLoad() {
-        d_app.processCommand(Command.parseString(ApplicationConstants.START_GAME));
+        d_app.processCommand(Command.parseString(ApplicationConstants.CMD_START_GAME));
         assertEquals(d_app.getAppState(), AppState.Game);
     }
 
     /**
-     * test handling of game commands
+     * Test handling of game commands
      * no errors should be printed to the standard output
      */
     @Test
     void testGameCmd() {
-        d_app.processCommand(Command.parseString(ApplicationConstants.START_GAME));
+        d_app.processCommand(Command.parseString(ApplicationConstants.CMD_START_GAME));
         assertEquals(d_app.getAppState(), AppState.Game);
         d_app.processCommand(Command.parseString(ApplicationTestConstants.GAME_TEST_CMD));
         String l_actual = d_outStream.toString();
@@ -88,34 +88,34 @@ class ApplicationTest {
     }
 
     /**
-     * test game exit flow using the appropriate command.
+     * Test game exit flow using the appropriate command.
      * once the command is processed, application state should return to Standard.
      */
     @Test
     void testGameExit() {
-        d_app.processCommand(Command.parseString(ApplicationConstants.START_GAME)); // boot up game
+        d_app.processCommand(Command.parseString(ApplicationConstants.CMD_START_GAME)); // boot up game
         assertEquals(d_app.getAppState(), AppState.Game);
-        d_app.processCommand(Command.parseString(ApplicationConstants.EXIT_SUB_APPLICATION));
+        d_app.processCommand(Command.parseString(ApplicationConstants.CMD_EXIT_SUB_APPLICATION));
         assertEquals(d_app.getAppState(), AppState.Standard);
     }
 
     /**
-     * test map-editor load flow using the appropriate command.
+     * Test map-editor load flow using the appropriate command.
      * once the command is processed, application state should switch to MapEditor.
      */
     @Test
     void testMapEditorLoad() {
-        d_app.processCommand(Command.parseString(ApplicationConstants.START_MAPEDITOR));
+        d_app.processCommand(Command.parseString(ApplicationConstants.CMD_START_MAPEDITOR));
         assertEquals(d_app.getAppState(), AppState.MapEditor);
     }
 
     /**
-     * test handling of map editor commands
+     * Test handling of map editor commands
      * no errors should be printed to the standard output
      */
     @Test
     void testMapEditorCmd() {
-        d_app.processCommand(Command.parseString(ApplicationConstants.START_MAPEDITOR));
+        d_app.processCommand(Command.parseString(ApplicationConstants.CMD_START_MAPEDITOR));
         assertEquals(d_app.getAppState(), AppState.MapEditor);
         d_app.processCommand(Command.parseString(ApplicationTestConstants.MAPEDITOR_TEST_CMD));
         String l_actual = d_outStream.toString();
@@ -124,20 +124,20 @@ class ApplicationTest {
     }
 
     /**
-     * test map-editor exit flow using the appropriate command.
+     * Test map-editor exit flow using the appropriate command.
      * once the command is processed, application state should return to Standard.
      */
     @Test
     void testMapEditorExit() {
-        d_app.processCommand(Command.parseString(ApplicationConstants.START_MAPEDITOR)); // boot up map editor
+        d_app.processCommand(Command.parseString(ApplicationConstants.CMD_START_MAPEDITOR)); // boot up map editor
         assertEquals(d_app.getAppState(), AppState.MapEditor);
-        d_app.processCommand(Command.parseString(ApplicationConstants.EXIT_SUB_APPLICATION));
+        d_app.processCommand(Command.parseString(ApplicationConstants.CMD_EXIT_SUB_APPLICATION));
         assertEquals(d_app.getAppState(), AppState.Standard);
     }
 
     /**
-     *  test invalid command handling by the application.
-     *  the standard output should display and error
+     * Test invalid command handling by the application.
+     * the standard output should display and error
      */
     @Test
     void testInvalidCmd() {

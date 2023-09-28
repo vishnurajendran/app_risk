@@ -7,5 +7,11 @@ package common;
  */
 @FunctionalInterface
 public interface IMethod {
+
+    /**
+     * This method will be called to invoke the
+     * method registered by this functional interface.
+     * @param p_cmd the command object, for processing further.
+     */
     public void invoke(Command p_cmd);
 }

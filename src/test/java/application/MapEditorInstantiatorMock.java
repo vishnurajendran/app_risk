@@ -9,6 +9,10 @@ import common.ISubApplication;
  */
 public class MapEditorInstantiatorMock implements ISubAppInstantiator {
 
+    /**
+     * This method creates a new instance of MapEditorMock class.
+     * @return instance of MapEditorMock
+     */
     @Override
     public ISubApplication createInstance() {
         return new MapEditorMock();
