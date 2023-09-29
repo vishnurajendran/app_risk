@@ -1,5 +1,5 @@
 # app_risk 
-[![tests](https://github.com/vishnurajendran/app_risk/actions/workflows/tests_actions.yml/badge.svg?branch=main)](https://github.com/vishnurajendran/app_risk/actions/workflows/tests_actions.yml)
+[![build](https://github.com/vishnurajendran/app_risk/actions/workflows/actions-build.yml/badge.svg)](https://github.com/vishnurajendran/app_risk/actions/workflows/actions-build.yml)  [![tests](https://github.com/vishnurajendran/app_risk/actions/workflows/actions-test.yml/badge.svg)](https://github.com/vishnurajendran/app_risk/actions/workflows/actions-test.yml)
 
 APP project to recreate Risk Warzone using Java.
 
