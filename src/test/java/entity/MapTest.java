@@ -14,6 +14,8 @@ class MapTest {
     Country d_testCountry;
     Country d_testBorderCountry;
     Country d_testBorderCountry2;
+    Continent d_testContinent;
+    Continent d_testContinent2;
     Map d_testMap;
 
     /**
@@ -30,6 +32,12 @@ class MapTest {
      * Sample data 2 for border related features:
      * p_id:3; p_name: Mexico; p_continentId:3; p_xCoordinates: 5; p_yCoordinates: 6;
      * army:1
+     *
+     *
+     * Continent have detailed info below which is similar to ContinentTest
+     * Sample data: p_id:1; p_name:"Asia"; p_controlValue:7; p_color:"yellow";
+     * Sample data for add continent:
+     * p_id:2; p_name:"Australia"; p_controlValue:3; p_color:"blue";
      */
     @BeforeEach
     void setUp() {
@@ -40,10 +48,12 @@ class MapTest {
         d_testBorderCountry2 = new Country(3, "Mexico", 3, 5, 6);
         d_testBorderCountry2.setArmy(1);
         d_testCountry.addBorder(d_testBorderCountry);
+        d_testContinent = new Continent(1, "Asia", 7, "yellow");
+        d_testContinent2 = new Continent(2, "Australia", 3, "blue");
         d_testMap = new Map("Test Map");
         d_testMap.addCountry(d_testCountry);
         d_testMap.addCountry(d_testBorderCountry);
-
+        d_testMap.addContinent(d_testContinent);
     }
 
     /**
@@ -53,7 +63,6 @@ class MapTest {
     @Test
     void getName() {
         assertEquals("Test Map", d_testMap.getName());
-
     }
 
     /**
@@ -78,6 +87,17 @@ class MapTest {
     }
 
     /**
+     * Unit test for add a continent
+     * Australia should be added to the map.
+     */
+    @Test
+    void testAddContinent(){
+        assertFalse(d_testMap.getContinentIds().contains(2));
+        d_testMap.addContinent(d_testContinent2);
+        assertTrue(d_testMap.getContinentIds().contains(2));
+    }
+
+    /**
      * Unit test for add Borders
      * Mexico will be added connection with America and Canada
      */
@@ -88,6 +108,22 @@ class MapTest {
 
         d_testMap.addBorders(3, new String[]{"1", "2"});
         assertEquals(2, d_testBorderCountry2.getBorders().size());
+    }
+
+    /**
+     * Unit test for getNumberOfCountries
+     * Expected Value:2
+     */
+    void testGetNumberOfCountries(){
+        assertEquals(2, d_testMap.getNumberOfCountries());
+    }
+
+    /**
+     * Unit test for getNumberOfContinents
+     * Expected Value:1
+     */
+    void testGetNumberOfContinents(){
+        assertEquals(1, d_testMap.getNumberOfContinents());
     }
 
     /**
@@ -103,6 +139,17 @@ class MapTest {
     }
 
     /**
+     * Unit test for getContinentIds.
+     * Ids should contain 1 but not 2
+     */
+    @Test
+    void testGetContinentIds() {
+        Set l_IDs = d_testMap.getContinentIds();
+        assertTrue(l_IDs.contains(1));
+        assertFalse(l_IDs.contains(2));
+    }
+
+    /**
      * Unit test for getArmyById.
      * The number of Army should be 10 for 1 and 20 for 2.
      */
@@ -110,6 +157,26 @@ class MapTest {
     void getCountryArmyById() {
         assertEquals(10, d_testMap.getCountryArmyById(1));
         assertEquals(20, d_testMap.getCountryArmyById(2));
+    }
+
+    /**
+     * Unit test for getCountryById
+     * Expected value: Country object of id:2
+     */
+    @Test
+    void testGetCountryById(){
+        Country l_country = d_testMap.getCountryById(2);
+        assertEquals(d_testBorderCountry, l_country);
+    }
+
+    /**
+     * Unit test for getContinentById
+     * Expected value: Continent object of id:1
+     */
+    @Test
+    void testGetContinentById(){
+        Continent l_continent = d_testMap.getContinentById(1);
+        assertEquals(d_testContinent, l_continent);
     }
 
     /**
