@@ -17,29 +17,7 @@ public class GameInstantiator implements ISubAppInstantiator {
      */
     @Override
     public ISubApplication createInstance() {
-
-        ISubApplication gameInstance = new ISubApplication() {
-            @Override
-            public void initialise() {
-
-            }
-
-            @Override
-            public boolean canProcess(String cmdName) {
-                return false;
-            }
-
-            @Override
-            public void submitCommand(Command p_command) {
-
-            }
-
-            @Override
-            public void shutdown() {
-
-            }
-        };
-        return gameInstance;
+        return new GameEngine();
     }
 
 }

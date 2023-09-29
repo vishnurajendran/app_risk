@@ -5,7 +5,7 @@ import java.util.HashMap;
 /**
  * Class PlayerDetails contains details of the player
  */
-public class PlayerDetails {
+public class Player {
 
     public int noOfArmies;
 
