@@ -50,5 +50,8 @@ class MapLoaderTest {
         assertTrue(l_Risk_map.getCountryIds().contains(10));
         assertFalse(l_Risk_map.getCountryIds().contains(0));
         assertFalse(l_Risk_map.getCountryIds().contains(11));
+        assertEquals("siberia",l_Risk_map.getCountryById(1).getName());
+        assertEquals(4,l_Risk_map.getContinentIds().size());
+        assertEquals("ameroki",l_Risk_map.getContinentById(1).getName());
     }
 }
