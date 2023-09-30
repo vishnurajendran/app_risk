@@ -10,13 +10,13 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * Unit test class for the Map Class.
  */
-class MapTest {
+class RiskMapTest {
     Country d_testCountry;
     Country d_testBorderCountry;
     Country d_testBorderCountry2;
     Continent d_testContinent;
     Continent d_testContinent2;
-    Map d_testMap;
+    RiskMap d_testRiskMap;
 
     /**
      * Setup for unit tests.
@@ -50,10 +50,10 @@ class MapTest {
         d_testCountry.addBorder(d_testBorderCountry);
         d_testContinent = new Continent(1, "Asia", 7, "yellow");
         d_testContinent2 = new Continent(2, "Australia", 3, "blue");
-        d_testMap = new Map("Test Map");
-        d_testMap.addCountry(d_testCountry);
-        d_testMap.addCountry(d_testBorderCountry);
-        d_testMap.addContinent(d_testContinent);
+        d_testRiskMap = new RiskMap("Test Map");
+        d_testRiskMap.addCountry(d_testCountry);
+        d_testRiskMap.addCountry(d_testBorderCountry);
+        d_testRiskMap.addContinent(d_testContinent);
     }
 
     /**
@@ -62,7 +62,7 @@ class MapTest {
      */
     @Test
     void getName() {
-        assertEquals("Test Map", d_testMap.getName());
+        assertEquals("Test Map", d_testRiskMap.getName());
     }
 
     /**
@@ -71,8 +71,8 @@ class MapTest {
      */
     @Test
     void setName() {
-        d_testMap.setName("Modified map");
-        assertEquals("Modified map", d_testMap.getName());
+        d_testRiskMap.setName("Modified map");
+        assertEquals("Modified map", d_testRiskMap.getName());
     }
 
     /**
@@ -81,9 +81,9 @@ class MapTest {
      */
     @Test
     void addCountry() {
-        assertFalse(d_testMap.getCountryIds().contains(3));
-        d_testMap.addCountry(d_testBorderCountry2);
-        assertTrue(d_testMap.getCountryIds().contains(3));
+        assertFalse(d_testRiskMap.getCountryIds().contains(3));
+        d_testRiskMap.addCountry(d_testBorderCountry2);
+        assertTrue(d_testRiskMap.getCountryIds().contains(3));
     }
 
     /**
@@ -92,9 +92,9 @@ class MapTest {
      */
     @Test
     void testAddContinent(){
-        assertFalse(d_testMap.getContinentIds().contains(2));
-        d_testMap.addContinent(d_testContinent2);
-        assertTrue(d_testMap.getContinentIds().contains(2));
+        assertFalse(d_testRiskMap.getContinentIds().contains(2));
+        d_testRiskMap.addContinent(d_testContinent2);
+        assertTrue(d_testRiskMap.getContinentIds().contains(2));
     }
 
     /**
@@ -103,10 +103,10 @@ class MapTest {
      */
     @Test
     void addBorders() {
-        d_testMap.addCountry(d_testBorderCountry2);
+        d_testRiskMap.addCountry(d_testBorderCountry2);
         assertEquals(0, d_testBorderCountry2.getBorders().size());
 
-        d_testMap.addBorders(3, new String[]{"1", "2"});
+        d_testRiskMap.addBorders(3, new String[]{"1", "2"});
         assertEquals(2, d_testBorderCountry2.getBorders().size());
     }
 
@@ -115,7 +115,7 @@ class MapTest {
      * Expected Value:2
      */
     void testGetNumberOfCountries(){
-        assertEquals(2, d_testMap.getNumberOfCountries());
+        assertEquals(2, d_testRiskMap.getNumberOfCountries());
     }
 
     /**
@@ -123,7 +123,7 @@ class MapTest {
      * Expected Value:1
      */
     void testGetNumberOfContinents(){
-        assertEquals(1, d_testMap.getNumberOfContinents());
+        assertEquals(1, d_testRiskMap.getNumberOfContinents());
     }
 
     /**
@@ -132,7 +132,7 @@ class MapTest {
      */
     @Test
     void getCountryIds() {
-        Set l_IDs = d_testMap.getCountryIds();
+        Set l_IDs = d_testRiskMap.getCountryIds();
         assertTrue(l_IDs.contains(1));
         assertTrue(l_IDs.contains(2));
         assertFalse(l_IDs.contains(3));
@@ -144,7 +144,7 @@ class MapTest {
      */
     @Test
     void testGetContinentIds() {
-        Set l_IDs = d_testMap.getContinentIds();
+        Set l_IDs = d_testRiskMap.getContinentIds();
         assertTrue(l_IDs.contains(1));
         assertFalse(l_IDs.contains(2));
     }
@@ -155,8 +155,8 @@ class MapTest {
      */
     @Test
     void getCountryArmyById() {
-        assertEquals(10, d_testMap.getCountryArmyById(1));
-        assertEquals(20, d_testMap.getCountryArmyById(2));
+        assertEquals(10, d_testRiskMap.getCountryArmyById(1));
+        assertEquals(20, d_testRiskMap.getCountryArmyById(2));
     }
 
     /**
@@ -165,7 +165,7 @@ class MapTest {
      */
     @Test
     void testGetCountryById(){
-        Country l_country = d_testMap.getCountryById(2);
+        Country l_country = d_testRiskMap.getCountryById(2);
         assertEquals(d_testBorderCountry, l_country);
     }
 
@@ -175,7 +175,7 @@ class MapTest {
      */
     @Test
     void testGetContinentById(){
-        Continent l_continent = d_testMap.getContinentById(1);
+        Continent l_continent = d_testRiskMap.getContinentById(1);
         assertEquals(d_testContinent, l_continent);
     }
 
@@ -185,9 +185,9 @@ class MapTest {
      */
     @Test
     void setCountryArmyById() {
-        assertEquals(10, d_testMap.getCountryArmyById(1));
-        d_testMap.setCountryArmyById(1, 33);
-        assertEquals(33, d_testMap.getCountryArmyById(1));
+        assertEquals(10, d_testRiskMap.getCountryArmyById(1));
+        d_testRiskMap.setCountryArmyById(1, 33);
+        assertEquals(33, d_testRiskMap.getCountryArmyById(1));
     }
 
     /**
@@ -201,6 +201,6 @@ class MapTest {
     void testToString() {
         assertEquals("Map Test Map\n" +
                 "Id: 1 Name: Canada continentId: 2{2=Id: 2 Name: America continentId: 2{}}\n" +
-                "Id: 2 Name: America continentId: 2{}\n", d_testMap.toString());
+                "Id: 2 Name: America continentId: 2{}\n", d_testRiskMap.toString());
     }
 }

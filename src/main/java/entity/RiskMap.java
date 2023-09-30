@@ -9,7 +9,7 @@ import static java.util.Objects.isNull;
  * A class to hold map information, it uses a java.util.map to hold countries and continents on the map, but it has
  * no other relationship with Java standard map.
  */
-public class Map {
+public class RiskMap {
     String d_name;
     java.util.Map<Integer, Country> d_countries;
     java.util.Map<Integer, Continent> d_continents;
@@ -19,7 +19,7 @@ public class Map {
      *
      * @author Weichen
      */
-    public Map() {
+    public RiskMap() {
         d_countries = new HashMap<Integer, Country>();
         d_continents = new HashMap<Integer, Continent>();
     }
@@ -29,7 +29,7 @@ public class Map {
      *
      * @param p_name The name of the map, space and other special chars are allowed.
      */
-    public Map(String p_name) {
+    public RiskMap(String p_name) {
         d_countries = new HashMap<Integer, Country>();
         d_continents = new HashMap<Integer, Continent>();
         d_name = p_name;

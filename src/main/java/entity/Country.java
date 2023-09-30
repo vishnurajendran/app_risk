@@ -82,19 +82,19 @@ public class Country {
     /**
      * Setter for name of the country.
      *
-     * @param d_name The name of the country.
+     * @param p_name The name of the country.
      */
-    public void setName(String d_name) {
-        this.d_name = d_name;
+    public void setName(String p_name) {
+        this.d_name = p_name;
     }
 
     /**
      * Setter for number of army in the country.
      *
-     * @param d_army The amount of armies inside the country as an int.
+     * @param p_army The amount of armies inside the country as an int.
      */
-    public void setArmy(int d_army) {
-        this.d_army = d_army;
+    public void setArmy(int p_army) {
+        this.d_army = p_army;
     }
 
     /**

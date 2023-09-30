@@ -1,6 +1,6 @@
 package mapEditer;
 
-import entity.Map;
+import entity.RiskMap;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -45,10 +45,10 @@ class MapLoaderTest {
     void getMap() {
         assertNull(d_loader.getMap().getName());
         d_loader.loadMap("testMap.map");
-        Map l_map = d_loader.getMap();
-        assertEquals(10, l_map.getCountryIds().size());
-        assertTrue(l_map.getCountryIds().contains(10));
-        assertFalse(l_map.getCountryIds().contains(0));
-        assertFalse(l_map.getCountryIds().contains(11));
+        RiskMap l_Risk_map = d_loader.getMap();
+        assertEquals(10, l_Risk_map.getCountryIds().size());
+        assertTrue(l_Risk_map.getCountryIds().contains(10));
+        assertFalse(l_Risk_map.getCountryIds().contains(0));
+        assertFalse(l_Risk_map.getCountryIds().contains(11));
     }
 }
