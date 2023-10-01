@@ -182,7 +182,7 @@ public class Application{
      */
     private void cmdStartGame(Command p_command) {
         Logger.log("Loading new Game");
-        if(!d_appState.equals(AppState.Standard))
+        if(!d_appState.equals(AppState.Standard) || p_command.getCmdAttributes().isEmpty() )
         {
             printInvalidCommandMessage(p_command);
             return;

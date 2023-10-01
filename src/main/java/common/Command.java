@@ -29,7 +29,7 @@ public class Command {
      */
     public Command(String p_cmdName, ArrayList<CommandAttribute> p_attributes) {
         d_cmdName = p_cmdName;
-        d_attributes =p_attributes;
+        d_attributes = p_attributes;
     }
 
     /**
