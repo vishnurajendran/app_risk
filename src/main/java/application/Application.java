@@ -9,6 +9,9 @@ import java.util.HashMap;
  * and also interpreting first layer of commands.
  * @author vishnurajendran
  */
+
+ArrayList<Player> GamePlayer;
+
 public class Application{
 
     private final ISubAppInstantiator d_gameInstantiator;
