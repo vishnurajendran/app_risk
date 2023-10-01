@@ -1,5 +1,10 @@
 package entity;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+
 /**
  * This class hold information about a single continent.
  *
@@ -11,6 +16,7 @@ public class Continent {
     int d_id;
     String d_name;
     int d_controlValue;
+    Map<Integer, Country> d_countries;
     String d_color;
 
     /**
@@ -27,6 +33,7 @@ public class Continent {
         this.d_name = p_name;
         this.d_controlValue = p_controlValue;
         this.d_color = p_color;
+        this.d_countries = new HashMap<Integer,Country>();
     }
 
     /**
@@ -58,6 +65,19 @@ public class Continent {
      */
     public void setColor(String p_color) { this.d_color = p_color; }
 
+    public void addCountry(Country p_country){
+        //validation?
+        this.d_countries.put(p_country.getDId(),p_country);
+    }
+
+    /**
+     *
+     * @param p_countryId
+     * @return
+     */
+    public boolean hasCountry(Integer p_countryId){
+        return this.d_countries.containsKey(p_countryId);
+    }
     /**
      * Getter for id
      *
@@ -86,6 +106,14 @@ public class Continent {
      * @return  the color of the continent as a String
      */
     public String getColor() { return this.d_color; }
+
+    /**
+     *
+     * @return
+     */
+    public ArrayList<Country> getCountries() {
+        return new ArrayList<Country>(d_countries.values());
+    }
 
     /**
      * Override the toString to show detailed info of the class

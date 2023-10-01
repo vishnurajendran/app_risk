@@ -1,7 +1,6 @@
 package entity;
 
-import java.util.HashMap;
-import java.util.Set;
+import java.util.*;
 
 import static java.util.Objects.isNull;
 
@@ -11,8 +10,8 @@ import static java.util.Objects.isNull;
  */
 public class RiskMap {
     String d_name;
-    java.util.Map<Integer, Country> d_countries;
-    java.util.Map<Integer, Continent> d_continents;
+    Map<Integer, Country> d_countries;
+    Map<Integer, Continent> d_continents;
 
     /**
      * Default Constructor that only initialize the map.
@@ -112,12 +111,25 @@ public class RiskMap {
     }
 
     /**
+     *
+     * @return
+     */
+    public ArrayList<Country> getCountries() {
+        return new ArrayList<Country>(d_countries.values());
+    }
+
+    /**
      * Get a set of Ids of continents on the map
      *
      * @return A set of Ids of continents on the map.
      */
     public Set getContinentIds() {
         return d_continents.keySet();
+    }
+
+
+    public ArrayList<Continent> getContinents() {
+        return new ArrayList<Continent>(d_continents.values());
     }
 
     /**
