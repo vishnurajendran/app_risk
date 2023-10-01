@@ -1,0 +1,14 @@
+; A random generated map
+
+name GreatMap ^_^
+
+[continents]
+ameroki 5 yellow
+
+[countries]
+1 siberia 1 150 100
+2 worrick 1 200 150
+
+[borders]
+1 2
+2 1

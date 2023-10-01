@@ -1,37 +1,64 @@
 package mapValidator;
 
-import entity.Country;
 import entity.RiskMap;
-import org.junit.jupiter.api.AfterEach;
+import mapEditer.MapLoader;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Unit test for MapValidator
  */
 class MapValidatorTest {
-    RiskMap d_riskMap;
 
+    MapLoader d_mapLoader;
+
+    RiskMap d_riskMap1;
+
+    /**
+     * Set up the mapLoader before testing
+     */
     @BeforeEach
     void setUp() {
-        d_riskMap = new RiskMap("testMap1");
-        Country l_c1 = new Country(1, "siberia" , 1 ,0 , 0);
-        Country l_c2 = new Country(2, "canada" , 1 ,1 , 1);
-        d_riskMap.addCountry(l_c1);
-        d_riskMap.addCountry(l_c2);
-        String l_borders[] = {"2"};
-        d_riskMap.addBorders(1,l_borders);
+        d_mapLoader = new MapLoader();
     }
 
-    @AfterEach
-    void tearDown() {
-    }
-
+    /**
+     * Unit test to validate that map is a connected graph
+     * Uses a map loader to load test map file.
+     * Test cases:
+     * 1. Map Object is null.(due to some internal errors).
+     * 2. Map file is empty.(due to reading/loading issue or actually empty).
+     * 3. Valid connected map.
+     * The map detail is in the "testMap.map".
+     *
+     * @see <a href="file:testMap.map"></a>
+     */
     @Test
-    void isConnectedGraph() {
+    void testIsMapAConnectedGraph(){
+        RiskMap l_nullMap = null;
+        assertFalse(MapValidator.validateMap(l_nullMap));
+
+        d_mapLoader.loadMap("");
+        RiskMap l_emptyMap = d_mapLoader.getMap();
+        assertFalse(MapValidator.validateMap(l_emptyMap));
+
+        d_mapLoader.loadMap("testMap.map");
+        RiskMap l_map = d_mapLoader.getMap();
+        assertTrue(MapValidator.validateMap(l_map));
+
     }
 
+    /**
+     * Placeholder test function to test individual cases.
+     */
     @Test
-    void validateMap() {
+    void testMap(){
+        d_mapLoader.loadMap("validateMapTest.map");
+        RiskMap l_map2 = d_mapLoader.getMap();
+        assertTrue(MapValidator.validateMap(l_map2));
     }
+
 }
