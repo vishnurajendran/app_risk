@@ -1,7 +1,6 @@
 package application;
 import common.*;
-import game.GameEngine;
-import game.GamePlayer;
+import game.PlayerHandler;
 
 import java.text.MessageFormat;
 import java.util.HashMap;
@@ -203,7 +202,7 @@ public class Application{
             Logger.logError("Game Instance is null");
         }
         else {
-            GamePlayer gamePlayers = new GamePlayer();
+            PlayerHandler gamePlayers = new PlayerHandler();
             d_appState = AppState.Game;
             //This command will be further processed by the map editor
             d_activeSubApplication.submitCommand(p_command);

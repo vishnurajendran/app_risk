@@ -1,5 +1,4 @@
 package game;
-import application.Application;
 import application.ApplicationConstants;
 import common.*;
 
@@ -58,11 +57,11 @@ public class GameEngine implements ISubApplication {
     private void updatePlayers(Command p_cmd){
         //Logger.log(d_cmdOption + ":" + GameCommands.CMD_GAME_PLAYER_OPTION_ADD);
         if(d_cmdOption.equals(GameCommands.CMD_GAME_PLAYER_OPTION_ADD ) && !d_cmdArguments.isEmpty()){
-            GamePlayer.addGamePlayers(d_cmdArguments);
-            GamePlayer.displayGamePlayers();
+            PlayerHandler.addGamePlayers(d_cmdArguments);
+            PlayerHandler.displayGamePlayers();
         } else if (d_cmdOption.equals(GameCommands.CMD_GAME_PLAYER_OPTION_REMOVE) && !d_cmdArguments.isEmpty()){
-            GamePlayer.removeGamePlayers(d_cmdArguments);
-            GamePlayer.displayGamePlayers();
+            PlayerHandler.removeGamePlayers(d_cmdArguments);
+            PlayerHandler.displayGamePlayers();
         } else {
             System.out.println(MessageFormat.format(ApplicationConstants.MSG_INVALID_CMD, p_cmd.getCmdName()));
         }

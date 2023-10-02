@@ -1,20 +1,32 @@
 package game;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Set;
+import java.util.LinkedHashSet;
 
 /**
+ * This class handles the actions that happen to the player
  * @author Soham
  */
-public class GamePlayer {
+public class PlayerHandler {
     private static final ArrayList<Player> GamePlayers = new ArrayList<>();
 
 
+    /**
+     * This method checks if there are any duplicates in the list
+     * if there are, it removes them from adding
+     * then runs a loop to add all the players
+     * @param p_playerNamesToAdd
+     */
     public static void addGamePlayers(ArrayList<String> p_playerNamesToAdd){
+        // Create a LinkedHashSet to remove duplicates while preserving order
+        LinkedHashSet<String> setWithoutDuplicates = new LinkedHashSet<>(p_playerNamesToAdd);
+
+        // Create a new ArrayList to store the elements without duplicates
+        ArrayList<String> p_playerNames = new ArrayList<>(setWithoutDuplicates);
+
         ArrayList<String> d_duplicates = new ArrayList<>();
-        for(String name: p_playerNamesToAdd){
+        for(String name: p_playerNames){
             for(Player player : GamePlayers){
                 if(player.getPlayerName().equals(name)){
                     System.out.println(name + " already exists in the game");
@@ -24,13 +36,13 @@ public class GamePlayer {
         }
 
         for(String name: d_duplicates){
-            p_playerNamesToAdd.remove(name);
+            p_playerNames.remove(name);
         }
 
-        for(String name: p_playerNamesToAdd){
+        for(String name: p_playerNames){
             GamePlayers.add(new Player(name));
         }
-        System.out.println("Added " + p_playerNamesToAdd.size() + " players to the game:");
+        System.out.println("Added " + p_playerNames.size() + " players to the game:");
     }
 
     /**
