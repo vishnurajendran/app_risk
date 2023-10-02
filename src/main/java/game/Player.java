@@ -2,6 +2,7 @@ package game;
 
 import entity.Country;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -16,6 +17,11 @@ public class Player {
     private HashMap<Country, Integer> listOfCountriesOwned;
 
 
+    Player(){
+        playerName = "";
+        noOfArmies = 0;
+        listOfCountriesOwned = new HashMap<>();
+    }
     /**
      * This constructor is used to add new players
      * The number of armies are automatically assigned at 5
@@ -23,6 +29,7 @@ public class Player {
     Player(String playerName){
         this.noOfArmies = 5;
         this.playerName = playerName;
+        listOfCountriesOwned = new HashMap<>();
     }
 
     public void assignCountry(Country p_country, int p_noOfArmies){
@@ -31,5 +38,9 @@ public class Player {
 
     public String getPlayerName(){
         return playerName;
+    }
+
+    public HashMap<Country, Integer> getCountriesOwned(){
+        return listOfCountriesOwned;
     }
 }

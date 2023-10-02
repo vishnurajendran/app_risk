@@ -1,5 +1,8 @@
 package game;
-
+import java.io.*;
+import java.util.*;
+import common.Logger;
+import entity.Country;
 import mapEditer.MapLoader;
 
 import java.util.ArrayList;
@@ -11,7 +14,7 @@ import java.util.LinkedHashSet;
  * @author Soham
  */
 public class PlayerHandler {
-    private static final ArrayList<Player> d_gamePlayers = new ArrayList<>();
+    private static ArrayList<Player> d_gamePlayers = new ArrayList<>();
 
 
     /**
@@ -55,6 +58,7 @@ public class PlayerHandler {
     public static void removeGamePlayers(ArrayList<String> p_playerNamesToRemove){
         Iterator<Player> l_iterator = d_gamePlayers.iterator();
         for (String name : p_playerNamesToRemove) {
+            l_iterator = d_gamePlayers.iterator();
             while (l_iterator.hasNext()) {
                 Player player = l_iterator.next();
                 if (player.getPlayerName().equals(name)) {
@@ -66,12 +70,28 @@ public class PlayerHandler {
     }
 
     public static void assignCountriesToPlayer(MapLoader p_loadedMap){
+        ArrayList<Integer> randomCountryIDs = new ArrayList<>();
+        for(int i = 1; i<p_loadedMap.getMap().getCountries().size(); i++){
+            randomCountryIDs.add(i);
+        }
         if(p_loadedMap.getMap().getCountryIds().size()< d_gamePlayers.size()){
             System.out.println("ERROR: Number of players are greater than the number of countries in the map");
             return;
         }
+        Logger.log("game player size: " + d_gamePlayers.size());
+        Collections.shuffle(randomCountryIDs);
+        Logger.log("Countries were assigned in the following order: " + String.valueOf(randomCountryIDs));
         for(int i = 0; i < d_gamePlayers.size(); i++){
-            d_gamePlayers.get(i).assignCountry(p_loadedMap.getMap().getCountryById(i), p_loadedMap.getMap().getCountryArmyById(i));
+            d_gamePlayers.get(i).assignCountry(p_loadedMap.getMap().getCountryById(randomCountryIDs.get(i)), p_loadedMap.getMap().getCountryArmyById(randomCountryIDs.get(i)));
+        }
+        displayGamePlayersWithCountries(p_loadedMap);
+    }
+
+    public static void displayGamePlayersWithCountries(MapLoader p_loadedMap){
+        Logger.log("Displaying countries assigned to players");
+        for(Player name: d_gamePlayers){
+            System.out.println(name.getPlayerName() + " Owns ");
+            name.getCountriesOwned().forEach((key, value) -> System.out.println(p_loadedMap.getMap().getCountryIds()));
         }
     }
 

@@ -52,7 +52,8 @@ public class GameEngine implements ISubApplication {
     }
 
     private void loadGameMap(Command p_cmd){
-        d_loadedMap = new MapLoader(d_cmdArguments.toString());
+        d_loadedMap = new MapLoader(d_cmdArguments.get(0));
+        System.out.println(d_loadedMap.getMap().getCountryIds());
         System.out.println("Loading map " + d_cmdArguments);
     }
 
