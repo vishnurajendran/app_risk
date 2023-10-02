@@ -1,5 +1,7 @@
 package game;
 
+import mapEditer.MapLoader;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
@@ -9,7 +11,7 @@ import java.util.LinkedHashSet;
  * @author Soham
  */
 public class PlayerHandler {
-    private static final ArrayList<Player> GamePlayers = new ArrayList<>();
+    private static final ArrayList<Player> d_gamePlayers = new ArrayList<>();
 
 
     /**
@@ -27,7 +29,7 @@ public class PlayerHandler {
 
         ArrayList<String> d_duplicates = new ArrayList<>();
         for(String name: p_playerNames){
-            for(Player player : GamePlayers){
+            for(Player player : d_gamePlayers){
                 if(player.getPlayerName().equals(name)){
                     System.out.println(name + " already exists in the game");
                     d_duplicates.add(name);
@@ -40,7 +42,7 @@ public class PlayerHandler {
         }
 
         for(String name: p_playerNames){
-            GamePlayers.add(new Player(name));
+            d_gamePlayers.add(new Player(name));
         }
         System.out.println("Added " + p_playerNames.size() + " players to the game:");
     }
@@ -51,7 +53,7 @@ public class PlayerHandler {
      * It compares based on names to remove the one that matches
      */
     public static void removeGamePlayers(ArrayList<String> p_playerNamesToRemove){
-        Iterator<Player> l_iterator = GamePlayers.iterator();
+        Iterator<Player> l_iterator = d_gamePlayers.iterator();
         for (String name : p_playerNamesToRemove) {
             while (l_iterator.hasNext()) {
                 Player player = l_iterator.next();
@@ -63,17 +65,23 @@ public class PlayerHandler {
         System.out.println("The list of Game Players is: ");
     }
 
-    public void assignCountriesToPlayer(){
-
+    public static void assignCountriesToPlayer(MapLoader p_loadedMap){
+        if(p_loadedMap.getMap().getCountryIds().size()< d_gamePlayers.size()){
+            System.out.println("ERROR: Number of players are greater than the number of countries in the map");
+            return;
+        }
+        for(int i = 0; i < d_gamePlayers.size(); i++){
+            d_gamePlayers.get(i).assignCountry(p_loadedMap.getMap().getCountryById(i), p_loadedMap.getMap().getCountryArmyById(i));
+        }
     }
 
     public static void displayGamePlayers(){
 
-        for(Player name: GamePlayers){
+        for(Player name: d_gamePlayers){
             System.out.println(name.getPlayerName());
         }
     }
     public ArrayList<Player> getGamePlayers() {
-        return GamePlayers;
+        return d_gamePlayers;
     }
 }

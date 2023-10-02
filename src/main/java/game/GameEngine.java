@@ -1,6 +1,7 @@
 package game;
 import application.ApplicationConstants;
 import common.*;
+import mapEditer.MapLoader;
 
 import java.text.MessageFormat;
 import java.util.*;
@@ -16,10 +17,10 @@ public class GameEngine implements ISubApplication {
     private final HashMap<String, IMethod> d_cmdtoGameAction;
     private ArrayList<String> d_cmdArguments;
     private String d_cmdOption;
+    private MapLoader d_loadedMap;
 
 
 
-    // TODO: Make d_gamePlayers global to avoid reinitialization during calls.
     public GameEngine() {
         d_cmdtoGameAction = new HashMap<>();
         d_cmdArguments = new ArrayList<>();
@@ -51,6 +52,7 @@ public class GameEngine implements ISubApplication {
     }
 
     private void loadGameMap(Command p_cmd){
+        d_loadedMap = new MapLoader(d_cmdArguments.toString());
         System.out.println("Loading map " + d_cmdArguments);
     }
 
@@ -69,7 +71,7 @@ public class GameEngine implements ISubApplication {
     }
 
     private void assignCountries(Command p_cmd){
-
+        PlayerHandler.assignCountriesToPlayer(d_loadedMap);
     }
 
     @Override
