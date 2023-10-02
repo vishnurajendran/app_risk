@@ -3,10 +3,10 @@ package entity;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * This class hold information about a single continent.
+ * It also stores a map of countries of the continent.
  *
  * @author TaranjeetKaur
  *
@@ -65,19 +65,26 @@ public class Continent {
      */
     public void setColor(String p_color) { this.d_color = p_color; }
 
+    /**
+     * This method adds new country in the continent object.
+     *
+     * @param p_country     Country object to be added
+     */
     public void addCountry(Country p_country){
-        //validation?
+        //TODO:overrides if country already present?? chk for duplication
         this.d_countries.put(p_country.getDId(),p_country);
     }
 
     /**
+     * This method checks if a country is present in the continent
      *
-     * @param p_countryId
-     * @return
+     * @param p_countryId   countryId of the Country object as an Integer
+     * @return  true if country is present, false otherwise.
      */
     public boolean hasCountry(Integer p_countryId){
         return this.d_countries.containsKey(p_countryId);
     }
+
     /**
      * Getter for id
      *
@@ -108,8 +115,9 @@ public class Continent {
     public String getColor() { return this.d_color; }
 
     /**
+     * This method returns a List of Countries present in the map.
      *
-     * @return
+     * @return  ArrayList of Country Object.
      */
     public ArrayList<Country> getCountries() {
         return new ArrayList<Country>(d_countries.values());
@@ -121,7 +129,7 @@ public class Continent {
      * @return A string contain ID, name and Control value.
      */
     public String toString() {
-        return "Id: " + d_id + " Name: " + d_name + " ControlValue: " + d_controlValue;
+        return "Id: " + d_id + " Name: " + d_name + " ControlValue: " + d_controlValue + "Color:" + d_color;
     }
 
 }

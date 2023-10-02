@@ -1,6 +1,6 @@
-; A random generated map
+; A temporary test file to test validation of maps
 
-name GreatMap ^_^
+name testMap ^_^
 
 [continents]
 ameroki 5 yellow

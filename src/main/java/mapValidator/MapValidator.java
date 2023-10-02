@@ -49,7 +49,6 @@ public class MapValidator {
     public static boolean validateMap(RiskMap p_riskMap) {
 
         if(isNull(p_riskMap)){
-            //add console log?
             Logger.log("Validate-map: map is null");
             return false;
         }
@@ -79,6 +78,10 @@ public class MapValidator {
         //check if each continent is a connected subgraph
         for(Continent l_continentOne : l_continents) {
             ArrayList<Country> l_countriesOfContinent = l_continentOne.getCountries();
+            if(l_countriesOfContinent.isEmpty()){
+                Logger.log("Validate-map: country list empty for continent:" + l_continentOne.toString());
+                return false;
+            }
             isContinentConnectedSubgraph(l_visited, l_countriesOfContinent.get(0), l_continentOne);
             if(l_visited.size() == l_countriesOfContinent.size()) {
                 l_isConnectedSubgraph = true;
@@ -91,9 +94,13 @@ public class MapValidator {
         }
 
         //check if each country is part of only one continent
-        boolean valid = isCountryPartOfOnlyOneContinent(l_continents);
+        boolean l_validMapping = isCountryPartOfOnlyOneContinent(l_continents);
 
-        return l_isConnected ;
+        Logger.log("Validate map: l_isConnected:"  + l_isConnected +
+                    ", l_isConnectedSubgraph:" +  l_isConnectedSubgraph +
+                    ", l_validMapping:" + l_validMapping);
+
+        return  l_isConnected && l_isConnectedSubgraph && l_validMapping ;
     }
 
 }

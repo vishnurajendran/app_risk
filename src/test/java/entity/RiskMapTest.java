@@ -111,22 +111,6 @@ class RiskMapTest {
     }
 
     /**
-     * Unit test for getNumberOfCountries
-     * Expected Value:2
-     */
-    void testGetNumberOfCountries(){
-        assertEquals(2, d_testRiskMap.getNumberOfCountries());
-    }
-
-    /**
-     * Unit test for getNumberOfContinents
-     * Expected Value:1
-     */
-    void testGetNumberOfContinents(){
-        assertEquals(1, d_testRiskMap.getNumberOfContinents());
-    }
-
-    /**
      * Unit test for getCountryIds.
      * Ids should contain 1 and 2 but not 3
      */

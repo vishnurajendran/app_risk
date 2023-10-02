@@ -25,6 +25,7 @@ class MapValidatorTest {
         d_mapLoader = new MapLoader();
     }
 
+
     /**
      * Unit test to validate that map is a connected graph
      * Uses a map loader to load test map file.
@@ -32,12 +33,12 @@ class MapValidatorTest {
      * 1. Map Object is null.(due to some internal errors).
      * 2. Map file is empty.(due to reading/loading issue or actually empty).
      * 3. Valid connected map.
-     * The map detail is in the "testMap.map".
+     * The map detail is in the "testResources/ValidTestMap.map".
      *
-     * @see <a href="file:testMap.map"></a>
+     * @see <a href="file:testResources/ValidTestMap.map"></a>
      */
     @Test
-    void testIsMapAConnectedGraph(){
+    void testIsMapValid(){
         RiskMap l_nullMap = null;
         assertFalse(MapValidator.validateMap(l_nullMap));
 
@@ -45,7 +46,7 @@ class MapValidatorTest {
         RiskMap l_emptyMap = d_mapLoader.getMap();
         assertFalse(MapValidator.validateMap(l_emptyMap));
 
-        d_mapLoader.loadMap("testMap.map");
+        d_mapLoader.loadMap("testResources/ValidTestMap.map");
         RiskMap l_map = d_mapLoader.getMap();
         assertTrue(MapValidator.validateMap(l_map));
 
@@ -56,7 +57,7 @@ class MapValidatorTest {
      */
     @Test
     void testMap(){
-        d_mapLoader.loadMap("validateMapTest.map");
+        d_mapLoader.loadMap("testResources/test.map");
         RiskMap l_map2 = d_mapLoader.getMap();
         assertTrue(MapValidator.validateMap(l_map2));
     }
