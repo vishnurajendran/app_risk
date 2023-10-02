@@ -1,9 +1,14 @@
 package entity;
 
+import common.Logger;
+
+import java.util.ArrayList;
+import java.util.Map;
 import java.util.HashMap;
 import java.util.Set;
 
 import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
 
 /**
  * A class to hold map information, it uses a java.util.map to hold countries and continents on the map, but it has
@@ -11,8 +16,8 @@ import static java.util.Objects.isNull;
  */
 public class RiskMap {
     String d_name;
-    java.util.Map<Integer, Country> d_countries;
-    java.util.Map<Integer, Continent> d_continents;
+    Map<Integer, Country> d_countries;
+    Map<Integer, Continent> d_continents;
 
     /**
      * Default Constructor that only initialize the map.
@@ -59,7 +64,23 @@ public class RiskMap {
      * @param p_country The country object that you want to add.
      */
     public void addCountry(Country p_country) {
+        addCountryToContinent(p_country);
         d_countries.put(p_country.getDId(), p_country);
+    }
+
+    /**
+     * This method adds the country added to the map to Continent object.
+     *
+     * @param p_country     Country object of the country to be added.
+     */
+    void addCountryToContinent(Country p_country){
+        Continent l_continent = getContinentById(p_country.getContinentId());
+        if(nonNull(l_continent)) {
+            l_continent.addCountry(p_country);
+        }
+        else {
+            Logger.logError("Riskmap loader: country added to null continent");
+        }
     }
 
     /**
@@ -85,24 +106,6 @@ public class RiskMap {
     }
 
     /**
-     * Getter for number of countries in the map, used for validation
-     *
-     * @return      number of countries as an Integer.
-     */
-    public int getNumberOfCountries() {
-        return this.d_countries.size();
-    }
-
-    /**
-     * Getter for number of continents in the map, used for validation
-     *
-     * @return      number of continents as an Integer.
-     */
-    public int getNumberOfContinents() {
-        return this.d_continents.size();
-    }
-
-    /**
      * Get a set of Ids of countries on the map.
      *
      * @return A set of Ids of countries on the map.
@@ -112,12 +115,31 @@ public class RiskMap {
     }
 
     /**
+     * This method returns a list of countries present in map.
+     *
+     * @return  ArrayList of country Object.
+     */
+    public ArrayList<Country> getCountries() {
+        return new ArrayList<Country>(d_countries.values());
+    }
+
+    /**
      * Get a set of Ids of continents on the map
      *
      * @return A set of Ids of continents on the map.
      */
     public Set getContinentIds() {
         return d_continents.keySet();
+    }
+
+
+    /**
+     * This method returns a list of continents present in map.
+     *
+     * @return  ArrayList of continent Object.
+     */
+    public ArrayList<Continent> getContinents() {
+        return new ArrayList<Continent>(d_continents.values());
     }
 
     /**
@@ -172,7 +194,6 @@ public class RiskMap {
      * @return A string contain name of the country and the detail of the country
      */
     public String toString() {
-        //TODO: modify to include continents in a legible way.
         String l_countriesString = "";
         for (Integer l_key : d_countries.keySet()) {
             l_countriesString += (d_countries.get(l_key) + "\n");
