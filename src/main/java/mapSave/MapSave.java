@@ -15,6 +15,8 @@ import java.util.List;
  */
 
 public class MapSave {
+
+    RiskMap d_riskMap;
     /**
      * This method writes the map details to map file
      *
@@ -26,7 +28,7 @@ public class MapSave {
 
         FileWriter l_fileWriter;
         try {
-            if (p_map == null) {
+            if (p_map == null){
                 System.out.println("Map object is NULL! ");
             }
 
@@ -63,7 +65,7 @@ public class MapSave {
         StringBuilder l_continentData = new StringBuilder();
         l_continentData.append("[continents]");
         l_continentData.append("\n");
-        for (Continent l_continent : p_Map.getContinentIds()) {
+        for (Continent l_continent : p_Map.getContinents()) {
             l_continentData.append(l_continent.getName()).append(" ").append(l_continent.getControlValue());
             l_continentData.append("\n");
         }
@@ -82,9 +84,9 @@ public class MapSave {
         l_countryData.append("[countries]");
         l_countryData.append("\n");
 
-        for (Object  cont_id : p_Map.getContinentIds()) {
+        for (Object  cont_id : p_Map.getContinents()) {
             Continent l_continent=p_Map.getContinentById((Integer)cont_id);
-            for (Country l_country : l_continent.getId()) {
+            for (Country l_country : l_continent.getCountries()) {
                 l_countryData.append(l_country.getDId()).append(" ").append(l_country.getName()).append(" ").append(l_continent.getId());
                 l_countryData.append("\n");
             }
@@ -103,12 +105,12 @@ public class MapSave {
         l_countryData.append("\n");
         l_countryData.append("[borders]");
         l_countryData.append("\n");
-        for (Continent l_continent : p_Map.getContinentIds()) {
-            List<Country> l_countryList = l_continent.getId();
+        for (Continent l_continent : p_Map.getContinents()) {
+            List<Country> l_countryList = l_continent.getCountries();
             if (l_countryList != null) {
                 for (Country l_country : l_countryList) {
                     l_countryData.append(l_country.getDId());
-                    for (Country l_adjacentCountries : l_country.getBorders()) {
+                    for (Country l_adjacentCountries : l_country.getBorders().values()) {
                         l_countryData.append(" ");
                         l_countryData.append(l_adjacentCountries.getDId());
                     }
