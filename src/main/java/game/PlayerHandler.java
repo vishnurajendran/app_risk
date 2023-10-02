@@ -63,6 +63,10 @@ public class PlayerHandler {
         System.out.println("The list of Game Players is: ");
     }
 
+    public void assignCountriesToPlayer(){
+
+    }
+
     public static void displayGamePlayers(){
 
         for(Player name: GamePlayers){

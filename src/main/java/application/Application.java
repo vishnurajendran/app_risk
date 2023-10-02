@@ -202,7 +202,6 @@ public class Application{
             Logger.logError("Game Instance is null");
         }
         else {
-            PlayerHandler gamePlayers = new PlayerHandler();
             d_appState = AppState.Game;
             //This command will be further processed by the map editor
             d_activeSubApplication.submitCommand(p_command);
