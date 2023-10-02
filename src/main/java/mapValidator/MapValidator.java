@@ -1,46 +1,106 @@
 package mapValidator;
 
+import common.Logger;
+import entity.Continent;
 import entity.RiskMap;
 import entity.Country;
 import java.util.ArrayList;
+import java.util.Map;
 
 import static java.util.Objects.isNull;
 
 public class MapValidator {
 
-    static void isConnectedGraph(ArrayList<Integer> p_visited, Integer p_country, RiskMap p_riskMap) {
+    static void isConnectedGraph(ArrayList<Integer> p_visited, Country p_country) {
         //dfs
-        if(p_visited.contains(p_country))return;
-        p_visited.add(p_country);
-        java.util.Map<Integer,Country> l_adjacentBorders = p_riskMap.getCountryById(p_country).getBorders();
+        if(p_visited.contains(p_country.getDId()))return;
+        p_visited.add(p_country.getDId());
+        Map<Integer,Country> l_adjacentBorders = p_country.getBorders();
 
-        for (int l_adjCountryId : l_adjacentBorders.keySet()){
-            isConnectedGraph(p_visited, l_adjCountryId, p_riskMap);
+        for (Country l_adjCountry : l_adjacentBorders.values()){
+            isConnectedGraph(p_visited, l_adjCountry);
         }
 
     }
 
+    static void isContinentConnectedSubgraph(ArrayList<Integer> p_visited, Country p_country, Continent p_continent) {
+        //visit only if country is part of the continent
+        if(p_visited.contains(p_country.getDId()) || !p_continent.hasCountry(p_country.getDId()))return;
+        p_visited.add(p_country.getDId());
+        Map<Integer,Country> l_adjacentBorders = p_country.getBorders();
+
+        for (Country l_adjCountry : l_adjacentBorders.values()){
+            isContinentConnectedSubgraph(p_visited, l_adjCountry, p_continent);
+        }
+    }
+
+    static boolean isCountryPartOfOnlyOneContinent(ArrayList<Continent> p_continents){
+        ArrayList<Integer> l_visited = new ArrayList<Integer>();
+        for(Continent l_continentOne : p_continents) {
+            ArrayList<Country> l_countriesOfContinent = l_continentOne.getCountries();
+            for(Country l_country: l_countriesOfContinent) {
+                if(l_visited.contains(l_country.getDId())) return false;
+                l_visited.add(l_country.getDId());
+            }
+        }
+        return true;
+    }
+
     public static boolean validateMap(RiskMap p_riskMap) {
 
-        //empty map check;
         if(isNull(p_riskMap)){
+            Logger.log("Validate-map: map is null");
             return false;
-            //throw exception-map null?
         }
 
         boolean l_isConnected = false;
         ArrayList<Integer> l_visited = new ArrayList<Integer>();
-        ArrayList<Integer> l_countries = new ArrayList<Integer>(p_riskMap.getCountryIds());
+        ArrayList<Country> l_countries = p_riskMap.getCountries();
+        ArrayList<Continent> l_continents = p_riskMap.getContinents();
 
-        //check if the map is a connected graph
-        isConnectedGraph(l_visited, l_countries.get(0), p_riskMap);
-
-        if(l_visited.size() == p_riskMap.getNumberOfCountries()) {
-            return true;
-        }
-        else {
+        if(l_countries.isEmpty() || l_continents.isEmpty()) {
+            Logger.log("Validate-map: map is empty");
             return false;
         }
+
+        //check if the map is a connected graph
+        isConnectedGraph(l_visited, l_countries.get(0));
+        if(l_visited.size() == l_countries.size()) {
+            l_isConnected = true;
+        }
+        else {
+            Logger.log("Validate-map: map not a connected graph");
+            return false;
+        }
+
+        l_visited.clear();
+        boolean l_isConnectedSubgraph = false;
+        //check if each continent is a connected subgraph
+        for(Continent l_continentOne : l_continents) {
+            ArrayList<Country> l_countriesOfContinent = l_continentOne.getCountries();
+            if(l_countriesOfContinent.isEmpty()){
+                Logger.log("Validate-map: country list empty for continent:" + l_continentOne.toString());
+                return false;
+            }
+            isContinentConnectedSubgraph(l_visited, l_countriesOfContinent.get(0), l_continentOne);
+            if(l_visited.size() == l_countriesOfContinent.size()) {
+                l_isConnectedSubgraph = true;
+            }
+            else {
+                Logger.log("Validate map: Continent not a connected sub-graph:" + l_continentOne.toString());
+                return false;
+            }
+            l_visited.clear();
+        }
+
+        //check if each country is part of only one continent
+        boolean l_validMapping = isCountryPartOfOnlyOneContinent(l_continents);
+
+        Logger.log("Validate map: l_isConnected:"  + l_isConnected +
+                    ", l_isConnectedSubgraph:" +  l_isConnectedSubgraph +
+                    ", l_validMapping:" + l_validMapping);
+
+        return  l_isConnected && l_isConnectedSubgraph && l_validMapping ;
     }
 
 }

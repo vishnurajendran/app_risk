@@ -1,0 +1,39 @@
+; A valid test map with continents as connected subgraph and countries as connected graphs
+; Each country is a part of only one continent.
+
+name ValidMap ^_^
+
+[files]
+pic ramdom.png
+map ramdom_map.gif
+crd ramdom.cards
+prv ramdom.jpg
+
+[continents]
+ameroki 5 yellow
+utropa 5 #a980ff
+amerpoll 5 red
+
+[countries]
+1 siberia 1 150 100
+2 worrick 1 200 150
+3 yazteck 1 250 200
+4 kongrolo 1 300 250
+5 china 2 350 300
+6 middle_east 2 400 350
+7 sluci 3 450 400
+8 afganistan 3 500 450
+9 kancheria 3 550 500
+10 india 3 600 550
+
+[borders]
+1 2 3
+2 1 3 4
+3 1 2 4 5
+4 2 3 5
+5 3 4 6
+6 5 7
+7 6 8
+8 7 9
+9 8 10
+10 9
