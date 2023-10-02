@@ -1,5 +1,6 @@
 package entity;
 
+
 /**
  * This class hold information about a single continent.
  *
@@ -12,6 +13,7 @@ public class Continent {
     String d_name;
     int d_controlValue;
     String d_color;
+
 
     /**
      * Parameterised Constructor for the Continent

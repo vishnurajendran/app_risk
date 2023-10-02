@@ -82,7 +82,8 @@ public class MapSave {
         l_countryData.append("[countries]");
         l_countryData.append("\n");
 
-        for (Continent l_continent : p_Map.getContinentIds()) {
+        for (Object  cont_id : p_Map.getContinentIds()) {
+            Continent l_continent=p_Map.getContinentById((Integer)cont_id);
             for (Country l_country : l_continent.getId()) {
                 l_countryData.append(l_country.getDId()).append(" ").append(l_country.getName()).append(" ").append(l_continent.getId());
                 l_countryData.append("\n");
