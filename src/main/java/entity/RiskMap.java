@@ -110,7 +110,7 @@ public class RiskMap {
      *
      * @return A set of Ids of countries on the map.
      */
-    public Set getCountryIds() {
+    public Set<Integer> getCountryIds() {
         return d_countries.keySet();
     }
 
@@ -128,7 +128,7 @@ public class RiskMap {
      *
      * @return A set of Ids of continents on the map.
      */
-    public Set getContinentIds() {
+    public Set<Integer> getContinentIds() {
         return d_continents.keySet();
     }
 
