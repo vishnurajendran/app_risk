@@ -8,10 +8,10 @@ import java.util.HashMap;
  */
 public class Player {
 
-    public int noOfArmies;
-    public String playerName;
+    private int noOfArmies;
+    private String playerName;
     // @param listOfCountriesOwned contains the name of the country and the number of armies present.
-    public HashMap<String, Integer> listOfCountriesOwned;
+    private HashMap<String, Integer> listOfCountriesOwned;
 
 
     /**

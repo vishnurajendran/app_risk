@@ -1,5 +1,8 @@
 package application;
 import common.*;
+import game.GameEngine;
+import game.GamePlayer;
+
 import java.text.MessageFormat;
 import java.util.HashMap;
 
@@ -10,7 +13,7 @@ import java.util.HashMap;
  * @author vishnurajendran
  */
 
-ArrayList<Player> GamePlayer;
+
 
 public class Application{
 
@@ -21,6 +24,7 @@ public class Application{
     private boolean d_hasQuit;
     private AppState d_appState = AppState.Standard;
     private final HashMap<String, IMethod> d_cmdToActionMap;
+
 
     /**
      * Default constructor,
@@ -199,6 +203,7 @@ public class Application{
             Logger.logError("Game Instance is null");
         }
         else {
+            GamePlayer gamePlayers = new GamePlayer();
             d_appState = AppState.Game;
             //This command will be further processed by the map editor
             d_activeSubApplication.submitCommand(p_command);
