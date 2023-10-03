@@ -16,6 +16,15 @@ public interface ISubApplication {
     public void initialise();
 
     /**
+     * This function is used to check if a sub-application has quit
+     * on its own without a user input, in cases where the sub-application
+     * is not able to proceed safely, it can set this function to return true
+     * to make the Application layer perform an auto-quit, post a command query.
+     * @return true if sub-application has quit, else false
+     */
+    public boolean hasQuit();
+
+    /**
      * This method will be called by the application class
      * when it is processing a command from the user. This
      * method will validate if a certain command can be processed
