@@ -100,34 +100,35 @@ public class PlayerHandler {
             player.assignReinforcementsToPlayer();
         }
         displayGamePlayersWithCountries(p_loadedMap);
-        System.out.println("Now every player needs to deploy their reinforcements into their respective countries.");
-        System.out.println(d_gamePlayers.get(d_whichPlayersTurn % d_gamePlayers.size()).getPlayerName() + "'s turn, Reinforcements left: " + d_gamePlayers.get(d_whichPlayersTurn % d_gamePlayers.size()).getAvailableReinforcements());
     }
 
     public static void displayGamePlayersWithCountries(MapLoader p_loadedMap){
+        Player l_currentPlayer = d_gamePlayers.get(d_whichPlayersTurn % d_gamePlayers.size());
         Logger.log("Displaying countries assigned to players");
         d_loadedMap = p_loadedMap;
         for(Player name: d_gamePlayers){
             System.out.println(name.getPlayerName() + " Owns: ");
-            name.getCountriesOwned().forEach((key, value) -> System.out.println(" " + d_loadedMap.getMap().getCountryById(key.getDId()).getName() + ", ID: "
+            name.getCountriesOwned().forEach((key) -> System.out.println(" " + d_loadedMap.getMap().getCountryById(key.getDId()).getName() + ", ID: "
                     + key.getDId() + ", Armies: " + d_loadedMap.getMap().getCountryById(key.getDId()).getArmy()));
             System.out.println();
         }
+        l_currentPlayer.assignReinforcementsToPlayer();
+        System.out.println("Now every player needs to deploy their reinforcements into their respective countries.");
+        System.out.println(l_currentPlayer.getPlayerName() + "'s turn, Reinforcements left: " + l_currentPlayer.getAvailableReinforcements());
     }
 
     /**
      * This function returns integer based on the ability to process the deploy order
-     * @return 0 means do nothing and move to another player,
-     * 1 means the command given isn't valid,
+     * @return 1 means the command given isn't valid,
      * 2 means the player doesn't possess the country,
      * 3 means the player deployed more armies than they had.
      * 4 means the command is valid and can proceed to deploy order
-     * 5 means everyone has depleted their armies into countries
      * @param p_cmd includes the countryID and the numberOfReinforcements
      */
 
     public static int issueOrder(Command p_cmd){
         int l_indexOfPlayer = d_whichPlayersTurn % d_gamePlayers.size();
+        Player l_currentPlayer = d_gamePlayers.get(l_indexOfPlayer);
         if(!p_cmd.getCmdAttributes().isEmpty()) {
             int l_countryId;
 
@@ -135,21 +136,23 @@ public class PlayerHandler {
             try {
                 l_countryId = Integer.parseInt(p_cmd.getCmdAttributes().get(0).getArguments().get(0));
                 l_deployReinforcements = Integer.parseInt(p_cmd.getCmdAttributes().get(0).getArguments().get(1));
-            } catch (NumberFormatException e) {
+            } catch (Exception e) {
                 Logger.log("Number exception");
                 return 1;
             }
-            if(!d_gamePlayers.get(l_indexOfPlayer).getCountriesOwned().containsKey(d_loadedMap.getMap().getCountryById(l_countryId))){
+            if(!l_currentPlayer.getCountriesOwned().contains(d_loadedMap.getMap().getCountryById(l_countryId))){
                 Logger.log("The player doesn't have this country");
                 return 2;
-            } else if(d_gamePlayers.get(l_indexOfPlayer).getAvailableReinforcements()<l_deployReinforcements){
+            } else if(l_currentPlayer.getAvailableReinforcements()<l_deployReinforcements){
                 Logger.log("The armies requested to display are more than what the player has");
                 return 3;
             } else {
 
-                d_gamePlayers.get(l_indexOfPlayer).issueOrder(
-                        new DeployOrder(d_gamePlayers.get(l_indexOfPlayer), l_deployReinforcements, l_countryId));
-                d_gamePlayers.get(l_indexOfPlayer).setAvailableReinforcements(d_gamePlayers.get(l_indexOfPlayer).getAvailableReinforcements() - l_deployReinforcements);
+                l_currentPlayer.setAvailableReinforcements(l_currentPlayer.getAvailableReinforcements() - l_deployReinforcements);
+                l_currentPlayer.setTempOrder(
+                        new DeployOrder(l_currentPlayer, l_deployReinforcements, l_countryId));
+                l_currentPlayer.issueOrder();
+                Logger.log("Orders for player " + l_currentPlayer + " = " + l_currentPlayer.getOrderSize());
                 d_whichPlayersTurn += 1;
             }
         }
@@ -170,10 +173,22 @@ public class PlayerHandler {
         return d_gamePlayers;
     }
 
+    public static MapLoader getLoadedMap(){
+        return d_loadedMap;
+    }
+
     public static int getPlayerTurn(){
         return d_whichPlayersTurn;
     }
     public static void increasePlayerTurn(int p_incrementValue){
         d_whichPlayersTurn+=p_incrementValue;
+    }
+
+    public static void reassignValuesForNextTurn(){
+        d_whichPlayersTurn = 0;
+        displayGamePlayersWithCountries(d_loadedMap);
+        for(Player player: d_gamePlayers){
+            player.assignReinforcementsToPlayer();
+        }
     }
 }

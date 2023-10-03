@@ -4,7 +4,6 @@ import common.Logger;
 import entity.Country;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * Class PlayerDetails contains details of the player
@@ -13,29 +12,39 @@ import java.util.HashMap;
 public class Player {
 
     private int d_availableReinforcements;
-    private String playerName;
+    private String d_playerName;
     // @param listOfCountriesOwned contains the name of the country and the number of armies present.
-    private HashMap<Country, Integer> d_listOfCountriesOwned;
+    private ArrayList<Country> d_listOfCountriesOwned;
 
     private ArrayList<Order> d_orders = new ArrayList<>();
+
+    private Order d_tempOrder;
 
     //
 
     Player(){
-        playerName = "";
+        d_playerName = "";
         d_availableReinforcements = 0;
-        d_listOfCountriesOwned = new HashMap<>();
+        d_listOfCountriesOwned = new ArrayList<>();
         d_orders = new ArrayList<>();
     }
 
     Player(String playerName){
         this.d_availableReinforcements = 5;
-        this.playerName = playerName;
-        d_listOfCountriesOwned = new HashMap<>();
+        this.d_playerName = playerName;
+        d_listOfCountriesOwned = new ArrayList<>();
     }
 
-    public void issueOrder(Order p_newOrder){
-        d_orders.add(p_newOrder);
+    public void issueOrder(){
+        if(d_tempOrder == null){
+            return;
+        }
+        d_orders.add(d_tempOrder);
+    }
+
+    public void setTempOrder(Order p_newOrder){
+        d_tempOrder = p_newOrder;
+        //d_orders.add(p_newOrder);
         Logger.log("Issue order length: " + d_orders.size());
     }
 
@@ -59,11 +68,15 @@ public class Player {
      */
 
     public void assignCountry(Country p_country, int p_noOfArmies){
-        d_listOfCountriesOwned.put(p_country, p_noOfArmies);
+        d_listOfCountriesOwned.add(p_country);
+    }
+
+    public void assignReinforcementsToCountry(int p_countryId, int p_reinforcements){
+        PlayerHandler.getLoadedMap().getMap().increaseCountryArmyById(p_countryId, p_reinforcements);
     }
 
     public String getPlayerName(){
-        return playerName;
+        return d_playerName;
     }
 
     public void setAvailableReinforcements(int p_reinforcements){
@@ -76,7 +89,11 @@ public class Player {
     public int getAvailableReinforcements(){
         return d_availableReinforcements;
     }
-    public HashMap<Country, Integer> getCountriesOwned(){
+    public ArrayList<Country> getCountriesOwned(){
         return d_listOfCountriesOwned;
+    }
+
+    public int getOrderSize(){
+        return d_orders.size();
     }
 }

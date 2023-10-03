@@ -187,6 +187,17 @@ public class RiskMap {
     }
 
     /**
+     * Increase the army value of the country
+     * @param p_countryId The id that we got from the player deployment
+     * @param p_army The number of armies that the player wants to deploy on this country
+     */
+    public void increaseCountryArmyById(int p_countryId, int p_army) {
+        Country l_country = d_countries.get(p_countryId);
+        l_country.incrementArmy(p_army);
+
+    }
+
+    /**
      * Get country from country id
      *
      * @param p_countryId   unique country id as an Integer

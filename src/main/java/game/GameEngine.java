@@ -121,7 +121,10 @@ public class GameEngine implements ISubApplication {
                     }
                 }
                 System.out.println("Everyone deployed their reinforcements");
-
+                executeOrders();
+                PlayerHandler.reassignValuesForNextTurn();
+            } else{
+                System.out.println(GameCommands.DEPLOYERRORMESSAGE.get(canIssueOrder-1));
             }
         } else {
             loadArgumentsAndOption(p_command);
@@ -131,6 +134,29 @@ public class GameEngine implements ISubApplication {
         }
     }
 
+    public void displayAvailableTerri
+
+    public void executeOrders(){
+        int l_index = 0;
+        Order orderToExecute = PlayerHandler.getGamePlayers().get(0).nextOrder();
+        do{
+            orderToExecute.executeOrder();
+            Logger.log("Executing order for: " + PlayerHandler.getGamePlayers().get(l_index % PlayerHandler.getGamePlayers().size()).getPlayerName() + ", Orders remaining: " + PlayerHandler.getGamePlayers().get(l_index%PlayerHandler.getGamePlayers().size()).getOrderSize());
+            //l_index = (l_index+1)%PlayerHandler.getGamePlayers().size();
+            l_index = (l_index+1)%PlayerHandler.getGamePlayers().size();
+            for(int i = 0; i<PlayerHandler.getGamePlayers().size();i++){
+                orderToExecute = PlayerHandler.getGamePlayers().get(l_index % PlayerHandler.getGamePlayers().size()).nextOrder();
+                if(orderToExecute == null){
+                    l_index = (l_index+1)%PlayerHandler.getGamePlayers().size();
+                }
+                else {
+                    break;
+                }
+
+            }
+
+        }while (orderToExecute!=null);
+    }
     @Override
     public void shutdown() {
 
