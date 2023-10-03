@@ -2,6 +2,7 @@ package game;
 
 import common.Command;
 import common.Logger;
+import entity.Country;
 import mapEditer.MapLoader;
 
 import java.util.ArrayList;
@@ -115,6 +116,15 @@ public class PlayerHandler {
         l_currentPlayer.assignReinforcementsToPlayer();
         System.out.println("Now every player needs to deploy their reinforcements into their respective countries.");
         System.out.println(l_currentPlayer.getPlayerName() + "'s turn, Reinforcements left: " + l_currentPlayer.getAvailableReinforcements());
+        displayGamePlayersCountries(l_currentPlayer);
+    }
+
+    public static void displayGamePlayersCountries(Player p_player){
+        ArrayList<Country> l_playerCountries = p_player.getCountriesOwned();
+        System.out.println("The player owns following countries: ");
+        for(Country value: l_playerCountries){
+            System.out.println("ID: " + value.getDId() + " Name: " + value.getName() + " Armies: " + value.getArmy());
+        }
     }
 
     /**
@@ -171,10 +181,6 @@ public class PlayerHandler {
     }
     public static ArrayList<Player> getGamePlayers() {
         return d_gamePlayers;
-    }
-
-    public static MapLoader getLoadedMap(){
-        return d_loadedMap;
     }
 
     public static int getPlayerTurn(){

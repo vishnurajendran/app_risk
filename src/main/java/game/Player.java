@@ -20,7 +20,7 @@ public class Player {
 
     private Order d_tempOrder;
 
-    //
+    private int bonusForOwningContinent = 0;
 
     Player(){
         d_playerName = "";
@@ -49,8 +49,20 @@ public class Player {
     }
 
     public void assignReinforcementsToPlayer(){
-        double l_calculateReinforcements = Math.max(3, Math.floor((double) d_listOfCountriesOwned.size() / 3));
+        calculateBonusReinforcements();
+        double l_calculateReinforcements = Math.max(3, Math.floor((double) d_listOfCountriesOwned.size() / 3)) + bonusForOwningContinent;
         d_availableReinforcements = (int) l_calculateReinforcements;
+    }
+
+    public void calculateBonusReinforcements(){
+        ArrayList<Country> continentsWithContries = new ArrayList<>();
+        var continent = GameEngine.getLoadedMap().getMap().getContinents();
+        for (int i = 0; i<continent.size(); i++) {
+            continentsWithContries.addAll(continent.get(i).getCountries());
+            if(d_listOfCountriesOwned.contains(continentsWithContries)){
+                bonusForOwningContinent = continent.get(i).getControlValue();
+            }
+        }
     }
 
     public Order nextOrder(){
@@ -72,7 +84,7 @@ public class Player {
     }
 
     public void assignReinforcementsToCountry(int p_countryId, int p_reinforcements){
-        PlayerHandler.getLoadedMap().getMap().increaseCountryArmyById(p_countryId, p_reinforcements);
+        GameEngine.getLoadedMap().getMap().increaseCountryArmyById(p_countryId, p_reinforcements);
     }
 
     public String getPlayerName(){
@@ -83,9 +95,6 @@ public class Player {
         d_availableReinforcements = p_reinforcements;
     }
 
-//    public void setListOfCountriesOwned(int p_countryID){
-//        d_listOfCountriesOwned.put(d_listOfCountriesOwned.computeIfPresent())
-//    }
     public int getAvailableReinforcements(){
         return d_availableReinforcements;
     }

@@ -17,7 +17,7 @@ public class GameEngine implements ISubApplication {
     private final HashMap<String, IMethod> d_cmdtoGameAction;
     private ArrayList<ArrayList<String>> d_cmdArguments;
     private ArrayList<String> d_cmdOption;
-    private MapLoader d_loadedMap;
+    private static MapLoader d_loadedMap;
     private GameState d_gameState = GameState.Initial;
 
 
@@ -111,10 +111,12 @@ public class GameEngine implements ISubApplication {
             if(canIssueOrder == 4){
                 int l_availableReinforcements = 3;
                 for(int i = 0; i<PlayerHandler.getGamePlayers().size(); i++){
-                    l_availableReinforcements = PlayerHandler.getGamePlayers().get(PlayerHandler.getPlayerTurn() % PlayerHandler.getGamePlayers().size()).getAvailableReinforcements();
+                    Player l_currentPlayer = PlayerHandler.getGamePlayers().get(PlayerHandler.getPlayerTurn() % PlayerHandler.getGamePlayers().size());
+                    l_availableReinforcements = l_currentPlayer.getAvailableReinforcements();
                     if(l_availableReinforcements != 0){
-                        System.out.println(PlayerHandler.getGamePlayers().get(PlayerHandler.getPlayerTurn()%PlayerHandler.getGamePlayers().size()).getPlayerName()
+                        System.out.println(l_currentPlayer.getPlayerName()
                                 + "'s turn, Reinforcements left: " + l_availableReinforcements);
+                        PlayerHandler.displayGamePlayersCountries(l_currentPlayer);
                         return;
                     } else{
                         PlayerHandler.increasePlayerTurn(1);
@@ -134,7 +136,9 @@ public class GameEngine implements ISubApplication {
         }
     }
 
-    public void displayAvailableTerri
+    public void displayAvailableCountriesForPlayer(Player p_player){
+        System.out.println("Available Countries:");
+    }
 
     public void executeOrders(){
         int l_index = 0;
@@ -157,6 +161,11 @@ public class GameEngine implements ISubApplication {
 
         }while (orderToExecute!=null);
     }
+
+    public static MapLoader getLoadedMap() {
+        return d_loadedMap;
+    }
+
     @Override
     public void shutdown() {
 
