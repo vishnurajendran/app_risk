@@ -18,6 +18,7 @@ public class GameEngine implements ISubApplication {
     private ArrayList<String> d_cmdArguments;
     private String d_cmdOption;
     private MapLoader d_loadedMap;
+    private GameState d_gameState = GameState.Initial;
 
 
 
@@ -73,6 +74,7 @@ public class GameEngine implements ISubApplication {
 
     private void assignCountries(Command p_cmd){
         PlayerHandler.assignCountriesToPlayer(d_loadedMap);
+        d_gameState = GameState.DeployMode;
     }
 
     @Override
@@ -83,15 +85,24 @@ public class GameEngine implements ISubApplication {
     // returns true/false based on if the command is present in GameCommands.java
     @Override
     public boolean canProcess(String p_cmdName) {
-        return GameCommands.CHECKVALIDCOMMANDS.contains(p_cmdName);
+        if(d_gameState.equals(GameState.Initial)){
+            return GameCommands.CHECKVALIDCOMMANDSFORINITIAL.contains(p_cmdName);
+        } else if(d_gameState.equals(GameState.DeployMode)){
+            return p_cmdName.equals(GameCommands.CMD_DEPLOY_COUNTRIES);
+        }
+        return false;
     }
 
     @Override
     public void submitCommand(Command p_command) {
        //d_gamePlayers = p_gamePlayers;
-        loadArgumentsAndOption(p_command);
-        if(d_cmdtoGameAction.containsKey(p_command.getCmdName())){
-            d_cmdtoGameAction.get(p_command.getCmdName()).invoke(p_command);
+        if(d_gameState.equals(GameState.DeployMode)){
+            PlayerHandler.issueOrder();
+        } else{
+            loadArgumentsAndOption(p_command);
+            if(d_cmdtoGameAction.containsKey(p_command.getCmdName())) {
+                d_cmdtoGameAction.get(p_command.getCmdName()).invoke(p_command);
+            }
         }
     }
 

@@ -11,5 +11,6 @@ public class GameCommands {
     public static final String CMD_GAME_PLAYER_OPTION_ADD = "add";
     public static final String CMD_GAME_PLAYER_OPTION_REMOVE = "remove";
     public static final String CMD_ASSIGN_COUNTRIES_TO_PLAYER = "assigncountries";
-    public static final Set<String> CHECKVALIDCOMMANDS = new HashSet<>(Arrays.asList(CMD_LOAD_MAP, CMD_GAME_PLAYER, CMD_ASSIGN_COUNTRIES_TO_PLAYER));
+    public static final String CMD_DEPLOY_COUNTRIES = "deploy";
+    public static final Set<String> CHECKVALIDCOMMANDSFORINITIAL = new HashSet<>(Arrays.asList(CMD_LOAD_MAP, CMD_GAME_PLAYER, CMD_ASSIGN_COUNTRIES_TO_PLAYER));
 }
