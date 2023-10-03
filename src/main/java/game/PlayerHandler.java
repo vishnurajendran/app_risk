@@ -81,8 +81,11 @@ public class PlayerHandler {
         Logger.log("game player size: " + d_gamePlayers.size());
         Collections.shuffle(randomCountryIDs);
         Logger.log("Countries were assigned in the following order: " + String.valueOf(randomCountryIDs));
-        for(int i = 0; i < d_gamePlayers.size(); i++){
-            d_gamePlayers.get(i).assignCountry(p_loadedMap.getMap().getCountryById(randomCountryIDs.get(i)), p_loadedMap.getMap().getCountryArmyById(randomCountryIDs.get(i)));
+        int l_index = 0;
+        while(randomCountryIDs.size()>0){
+            d_gamePlayers.get(l_index).assignCountry(p_loadedMap.getMap().getCountryById(randomCountryIDs.get(0)), p_loadedMap.getMap().getCountryArmyById(randomCountryIDs.get(0)));
+            l_index = (l_index+1)%d_gamePlayers.size();
+            randomCountryIDs.remove(0);
         }
         displayGamePlayersWithCountries(p_loadedMap);
     }
@@ -90,9 +93,13 @@ public class PlayerHandler {
     public static void displayGamePlayersWithCountries(MapLoader p_loadedMap){
         Logger.log("Displaying countries assigned to players");
         for(Player name: d_gamePlayers){
-            System.out.println(name.getPlayerName() + " Owns ");
-            name.getCountriesOwned().forEach((key, value) -> System.out.println(p_loadedMap.getMap().getCountryIds()));
+            System.out.print(name.getPlayerName() + " Owns ");
+            name.getCountriesOwned().forEach((key, value) -> System.out.println(p_loadedMap.getMap().getCountryById(key.getDId()).getName()));
         }
+    }
+
+    public void issue_order(){
+
     }
 
     public static void displayGamePlayers(){
