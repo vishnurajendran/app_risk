@@ -35,6 +35,23 @@ public class Continent {
         this.d_color = p_color;
         this.d_countries = new HashMap<Integer,Country>();
     }
+    /**
+     * Parameterised Constructor for the Continent without color
+     *
+     * @param p_id                  the number id for the continent, should be unique.
+     * @param p_name                the name of the continent
+     * @param p_controlValue        the control value depicts the number of armies per turn
+     *                              that is given to the player that control all of it
+     *
+     */
+    public Continent(int p_id, String p_name, int p_controlValue) {
+        this.d_id = p_id;
+        this.d_name = p_name;
+        this.d_controlValue = p_controlValue;
+        this.d_color = null;
+        this.d_countries = new HashMap<Integer,Country>();
+    }
+
 
     /**
      * Setter for id

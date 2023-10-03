@@ -44,6 +44,23 @@ public class Country {
     }
 
     /**
+     * Constructor for the country without coordinates.
+     *
+     * @param p_id           The number id for the country, should be unique.
+     * @param p_name         The name of the country.
+     * @param p_continentId  The continent ID that this country below to.
+     *
+     */
+    public Country(int p_id, String p_name, int p_continentId) {
+        this.d_id = p_id;
+        this.d_name = p_name;
+        this.d_continentId = p_continentId;
+        this.d_xCoordinates = -1;
+        this.d_yCoordinates = -1;
+        d_borders = new HashMap<>();
+    }
+
+    /**
      * Setter for ID
      *
      * @param p_id The number id for the country, should be unique.

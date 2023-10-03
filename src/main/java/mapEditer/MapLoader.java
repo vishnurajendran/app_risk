@@ -63,7 +63,19 @@ public class MapLoader {
                     l_line = l_scanner.nextLine();
                     while (!l_line.isEmpty()) {
                         l_linePieces = l_line.split(" ");
-                        d_riskMap.addContinent(new Continent(l_continentID, l_linePieces[0], Integer.parseInt(l_linePieces[1]), l_linePieces[2]));
+                        Continent l_continent;
+                        switch (l_linePieces.length){
+                            case 2:
+                                l_continent=new Continent(l_continentID, l_linePieces[0], Integer.parseInt(l_linePieces[1]));
+                                break;
+                            case 3:
+                                l_continent=new Continent(l_continentID, l_linePieces[0], Integer.parseInt(l_linePieces[1]), l_linePieces[2]);
+                                break;
+                            default:
+                                throw new Exception ("InCorrect amount of arguments");
+
+                        }
+                        d_riskMap.addContinent(l_continent);
                         l_continentID++;
                         if (l_scanner.hasNextLine()) {
                             l_line = l_scanner.nextLine();
@@ -78,8 +90,21 @@ public class MapLoader {
                     l_line = l_scanner.nextLine();
                     while (!l_line.isEmpty()) {
                         l_linePieces = l_line.split(" ");
-                        Country l_country=new Country(Integer.parseInt(l_linePieces[0]), l_linePieces[1],
-                                Integer.parseInt(l_linePieces[2]), Integer.parseInt(l_linePieces[3]), Integer.parseInt(l_linePieces[4]));
+                        Country l_country;
+                        switch (l_linePieces.length){
+                            case 3:
+                                l_country= new Country(Integer.parseInt(l_linePieces[0]), l_linePieces[1],
+                                    Integer.parseInt(l_linePieces[2]));
+                                break;
+                            case 5:
+                                l_country= new Country(Integer.parseInt(l_linePieces[0]), l_linePieces[1],
+                                        Integer.parseInt(l_linePieces[2]), Integer.parseInt(l_linePieces[3]), Integer.parseInt(l_linePieces[4]));
+                                break;
+                            default:
+                                throw new Exception ("InCorrect amount of arguments");
+
+                        }
+
                         //throw error if duplicate found
                         if(!isNull(d_riskMap.getCountryById(l_country.getDId()))){
                             throw new Exception("Duplicated found");
@@ -114,7 +139,7 @@ public class MapLoader {
             return true;
         } catch (Exception e) {
             Logger.logError(e.getMessage());
-
+            d_riskMap = new RiskMap();
             return false;
         }
     }
