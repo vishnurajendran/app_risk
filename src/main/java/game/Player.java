@@ -58,6 +58,9 @@ public class Player {
         return playerName;
     }
 
+    public int getAvailableReinforcements(){
+        return d_availableReinforcements;
+    }
     public HashMap<Country, Integer> getCountriesOwned(){
         return d_listOfCountriesOwned;
     }

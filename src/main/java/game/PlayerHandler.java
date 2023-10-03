@@ -98,7 +98,7 @@ public class PlayerHandler {
         }
     }
 
-    public void issue_order(){
+    public static void issueOrder(){
 
     }
 
