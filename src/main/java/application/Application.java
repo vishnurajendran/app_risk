@@ -97,6 +97,7 @@ public class Application{
         else if (d_activeSubApplication != null && d_activeSubApplication.canProcess(p_command.getCmdName())) {
             //send it to the active sub-application.
             Logger.log("sending command to sub-application " + p_command.getCmdName());
+            d_activeSubApplication.submitCommand(p_command);
         }
         else
             printInvalidCommandMessage(p_command);
