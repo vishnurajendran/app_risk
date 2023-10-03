@@ -31,7 +31,22 @@ public final class ApplicationConstants {
     /**
      * Message for invalid commands.
      */
-    public static final String MSG_INVALID_CMD = "ERROR: The command `{0}` is invalid and cannot be processed";
+    public static final String MSG_INVALID_CMD = "ERROR: The command `{0}` is invalid and cannot be processed. please try again";
+
+    /**
+     * Message for invalid command usage.
+     */
+    public static final String MSG_INVALID_CMD_USAGE = "ERROR: Command cannot be used at this time, please try another command.";
+
+    /**
+     * Message for invalid start game command usage.
+     */
+    public static final String MSG_INVALID_START_GAME_CMD_USAGE = "ERROR: Game has already started, you cannot use this command right now, please try another command.";
+
+    /**
+     * Message for invalid start map-editor command usage.
+     */
+    public static final String MSG_INVALID_MAP_EDITOR_GAME_CMD_USAGE = "ERROR: Map-Editor has already started, you cannot use this command right now, please try another command.";
 
     /**
      * Message for Invalid exit command calls.
