@@ -49,7 +49,7 @@ public class MapSave {
      */
     private static String parseMapAndReturnString(RiskMap p_Map) {
 
-        return String.valueOf(processContinent(p_Map)) +
+        return "\nname " + p_Map.getName() +  "\n\n" +  String.valueOf(processContinent(p_Map)) +
                 processCountries(p_Map) +
                 processAdjacentCountries(p_Map);
     }
@@ -84,8 +84,7 @@ public class MapSave {
         l_countryData.append("[countries]");
         l_countryData.append("\n");
 
-        for (Object  cont_id : p_Map.getContinents()) {
-            Continent l_continent=p_Map.getContinentById((Integer)cont_id);
+        for (Continent  l_continent : p_Map.getContinents()) {
             for (Country l_country : l_continent.getCountries()) {
                 l_countryData.append(l_country.getDId()).append(" ").append(l_country.getName()).append(" ").append(l_continent.getId());
                 l_countryData.append("\n");

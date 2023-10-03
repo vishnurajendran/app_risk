@@ -1,0 +1,41 @@
+package mapSave;
+
+import entity.RiskMap;
+import mapEditer.MapLoader;
+import mapValidator.MapValidator;
+import org.junit.jupiter.api.Test;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+class MapSaveTest {
+
+    private final String TEST_MAP_PATH = "testmap.map";
+    private final String TEMP_MAP_PATH = "tempmap.map";
+
+    /**
+     * Test the map save functionality,
+     * we check if the file saved is correctly
+     * converting the RiskMap by comparing it with
+     * the original file.
+     */
+    @Test
+    void testSaveMapFile() {
+        MapLoader l_loader = new MapLoader();
+        l_loader.loadMap(TEST_MAP_PATH);
+        RiskMap l_testMap = l_loader.getMap();
+
+        File l_file = new File(TEMP_MAP_PATH);
+        MapSave.saveMapFile(l_testMap, l_file);
+
+        //check if you can load the map
+        assertTrue(l_loader.loadMap(TEMP_MAP_PATH));
+        assertTrue(MapValidator.validateMap(l_loader.getMap()));
+        
+        l_file.delete();
+    }
+}
