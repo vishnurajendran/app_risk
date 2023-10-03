@@ -1,8 +1,10 @@
 package MapShow;
 
 import entity.Country;
+import game.PlayerHandler;
 import entity.RiskMap;
 import mapEditer.MapLoader;
+import game.Player;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,7 +17,7 @@ import java.util.Map;
 public class MapViewer extends JFrame {
 
     /** The RiskMap instance used in the application. */
-    private static RiskMap d_RISK_MAP = createRiskMap();
+    private static final RiskMap d_RISK_MAP = createRiskMap();
 
     /**
      * Constructor for the MapViewer class.
@@ -32,8 +34,7 @@ public class MapViewer extends JFrame {
     public static RiskMap createRiskMap() {
         MapLoader mapLoader = new MapLoader();
         mapLoader.loadMap("testMap.map");
-        RiskMap riskMap = mapLoader.getMap();
-        return riskMap;
+        return mapLoader.getMap();
     }
 
     /**
@@ -69,9 +70,9 @@ public class MapViewer extends JFrame {
     static class RiskMapPanel extends JPanel {
 
         /** The RiskMap instance to be rendered. */
-        private RiskMap d_RISK_MAP;
+        private final RiskMap d_RISK_MAP;
         /** Map of continent names to colors. */
-        private Map<String, Color> d_CONTINENT_COLORS;
+        private final Map<String, Color> d_CONTINENT_COLORS;
 
         /**
          * Constructor for the RiskMapPanel class.
@@ -95,21 +96,43 @@ public class MapViewer extends JFrame {
             // Draw continents, countries, and connections
             for (Country country : d_RISK_MAP.getCountries()) {
                 // Draw countries with the color of their continent
-                String continentName = d_RISK_MAP.getContinentById(country.getContinentId()).getName();
-                g.setColor(d_CONTINENT_COLORS.get(continentName));
+                Color continentColor = d_CONTINENT_COLORS.get(d_RISK_MAP.getContinentById(country.getContinentId()).getName());
+                g.setColor(continentColor);
                 g.fillOval(country.getXCoordinates(), country.getYCoordinates(), 50, 50);
 
-                // Draw country names
-                g.setColor(Color.BLACK);
-                g.drawString(country.getName(), country.getXCoordinates(), country.getYCoordinates() - 10);
+                // Display player info
+                displayPlayerInfo(g, country);
 
-                // Draw connections
+                // Draw connections to neighboring countries
+                g.setColor(Color.BLACK);
                 for (Country connectedCountry : country.getBorders().values()) {
-                    g.setColor(Color.BLACK);
                     g.drawLine(
                             country.getXCoordinates() + 25, country.getYCoordinates() + 25,
                             connectedCountry.getXCoordinates() + 25, connectedCountry.getYCoordinates() + 25
                     );
+                }
+
+                // Draw country name
+                g.setColor(Color.BLACK);
+                g.drawString(country.getName(), country.getXCoordinates(), country.getYCoordinates() - 10);
+            }
+        }
+
+        /**
+         * Displays player information on the map.
+         *
+         * @param g The graphics context.
+         * @param country The country for which player information is displayed.
+         */
+        private void displayPlayerInfo(Graphics g, Country country) {
+            for (Player player : PlayerHandler.getGamePlayers()) {
+                if (player.getCountriesOwned().containsKey(country)) {
+                    g.setColor(Color.RED);
+                    g.drawString(player.getPlayerName(), country.getXCoordinates(), country.getYCoordinates() + 30);
+
+                    // Display the total available reinforcements for the player
+                    int availableReinforcements = player.getAvailableReinforcements();
+                    g.drawString("Reinforcements: " + availableReinforcements, country.getXCoordinates(), country.getYCoordinates() + 45);
                 }
             }
         }
