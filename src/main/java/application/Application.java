@@ -1,5 +1,7 @@
 package application;
 import common.*;
+import game.PlayerHandler;
+
 import java.text.MessageFormat;
 import java.util.HashMap;
 
@@ -9,6 +11,9 @@ import java.util.HashMap;
  * and also interpreting first layer of commands.
  * @author vishnurajendran
  */
+
+
+
 public class Application{
 
     private final ISubAppInstantiator d_gameInstantiator;
@@ -18,6 +23,7 @@ public class Application{
     private boolean d_hasQuit;
     private AppState d_appState = AppState.Standard;
     private final HashMap<String, IMethod> d_cmdToActionMap;
+
 
     /**
      * Default constructor,
@@ -182,7 +188,7 @@ public class Application{
      */
     private void cmdStartGame(Command p_command) {
         Logger.log("Loading new Game");
-        if(!d_appState.equals(AppState.Standard))
+        if(!d_appState.equals(AppState.Standard) || p_command.getCmdAttributes().isEmpty() )
         {
             printInvalidCommandMessage(p_command);
             return;

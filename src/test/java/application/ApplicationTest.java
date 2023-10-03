@@ -69,7 +69,7 @@ class ApplicationTest {
      */
     @Test
     void testGameLoad() {
-        d_app.processCommand(Command.parseString(ApplicationConstants.CMD_START_GAME));
+        d_app.processCommand(Command.parseString(ApplicationConstants.CMD_START_GAME + " testmap"));
         assertEquals(d_app.getAppState(), AppState.Game);
     }
 
@@ -79,7 +79,7 @@ class ApplicationTest {
      */
     @Test
     void testGameCmd() {
-        d_app.processCommand(Command.parseString(ApplicationConstants.CMD_START_GAME));
+        d_app.processCommand(Command.parseString(ApplicationConstants.CMD_START_GAME + " testmap"));
         assertEquals(d_app.getAppState(), AppState.Game);
         d_app.processCommand(Command.parseString(ApplicationTestConstants.GAME_TEST_CMD));
         String l_actual = d_outStream.toString();
@@ -93,7 +93,7 @@ class ApplicationTest {
      */
     @Test
     void testGameExit() {
-        d_app.processCommand(Command.parseString(ApplicationConstants.CMD_START_GAME)); // boot up game
+        d_app.processCommand(Command.parseString(ApplicationConstants.CMD_START_GAME + " testmap")); // boot up game
         assertEquals(d_app.getAppState(), AppState.Game);
         d_app.processCommand(Command.parseString(ApplicationConstants.CMD_EXIT_SUB_APPLICATION));
         assertEquals(d_app.getAppState(), AppState.Standard);

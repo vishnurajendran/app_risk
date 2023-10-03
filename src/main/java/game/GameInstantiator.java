@@ -15,6 +15,6 @@ public class GameInstantiator implements ISubAppInstantiator {
      */
     @Override
     public ISubApplication createInstance() {
-        return null;
+        return new GameEngine();
     }
 }
