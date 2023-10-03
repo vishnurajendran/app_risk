@@ -1,9 +1,8 @@
 package mapEditer;
 
-import common.Command;
-import common.IMethod;
-import common.ISubApplication;
-import common.Logger;
+import common.*;
+import entity.Continent;
+import entity.Country;
 import entity.RiskMap;
 import mapValidator.MapValidator;
 
@@ -27,7 +26,6 @@ public class MapEditor implements ISubApplication {
     private RiskMap d_map;
     private String d_filename;
     private boolean d_isMapInitialised = false;
-    private boolean d_isMapInEditMode = false;
 
 
     private final HashMap<String, IMethod> d_cmdToActionMap;
@@ -104,27 +102,191 @@ public class MapEditor implements ISubApplication {
     /**
      *
      * @param p_command
+     * @return
      */
-    private void cmdEditContinent(Command p_command){
-        RiskMap l_riskMap = d_map;
-        if(d_isMapInEditMode) {
-            String l_option = p_command.getCmdAttributes().get(0).getOption();
-            if(!MapEditorCommands.VALIDOPTIONS.contains(l_option)){
-                //invalid option; exception; exit;
+    private boolean isValidEditContinentCommand(Command p_command){
+        ArrayList<CommandAttribute> l_CommandAttributes = p_command.getCmdAttributes();
+        if(l_CommandAttributes.isEmpty()){
+            return false;
+        }
+        for(CommandAttribute l_cAttribute : l_CommandAttributes){
+            if(l_cAttribute.getOption().isEmpty() || !VALIDOPTIONS.contains(l_cAttribute.getOption())){
+                Logger.log("Edit continent: Invalid option");
+                return false;
+            }
+            if(l_cAttribute.getArguments().isEmpty()) {
+                Logger.log("Edit continent: No arguments");
+                return false;
+            }
+            if(CMD_OPTION_ADD.equals(l_cAttribute.getOption()) && l_cAttribute.getArguments().size()%2 != 0){
+                Logger.log("Odd number of arguments for -add continent");
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     *
+     * @param p_args
+     * @param p_riskMap
+     * @return
+     */
+    private boolean executeAddContinent(ArrayList<String> p_args, RiskMap p_riskMap){
+        for(int i=0; i<p_args.size(); i++){
+            int l_continentId = Integer.parseInt(p_args.get(i++));
+            int l_continentValue = Integer.parseInt(p_args.get(i));
+            if(p_riskMap.hasContinent(l_continentId)){
+                System.out.println("Continent already present in the map!");
+                return false;
             }
             else{
-                ArrayList<String> l_attributes = p_command.getCmdAttributes().get(0).getArguments();
-                if(MapEditorCommands.CMD_OPTION_ADD.equals(l_option)){
-                    //add validations.
+                Continent l_continent = new Continent(l_continentId, String.valueOf(l_continentId) ,l_continentValue , DEFAULT_CONTINENT_COLOR);
+                p_riskMap.addContinent(l_continent);
+                Logger.log("Continent added: " + l_continent.toString());
+            }
+        }
+        return true;
+    }
+
+    /**
+     *
+     * @param p_args
+     * @param p_riskMap
+     * @return
+     */
+    private boolean executeRemoveContinent(ArrayList<String> p_args, RiskMap p_riskMap){
+        for(String l_arg: p_args){
+            int l_continentId = Integer.parseInt(l_arg);
+            if(!p_riskMap.hasContinent(l_continentId)){
+                System.out.println("Continent not present in the map!");
+                return false;
+            }
+            else{
+                Continent l_continent = p_riskMap.getContinentById(l_continentId);
+                p_riskMap.removeContinent(l_continent);
+                Logger.log("Continent removed:" + l_continent.toString());
+            }
+        }
+        return true;
+    }
+
+    /**
+     *
+     * @param p_command
+     */
+    private void cmdEditContinent(Command p_command){
+        if(!d_isMapInitialised){
+            System.out.println("Map not loaded for editing, use editmap for loading an existing map or creating a new one!");
+            return;
+        }
+        if(isNull(d_map)) {
+            Logger.logError("Inconsistent state!, something went wrong!");
+            return;
+        }
+
+        if(!isValidEditContinentCommand(p_command)) {
+            System.out.println("Incorrect command!" + p_command.toString());
+            return;
+        }
+
+        //execute commands - add and remove
+        ArrayList<CommandAttribute> l_CommandAttributes = p_command.getCmdAttributes();
+        RiskMap l_tempRiskMap = d_map.clone();
+        boolean l_status = true;
+        for(CommandAttribute l_cAttribute : l_CommandAttributes){
+            if(CMD_OPTION_ADD.equals(l_cAttribute.getOption())){
+                l_status &= executeAddContinent(l_cAttribute.getArguments(), l_tempRiskMap);
+            }
+            else if(CMD_OPTION_REMOVE.equals(l_cAttribute.getOption())){
+                l_status &= executeRemoveContinent(l_cAttribute.getArguments(), l_tempRiskMap);
+            }
+            if(!l_status) return;
+        }
+
+        d_map = l_tempRiskMap;
+        Logger.log("Edit continent command executed successfully!");
+    }
+
+    /**
+     *
+     * @param p_command
+     * @return
+     */
+    private boolean isValidEditCountryCommand(Command p_command){
+        ArrayList<CommandAttribute> l_CommandAttributes = p_command.getCmdAttributes();
+        if(l_CommandAttributes.isEmpty()){
+            return false;
+        }
+        for(CommandAttribute l_cAttribute : l_CommandAttributes){
+            if(l_cAttribute.getOption().isEmpty() || !VALIDOPTIONS.contains(l_cAttribute.getOption())){
+                Logger.log("Edit country: Invalid option");
+                return false;
+            }
+            if(l_cAttribute.getArguments().isEmpty()) {
+                Logger.log("Edit country: No arguments");
+                return false;
+            }
+            if(CMD_OPTION_ADD.equals(l_cAttribute.getOption()) && l_cAttribute.getArguments().size()%2 != 0){
+                Logger.log("Odd number of arguments for -add country");
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     *
+     * @param p_args
+     * @param p_riskMap
+     * @return
+     */
+    private boolean executeAddCountry(ArrayList<String> p_args, RiskMap p_riskMap){
+        for(int i=0; i<p_args.size(); i++){
+            int l_countryId = Integer.parseInt(p_args.get(i++));
+            int l_continentId= Integer.parseInt(p_args.get(i));
+            if(!p_riskMap.hasContinent(l_continentId)){
+                System.out.println("Continent not present in the map!");
+                return false;
+            }
+            else{
+                Continent l_continent = p_riskMap.getContinentById(l_continentId);
+                if(l_continent.hasCountry(l_countryId)){
+                    System.out.println("Country already present in the continent!");
+                    return false;
                 }
-                else if(MapEditorCommands.CMD_OPTION_REMOVE.equals(l_option)){
-                    //validations;
+                else {
+                    //TODO use new constructor after merge;
+                    Country l_country = new Country(l_countryId, String.valueOf(l_countryId), l_continentId , -1 , -1);
+                    p_riskMap.addCountry(l_country);
+                    Logger.log("Country added:" + l_country.toString());
                 }
             }
         }
-        else{
-            Logger.log("map not loaded?");
+        return true;
+    }
+
+    /**
+     *
+     * @param p_args
+     * @param p_riskMap
+     * @return
+     */
+    private boolean executeRemoveCountry(ArrayList<String> p_args, RiskMap p_riskMap){
+        //-remove countryID
+        for(String l_arg: p_args){
+            int l_countryId = Integer.parseInt(l_arg);
+            if(p_riskMap.hasCountry(l_countryId)){
+                System.out.println("Country not present in the map!");
+                return false;
+            }
+            else{
+                Country l_country = p_riskMap.getCountryById(l_countryId);
+                p_riskMap.removeCountry(l_country);
+                Logger.log("Country removed:" + l_country.toString());
+            }
         }
+        return true;
     }
 
     /**
@@ -132,14 +294,160 @@ public class MapEditor implements ISubApplication {
      * @param p_command
      */
     private void cmdEditCountry(Command p_command){
+        //editcountry -add countryID continentID -remove countryID
+        if(!d_isMapInitialised){
+            System.out.println("Map not loaded for editing, use editmap for loading an existing map or creating a new one!");
+            return;
+        }
+        if(isNull(d_map)) {
+            Logger.logError("Inconsistent state!, something went wrong!");
+            return;
+        }
 
+        if(!isValidEditCountryCommand(p_command)) {
+            System.out.println("Incorrect command!" + p_command.toString());
+            return;
+        }
+
+        //execute commands - add and remove
+        ArrayList<CommandAttribute> l_CommandAttributes = p_command.getCmdAttributes();
+        RiskMap l_tempRiskMap = d_map.clone();
+        boolean l_status = true;
+        for(CommandAttribute l_cAttribute : l_CommandAttributes){
+            if(CMD_OPTION_ADD.equals(l_cAttribute.getOption())){
+                l_status &= executeAddCountry(l_cAttribute.getArguments(), l_tempRiskMap);
+            }
+            else if(CMD_OPTION_REMOVE.equals(l_cAttribute.getOption())){
+                l_status &= executeRemoveCountry(l_cAttribute.getArguments(), l_tempRiskMap);
+            }
+            if(!l_status) return;
+        }
+
+        d_map = l_tempRiskMap;
+        Logger.log("Edit Country command executed successfully!");
     }
+
+    /**
+     *
+     * @param p_command
+     * @return
+     */
+    private boolean isValidEditNeighbourCommand(Command p_command){
+        ArrayList<CommandAttribute> l_CommandAttributes = p_command.getCmdAttributes();
+        if(l_CommandAttributes.isEmpty()){
+            return false;
+        }
+        for(CommandAttribute l_cAttribute : l_CommandAttributes){
+            if(l_cAttribute.getOption().isEmpty() || !VALIDOPTIONS.contains(l_cAttribute.getOption())){
+                Logger.log("Edit Neighbor: Invalid option");
+                return false;
+            }
+            if(l_cAttribute.getArguments().isEmpty()) {
+                Logger.log("Edit Neighbor: No arguments");
+                return false;
+            }
+            if(l_cAttribute.getArguments().size()%2 != 0){
+                Logger.log("Odd number of arguments for edit neighbor");
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     *
+     * @param p_args
+     * @param p_riskMap
+     * @return
+     */
+    private boolean executeAddNeighbor(ArrayList<String> p_args, RiskMap p_riskMap){
+        for(int i=0; i<p_args.size(); i++){
+            int l_countryId = Integer.parseInt(p_args.get(i++));
+            int l_neighborCountryId= Integer.parseInt(p_args.get(i));
+            if(!p_riskMap.hasCountry(l_countryId) || !p_riskMap.hasCountry(l_neighborCountryId)){
+                System.out.println("Country not present in the map!");
+                return false;
+            }
+            else{
+                Country l_country = p_riskMap.getCountryById(l_countryId);
+                Country l_neighborCountry = p_riskMap.getCountryById(l_neighborCountryId);
+                if(l_country.getBorders().containsKey(l_neighborCountry.getDId())){
+                    System.out.println("Countries are neighbors already!");
+                    return false;
+                }
+                l_country.addBorder(l_neighborCountry);
+                Logger.log("Neighbor added:" + l_country.toString());
+            }
+        }
+        return true;
+    }
+
+    /**
+     *
+     * @param p_args
+     * @param p_riskMap
+     * @return
+     */
+    private boolean executeRemoveNeighbor(ArrayList<String> p_args, RiskMap p_riskMap){
+        //editneighbor -add countryID neighborcountryID -remove countryID neighborcountryI
+        for(int i=0; i<p_args.size(); i++){
+            int l_countryId = Integer.parseInt(p_args.get(i++));
+            int l_neighborCountryId= Integer.parseInt(p_args.get(i));
+            if(!p_riskMap.hasCountry(l_countryId) || !p_riskMap.hasCountry(l_neighborCountryId)){
+                System.out.println("Country not present in the map!");
+                return false;
+            }
+            else{
+                Country l_country = p_riskMap.getCountryById(l_countryId);
+                Country l_neighborCountry = p_riskMap.getCountryById(l_neighborCountryId);
+
+                if(!l_country.getBorders().containsKey(l_neighborCountry.getDId())){
+                    System.out.println("Countries are not neighbors!");
+                    return false;
+                }
+                l_country.removeBorder(l_neighborCountry);
+            }
+        }
+        return true;
+    }
+
 
     /**
      *
      * @param p_command
      */
     private void cmdEditNeighbor(Command p_command){
+        //editneighbor -add countryID neighborcountryID -remove countryID neighborcountryI
+        if(!d_isMapInitialised){
+            System.out.println("Map not loaded for editing, use editmap for loading an existing map or creating a new one!");
+            return;
+        }
+        if(isNull(d_map)) {
+            Logger.logError("Inconsistent state!, something went wrong!");
+            return;
+        }
+
+        if(!isValidEditNeighbourCommand(p_command)) {
+            System.out.println("Incorrect command!" + p_command.toString());
+            return;
+        }
+
+        //execute commands - add and remove
+        ArrayList<CommandAttribute> l_CommandAttributes = p_command.getCmdAttributes();
+        RiskMap l_tempRiskMap = d_map.clone();
+        boolean l_status = true;
+        for(CommandAttribute l_cAttribute : l_CommandAttributes){
+            if(CMD_OPTION_ADD.equals(l_cAttribute.getOption())){
+                l_status &= executeAddNeighbor(l_cAttribute.getArguments(), l_tempRiskMap);
+            }
+            else if(CMD_OPTION_REMOVE.equals(l_cAttribute.getOption())){
+                l_status &= executeRemoveNeighbor(l_cAttribute.getArguments(), l_tempRiskMap);
+            }
+            if(!l_status) return;
+        }
+
+        d_map = l_tempRiskMap;
+        Logger.log("Edit Neighbor command executed successfully!");
 
     }
 

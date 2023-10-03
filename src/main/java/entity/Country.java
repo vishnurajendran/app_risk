@@ -1,5 +1,7 @@
 package entity;
 
+import common.Logger;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -41,6 +43,15 @@ public class Country {
         this.d_xCoordinates = p_xCoordinates;
         this.d_yCoordinates = p_yCoordinates;
         d_borders = new HashMap<>();
+    }
+
+    /**
+     * Clone method for returning a clone of the object Country
+     *
+     * @return Country object
+     */
+    public Country clone(){
+        return new Country(this.d_id, this.d_name, this.d_continentId, this.d_xCoordinates, this.d_yCoordinates);
     }
 
     /**
@@ -174,6 +185,16 @@ public class Country {
         }
 
         return false;
+    }
+
+    public boolean removeBorder(Country p_border) {
+        if (!isNull(d_borders.get(p_border.getDId()))) {
+            d_borders.remove(p_border.d_id);
+        }
+        else {
+            Logger.log("Border doesn't exist");
+        }
+        return true;
     }
 
     /**

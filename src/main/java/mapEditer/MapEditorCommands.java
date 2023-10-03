@@ -24,5 +24,6 @@ public class MapEditorCommands {
     public static final Set<String> VALIDOPTIONS = new HashSet<>(Arrays.asList(CMD_OPTION_ADD, CMD_OPTION_REMOVE));
     public static final String DEFAULT_MAP = "resources/defaultMap.map";
     public static final String NEW_MAP_FILE_NAME = "newMap.map";
+    public static final String DEFAULT_CONTINENT_COLOR = "white";
 
 }

@@ -37,6 +37,19 @@ public class Continent {
     }
 
     /**
+     * Clone method for returning a clone of the object Continent
+     *
+     * @return Continent object
+     */
+    public Continent clone(){
+        Continent l_continent = new Continent(this.d_id, this.d_name, this.d_controlValue, this.d_color);
+        for(Map.Entry<Integer,Country> l_entry: this.d_countries.entrySet()){
+            l_continent.d_countries.put(l_entry.getKey(), l_entry.getValue().clone());
+        }
+        return l_continent;
+    }
+
+    /**
      * Setter for id
      *
      * @param p_id      the unique id for the continent
@@ -73,6 +86,15 @@ public class Continent {
     public void addCountry(Country p_country){
         //TODO:overrides if country already present?? chk for duplication
         this.d_countries.put(p_country.getDId(),p_country);
+    }
+
+    /**
+     *This method removes an existing country from the continent object.
+     *
+     * @param p_country country to be removed
+     */
+    public void removeCountry(Country p_country){
+        this.d_countries.remove(p_country.getDId());
     }
 
     /**
