@@ -9,14 +9,26 @@ import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * The main class representing the Risk Map Viewer application.
+ */
 public class MapViewer extends JFrame {
 
+    /** The RiskMap instance used in the application. */
     private static RiskMap d_RISK_MAP = createRiskMap();
 
+    /**
+     * Constructor for the MapViewer class.
+     */
     public MapViewer() {
         initializeUI();
     }
 
+    /**
+     * Creates and returns a RiskMap instance by loading a map from a file.
+     *
+     * @return The RiskMap instance.
+     */
     public static RiskMap createRiskMap() {
         MapLoader mapLoader = new MapLoader();
         mapLoader.loadMap("testMap.map");
@@ -24,6 +36,9 @@ public class MapViewer extends JFrame {
         return riskMap;
     }
 
+    /**
+     * Initializes the user interface for the application.
+     */
     private void initializeUI() {
         setTitle("Risk Map Viewer");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -36,6 +51,11 @@ public class MapViewer extends JFrame {
         setLocationRelativeTo(null); // Center the frame
     }
 
+    /**
+     * The main entry point for the application.
+     *
+     * @param args The command line arguments.
+     */
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             MapViewer mapViewer = new MapViewer();
@@ -43,16 +63,31 @@ public class MapViewer extends JFrame {
         });
     }
 
+    /**
+     * The panel class for rendering the RiskMap.
+     */
     static class RiskMapPanel extends JPanel {
 
+        /** The RiskMap instance to be rendered. */
         private RiskMap d_RISK_MAP;
+        /** Map of continent names to colors. */
         private Map<String, Color> d_CONTINENT_COLORS;
 
+        /**
+         * Constructor for the RiskMapPanel class.
+         *
+         * @param pRiskMap The RiskMap instance to be rendered.
+         */
         public RiskMapPanel(RiskMap pRiskMap) {
             this.d_RISK_MAP = pRiskMap;
             this.d_CONTINENT_COLORS = initializeContinentColors();
         }
 
+        /**
+         * Paints the component, rendering continents, countries, and connections.
+         *
+         * @param g The graphics context.
+         */
         @Override
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
@@ -79,6 +114,11 @@ public class MapViewer extends JFrame {
             }
         }
 
+        /**
+         * Initializes the map of continent names to colors.
+         *
+         * @return The map of continent names to colors.
+         */
         private Map<String, Color> initializeContinentColors() {
             Map<String, Color> colors = new HashMap<>();
             colors.put("ameroki", Color.YELLOW);
