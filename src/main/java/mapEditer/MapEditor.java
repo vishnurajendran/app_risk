@@ -95,21 +95,21 @@ public class MapEditor implements ISubApplication {
      */
     @Override
     public void shutdown() {
-        //cleanup if any;
         Logger.log("MapEditor has shutdown.");
     }
 
     /**
+     *This method checks whether the editcontinent command is valid or not.
      *
-     * @param p_command
-     * @return
+     * @param p_command  command objects as a parameter.
+     * @return  true if command is valid, false otherwise.
      */
     private boolean isValidEditContinentCommand(Command p_command){
-        ArrayList<CommandAttribute> l_CommandAttributes = p_command.getCmdAttributes();
-        if(l_CommandAttributes.isEmpty()){
+        ArrayList<CommandAttribute> l_commandAttributes = p_command.getCmdAttributes();
+        if(l_commandAttributes.isEmpty()){
             return false;
         }
-        for(CommandAttribute l_cAttribute : l_CommandAttributes){
+        for(CommandAttribute l_cAttribute : l_commandAttributes){
             if(l_cAttribute.getOption().isEmpty() || !VALIDOPTIONS.contains(l_cAttribute.getOption())){
                 Logger.log("Edit continent: Invalid option");
                 return false;
@@ -127,10 +127,11 @@ public class MapEditor implements ISubApplication {
     }
 
     /**
+     * This method executes add continent command
      *
-     * @param p_args
-     * @param p_riskMap
-     * @return
+     * @param p_args    list of args(continent_id, continent_value)
+     * @param p_riskMap temporary map object to perform command operation
+     * @return  true is operation is successful, false otherwise.
      */
     private boolean executeAddContinent(ArrayList<String> p_args, RiskMap p_riskMap){
         for(int i=0; i<p_args.size(); i++){
@@ -150,10 +151,11 @@ public class MapEditor implements ISubApplication {
     }
 
     /**
+     * This method executes remove continent command
      *
-     * @param p_args
-     * @param p_riskMap
-     * @return
+     * @param p_args    list of args(continent_id)
+     * @param p_riskMap temporary map object to perform command operation
+     * @return  true is operation is successful, false otherwise.
      */
     private boolean executeRemoveContinent(ArrayList<String> p_args, RiskMap p_riskMap){
         for(String l_arg: p_args){
@@ -172,8 +174,9 @@ public class MapEditor implements ISubApplication {
     }
 
     /**
+     * This method executes editcontinent commands
      *
-     * @param p_command
+     * @param p_command command object passed down by application
      */
     private void cmdEditContinent(Command p_command){
         if(!d_isMapInitialised){
@@ -209,16 +212,17 @@ public class MapEditor implements ISubApplication {
     }
 
     /**
+     *This method checks whether the editcountry command is valid or not.
      *
-     * @param p_command
-     * @return
+     * @param p_command  command objects as a parameter.
+     * @return  true if command is valid, false otherwise.
      */
     private boolean isValidEditCountryCommand(Command p_command){
-        ArrayList<CommandAttribute> l_CommandAttributes = p_command.getCmdAttributes();
-        if(l_CommandAttributes.isEmpty()){
+        ArrayList<CommandAttribute> l_commandAttributes = p_command.getCmdAttributes();
+        if(l_commandAttributes.isEmpty()){
             return false;
         }
-        for(CommandAttribute l_cAttribute : l_CommandAttributes){
+        for(CommandAttribute l_cAttribute : l_commandAttributes){
             if(l_cAttribute.getOption().isEmpty() || !VALIDOPTIONS.contains(l_cAttribute.getOption())){
                 Logger.log("Edit country: Invalid option");
                 return false;
@@ -236,10 +240,11 @@ public class MapEditor implements ISubApplication {
     }
 
     /**
+     * This method executes add country command
      *
-     * @param p_args
-     * @param p_riskMap
-     * @return
+     * @param p_args    list of args(country_id, continent_id)
+     * @param p_riskMap temporary map object to perform command operation
+     * @return  true is operation is successful, false otherwise.
      */
     private boolean executeAddCountry(ArrayList<String> p_args, RiskMap p_riskMap){
         for(int i=0; i<p_args.size(); i++){
@@ -256,8 +261,7 @@ public class MapEditor implements ISubApplication {
                     return false;
                 }
                 else {
-                    //TODO use new constructor after merge;
-                    Country l_country = new Country(l_countryId, String.valueOf(l_countryId), l_continentId , -1 , -1);
+                    Country l_country = new Country(l_countryId, String.valueOf(l_countryId), l_continentId);
                     p_riskMap.addCountry(l_country);
                     Logger.log("Country added:" + l_country.toString());
                 }
@@ -267,13 +271,13 @@ public class MapEditor implements ISubApplication {
     }
 
     /**
+     * This method executes remove countinent command
      *
-     * @param p_args
-     * @param p_riskMap
-     * @return
+     * @param p_args    list of args(country_id)
+     * @param p_riskMap temporary map object to perform command operation
+     * @return  true is operation is successful, false otherwise.
      */
     private boolean executeRemoveCountry(ArrayList<String> p_args, RiskMap p_riskMap){
-        //-remove countryID
         for(String l_arg: p_args){
             int l_countryId = Integer.parseInt(l_arg);
             if(p_riskMap.hasCountry(l_countryId)){
@@ -290,11 +294,11 @@ public class MapEditor implements ISubApplication {
     }
 
     /**
+     * This method executes editcountry commands
      *
-     * @param p_command
+     * @param p_command command object passed down by application
      */
     private void cmdEditCountry(Command p_command){
-        //editcountry -add countryID continentID -remove countryID
         if(!d_isMapInitialised){
             System.out.println("Map not loaded for editing, use editmap for loading an existing map or creating a new one!");
             return;
@@ -328,16 +332,17 @@ public class MapEditor implements ISubApplication {
     }
 
     /**
+     *This method checks whether the editneighbor command is valid or not.
      *
-     * @param p_command
-     * @return
+     * @param p_command  command objects as a parameter.
+     * @return  true if command is valid, false otherwise.
      */
     private boolean isValidEditNeighbourCommand(Command p_command){
-        ArrayList<CommandAttribute> l_CommandAttributes = p_command.getCmdAttributes();
-        if(l_CommandAttributes.isEmpty()){
+        ArrayList<CommandAttribute> l_commandAttributes = p_command.getCmdAttributes();
+        if(l_commandAttributes.isEmpty()){
             return false;
         }
-        for(CommandAttribute l_cAttribute : l_CommandAttributes){
+        for(CommandAttribute l_cAttribute : l_commandAttributes){
             if(l_cAttribute.getOption().isEmpty() || !VALIDOPTIONS.contains(l_cAttribute.getOption())){
                 Logger.log("Edit Neighbor: Invalid option");
                 return false;
@@ -355,10 +360,11 @@ public class MapEditor implements ISubApplication {
     }
 
     /**
+     * This method executes add neigbor command
      *
-     * @param p_args
-     * @param p_riskMap
-     * @return
+     * @param p_args    list of args(country_id, neighborCountryId)
+     * @param p_riskMap temporary map object to perform command operation
+     * @return  true is operation is successful, false otherwise.
      */
     private boolean executeAddNeighbor(ArrayList<String> p_args, RiskMap p_riskMap){
         for(int i=0; i<p_args.size(); i++){
@@ -383,13 +389,13 @@ public class MapEditor implements ISubApplication {
     }
 
     /**
+     * This method executes remove neigbhor command
      *
-     * @param p_args
-     * @param p_riskMap
-     * @return
+     * @param p_args    list of args(country_id, neighborCountryId)
+     * @param p_riskMap temporary map object to perform command operation
+     * @return  true is operation is successful, false otherwise.
      */
     private boolean executeRemoveNeighbor(ArrayList<String> p_args, RiskMap p_riskMap){
-        //editneighbor -add countryID neighborcountryID -remove countryID neighborcountryI
         for(int i=0; i<p_args.size(); i++){
             int l_countryId = Integer.parseInt(p_args.get(i++));
             int l_neighborCountryId= Integer.parseInt(p_args.get(i));
@@ -413,11 +419,11 @@ public class MapEditor implements ISubApplication {
 
 
     /**
+     * This method executes editneighbor commands
      *
-     * @param p_command
+     * @param p_command command object passed down by application
      */
     private void cmdEditNeighbor(Command p_command){
-        //editneighbor -add countryID neighborcountryID -remove countryID neighborcountryI
         if(!d_isMapInitialised){
             System.out.println("Map not loaded for editing, use editmap for loading an existing map or creating a new one!");
             return;

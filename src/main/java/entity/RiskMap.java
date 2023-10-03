@@ -142,8 +142,9 @@ public class RiskMap {
     }
 
     /**
+     *This method removes continent from the map.
      *
-     * @param p_continent
+     * @param p_continent Object continent to be removed.
      */
     public void removeContinent(Continent p_continent){
         //remove all countries of the continent
