@@ -6,6 +6,7 @@ import java.util.Set;
 
 /**
  * Map Editor commands, used for command registrations.
+ * and some other constants used in map editor class.
  * @author TaranjeetKaur
  */
 public class MapEditorCommands {
@@ -21,5 +22,7 @@ public class MapEditorCommands {
     public static final Set<String> VALIDCOMMANDS = new HashSet<>(Arrays.asList(CMD_EDIT_CONTINENT, CMD_EDIT_COUNTRY, CMD_EDIT_NEIGHBOR,
                                                                                 CMD_SHOW_MAP,CMD_SAVE_MAP,CMD_EDIT_MAP, CMD_VALIDATE_MAP));
     public static final Set<String> VALIDOPTIONS = new HashSet<>(Arrays.asList(CMD_OPTION_ADD, CMD_OPTION_REMOVE));
+    public static final String DEFAULT_MAP = "resources/defaultMap.map";
+    public static final String NEW_MAP_FILE_NAME = "newMap.map";
 
 }

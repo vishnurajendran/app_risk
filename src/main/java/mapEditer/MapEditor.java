@@ -7,8 +7,13 @@ import common.Logger;
 import entity.RiskMap;
 import mapValidator.MapValidator;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import static java.util.Objects.isNull;
+import static mapEditer.MapEditorCommands.*;
 
 
 /**
@@ -20,6 +25,7 @@ import java.util.HashMap;
 public class MapEditor implements ISubApplication {
 
     private RiskMap d_map;
+    private String d_filename;
     private boolean d_isMapInitialised = false;
     private boolean d_isMapInEditMode = false;
 
@@ -100,6 +106,7 @@ public class MapEditor implements ISubApplication {
      * @param p_command
      */
     private void cmdEditContinent(Command p_command){
+        RiskMap l_riskMap = d_map;
         if(d_isMapInEditMode) {
             String l_option = p_command.getCmdAttributes().get(0).getOption();
             if(!MapEditorCommands.VALIDOPTIONS.contains(l_option)){
@@ -144,25 +151,92 @@ public class MapEditor implements ISubApplication {
         //write the map object to file.
     }
 
-    private void cmdEditMap(Command p_command){
-        //nullchecks;
-        // filname -> loadmap;
-        String l_filename = p_command.getCmdAttributes().get(0).getArguments().get(0);
-        if(l_filename.isEmpty()) {
-            l_filename = "newMap.map";
-            //create an empty file.
+    /**
+     * Creates an empty map file
+     *
+     * @param p_name    name of the file to be created
+     * @return  true if file creation is successful, false otherwise.
+     */
+    private boolean createNewMapFile(String p_name){
+        try {
+            File l_mapFile = new File(p_name);
+            if (l_mapFile.createNewFile()) {
+                Logger.log("New map file created: " + p_name);
+            } else {
+                Logger.log("File already exists!");
+            }
+        } catch (IOException e) {
+            Logger.logError("Exception: " + e.getMessage());
+            return false;
         }
-        MapLoader l_mapLoader = new MapLoader(l_filename);
-        d_map = l_mapLoader.getMap();
-        //empty;
-        //existing -> validate;
-        d_isMapInitialised = true;
-        d_isMapInEditMode = true;
+        return true;
     }
 
+    /**
+     * Implementation of command-editmap (arg1)
+     * creates a new map file if no arg is passed
+     * loads the map from map file passed as an argument.
+     * Prints an error message is file loaded is invalid.
+     *
+     * @param p_command Command object passed down from application.
+     */
+    private void cmdEditMap(Command p_command) {
+        String l_filename = "";
+        if(p_command.getCmdAttributes().isEmpty()) {
+            //creating new map file for editmap
+            Logger.log("File name not found!, Creating a map from scratch");
+            if(createNewMapFile(NEW_MAP_FILE_NAME)){
+                d_filename = NEW_MAP_FILE_NAME;
+                d_map = new RiskMap(NEW_MAP_FILE_NAME);
+                d_isMapInitialised = true;
+            }
+            return;
+        }
+        else if(!p_command.getCmdAttributes().get(0).getOption().isEmpty()) {
+            System.out.println("Incorrect command, invalid option found" + p_command.toString());
+            return;
+        }
+        else if(!p_command.getCmdAttributes().get(0).getArguments().isEmpty()){
+            l_filename =  p_command.getCmdAttributes().get(0).getArguments().get(0);
+        }
+        else {
+            System.out.println("Invalid arguments!" + p_command.toString());
+            return;
+        }
+
+        //load the map from existing file and validate before proceeding further
+        MapLoader l_mapLoader = new MapLoader(l_filename);
+        RiskMap l_riskMap = l_mapLoader.getMap();
+        if(isNull(l_riskMap) || !MapValidator.validateMap(l_riskMap)) {
+            System.out.println("Invalid map!, load another file or start from scratch!");
+            return;
+        }
+
+        d_isMapInitialised = true;
+        d_map = l_riskMap;  //clone?
+        d_filename = l_filename;
+        Logger.log("Command " + p_command.toString() + " Successful!");
+    }
+
+    /**
+     * Implementation of command-validatemap
+     * Validates a map and prints the result to the console ,if the map is loaded in the mapEditor
+     *
+     * @param p_command Command object passed down from application.
+     */
     private void cmdValidateMap(Command p_command){
-        MapValidator.validateMap(d_map);
-        //handle empty chks;
+        if(!d_isMapInitialised || isNull(d_map)) {
+            System.out.println("No Map loaded in the mapEditor!");
+            return;
+        }
+        boolean l_isMapValid = MapValidator.validateMap(d_map);
+        if(!l_isMapValid){
+            System.out.println("Map is invalid!");
+        }
+        else {
+            System.out.println("Map is Valid!");
+        }
+        Logger.log("Command " + p_command.toString() + " Successful! isMapValid:" + l_isMapValid);
     }
 
 
