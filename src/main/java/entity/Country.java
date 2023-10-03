@@ -181,7 +181,7 @@ public class Country {
      *
      * @return A string contain ID, name continentID and borders details.
      */
-//    public String toString() {
-//        return "Id: " + d_id + " Name: " + d_name + " continentId: " + d_continentId + d_borders.toString();
-//    }
+    public String toString() {
+        return "Id: " + d_id + " Name: " + d_name + " continentId: " + d_continentId + d_borders.toString();
+    }
 }
