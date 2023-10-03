@@ -1,4 +1,4 @@
-package MapShow;
+package mapShow;
 
 import entity.Country;
 import game.PlayerHandler;
@@ -12,12 +12,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * The main class representing the Risk Map Viewer application.
+ * The main class representing the Map Application.
  */
 public class MapViewer extends JFrame {
 
     /** The RiskMap instance used in the application. */
-    private static final RiskMap d_RISK_MAP = createRiskMap();
+    private final RiskMap d_RISK_MAP = createRiskMap();
 
     /**
      * Constructor for the MapViewer class.
@@ -65,7 +65,7 @@ public class MapViewer extends JFrame {
     }
 
     /**
-     * The panel class for rendering the RiskMap.
+     * The panel class for drawing the RiskMap.
      */
     static class RiskMapPanel extends JPanel {
 
@@ -93,15 +93,16 @@ public class MapViewer extends JFrame {
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
 
+            Map<String, Point> continentLabels = new HashMap<>(); // Store continent labels' positions
+
             // Draw continents, countries, and connections
             for (Country country : d_RISK_MAP.getCountries()) {
+                String continentName = d_RISK_MAP.getContinentById(country.getContinentId()).getName();
+
                 // Draw countries with the color of their continent
-                Color continentColor = d_CONTINENT_COLORS.get(d_RISK_MAP.getContinentById(country.getContinentId()).getName());
+                Color continentColor = d_CONTINENT_COLORS.get(continentName);
                 g.setColor(continentColor);
                 g.fillOval(country.getXCoordinates(), country.getYCoordinates(), 50, 50);
-
-                // Display player info
-                displayPlayerInfo(g, country);
 
                 // Draw connections to neighboring countries
                 g.setColor(Color.BLACK);
@@ -113,8 +114,21 @@ public class MapViewer extends JFrame {
                 }
 
                 // Draw country name
-                g.setColor(Color.BLACK);
+                g.setColor(Color.GRAY);
                 g.drawString(country.getName(), country.getXCoordinates(), country.getYCoordinates() - 10);
+
+                // Store the continent label position if not already stored
+                continentLabels.computeIfAbsent(continentName, k -> new Point(country.getXCoordinates(), country.getYCoordinates() - 30));
+
+                // Display player info
+                displayPlayerInfo(g, country);
+            }
+
+            // Draw continent labels
+            g.setColor(Color.BLACK);
+            for (Map.Entry<String, Point> entry : continentLabels.entrySet()) {
+                String label = "Continent: " + entry.getKey();
+                g.drawString(label, entry.getValue().x, entry.getValue().y);
             }
         }
 
