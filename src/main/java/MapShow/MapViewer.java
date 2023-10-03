@@ -11,7 +11,7 @@ import java.util.Map;
 
 public class MapViewer extends JFrame {
 
-    private static RiskMap D_RISK_MAP = createRiskMap();
+    private static RiskMap d_RISK_MAP = createRiskMap();
 
     public MapViewer() {
         initializeUI();
@@ -30,7 +30,7 @@ public class MapViewer extends JFrame {
         setSize(800, 600);
 
         // Create a panel for the game map
-        RiskMapPanel mapPanel = new RiskMapPanel(D_RISK_MAP); // Pass the RiskMap instance
+        RiskMapPanel mapPanel = new RiskMapPanel(d_RISK_MAP); // Pass the RiskMap instance
         add(mapPanel);
 
         setLocationRelativeTo(null); // Center the frame
@@ -45,12 +45,12 @@ public class MapViewer extends JFrame {
 
     static class RiskMapPanel extends JPanel {
 
-        private RiskMap D_RISK_MAP;
-        private Map<String, Color> D_CONTINENT_COLORS;
+        private RiskMap d_RISK_MAP;
+        private Map<String, Color> d_CONTINENT_COLORS;
 
         public RiskMapPanel(RiskMap pRiskMap) {
-            this.D_RISK_MAP = pRiskMap;
-            this.D_CONTINENT_COLORS = initializeContinentColors();
+            this.d_RISK_MAP = pRiskMap;
+            this.d_CONTINENT_COLORS = initializeContinentColors();
         }
 
         @Override
@@ -58,10 +58,10 @@ public class MapViewer extends JFrame {
             super.paintComponent(g);
 
             // Draw continents, countries, and connections
-            for (Country country : D_RISK_MAP.getCountries()) {
+            for (Country country : d_RISK_MAP.getCountries()) {
                 // Draw countries with the color of their continent
-                String continentName = D_RISK_MAP.getContinentById(country.getContinentId()).getName();
-                g.setColor(D_CONTINENT_COLORS.get(continentName));
+                String continentName = d_RISK_MAP.getContinentById(country.getContinentId()).getName();
+                g.setColor(d_CONTINENT_COLORS.get(continentName));
                 g.fillOval(country.getXCoordinates(), country.getYCoordinates(), 50, 50);
 
                 // Draw country names
