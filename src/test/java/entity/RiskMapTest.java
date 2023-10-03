@@ -98,6 +98,20 @@ class RiskMapTest {
     }
 
     /**
+     * Unit test for add borders.
+     * Mexico will be added connection with America.
+     */
+    @Test
+    void addBorder(){
+        d_testRiskMap.addCountry(d_testBorderCountry2);
+        assertEquals(0, d_testBorderCountry2.getBorders().size());
+
+        d_testRiskMap.addBorder(3, 1);
+        assertEquals(1, d_testBorderCountry2.getBorders().get(1).getDId());
+        assertEquals(3, d_testCountry.getBorders().get(3).getDId());
+    }
+
+    /**
      * Unit test for add Borders
      * Mexico will be added connection with America and Canada
      */

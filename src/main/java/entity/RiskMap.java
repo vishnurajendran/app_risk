@@ -94,6 +94,7 @@ public class RiskMap {
 
     /**
      * Add an array of other countries to a country.
+     * This behaviour will only add a one way direction from first country to the rest countries in the list
      *
      * @param p_countryId        The id of country that you want to add connection.
      * @param p_otherCountriesId An array of countries that is connected to the country above.
@@ -103,6 +104,23 @@ public class RiskMap {
         for (String l_oneCountry : p_otherCountriesId) {
             l_country.addBorder(d_countries.get(Integer.parseInt(l_oneCountry)));
         }
+    }
+
+    /**
+     * Add a single connection between these two countries. This behaviour will be done to both country.
+     * @param p_countryId The first country ID
+     * @param p_anotherCountryId The second country ID
+     * @return
+     */
+    public boolean addBorder(int p_countryId,int p_anotherCountryId){
+        Country l_country = d_countries.get(p_countryId);
+        Country l_anotherCountry=d_countries.get(p_anotherCountryId);
+        if(isNull(l_country)||isNull(l_anotherCountry)){
+            return false;
+        }
+        l_country.addBorder(l_anotherCountry);
+        l_anotherCountry.addBorder(l_country);
+        return true;
     }
 
     /**
