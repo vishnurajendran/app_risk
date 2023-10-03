@@ -14,8 +14,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class MapSaveTest {
 
-    private final String TEST_MAP_PATH = "testmap.map";
-    private final String TEMP_MAP_PATH = "tempmap.map";
+    private final String TEST_MAP_PATH = "testResources/ValidTestMap.map";
+    private final String TEMP_MAP_PATH = "testResources/tempmap.map";
 
     /**
      * Test the map save functionality,
@@ -32,6 +32,7 @@ class MapSaveTest {
         File l_file = new File(TEMP_MAP_PATH);
         MapSave.saveMapFile(l_testMap, l_file);
 
+        l_loader = new MapLoader();
         //check if you can load the map
         assertTrue(l_loader.loadMap(TEMP_MAP_PATH));
         assertTrue(MapValidator.validateMap(l_loader.getMap()));
