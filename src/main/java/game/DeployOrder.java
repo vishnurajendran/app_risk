@@ -10,6 +10,6 @@ public class DeployOrder extends Order {
 
     @Override
     public void executeOrder() {
-
+        d_ctxPlayer.nextOrder();
     }
 }

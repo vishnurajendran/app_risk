@@ -15,8 +15,8 @@ import java.util.*;
 
 public class GameEngine implements ISubApplication {
     private final HashMap<String, IMethod> d_cmdtoGameAction;
-    private ArrayList<String> d_cmdArguments;
-    private String d_cmdOption;
+    private ArrayList<ArrayList<String>> d_cmdArguments;
+    private ArrayList<String> d_cmdOption;
     private MapLoader d_loadedMap;
     private GameState d_gameState = GameState.Initial;
 
@@ -25,7 +25,7 @@ public class GameEngine implements ISubApplication {
     public GameEngine() {
         d_cmdtoGameAction = new HashMap<>();
         d_cmdArguments = new ArrayList<>();
-        d_cmdOption = "";
+        d_cmdOption = new ArrayList<>();
         //d_gamePlayers = new HashSet<>();
     }
 
@@ -34,12 +34,17 @@ public class GameEngine implements ISubApplication {
      * to d_cmdOption and d_cmdArguments, respectively.
      */
     private void loadArgumentsAndOption(Command p_cmd){
-        if(!p_cmd.getCmdAttributes().isEmpty()){
-            d_cmdArguments = p_cmd.getCmdAttributes().get(0).getArguments();
+        d_cmdArguments = new ArrayList<>();
+        d_cmdOption = new ArrayList<>();
+        for(int i = 0; i<p_cmd.getCmdAttributes().size();i++){
+            if(!p_cmd.getCmdAttributes().isEmpty()){
+                d_cmdArguments.add(p_cmd.getCmdAttributes().get(i).getArguments());
+            }
+            if(!p_cmd.getCmdAttributes().isEmpty()){
+                d_cmdOption.add(p_cmd.getCmdAttributes().get(i).getOption());
+            }
         }
-        if(!p_cmd.getCmdAttributes().isEmpty()){
-            d_cmdOption = p_cmd.getCmdAttributes().get(0).getOption();
-        }
+
     }
 
     /**
@@ -53,22 +58,25 @@ public class GameEngine implements ISubApplication {
     }
 
     private void loadGameMap(Command p_cmd){
-        d_loadedMap = new MapLoader(d_cmdArguments.get(0));
+        d_loadedMap = new MapLoader(d_cmdArguments.get(0).get(0));
         System.out.println(d_loadedMap.getMap().getCountryIds());
         System.out.println("Loading map " + d_cmdArguments);
     }
 
     private void updatePlayers(Command p_cmd){
         //Logger.log(d_cmdOption + ":" + GameCommands.CMD_GAME_PLAYER_OPTION_ADD);
-        if(d_cmdOption.equals(GameCommands.CMD_GAME_PLAYER_OPTION_ADD ) && !d_cmdArguments.isEmpty()){
-            PlayerHandler.addGamePlayers(d_cmdArguments);
-            PlayerHandler.displayGamePlayers();
-        } else if (d_cmdOption.equals(GameCommands.CMD_GAME_PLAYER_OPTION_REMOVE) && !d_cmdArguments.isEmpty()){
-            PlayerHandler.removeGamePlayers(d_cmdArguments);
-            PlayerHandler.displayGamePlayers();
-        } else {
-            System.out.println(MessageFormat.format(ApplicationConstants.MSG_INVALID_CMD, p_cmd.getCmdName()));
+        for(int i = 0; i<d_cmdOption.size(); i++){
+            if(d_cmdOption.get(i).equals(GameCommands.CMD_GAME_PLAYER_OPTION_ADD ) && !d_cmdArguments.isEmpty()){
+                PlayerHandler.addGamePlayers(d_cmdArguments.get(i));
+                PlayerHandler.displayGamePlayers();
+            } else if (d_cmdOption.get(i).equals(GameCommands.CMD_GAME_PLAYER_OPTION_REMOVE) && !d_cmdArguments.isEmpty()){
+                PlayerHandler.removeGamePlayers(d_cmdArguments.get(i));
+                PlayerHandler.displayGamePlayers();
+            } else {
+                System.out.println(MessageFormat.format(ApplicationConstants.MSG_INVALID_CMD, p_cmd.getCmdName()));
+            }
         }
+
 
     }
 
@@ -97,10 +105,27 @@ public class GameEngine implements ISubApplication {
     public void submitCommand(Command p_command) {
        //d_gamePlayers = p_gamePlayers;
         if(d_gameState.equals(GameState.DeployMode)){
-            PlayerHandler.issueOrder();
-        } else{
+            int canIssueOrder = PlayerHandler.issueOrder(p_command);
+
+            Logger.log(String.valueOf(canIssueOrder));
+            if(canIssueOrder == 4){
+                int l_availableReinforcements = 3;
+                for(int i = 0; i<PlayerHandler.getGamePlayers().size(); i++){
+                    l_availableReinforcements = PlayerHandler.getGamePlayers().get(PlayerHandler.getPlayerTurn() % PlayerHandler.getGamePlayers().size()).getAvailableReinforcements();
+                    if(l_availableReinforcements != 0){
+                        System.out.println(PlayerHandler.getGamePlayers().get(PlayerHandler.getPlayerTurn()%PlayerHandler.getGamePlayers().size()).getPlayerName()
+                                + "'s turn, Reinforcements left: " + l_availableReinforcements);
+                        return;
+                    } else{
+                        PlayerHandler.increasePlayerTurn(1);
+                    }
+                }
+                System.out.println("Everyone deployed their reinforcements");
+
+            }
+        } else {
             loadArgumentsAndOption(p_command);
-            if(d_cmdtoGameAction.containsKey(p_command.getCmdName())) {
+            if (d_cmdtoGameAction.containsKey(p_command.getCmdName())) {
                 d_cmdtoGameAction.get(p_command.getCmdName()).invoke(p_command);
             }
         }
