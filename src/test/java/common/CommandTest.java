@@ -15,7 +15,7 @@ class CommandTest {
      * an empty or null strings are parsed correctly.
      */
     @org.junit.jupiter.api.Test
-    public void testCmdStringEmpty(){
+    public void testCmdStringEmpty() {
         assertNull(Command.parseString(""));
         assertNull(Command.parseString(" "));
         assertNull(Command.parseString(null));
@@ -58,7 +58,7 @@ class CommandTest {
         var l_cmd = Command.parseString("cmd -option");
         assertEquals("cmd", l_cmd.getCmdName());
         assertTrue(l_cmd.getCmdAttributes().size() == 1);
-        assertEquals(l_cmd.getCmdAttributes().get(0).getOption(),"option");
+        assertEquals(l_cmd.getCmdAttributes().get(0).getOption(), "option");
         assertTrue(l_cmd.getCmdAttributes().get(0).getArguments().isEmpty());
     }
 
@@ -72,7 +72,7 @@ class CommandTest {
         var l_cmd = Command.parseString("cmd -option arg1 arg2 arg3");
         assertEquals("cmd", l_cmd.getCmdName());
         assertTrue(l_cmd.getCmdAttributes().size() == 1);
-        assertEquals(l_cmd.getCmdAttributes().get(0).getOption(),"option");
+        assertEquals(l_cmd.getCmdAttributes().get(0).getOption(), "option");
         String[] l_argsRef = {"arg1", "arg2", "arg3"};
         assertArrayEquals(l_cmd.getCmdAttributes().get(0).getArguments().toArray(), l_argsRef);
     }
@@ -88,10 +88,10 @@ class CommandTest {
         assertEquals("cmd", l_cmd.getCmdName());
         assertTrue(l_cmd.getCmdAttributes().size() == 2);
 
-        assertEquals(l_cmd.getCmdAttributes().get(0).getOption(),"option1");
+        assertEquals(l_cmd.getCmdAttributes().get(0).getOption(), "option1");
         assertTrue(l_cmd.getCmdAttributes().get(0).getArguments().isEmpty());
 
-        assertEquals(l_cmd.getCmdAttributes().get(1).getOption(),"option2");
+        assertEquals(l_cmd.getCmdAttributes().get(1).getOption(), "option2");
         assertTrue(l_cmd.getCmdAttributes().get(1).getArguments().isEmpty());
     }
 
@@ -109,10 +109,10 @@ class CommandTest {
         assertEquals("cmd", l_cmd.getCmdName());
         assertTrue(l_cmd.getCmdAttributes().size() == 2);
 
-        assertEquals(l_cmd.getCmdAttributes().get(0).getOption(),"option1");
+        assertEquals(l_cmd.getCmdAttributes().get(0).getOption(), "option1");
         assertArrayEquals(l_cmd.getCmdAttributes().get(0).getArguments().toArray(), l_arg1Ref);
 
-        assertEquals(l_cmd.getCmdAttributes().get(1).getOption(),"option2");
+        assertEquals(l_cmd.getCmdAttributes().get(1).getOption(), "option2");
         assertArrayEquals(l_cmd.getCmdAttributes().get(1).getArguments().toArray(), l_arg2Ref);
     }
 
@@ -130,13 +130,13 @@ class CommandTest {
         assertEquals("cmd", l_cmd.getCmdName());
         assertTrue(l_cmd.getCmdAttributes().size() == 3);
 
-        assertEquals(l_cmd.getCmdAttributes().get(0).getOption(),"option1");
+        assertEquals(l_cmd.getCmdAttributes().get(0).getOption(), "option1");
         assertTrue(l_cmd.getCmdAttributes().get(0).getArguments().isEmpty());
 
-        assertEquals(l_cmd.getCmdAttributes().get(1).getOption(),"option2");
+        assertEquals(l_cmd.getCmdAttributes().get(1).getOption(), "option2");
         assertArrayEquals(l_cmd.getCmdAttributes().get(1).getArguments().toArray(), l_arg1Ref);
 
-        assertEquals(l_cmd.getCmdAttributes().get(2).getOption(),"option3");
+        assertEquals(l_cmd.getCmdAttributes().get(2).getOption(), "option3");
         assertArrayEquals(l_cmd.getCmdAttributes().get(2).getArguments().toArray(), l_arg2Ref);
     }
 }

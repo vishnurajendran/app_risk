@@ -20,8 +20,8 @@ class PlayerTest {
         assertEquals(player.getAvailableReinforcements(), 3);
 
         //10 countries, should return 3 since max(0,floor(15/3)) = 5
-        for(int i = 0;i<15;i++){
-            player.assignCountry(new Country(i, "test-country"+i,0),0);
+        for (int i = 0; i < 15; i++) {
+            player.assignCountry(new Country(i, "test-country" + i, 0), 0);
         }
         player.assignReinforcementsToPlayer();
         assertEquals(player.getAvailableReinforcements(), 5);

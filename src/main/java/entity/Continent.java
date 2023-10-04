@@ -36,20 +36,6 @@ public class Continent {
     }
 
     /**
-     * Clone method for returning a clone of the object Continent
-     *
-     * @return Continent object
-     */
-    public Continent clone(){
-        Continent l_continent = new Continent(this.d_id, this.d_name, this.d_controlValue, this.d_color);
-        for(Map.Entry<Integer,Country> l_entry: this.d_countries.entrySet()){
-            l_continent.d_countries.put(l_entry.getKey(), l_entry.getValue().clone());
-        }
-        return l_continent;
-    }
-
-    /**
-     *
      * Parameterised Constructor for the Continent without color
      *
      * @param p_id           the number id for the continent, should be unique.
@@ -65,42 +51,17 @@ public class Continent {
         this.d_countries = new HashMap<Integer, Country>();
     }
 
-
     /**
-     * Setter for id
+     * Clone method for returning a clone of the object Continent
      *
-     * @param p_id the unique id for the continent
+     * @return Continent object
      */
-    public void setId(int p_id) {
-        this.d_id = p_id;
-    }
-
-    /**
-     * Setter for name
-     *
-     * @param p_name the name of the continent
-     */
-    public void setName(String p_name) {
-        this.d_name = p_name;
-    }
-
-    /**
-     * Setter for Control Value
-     *
-     * @param p_controlValue the control value depicts the number of armies per turn
-     *                       that is given to the player that control all of it
-     */
-    public void setControlValue(int p_controlValue) {
-        this.d_controlValue = p_controlValue;
-    }
-
-    /**
-     * Setter for color
-     *
-     * @param p_color the color of the continent (useful for UI)
-     */
-    public void setColor(String p_color) {
-        this.d_color = p_color;
+    public Continent clone() {
+        Continent l_continent = new Continent(this.d_id, this.d_name, this.d_controlValue, this.d_color);
+        for (Map.Entry<Integer, Country> l_entry : this.d_countries.entrySet()) {
+            l_continent.d_countries.put(l_entry.getKey(), l_entry.getValue().clone());
+        }
+        return l_continent;
     }
 
     /**
@@ -114,11 +75,11 @@ public class Continent {
     }
 
     /**
-     *This method removes an existing country from the continent object.
+     * This method removes an existing country from the continent object.
      *
      * @param p_country country to be removed
      */
-    public void removeCountry(Country p_country){
+    public void removeCountry(Country p_country) {
         this.d_countries.remove(p_country.getDId());
     }
 
@@ -142,12 +103,30 @@ public class Continent {
     }
 
     /**
+     * Setter for id
+     *
+     * @param p_id the unique id for the continent
+     */
+    public void setId(int p_id) {
+        this.d_id = p_id;
+    }
+
+    /**
      * Getter for Name
      *
      * @return the name of the continent as a String
      */
     public String getName() {
         return this.d_name;
+    }
+
+    /**
+     * Setter for name
+     *
+     * @param p_name the name of the continent
+     */
+    public void setName(String p_name) {
+        this.d_name = p_name;
     }
 
     /**
@@ -161,12 +140,31 @@ public class Continent {
     }
 
     /**
+     * Setter for Control Value
+     *
+     * @param p_controlValue the control value depicts the number of armies per turn
+     *                       that is given to the player that control all of it
+     */
+    public void setControlValue(int p_controlValue) {
+        this.d_controlValue = p_controlValue;
+    }
+
+    /**
      * Getter for color
      *
      * @return the color of the continent as a String
      */
     public String getColor() {
         return this.d_color;
+    }
+
+    /**
+     * Setter for color
+     *
+     * @param p_color the color of the continent (useful for UI)
+     */
+    public void setColor(String p_color) {
+        this.d_color = p_color;
     }
 
     /**

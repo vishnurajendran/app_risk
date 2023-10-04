@@ -3,6 +3,7 @@ package mapShow;
 import entity.RiskMap;
 import mapEditer.MapLoader;
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**

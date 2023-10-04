@@ -4,6 +4,7 @@ import java.text.MessageFormat;
 
 /**
  * Application command constants, used for command registrations.
+ *
  * @author vishnurajendran
  */
 public final class ApplicationConstants {
@@ -52,5 +53,5 @@ public final class ApplicationConstants {
      * Message for Invalid exit command calls.
      */
     public static final String MSG_INVALID_EXIT_CMD =
-                MessageFormat.format("INFO: Nothing to exit from, to exit the app use `{0}`", CMD_EXIT_APP);
+            MessageFormat.format("INFO: Nothing to exit from, to exit the app use `{0}`", CMD_EXIT_APP);
 }

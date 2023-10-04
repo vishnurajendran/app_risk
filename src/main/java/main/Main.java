@@ -6,9 +6,12 @@ import common.ISubAppInstantiator;
 import common.Logger;
 import game.GameInstantiator;
 import mapEditer.MapEditorInstantiator;
+
 import java.util.Scanner;
+
 /**
  * This class acts as the entry point to the application
+ *
  * @author vishnurajendran
  */
 public class Main {
@@ -25,10 +28,11 @@ public class Main {
      * it is also responsible for getting the input from user,
      * parsing it to a Command and providing it to application to
      * process.
+     *
      * @param args arguments for this program (eg --debug).
      */
     public static void main(String[] args) {
-        
+
         Logger.SetConsolePrinting(args.length > 0 && args[0].equals(SYMB_DEBUGGING));
         Scanner l_sc = new Scanner(System.in);
 
@@ -41,9 +45,9 @@ public class Main {
         l_app.startup();
 
         //game loop
-        while(!l_app.hasQuit()) {
+        while (!l_app.hasQuit()) {
             Command l_cmd = Command.parseString(l_sc.nextLine());
-            if(l_cmd != null)
+            if (l_cmd != null)
                 l_app.processCommand(l_cmd);
         }
 

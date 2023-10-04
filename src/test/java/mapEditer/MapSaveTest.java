@@ -7,6 +7,7 @@ import mapEditer.MapValidator;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class MapSaveTest {
@@ -32,7 +33,7 @@ class MapSaveTest {
         //check if you can load the map
         assertTrue(l_loader.loadMap(TEMP_MAP_PATH));
         assertTrue(MapValidator.validateMap(l_loader.getMap()));
-        
+
         l_file.delete();
     }
 }

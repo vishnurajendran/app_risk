@@ -67,7 +67,7 @@ public class Player {
      */
     public void calculateBonusReinforcements() {
         ArrayList<Country> continentsWithContries = new ArrayList<>();
-        if(GameEngine.getLoadedMap() == null) {
+        if (GameEngine.getLoadedMap() == null) {
             bonusForOwningContinent = 0;
             return;
         }
@@ -104,7 +104,8 @@ public class Player {
 
     /**
      * assigns re-inforcements to a country owned by player.
-     * @param p_countryId Id of the country
+     *
+     * @param p_countryId      Id of the country
      * @param p_reinforcements no. of re-inforcements.
      */
     public void assignReinforcementsToCountry(int p_countryId, int p_reinforcements) {
@@ -119,18 +120,19 @@ public class Player {
     }
 
     /**
-     * updates the re-inforcements held by player
-     * @param p_reinforcements value to update to
-     */
-    public void setAvailableReinforcements(int p_reinforcements) {
-        d_availableReinforcements = p_reinforcements;
-    }
-
-    /**
      * @return re-inforcements held by player
      */
     public int getAvailableReinforcements() {
         return d_availableReinforcements;
+    }
+
+    /**
+     * updates the re-inforcements held by player
+     *
+     * @param p_reinforcements value to update to
+     */
+    public void setAvailableReinforcements(int p_reinforcements) {
+        d_availableReinforcements = p_reinforcements;
     }
 
     /**
