@@ -4,6 +4,7 @@ import common.Logger;
 import entity.Continent;
 import entity.Country;
 import entity.RiskMap;
+import game.GameEngine;
 
 import java.io.File;
 import java.util.Arrays;
@@ -140,6 +141,7 @@ public class MapLoader {
         } catch (Exception e) {
             Logger.logError(e.getMessage());
             d_riskMap = new RiskMap();
+            GameEngine.quitGame();
             return false;
         }
     }

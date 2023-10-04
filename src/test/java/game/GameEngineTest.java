@@ -22,5 +22,6 @@ class GameEngineTest {
     void testCanProcess(){
         assertTrue(d_gameEngineTest.canProcess("assigncountries"));
         assertTrue(d_gameEngineTest.canProcess("loadmap"));
+        assertFalse(d_gameEngineTest.canProcess("editmap"));
     }
 }

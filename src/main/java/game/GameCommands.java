@@ -6,7 +6,10 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-
+/**
+ * This command class will contain all the possible commands that
+ * user can deploy during game phase.
+ */
 public class GameCommands {
     public static final String CMD_LOAD_MAP = "loadmap";
     public static final String CMD_GAME_PLAYER = "gameplayer";

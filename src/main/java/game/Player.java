@@ -1,12 +1,12 @@
 package game;
 
-import common.Logger;
 import entity.Country;
 
 import java.util.ArrayList;
 
 /**
  * Class PlayerDetails contains details of the player
+ *
  * @author Soham
  */
 public class Player {
@@ -22,52 +22,63 @@ public class Player {
 
     private int bonusForOwningContinent = 0;
 
-    Player(){
+    Player() {
         d_playerName = "";
         d_availableReinforcements = 0;
         d_listOfCountriesOwned = new ArrayList<>();
         d_orders = new ArrayList<>();
     }
 
-    Player(String playerName){
+    Player(String playerName) {
         this.d_availableReinforcements = 5;
         this.d_playerName = playerName;
         d_listOfCountriesOwned = new ArrayList<>();
     }
 
-    public void issueOrder(){
-        if(d_tempOrder == null){
+    /**
+     * Issues an order and stores it in the d_orders variable
+     * the variable will be used once it has to be executed
+     */
+    public void issueOrder() {
+        if (d_tempOrder == null) {
             return;
         }
         d_orders.add(d_tempOrder);
     }
 
-    public void setTempOrder(Order p_newOrder){
+    public void setTempOrder(Order p_newOrder) {
         d_tempOrder = p_newOrder;
         //d_orders.add(p_newOrder);
-        Logger.log("Issue order length: " + d_orders.size());
     }
 
-    public void assignReinforcementsToPlayer(){
+    /**
+     * This method assigns armies to the player according to their country owned
+     * Also processes if a player owns a whole continent and adds a bonus value if so
+     */
+    public void assignReinforcementsToPlayer() {
         calculateBonusReinforcements();
         double l_calculateReinforcements = Math.max(3, Math.floor((double) d_listOfCountriesOwned.size() / 3)) + bonusForOwningContinent;
         d_availableReinforcements = (int) l_calculateReinforcements;
     }
 
-    public void calculateBonusReinforcements(){
+    /**
+     * Calculates the bonus armies given to the player
+     * if they own every country in a particular continent
+     */
+    public void calculateBonusReinforcements() {
         ArrayList<Country> continentsWithContries = new ArrayList<>();
         var continent = GameEngine.getLoadedMap().getMap().getContinents();
-        for (int i = 0; i<continent.size(); i++) {
+        for (int i = 0; i < continent.size(); i++) {
             continentsWithContries.addAll(continent.get(i).getCountries());
-            if(d_listOfCountriesOwned.contains(continentsWithContries)){
+            if (d_listOfCountriesOwned.contains(continentsWithContries)) {
                 bonusForOwningContinent = continent.get(i).getControlValue();
             }
         }
     }
 
-    public Order nextOrder(){
-        if(d_orders.isEmpty()){
-           return null;
+    public Order nextOrder() {
+        if (d_orders.isEmpty()) {
+            return null;
         }
         Order l_order = d_orders.get(0);
         d_orders.remove(0);
@@ -79,30 +90,31 @@ public class Player {
      * The number of armies are automatically assigned at 5
      */
 
-    public void assignCountry(Country p_country, int p_noOfArmies){
+    public void assignCountry(Country p_country, int p_noOfArmies) {
         d_listOfCountriesOwned.add(p_country);
     }
 
-    public void assignReinforcementsToCountry(int p_countryId, int p_reinforcements){
+    public void assignReinforcementsToCountry(int p_countryId, int p_reinforcements) {
         GameEngine.getLoadedMap().getMap().increaseCountryArmyById(p_countryId, p_reinforcements);
     }
 
-    public String getPlayerName(){
+    public String getPlayerName() {
         return d_playerName;
     }
 
-    public void setAvailableReinforcements(int p_reinforcements){
+    public void setAvailableReinforcements(int p_reinforcements) {
         d_availableReinforcements = p_reinforcements;
     }
 
-    public int getAvailableReinforcements(){
+    public int getAvailableReinforcements() {
         return d_availableReinforcements;
     }
-    public ArrayList<Country> getCountriesOwned(){
+
+    public ArrayList<Country> getCountriesOwned() {
         return d_listOfCountriesOwned;
     }
 
-    public int getOrderSize(){
+    public int getOrderSize() {
         return d_orders.size();
     }
 }

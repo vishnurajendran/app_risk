@@ -1,6 +1,6 @@
 package application;
+
 import common.*;
-import game.PlayerHandler;
 
 import java.text.MessageFormat;
 import java.util.HashMap;
@@ -204,7 +204,7 @@ public class Application{
      */
     private void cmdStartGame(Command p_command) {
         Logger.log("Loading new Game");
-        if(!d_appState.equals(AppState.Standard) || p_command.getCmdAttributes().isEmpty() )
+        if(!d_appState.equals(AppState.Standard))
         {
             printInvalidStateStartCmdUsage(AppState.Game);
             return;

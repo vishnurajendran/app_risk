@@ -12,6 +12,7 @@ import java.util.LinkedHashSet;
 
 /**
  * This class handles the actions that happen to the player
+ *
  * @author Soham
  */
 public class PlayerHandler {
@@ -22,16 +23,18 @@ public class PlayerHandler {
     private static MapLoader d_loadedMap;
 
 
-    PlayerHandler(){
+    PlayerHandler() {
         d_whichPlayersTurn = 0;
     }
+
     /**
      * This method checks if there are any duplicates in the list
      * if there are, it removes them from adding
      * then runs a loop to add all the players
-     * @param p_playerNamesToAdd
+     *
+     * @param p_playerNamesToAdd is the list of players to add to the d_gameplayers object
      */
-    public static void addGamePlayers(ArrayList<String> p_playerNamesToAdd){
+    public static void addGamePlayers(ArrayList<String> p_playerNamesToAdd) {
         // Create a LinkedHashSet to remove duplicates while preserving order
         LinkedHashSet<String> setWithoutDuplicates = new LinkedHashSet<>(p_playerNamesToAdd);
 
@@ -39,20 +42,20 @@ public class PlayerHandler {
         ArrayList<String> p_playerNames = new ArrayList<>(setWithoutDuplicates);
 
         ArrayList<String> d_duplicates = new ArrayList<>();
-        for(String name: p_playerNames){
-            for(Player player : d_gamePlayers){
-                if(player.getPlayerName().equals(name)){
+        for (String name : p_playerNames) {
+            for (Player player : d_gamePlayers) {
+                if (player.getPlayerName().equals(name)) {
                     System.out.println(name + " already exists in the game");
                     d_duplicates.add(name);
                 }
             }
         }
 
-        for(String name: d_duplicates){
+        for (String name : d_duplicates) {
             p_playerNames.remove(name);
         }
 
-        for(String name: p_playerNames){
+        for (String name : p_playerNames) {
             d_gamePlayers.add(new Player(name));
         }
         System.out.println("Added " + p_playerNames.size() + " players to the game:");
@@ -60,10 +63,10 @@ public class PlayerHandler {
 
     /**
      * @param p_playerNamesToRemove contains all the player names in an array format
-     * The method creates an iterator to iterate through d_gameplayers
-     * It compares based on names to remove the one that matches
+     *                              The method creates an iterator to iterate through d_gameplayers
+     *                              It compares based on names to remove the one that matches
      */
-    public static void removeGamePlayers(ArrayList<String> p_playerNamesToRemove){
+    public static void removeGamePlayers(ArrayList<String> p_playerNamesToRemove) {
         Iterator<Player> l_iterator = d_gamePlayers.iterator();
         for (String name : p_playerNamesToRemove) {
             l_iterator = d_gamePlayers.iterator();
@@ -77,14 +80,19 @@ public class PlayerHandler {
         System.out.println("The list of Game Players is: ");
     }
 
+    /**
+     * It generates a random array of integers withing the size of number of countries
+     * Then assigns countries in a round-robin fashion until every country is assigned
+     *
+     * @param p_loadedMap is a reference to the map to hep assign countries
+     */
 
-
-    public static void assignCountriesToPlayer(MapLoader p_loadedMap){
+    public static void assignCountriesToPlayer(MapLoader p_loadedMap) {
         ArrayList<Integer> randomCountryIDs = new ArrayList<>();
-        for(int i = 1; i<p_loadedMap.getMap().getCountries().size(); i++){
+        for (int i = 1; i < p_loadedMap.getMap().getCountries().size(); i++) {
             randomCountryIDs.add(i);
         }
-        if(p_loadedMap.getMap().getCountryIds().size()< d_gamePlayers.size()){
+        if (p_loadedMap.getMap().getCountryIds().size() < d_gamePlayers.size()) {
             System.out.println("ERROR: Number of players are greater than the number of countries in the map");
             return;
         }
@@ -92,22 +100,27 @@ public class PlayerHandler {
         Collections.shuffle(randomCountryIDs);
         Logger.log("Countries were assigned in the following order: " + String.valueOf(randomCountryIDs));
         int l_index = 0;
-        while(randomCountryIDs.size()>0){
+        while (randomCountryIDs.size() > 0) {
             d_gamePlayers.get(l_index).assignCountry(p_loadedMap.getMap().getCountryById(randomCountryIDs.get(0)), p_loadedMap.getMap().getCountryArmyById(randomCountryIDs.get(0)));
-            l_index = (l_index+1)%d_gamePlayers.size();
+            l_index = (l_index + 1) % d_gamePlayers.size();
             randomCountryIDs.remove(0);
         }
-        for(Player player: d_gamePlayers){
+        for (Player player : d_gamePlayers) {
             player.assignReinforcementsToPlayer();
         }
         displayGamePlayersWithCountries(p_loadedMap);
     }
 
-    public static void displayGamePlayersWithCountries(MapLoader p_loadedMap){
+    /**
+     * A method to display all the players and their countries owned respectively
+     *
+     * @param p_loadedMap is a reference to the map to access every country's armies
+     */
+    public static void displayGamePlayersWithCountries(MapLoader p_loadedMap) {
         Player l_currentPlayer = d_gamePlayers.get(d_whichPlayersTurn % d_gamePlayers.size());
         Logger.log("Displaying countries assigned to players");
         d_loadedMap = p_loadedMap;
-        for(Player name: d_gamePlayers){
+        for (Player name : d_gamePlayers) {
             System.out.println(name.getPlayerName() + " Owns: ");
             name.getCountriesOwned().forEach((key) -> System.out.println(" " + d_loadedMap.getMap().getCountryById(key.getDId()).getName() + ", ID: "
                     + key.getDId() + ", Armies: " + d_loadedMap.getMap().getCountryById(key.getDId()).getArmy()));
@@ -119,27 +132,28 @@ public class PlayerHandler {
         displayGamePlayersCountries(l_currentPlayer);
     }
 
-    public static void displayGamePlayersCountries(Player p_player){
+    public static void displayGamePlayersCountries(Player p_player) {
         ArrayList<Country> l_playerCountries = p_player.getCountriesOwned();
         System.out.println("The player owns following countries: ");
-        for(Country value: l_playerCountries){
-            System.out.println("ID: " + value.getDId() + " Name: " + value.getName() + " Armies: " + value.getArmy());
+        for (Country value : l_playerCountries) {
+            System.out.println("ID: " + value.getDId() + "; Name: " + value.getName() + "; Armies: " + value.getArmy());
         }
     }
 
     /**
      * This function returns integer based on the ability to process the deploy order
+     *
+     * @param p_cmd includes the countryID and the numberOfReinforcements
      * @return 1 means the command given isn't valid,
      * 2 means the player doesn't possess the country,
      * 3 means the player deployed more armies than they had.
      * 4 means the command is valid and can proceed to deploy order
-     * @param p_cmd includes the countryID and the numberOfReinforcements
      */
 
-    public static int issueOrder(Command p_cmd){
+    public static int issueOrder(Command p_cmd) {
         int l_indexOfPlayer = d_whichPlayersTurn % d_gamePlayers.size();
         Player l_currentPlayer = d_gamePlayers.get(l_indexOfPlayer);
-        if(!p_cmd.getCmdAttributes().isEmpty()) {
+        if (!p_cmd.getCmdAttributes().isEmpty()) {
             int l_countryId;
 
             int l_deployReinforcements;
@@ -150,10 +164,10 @@ public class PlayerHandler {
                 Logger.log("Number exception");
                 return 1;
             }
-            if(!l_currentPlayer.getCountriesOwned().contains(d_loadedMap.getMap().getCountryById(l_countryId))){
+            if (!l_currentPlayer.getCountriesOwned().contains(d_loadedMap.getMap().getCountryById(l_countryId))) {
                 Logger.log("The player doesn't have this country");
                 return 2;
-            } else if(l_currentPlayer.getAvailableReinforcements()<l_deployReinforcements){
+            } else if (l_currentPlayer.getAvailableReinforcements() < l_deployReinforcements) {
                 Logger.log("The armies requested to display are more than what the player has");
                 return 3;
             } else {
@@ -165,35 +179,36 @@ public class PlayerHandler {
                 Logger.log("Orders for player " + l_currentPlayer + " = " + l_currentPlayer.getOrderSize());
                 d_whichPlayersTurn += 1;
             }
-        }
-        else{
-            Logger.log(String.valueOf(p_cmd.getCmdAttributes().size()+ " Isn't valid"));
+        } else {
+            Logger.log(String.valueOf(p_cmd.getCmdAttributes().size() + " Isn't valid"));
             return 1;
         }
         return 4;
     }
 
-    public static void displayGamePlayers(){
+    public static void displayGamePlayers() {
 
-        for(Player name: d_gamePlayers){
+        for (Player name : d_gamePlayers) {
             System.out.println(name.getPlayerName());
         }
     }
+
     public static ArrayList<Player> getGamePlayers() {
         return d_gamePlayers;
     }
 
-    public static int getPlayerTurn(){
+    public static int getPlayerTurn() {
         return d_whichPlayersTurn;
     }
-    public static void increasePlayerTurn(int p_incrementValue){
-        d_whichPlayersTurn+=p_incrementValue;
+
+    public static void increasePlayerTurn(int p_incrementValue) {
+        d_whichPlayersTurn += p_incrementValue;
     }
 
-    public static void reassignValuesForNextTurn(){
+    public static void reassignValuesForNextTurn() {
         d_whichPlayersTurn = 0;
         displayGamePlayersWithCountries(d_loadedMap);
-        for(Player player: d_gamePlayers){
+        for (Player player : d_gamePlayers) {
             player.assignReinforcementsToPlayer();
         }
     }
