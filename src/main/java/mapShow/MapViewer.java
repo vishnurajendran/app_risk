@@ -1,5 +1,6 @@
 package mapShow;
 
+import entity.Continent;
 import entity.Country;
 import game.PlayerHandler;
 import entity.RiskMap;
@@ -8,6 +9,7 @@ import game.Player;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,7 +35,7 @@ public class MapViewer extends JFrame {
      */
     public static RiskMap createRiskMap() {
         MapLoader mapLoader = new MapLoader();
-        mapLoader.loadMap("testMap.map");
+        mapLoader.loadMap("testResources/ValidTestMap.map");
         return mapLoader.getMap();
     }
 
@@ -43,7 +45,7 @@ public class MapViewer extends JFrame {
     private void initializeUI() {
         setTitle("Risk Map Viewer");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(800, 600);
+        setSize(800, 800);
 
         // Create a panel for the game map
         RiskMapPanel mapPanel = new RiskMapPanel(d_RISK_MAP); // Pass the RiskMap instance
@@ -69,6 +71,9 @@ public class MapViewer extends JFrame {
      */
     static class RiskMapPanel extends JPanel {
 
+        private final int d_DELTA = 75;
+        private final int d_NODESIZE = 8;
+
         /** The RiskMap instance to be rendered. */
         private final RiskMap d_RISK_MAP;
         /** Map of continent names to colors. */
@@ -92,43 +97,70 @@ public class MapViewer extends JFrame {
         @Override
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
+            setBackground(Color.DARK_GRAY);
+            ArrayList<Continent> continents = new ArrayList<>();
 
-            Map<String, Point> continentLabels = new HashMap<>(); // Store continent labels' positions
+            Map<Country, Point> countryPoint = new HashMap<>();
 
             // Draw continents, countries, and connections
             for (Country country : d_RISK_MAP.getCountries()) {
+                Continent currContinent = d_RISK_MAP.getContinentById(country.getContinentId());
+                if(!continents.contains(currContinent)){
+                    continents.add(currContinent);
+                }
+
                 String continentName = d_RISK_MAP.getContinentById(country.getContinentId()).getName();
 
+                g.setColor(Color.GRAY);
                 // Draw countries with the color of their continent
                 Color continentColor = d_CONTINENT_COLORS.get(continentName);
                 g.setColor(continentColor);
-                g.fillOval(country.getXCoordinates(), country.getYCoordinates(), 50, 50);
+
+                g.fillOval(country.getXCoordinates(), country.getYCoordinates() + d_DELTA, d_NODESIZE, d_NODESIZE);
+
+                countryPoint.put(country, new Point(country.getXCoordinates(), country.getYCoordinates() + d_DELTA));
 
                 // Draw connections to neighboring countries
-                g.setColor(Color.BLACK);
+                g.setColor(Color.GRAY);
                 for (Country connectedCountry : country.getBorders().values()) {
                     g.drawLine(
-                            country.getXCoordinates() + 25, country.getYCoordinates() + 25,
-                            connectedCountry.getXCoordinates() + 25, connectedCountry.getYCoordinates() + 25
+                            country.getXCoordinates() + d_NODESIZE/2, country.getYCoordinates() + d_DELTA + d_NODESIZE/2,
+                            connectedCountry.getXCoordinates() + d_NODESIZE/2, connectedCountry.getYCoordinates() + d_DELTA + d_NODESIZE/2
                     );
                 }
+            }
+
+            //Draw text over everything else
+            for(Country country : d_RISK_MAP.getCountries()){
 
                 // Draw country name
-                g.setColor(Color.GRAY);
-                g.drawString(country.getName(), country.getXCoordinates(), country.getYCoordinates() - 10);
-
-                // Store the continent label position if not already stored
-                continentLabels.computeIfAbsent(continentName, k -> new Point(country.getXCoordinates(), country.getYCoordinates() - 30));
+                g.setColor(Color.YELLOW);
+                g.setFont(new Font("default", Font.BOLD, 12));
+                g.drawString(country.getDId()+"", country.getXCoordinates(), country.getYCoordinates() - d_NODESIZE/2 + d_DELTA);
 
                 // Display player info
                 displayPlayerInfo(g, country);
             }
 
             // Draw continent labels
-            g.setColor(Color.BLACK);
-            for (Map.Entry<String, Point> entry : continentLabels.entrySet()) {
-                String label = "Continent: " + entry.getKey();
-                g.drawString(label, entry.getValue().x, entry.getValue().y);
+            g.setColor(Color.WHITE);
+
+            //display continents
+            for(Continent continent : continents){
+                int minY = continent.getCountries().get(0).getYCoordinates();
+                int midX = 0;
+                for (Country country: continent.getCountries()) {
+                    if(minY > country.getYCoordinates())
+                        minY = country.getYCoordinates();
+
+                    Point p = countryPoint.get(country);
+                    midX += p.x;
+                }
+                midX /= continent.getCountries().size();
+                String label = continent.getName();
+
+                g.setFont(new Font("default", Font.BOLD, 12));
+                g.drawString(label, midX, minY + d_DELTA - 40);
             }
         }
 
