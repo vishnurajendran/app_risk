@@ -1,0 +1,56 @@
+; A larger test file to test validation of maps
+
+name LargeTestMap ^_^
+
+[continents]
+ameroki 5 yellow
+utropa 7 pink
+amerpoll 4 blue
+ulstrailia 3 green
+africa2 6 orange
+europe2 8 purple
+asia2 10 cyan
+
+[countries]
+1 alaska 1 50 50
+2 siberia 1 150 100
+3 kamchatka 1 250 50
+4 worrick 2 200 150
+5 canada 2 300 100
+6 australia 3 400 150
+7 newzealand 3 500 100
+8 greenland 1 100 200
+9 argentina 2 150 250
+10 brazil 3 300 300
+11 germany 4 400 250
+12 france 4 500 300
+13 egypt 5 600 250
+14 nigeria 5 700 300
+15 china 6 800 250
+16 india 6 900 300
+17 japan 6 1000 250
+18 russia 7 1100 300
+19 antarctica 8 1200 250
+20 southafrica 8 1300 300
+
+[borders]
+1 2 3 8
+2 1 3 4 5
+3 1 2 5
+4 2 5 6 9 11
+5 2 3 4 6
+6 4 5 7 10 12
+7 6 10 13
+8 1 9 11
+9 4 8 10 11
+10 6 7 9 12
+11 4 8 9 12 13
+12 6 10 11 13
+13 7 11 12
+14 15 19
+15 14 16 17
+16 15 17
+17 15 16 18
+18 17
+19 14
+20
