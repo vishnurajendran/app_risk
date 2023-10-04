@@ -48,6 +48,19 @@ public class MapEditor implements ISubApplication {
     }
 
     /**
+     * This function is used to check if a sub-application has quit
+     * on its own without a user input, in cases where the sub-application
+     * is not able to proceed safely, it can set this function to return true
+     * to make the Application layer perform an auto-quit, post a command query.
+     *
+     * @return true if sub-application has quit, else false
+     */
+    @Override
+    public boolean hasQuit() {
+        return false;
+    }
+
+    /**
      * This method registers all map editor commands and the methods
      * to be invoked for those commands with an internal command map.
      */
