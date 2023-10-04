@@ -1,7 +1,8 @@
-package mapSave;
+package mapEditer;
 
 import entity.RiskMap;
 import mapEditer.MapLoader;
+import mapEditer.MapSave;
 import mapEditer.MapValidator;
 import org.junit.jupiter.api.Test;
 

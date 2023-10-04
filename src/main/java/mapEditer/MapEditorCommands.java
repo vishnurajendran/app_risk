@@ -1,5 +1,7 @@
 package mapEditer;
 
+import mapShow.MapShowConstants;
+
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -10,7 +12,7 @@ import java.util.Set;
  * @author TaranjeetKaur
  */
 public class MapEditorCommands {
-    public static final String CMD_SHOW_MAP = "showmap";
+    public static final String CMD_SHOW_MAP = MapShowConstants.CMD_MAPSHOW;
     public static final String CMD_SAVE_MAP = "savemap";
     public static final String CMD_EDIT_MAP = "editmap";
     public static final String CMD_VALIDATE_MAP = "validatemap";

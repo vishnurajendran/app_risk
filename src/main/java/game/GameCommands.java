@@ -1,6 +1,8 @@
 package game;
 
 
+import mapShow.MapShowConstants;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -17,6 +19,12 @@ public class GameCommands {
      * Command to load a map
      */
     public static final String CMD_LOAD_MAP = "loadmap";
+
+    /**
+     * Command to show map.
+     */
+    public static final String CMD_SHOWMAP = MapShowConstants.CMD_MAPSHOW;
+
     /**
      * Command to add/remove players
      */
@@ -40,7 +48,7 @@ public class GameCommands {
     /**
      * Valid command set
      */
-    public static final Set<String> CHECKVALIDCOMMANDSFORINITIAL = new HashSet<>(Arrays.asList(CMD_LOAD_MAP, CMD_GAME_PLAYER, CMD_ASSIGN_COUNTRIES_TO_PLAYER));
+    public static final Set<String> CHECKVALIDCOMMANDSFORINITIAL = new HashSet<>(Arrays.asList(CMD_LOAD_MAP, CMD_GAME_PLAYER, CMD_ASSIGN_COUNTRIES_TO_PLAYER, CMD_SHOWMAP));
     /**
      * Error messages for displaying to user
      */

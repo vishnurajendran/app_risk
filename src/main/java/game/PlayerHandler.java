@@ -69,7 +69,6 @@ public class PlayerHandler {
         for (String name : p_playerNames) {
             d_gamePlayers.add(new Player(name));
         }
-        System.out.println("Added " + p_playerNames.size() + " players to the game:");
     }
 
     /**

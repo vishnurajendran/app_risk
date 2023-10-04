@@ -4,7 +4,6 @@ import common.*;
 import entity.Continent;
 import entity.Country;
 import entity.RiskMap;
-import mapSave.MapSave;
 import mapShow.MapViewer;
 
 import java.io.File;
