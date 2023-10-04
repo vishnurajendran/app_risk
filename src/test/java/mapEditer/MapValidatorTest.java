@@ -1,4 +1,4 @@
-package mapValidator;
+package mapEditer;
 
 import entity.RiskMap;
 import mapEditer.MapLoader;
