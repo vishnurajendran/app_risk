@@ -2,7 +2,7 @@ package mapSave;
 
 import entity.RiskMap;
 import mapEditer.MapLoader;
-import mapValidator.MapValidator;
+import mapEditer.MapValidator;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
