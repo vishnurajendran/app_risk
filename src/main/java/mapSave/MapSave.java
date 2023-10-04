@@ -54,7 +54,6 @@ public class MapSave {
                 processAdjacentCountries(p_Map);
     }
 
-
     /**
      * The method to process continents.
      *

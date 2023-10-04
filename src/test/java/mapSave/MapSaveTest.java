@@ -15,7 +15,7 @@ class MapSaveTest {
 
     /**
      * Test the map save functionality,
-     * we check if the file saved is correctly
+     * we check if the file us saved correctly
      * converting the RiskMap by comparing it with
      * the original file.
      */
