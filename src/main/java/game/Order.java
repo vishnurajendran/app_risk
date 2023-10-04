@@ -1,5 +1,7 @@
 package game;
 
+import entity.Player;
+
 /**
  * This Class is used to initialize orders that the player sets
  * executeOrder() Method is implemented by the child class DeployOrder

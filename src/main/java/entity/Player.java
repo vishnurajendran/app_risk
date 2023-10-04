@@ -1,6 +1,8 @@
-package game;
+package entity;
 
 import entity.Country;
+import game.GameEngine;
+import game.Order;
 
 import java.util.ArrayList;
 

@@ -3,6 +3,7 @@ package mapEditer;
 import common.*;
 import entity.Continent;
 import entity.Country;
+import entity.MapLoader;
 import entity.RiskMap;
 import mapShow.MapViewer;
 

@@ -1,12 +1,11 @@
 package mapShow;
 
-import common.Logger;
 import entity.Continent;
 import entity.Country;
 import entity.RiskMap;
-import game.PlayerHandler;
-import game.Player;
-import mapEditer.MapLoader;
+import entity.PlayerHandler;
+import entity.Player;
+import entity.MapLoader;
 
 import javax.swing.*;
 import java.awt.*;

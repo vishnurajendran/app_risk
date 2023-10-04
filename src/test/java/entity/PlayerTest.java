@@ -1,6 +1,7 @@
-package game;
+package entity;
 
 import entity.Country;
+import entity.Player;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
