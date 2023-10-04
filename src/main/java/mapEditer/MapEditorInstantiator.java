@@ -15,6 +15,6 @@ public class MapEditorInstantiator implements ISubAppInstantiator {
      */
     @Override
     public ISubApplication createInstance() {
-        return null;
+        return new MapEditor();
     }
 }
