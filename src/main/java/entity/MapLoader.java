@@ -1,4 +1,4 @@
-package mapEditer;
+package entity;
 
 import common.Logger;
 import entity.Continent;

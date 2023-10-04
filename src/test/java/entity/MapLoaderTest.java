@@ -1,5 +1,6 @@
-package mapEditer;
+package entity;
 
+import entity.MapLoader;
 import entity.RiskMap;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

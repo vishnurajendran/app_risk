@@ -2,7 +2,9 @@ package game;
 
 import application.ApplicationConstants;
 import common.*;
-import mapEditer.MapLoader;
+import entity.MapLoader;
+import entity.Player;
+import entity.PlayerHandler;
 import mapShow.MapViewer;
 
 import java.text.MessageFormat;

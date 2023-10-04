@@ -1,5 +1,7 @@
 package game;
 
+import entity.Player;
+
 /**
  * This class will assign orders to the player
  * Once the player is done deploying, it will execute using executeOrder() method.

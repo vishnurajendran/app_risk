@@ -1,9 +1,7 @@
 package mapEditer;
 
 import entity.RiskMap;
-import mapEditer.MapLoader;
-import mapEditer.MapSave;
-import mapEditer.MapValidator;
+import entity.MapLoader;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;

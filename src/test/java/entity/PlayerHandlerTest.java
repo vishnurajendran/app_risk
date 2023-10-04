@@ -1,8 +1,10 @@
-package game;
+package entity;
 
 import common.Command;
 import entity.Continent;
 import entity.Country;
+import entity.Player;
+import entity.PlayerHandler;
 import org.junit.jupiter.api.*;
 
 import java.util.ArrayList;
