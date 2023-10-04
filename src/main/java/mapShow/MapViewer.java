@@ -7,7 +7,6 @@ import game.PlayerHandler;
 import game.Player;
 import mapEditer.MapLoader;
 
-
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;

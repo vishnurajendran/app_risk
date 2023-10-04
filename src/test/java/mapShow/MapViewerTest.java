@@ -20,7 +20,7 @@ class MapViewerTest {
         RiskMap riskMap = MapViewer.createRiskMap();
         assertNotNull(riskMap);
     }
-    
+
     /**
      * Unit test for a map with a small number of countries and continents.
      * Test case:
@@ -50,7 +50,6 @@ class MapViewerTest {
         MapViewer.RiskMapPanel riskMapPanel = new MapViewer.RiskMapPanel(largeMap);
         assertNotNull(riskMapPanel);
     }
-
 }
 
 
