@@ -172,7 +172,7 @@ public class MapViewer extends JFrame {
          */
         private void displayPlayerInfo(Graphics g, Country country) {
             for (Player player : PlayerHandler.getGamePlayers()) {
-                if (player.getCountriesOwned().containsKey(country)) {
+                if (player.getCountriesOwned().contains(country)) {
                     g.setColor(Color.RED);
                     g.drawString(player.getPlayerName(), country.getXCoordinates(), country.getYCoordinates() + 30);
 
