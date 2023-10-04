@@ -1,5 +1,7 @@
 package entity;
 
+import common.Logger;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -40,6 +42,31 @@ public class Country {
         this.d_continentId = p_continentId;
         this.d_xCoordinates = p_xCoordinates;
         this.d_yCoordinates = p_yCoordinates;
+        d_borders = new HashMap<>();
+    }
+
+    /**
+     * Clone method for returning a clone of the object Country
+     *
+     * @return Country object
+     */
+    public Country clone() {
+        return new Country(this.d_id, this.d_name, this.d_continentId, this.d_xCoordinates, this.d_yCoordinates);
+    }
+
+    /**
+     * Constructor for the country without coordinates.
+     *
+     * @param p_id          The number id for the country, should be unique.
+     * @param p_name        The name of the country.
+     * @param p_continentId The continent ID that this country below to.
+     */
+    public Country(int p_id, String p_name, int p_continentId) {
+        this.d_id = p_id;
+        this.d_name = p_name;
+        this.d_continentId = p_continentId;
+        this.d_xCoordinates = -1;
+        this.d_yCoordinates = -1;
         d_borders = new HashMap<>();
     }
 
@@ -95,6 +122,10 @@ public class Country {
      */
     public void setArmy(int p_army) {
         this.d_army = p_army;
+    }
+
+    public void incrementArmy(int p_army){
+        this.d_army += p_army;
     }
 
     /**
@@ -174,6 +205,16 @@ public class Country {
         }
 
         return false;
+    }
+
+    public boolean removeBorder(Country p_border) {
+        if (!isNull(d_borders.get(p_border.getDId()))) {
+            d_borders.remove(p_border.d_id);
+        }
+        else {
+            Logger.log("Border doesn't exist");
+        }
+        return true;
     }
 
     /**

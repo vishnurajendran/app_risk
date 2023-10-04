@@ -44,7 +44,7 @@ public class MapViewer extends JFrame {
      */
     private void initializeUI() {
         setTitle("Risk Map Viewer");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(800, 800);
 
         // Create a panel for the game map
@@ -56,10 +56,8 @@ public class MapViewer extends JFrame {
 
     /**
      * The main entry point for the application.
-     *
-     * @param args The command line arguments.
      */
-    public static void main(String[] args) {
+    public static void showMap() {
         SwingUtilities.invokeLater(() -> {
             MapViewer mapViewer = new MapViewer();
             mapViewer.setVisible(true);
@@ -172,7 +170,7 @@ public class MapViewer extends JFrame {
          */
         private void displayPlayerInfo(Graphics g, Country country) {
             for (Player player : PlayerHandler.getGamePlayers()) {
-                if (player.getCountriesOwned().containsKey(country)) {
+                if (player.getCountriesOwned().contains(country)) {
                     g.setColor(Color.RED);
                     g.drawString(player.getPlayerName(), country.getXCoordinates(), country.getYCoordinates() + 30);
 

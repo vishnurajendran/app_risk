@@ -2,10 +2,7 @@ package entity;
 
 import common.Logger;
 
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.Set;
+import java.util.*;
 
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
@@ -41,6 +38,22 @@ public class RiskMap {
     }
 
     /**
+     * Clone method for returning a clone of the object Riskmap
+     *
+     * @return Riskmap object
+     */
+    public RiskMap clone(){
+        RiskMap l_riskMapClone = new RiskMap(this.d_name);
+        for(Map.Entry<Integer,Country> l_entryCountry: this.d_countries.entrySet()){
+            l_riskMapClone.d_countries.put(l_entryCountry.getKey(), l_entryCountry.getValue().clone());
+        }
+        for(Map.Entry<Integer,Continent> l_entryContinent: this.d_continents.entrySet()){
+            l_riskMapClone.d_continents.put(l_entryContinent.getKey(), l_entryContinent.getValue().clone());
+        }
+        return l_riskMapClone;
+    }
+
+    /**
      * Getter for name of the map.
      *
      * @return The name of the map as a string.
@@ -56,6 +69,26 @@ public class RiskMap {
      */
     public void setName(String p_name) {
         this.d_name = p_name;
+    }
+
+    /**
+     * Checks if the map has the continent with given continentId.
+     *
+     * @param p_continentId id of continent.
+     * @return true if continent present, false otherwise.
+     */
+    public boolean hasContinent(Integer p_continentId){
+        return d_continents.containsKey(p_continentId);
+    }
+
+    /**
+     * Checks if the map has the continent with given countryId.
+     *
+     * @param p_countryId   id of country as an integer
+     * @return   true if continent present, false otherwise.
+     */
+    public boolean hasCountry(Integer p_countryId){
+        return d_countries.containsKey(p_countryId);
     }
 
     /**
@@ -80,6 +113,47 @@ public class RiskMap {
         }
         else {
             Logger.logError("Riskmap loader: country added to null continent");
+        }
+    }
+
+    /**
+     *This method removes the country from continent
+     *
+     * @param p_country country object to be removed
+     */
+    void removeCountryFromContinent(Country p_country){
+        Continent l_continent = getContinentById(p_country.getContinentId());
+        if(nonNull(l_continent)) {
+            l_continent.removeCountry(p_country);
+        }
+        else {
+            Logger.logError("Riskmap loader: country removed from null continent");
+        }
+    }
+
+    /**
+     *This method removes the country from map
+     *
+     * @param p_country country object to be removed
+     */
+    public void removeCountry(Country p_country) {
+        removeCountryFromContinent(p_country);
+        d_countries.remove(p_country.getDId());
+    }
+
+    /**
+     *This method removes continent from the map.
+     *
+     * @param p_continent Object continent to be removed.
+     */
+    public void removeContinent(Continent p_continent){
+        //remove all countries of the continent
+        if(hasContinent(p_continent.getId())){
+            ArrayList<Country> l_countries = getCountries();
+            for(Country l_country : l_countries){
+                removeCountry(l_country);
+            }
+            d_continents.remove(p_continent.getId());
         }
     }
 
@@ -184,6 +258,17 @@ public class RiskMap {
             return true;
         }
         return false;
+    }
+
+    /**
+     * Increase the army value of the country
+     * @param p_countryId The id that we got from the player deployment
+     * @param p_army The number of armies that the player wants to deploy on this country
+     */
+    public void increaseCountryArmyById(int p_countryId, int p_army) {
+        Country l_country = d_countries.get(p_countryId);
+        l_country.incrementArmy(p_army);
+
     }
 
     /**

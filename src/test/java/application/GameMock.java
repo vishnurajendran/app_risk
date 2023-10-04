@@ -22,6 +22,11 @@ public class GameMock implements ISubApplication {
         //nothing here
     }
 
+    @Override
+    public boolean hasQuit() {
+        return false;
+    }
+
     /**
      * @return true if p_cmdName is a valid command, else false.
      */
