@@ -4,7 +4,6 @@ import common.*;
 import entity.Continent;
 import entity.Country;
 import entity.RiskMap;
-import mapValidator.MapValidator;
 
 import java.io.File;
 import java.io.IOException;
