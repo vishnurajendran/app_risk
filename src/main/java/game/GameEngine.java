@@ -122,6 +122,12 @@ public class GameEngine implements ISubApplication {
      * @param p_cmd
      */
     private void assignCountries(Command p_cmd) {
+
+        if(PlayerHandler.getGamePlayers().size() <= 1){
+            System.out.println("Not enough players to start the game. the game needs at-least 2 players");
+            return;
+        }
+
         PlayerHandler.assignCountriesToPlayer(d_loadedMap);
         d_gameState = GameState.DeployMode;
     }
