@@ -124,6 +124,10 @@ public class Country {
         this.d_army = p_army;
     }
 
+    public void incrementArmy(int p_army){
+        this.d_army += p_army;
+    }
+
     /**
      * Getter for armies in the country.
      *
