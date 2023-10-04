@@ -90,20 +90,22 @@ public class Application{
 
         //check if command is an app command
         if(d_cmdToActionMap.containsKey(p_command.getCmdName())) {
+            //run command at application level.
             Logger.log("Found application level command " + p_command.getCmdName());
             d_cmdToActionMap.get(p_command.getCmdName()).invoke(p_command);
-            return;
         }
-
-        //try sending it to the child
-        if (d_activeSubApplication != null && d_activeSubApplication.canProcess(p_command.getCmdName())) {
-            Logger.log("sending command to sub-application " + p_command.getCmdName());
+        else if (d_activeSubApplication != null && d_activeSubApplication.canProcess(p_command.getCmdName())) {
             //send it to the active sub-application.
+            Logger.log("sending command to sub-application " + p_command.getCmdName());
             d_activeSubApplication.submitCommand(p_command);
-            return;
         }
+        else
+            printInvalidCommandMessage(p_command);
 
-        printInvalidCommandMessage(p_command);
+        //check if a command has put the sub-app to a closed state.
+        //if yes, we simply close this instance and return standard application state.
+        if(d_activeSubApplication != null && d_activeSubApplication.hasQuit())
+            closeCurrSubAppInstance();
     }
 
     /**
@@ -112,6 +114,20 @@ public class Application{
      */
     private void printInvalidCommandMessage(Command p_cmd) {
         System.out.println(MessageFormat.format(ApplicationConstants.MSG_INVALID_CMD, p_cmd.getCmdName()));
+    }
+
+    private void printInvalidStateStartCmdUsage(AppState state) {
+        switch(state){
+            case AppState.Game :
+                                 System.out.println(ApplicationConstants.MSG_INVALID_START_GAME_CMD_USAGE);
+                                 break;
+            case AppState.MapEditor:
+                                 System.out.println(ApplicationConstants.MSG_INVALID_MAP_EDITOR_GAME_CMD_USAGE);
+                                 break;
+            default:
+                System.out.println(ApplicationConstants.MSG_INVALID_CMD_USAGE);
+        }
+
     }
 
     /**
@@ -184,7 +200,7 @@ public class Application{
         Logger.log("Loading new Game");
         if(!d_appState.equals(AppState.Standard))
         {
-            printInvalidCommandMessage(p_command);
+            printInvalidStateStartCmdUsage(AppState.Game);
             return;
         }
 
@@ -211,7 +227,7 @@ public class Application{
 
         if(!d_appState.equals(AppState.Standard))
         {
-            printInvalidCommandMessage(p_command);
+            printInvalidStateStartCmdUsage(AppState.MapEditor);
             return;
         }
 
