@@ -8,8 +8,14 @@ package game;
  */
 public enum GameState {
 
+    /**
+     * Starting state of game.
+     */
     Initial,
 
+    /**
+     * Deploying state of the game.
+     */
     DeployMode,
 
 }

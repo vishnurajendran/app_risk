@@ -11,5 +11,9 @@ abstract public class Order {
     protected int d_targetCountry;
     protected int d_armiesToDeploy;
 
+    /**
+     * this method executes the specific behaviour of an order
+     * when invoked.
+     */
     public abstract void executeOrder();
 }

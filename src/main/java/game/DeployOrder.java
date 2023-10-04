@@ -7,6 +7,23 @@ package game;
  * @author Soham
  */
 public class DeployOrder extends Order {
+
+    /**
+     * default constructor
+     */
+    public DeployOrder(){
+        d_armiesToDeploy = 0;
+        d_ctxPlayer = null;
+        d_targetCountry = 0;
+    }
+
+    /**
+     * parametrised constructor to initialise the
+     * DeployOrder object.
+     * @param p_player player in context for this order
+     * @param p_armiesToDeploy no. of armies to deploy
+     * @param p_targetCountry Id of the country to target this order on.
+     */
     public DeployOrder(Player p_player, int p_armiesToDeploy, int p_targetCountry) {
         d_ctxPlayer = p_player;
         d_armiesToDeploy = p_armiesToDeploy;

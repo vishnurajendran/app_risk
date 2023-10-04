@@ -67,6 +67,11 @@ public class Player {
      */
     public void calculateBonusReinforcements() {
         ArrayList<Country> continentsWithContries = new ArrayList<>();
+        if(GameEngine.getLoadedMap() == null) {
+            bonusForOwningContinent = 0;
+            return;
+        }
+
         var continent = GameEngine.getLoadedMap().getMap().getContinents();
         for (int i = 0; i < continent.size(); i++) {
             continentsWithContries.addAll(continent.get(i).getCountries());
@@ -76,6 +81,9 @@ public class Player {
         }
     }
 
+    /**
+     * @return next order in queue
+     */
     public Order nextOrder() {
         if (d_orders.isEmpty()) {
             return null;
@@ -94,26 +102,47 @@ public class Player {
         d_listOfCountriesOwned.add(p_country);
     }
 
+    /**
+     * assigns re-inforcements to a country owned by player.
+     * @param p_countryId Id of the country
+     * @param p_reinforcements no. of re-inforcements.
+     */
     public void assignReinforcementsToCountry(int p_countryId, int p_reinforcements) {
         GameEngine.getLoadedMap().getMap().increaseCountryArmyById(p_countryId, p_reinforcements);
     }
 
+    /**
+     * @return name of player
+     */
     public String getPlayerName() {
         return d_playerName;
     }
 
+    /**
+     * updates the re-inforcements held by player
+     * @param p_reinforcements value to update to
+     */
     public void setAvailableReinforcements(int p_reinforcements) {
         d_availableReinforcements = p_reinforcements;
     }
 
+    /**
+     * @return re-inforcements held by player
+     */
     public int getAvailableReinforcements() {
         return d_availableReinforcements;
     }
 
+    /**
+     * @return list of Country owned by player
+     */
     public ArrayList<Country> getCountriesOwned() {
         return d_listOfCountriesOwned;
     }
 
+    /**
+     * @return order queue length
+     */
     public int getOrderSize() {
         return d_orders.size();
     }

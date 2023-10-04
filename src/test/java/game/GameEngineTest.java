@@ -1,5 +1,6 @@
 package game;
 
+import common.Command;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -12,16 +13,14 @@ class GameEngineTest {
     @BeforeEach
     void setUp(){
         d_gameEngineTest = new GameEngine();
-
     }
 
     /**
-     * Tests whether the function processes the commands correctly.
+     * Tests game engine auto-quit on incorrect command.
      */
     @Test
-    void testCanProcess(){
-        assertTrue(d_gameEngineTest.canProcess("assigncountries"));
-        assertTrue(d_gameEngineTest.canProcess("loadmap"));
-        assertFalse(d_gameEngineTest.canProcess("editmap"));
+    void testAutoQuit(){
+        d_gameEngineTest.submitCommand(Command.parseString("loadmap"));
+        assertTrue(d_gameEngineTest.hasQuit());
     }
 }

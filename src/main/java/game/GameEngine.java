@@ -23,7 +23,9 @@ public class GameEngine implements ISubApplication {
     private GameState d_gameState = GameState.Initial;
     private static boolean d_hasQuit;
 
-
+    /**
+     * default constructor
+     */
     public GameEngine() {
         d_cmdtoGameAction = new HashMap<>();
         d_cmdArguments = new ArrayList<>();
@@ -156,7 +158,7 @@ public class GameEngine implements ISubApplication {
             int canIssueOrder = PlayerHandler.issueOrder(p_command);
 
             Logger.log(String.valueOf(canIssueOrder));
-            if (canIssueOrder == 4) {
+            if (canIssueOrder == PlayerHandler.ISSUEORDER_SUCCESS) {
                 int l_availableReinforcements;
                 // runs a loop through all the players to check if they have armies left
                 for (int i = 0; i < PlayerHandler.getGamePlayers().size(); i++) {
@@ -216,15 +218,25 @@ public class GameEngine implements ISubApplication {
         } while (orderToExecute != null);
     }
 
+    /**
+     * @return current instance of map loader
+     */
     public static MapLoader getLoadedMap() {
         return d_loadedMap;
     }
 
+    /**
+     * shuts down the game and clears all data
+     * held for gameplay.
+     */
     @Override
     public void shutdown() {
-
+        PlayerHandler.cleanup();
     }
 
+    /**
+     * quits the game.
+     */
     public static void quitGame() {
         d_hasQuit = true;
     }
