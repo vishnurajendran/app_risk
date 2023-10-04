@@ -1,4 +1,4 @@
-package mapSave;
+package mapEditer;
 
 import entity.Continent;
 import entity.Country;

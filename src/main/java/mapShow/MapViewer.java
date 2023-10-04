@@ -1,5 +1,6 @@
 package mapShow;
 
+import common.Logger;
 import entity.Continent;
 import entity.Country;
 import entity.RiskMap;
@@ -170,13 +171,11 @@ public class MapViewer extends JFrame {
          */
         private void displayPlayerInfo(Graphics g, Country country) {
             for (Player player : PlayerHandler.getGamePlayers()) {
-                if (player.getCountriesOwned().contains(country)) {
-                    g.setColor(Color.RED);
-                    g.drawString(player.getPlayerName(), country.getXCoordinates(), country.getYCoordinates() + 30);
-
+                if (player.getCountriesOwned().stream().anyMatch((a)->a.getDId() == country.getDId())) {
+                    g.setColor(Color.GREEN);
                     // Display the total available reinforcements for the player
                     int availableReinforcements = player.getAvailableReinforcements();
-                    g.drawString("Reinforcements: " + availableReinforcements, country.getXCoordinates(), country.getYCoordinates() + 45);
+                    g.drawString(player.getPlayerName()+ " ( " + availableReinforcements + " ) ", country.getXCoordinates(), country.getYCoordinates() + 45 + - d_NODESIZE/2 + d_DELTA);
                 }
             }
         }
