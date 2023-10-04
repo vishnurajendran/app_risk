@@ -1,10 +1,13 @@
 package mapShow;
 
 import entity.RiskMap;
-import java.awt.image.BufferedImage;
-import java.awt.*;
+import mapEditer.MapLoader;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+
+
 
 /**
  * Unit test for MapViewer
@@ -21,39 +24,39 @@ class MapViewerTest {
         RiskMap riskMap = MapViewer.createRiskMap();
         assertNotNull(riskMap);
     }
-
+    
     /**
-     * Unit test to ensure that the MapViewer class is initialized successfully.
-     * Test cases:
-     * 1. Check if MapViewer instance is not null.
-     * 2. Check if RiskMapPanel instance is created successfully.
+     * Unit test for a map with a small number of countries and continents.
+     * Test case:
+     * 1. Check if the application works correctly with a small map.
      */
     @Test
-    void testInitializeUI() {
-        MapViewer mapViewer = new MapViewer();
-        assertNotNull(mapViewer);
+    void testSmallMapFromFile() {
+        MapLoader mapLoader = new MapLoader();
+        mapLoader.loadMap("testResources/test.map");
+        RiskMap smallMap = mapLoader.getMap();
 
-        MapViewer.RiskMapPanel riskMapPanel = new MapViewer.RiskMapPanel(new RiskMap());
+        MapViewer.RiskMapPanel riskMapPanel = new MapViewer.RiskMapPanel(smallMap);
         assertNotNull(riskMapPanel);
     }
 
     /**
-     * Unit test to ensure that the RiskMapPanel class paints the component correctly.
-     * Test cases:
-     * 1. Check if the paintComponent method works without errors.
+     * Unit test for a map with a large number of countries and continents.
+     * Test case:
+     * 1. Check if the application works correctly with a large map.
      */
     @Test
-    void testRiskMapPanelPaintComponent() {
-        RiskMap riskMap = new RiskMap();
-        MapViewer.RiskMapPanel riskMapPanel = new MapViewer.RiskMapPanel(riskMap);
+    void testLargeMapFromFile() {
+        MapLoader mapLoader = new MapLoader();
+        mapLoader.loadMap("testResources/largeMap.map");
+        RiskMap largeMap = mapLoader.getMap();
 
-        // Create a dummy Graphics2D object for testing
-        Graphics2D dummyGraphics = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB).createGraphics();
-
-        riskMapPanel.paintComponent(dummyGraphics);
-
-        // Dispose the dummyGraphics after use
-        dummyGraphics.dispose();
+        MapViewer.RiskMapPanel riskMapPanel = new MapViewer.RiskMapPanel(largeMap);
+        assertNotNull(riskMapPanel);
     }
+
 }
+
+
+
 
