@@ -118,10 +118,10 @@ public class Application{
 
     private void printInvalidStateStartCmdUsage(AppState state) {
         switch(state){
-            case AppState.Game :
+            case Game:
                                  System.out.println(ApplicationConstants.MSG_INVALID_START_GAME_CMD_USAGE);
                                  break;
-            case AppState.MapEditor:
+            case MapEditor:
                                  System.out.println(ApplicationConstants.MSG_INVALID_MAP_EDITOR_GAME_CMD_USAGE);
                                  break;
             default:

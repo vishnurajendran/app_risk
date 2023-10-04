@@ -4,7 +4,6 @@ import common.*;
 import entity.Continent;
 import entity.Country;
 import entity.RiskMap;
-import mapValidator.MapValidator;
 
 import java.io.File;
 import java.io.IOException;
@@ -45,6 +44,19 @@ public class MapEditor implements ISubApplication {
     @Override
     public void initialise() {
         registerMapEditorCommands();
+    }
+
+    /**
+     * This function is used to check if a sub-application has quit
+     * on its own without a user input, in cases where the sub-application
+     * is not able to proceed safely, it can set this function to return true
+     * to make the Application layer perform an auto-quit, post a command query.
+     *
+     * @return true if sub-application has quit, else false
+     */
+    @Override
+    public boolean hasQuit() {
+        return false;
     }
 
     /**

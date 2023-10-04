@@ -1,4 +1,4 @@
-package mapValidator;
+package mapEditer;
 
 import common.Logger;
 import entity.Continent;
