@@ -2,10 +2,11 @@ package mapShow;
 
 import entity.Continent;
 import entity.Country;
-import game.PlayerHandler;
 import entity.RiskMap;
-import mapEditer.MapLoader;
+import game.PlayerHandler;
 import game.Player;
+import mapEditer.MapLoader;
+
 
 import javax.swing.*;
 import java.awt.*;

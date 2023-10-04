@@ -4,10 +4,6 @@ import entity.RiskMap;
 import mapEditer.MapLoader;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
-
-
 
 /**
  * Unit test for MapViewer
