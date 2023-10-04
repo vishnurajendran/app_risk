@@ -117,7 +117,7 @@ public class PlayerHandler {
 
     public static void assignCountriesToPlayer(MapLoader p_loadedMap) {
         ArrayList<Integer> randomCountryIDs = new ArrayList<>();
-        for (int i = 1; i < p_loadedMap.getMap().getCountries().size(); i++) {
+        for (int i = 1; i <= p_loadedMap.getMap().getCountries().size(); i++) {
             randomCountryIDs.add(i);
         }
         if (p_loadedMap.getMap().getCountryIds().size() < d_gamePlayers.size()) {
