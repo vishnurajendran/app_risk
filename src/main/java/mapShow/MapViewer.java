@@ -134,7 +134,7 @@ public class MapViewer extends JFrame {
             for(Country country : d_RISK_MAP.getCountries()){
 
                 // Draw country name
-                g.setColor(Color.YELLOW);
+                g.setColor(Color.GRAY);
                 g.setFont(new Font("default", Font.BOLD, 12));
                 g.drawString(country.getDId()+"", country.getXCoordinates(), country.getYCoordinates() - d_NODESIZE/2 + d_DELTA);
 
@@ -178,6 +178,7 @@ public class MapViewer extends JFrame {
 
                     // Display the total available reinforcements for the player
                     int availableReinforcements = player.getAvailableReinforcements();
+                    g.setColor(Color.BLUE);
                     g.drawString("Reinforcements: " + availableReinforcements, country.getXCoordinates(), country.getYCoordinates() + 45);
                 }
             }
@@ -192,8 +193,8 @@ public class MapViewer extends JFrame {
             Map<String, Color> colors = new HashMap<>();
             colors.put("ameroki", Color.YELLOW);
             colors.put("utropa", Color.PINK); // Hex color for #a980ff
-            colors.put("amerpoll", Color.BLUE);
-            colors.put("ulstrailia", Color.GREEN);
+            colors.put("amerpoll", Color.GREEN);
+            colors.put("ulstrailia", Color.BLUE);
             return colors;
         }
     }
