@@ -1,5 +1,7 @@
 package application;
+
 import common.*;
+
 import java.text.MessageFormat;
 import java.util.HashMap;
 
@@ -9,6 +11,9 @@ import java.util.HashMap;
  * and also interpreting first layer of commands.
  * @author vishnurajendran
  */
+
+
+
 public class Application{
 
     private final ISubAppInstantiator d_gameInstantiator;
@@ -18,6 +23,7 @@ public class Application{
     private boolean d_hasQuit;
     private AppState d_appState = AppState.Standard;
     private final HashMap<String, IMethod> d_cmdToActionMap;
+
 
     /**
      * Default constructor,
