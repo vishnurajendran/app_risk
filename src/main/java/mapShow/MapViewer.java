@@ -10,6 +10,7 @@ import mapEditer.MapLoader;
 
 import javax.swing.*;
 import java.awt.*;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -37,9 +38,9 @@ public class MapViewer extends JFrame {
      * @return The RiskMap instance.
      */
     public static RiskMap createRiskMap() {
-        MapLoader mapLoader = new MapLoader();
-        mapLoader.loadMap("testResources/ValidTestMap.map");
-        return mapLoader.getMap();
+        MapLoader l_mapLoader = new MapLoader();
+        l_mapLoader.loadMap("testResources/ValidTestMap.map");
+        return l_mapLoader.getMap();
     }
 
     /**
@@ -47,8 +48,8 @@ public class MapViewer extends JFrame {
      */
     public static void showMap() {
         SwingUtilities.invokeLater(() -> {
-            MapViewer mapViewer = new MapViewer();
-            mapViewer.setVisible(true);
+            MapViewer l_mapViewer = new MapViewer();
+            l_mapViewer.setVisible(true);
         });
     }
 
@@ -61,8 +62,8 @@ public class MapViewer extends JFrame {
         setSize(800, 800);
 
         // Create a panel for the game map
-        RiskMapPanel mapPanel = new RiskMapPanel(d_RISK_MAP); // Pass the RiskMap instance
-        add(mapPanel);
+        RiskMapPanel l_mapPanel = new RiskMapPanel(d_RISK_MAP); // Pass the RiskMap instance
+        add(l_mapPanel);
 
         setLocationRelativeTo(null); // Center the frame
     }
@@ -87,102 +88,98 @@ public class MapViewer extends JFrame {
         /**
          * Constructor for the RiskMapPanel class.
          *
-         * @param pRiskMap The RiskMap instance to be rendered.
+         * @param p_RiskMap The RiskMap instance to be rendered.
          */
-        public RiskMapPanel(RiskMap pRiskMap) {
-            this.d_RISK_MAP = pRiskMap;
+        public RiskMapPanel(RiskMap p_RiskMap) {
+            this.d_RISK_MAP = p_RiskMap;
             this.d_CONTINENT_COLORS = initializeContinentColors();
+            // Display player info
+            displayPlayerInfo();
         }
 
         /**
          * Paints the component, rendering continents, countries, and connections.
          *
-         * @param g The graphics context.
+         * @param p_grpahics The graphics context.
          */
         @Override
-        protected void paintComponent(Graphics g) {
-            super.paintComponent(g);
+        protected void paintComponent(Graphics p_grpahics) {
+            super.paintComponent(p_grpahics);
             setBackground(Color.DARK_GRAY);
-            ArrayList<Continent> continents = new ArrayList<>();
-
-            Map<Country, Point> countryPoint = new HashMap<>();
+            ArrayList<Continent> l_continents = new ArrayList<>();
+            Map<Country, Point> l_countryPoint = new HashMap<>();
 
             // Draw continents, countries, and connections
-            for (Country country : d_RISK_MAP.getCountries()) {
-                Continent currContinent = d_RISK_MAP.getContinentById(country.getContinentId());
-                if (!continents.contains(currContinent)) {
-                    continents.add(currContinent);
+            for (Country l_country : d_RISK_MAP.getCountries()) {
+                Continent currContinent = d_RISK_MAP.getContinentById(l_country.getContinentId());
+                if (!l_continents.contains(currContinent)) {
+                    l_continents.add(currContinent);
                 }
 
-                String continentName = d_RISK_MAP.getContinentById(country.getContinentId()).getName();
+                String l_continentName = d_RISK_MAP.getContinentById(l_country.getContinentId()).getName();
 
-                g.setColor(Color.GRAY);
+                p_grpahics.setColor(Color.GRAY);
                 // Draw countries with the color of their continent
-                Color continentColor = d_CONTINENT_COLORS.get(continentName);
-                g.setColor(continentColor);
+                Color l_continentColor = d_CONTINENT_COLORS.get(l_continentName);
+                p_grpahics.setColor(l_continentColor);
 
-                g.fillOval(country.getXCoordinates(), country.getYCoordinates() + d_DELTA, d_NODESIZE, d_NODESIZE);
+                p_grpahics.fillOval(l_country.getXCoordinates(), l_country.getYCoordinates() + d_DELTA, d_NODESIZE, d_NODESIZE);
 
-                countryPoint.put(country, new Point(country.getXCoordinates(), country.getYCoordinates() + d_DELTA));
+                l_countryPoint.put(l_country, new Point(l_country.getXCoordinates(), l_country.getYCoordinates() + d_DELTA));
 
                 // Draw connections to neighboring countries
-                g.setColor(Color.GRAY);
-                for (Country connectedCountry : country.getBorders().values()) {
-                    g.drawLine(
-                            country.getXCoordinates() + d_NODESIZE / 2, country.getYCoordinates() + d_DELTA + d_NODESIZE / 2,
-                            connectedCountry.getXCoordinates() + d_NODESIZE / 2, connectedCountry.getYCoordinates() + d_DELTA + d_NODESIZE / 2
+                p_grpahics.setColor(Color.GRAY);
+                for (Country l_connectedCountry : l_country.getBorders().values()) {
+                    p_grpahics.drawLine(
+                            l_country.getXCoordinates() + d_NODESIZE / 2, l_country.getYCoordinates() + d_DELTA + d_NODESIZE / 2,
+                            l_connectedCountry.getXCoordinates() + d_NODESIZE / 2, l_connectedCountry.getYCoordinates() + d_DELTA + d_NODESIZE / 2
                     );
                 }
             }
 
             //Draw text over everything else
-            for (Country country : d_RISK_MAP.getCountries()) {
+            for (Country l_country : d_RISK_MAP.getCountries()) {
 
                 // Draw country name
-                g.setColor(Color.YELLOW);
-                g.setFont(new Font("default", Font.BOLD, 12));
-                g.drawString(country.getDId() + "", country.getXCoordinates(), country.getYCoordinates() - d_NODESIZE / 2 + d_DELTA);
-
-                // Display player info
-                displayPlayerInfo(g, country);
+                p_grpahics.setColor(Color.YELLOW);
+                p_grpahics.setFont(new Font("default", Font.BOLD, 12));
+                p_grpahics.drawString(l_country.getDId() + "", l_country.getXCoordinates(), l_country.getYCoordinates() - d_NODESIZE / 2 + d_DELTA);
             }
 
             // Draw continent labels
-            g.setColor(Color.WHITE);
+            p_grpahics.setColor(Color.WHITE);
 
             //display continents
-            for (Continent continent : continents) {
-                int minY = continent.getCountries().get(0).getYCoordinates();
-                int midX = 0;
-                for (Country country : continent.getCountries()) {
-                    if (minY > country.getYCoordinates())
-                        minY = country.getYCoordinates();
+            for (Continent l_continent : l_continents) {
+                int l_minY = l_continent.getCountries().get(0).getYCoordinates();
+                int l_midX = 0;
+                for (Country country : l_continent.getCountries()) {
+                    if (l_minY > country.getYCoordinates())
+                        l_minY = country.getYCoordinates();
 
-                    Point p = countryPoint.get(country);
-                    midX += p.x;
+                    Point p = l_countryPoint.get(country);
+                    l_midX += p.x;
                 }
-                midX /= continent.getCountries().size();
-                String label = continent.getName();
+                l_midX /= l_continent.getCountries().size();
+                String l_label = l_continent.getName();
 
-                g.setFont(new Font("default", Font.BOLD, 12));
-                g.drawString(label, midX, minY + d_DELTA - 40);
+                p_grpahics.setFont(new Font("default", Font.BOLD, 12));
+                p_grpahics.drawString(l_label, l_midX, l_minY + d_DELTA - 40);
             }
         }
 
         /**
          * Displays player information on the map.
-         *
-         * @param g       The graphics context.
-         * @param country The country for which player information is displayed.
          */
-        private void displayPlayerInfo(Graphics g, Country country) {
-            for (Player player : PlayerHandler.getGamePlayers()) {
-                if (player.getCountriesOwned().stream().anyMatch((a) -> a.getDId() == country.getDId())) {
-                    g.setColor(Color.GREEN);
-                    // Display the total available reinforcements for the player
-                    int availableReinforcements = player.getAvailableReinforcements();
-                    g.drawString(player.getPlayerName() + " ( " + availableReinforcements + " ) ", country.getXCoordinates(), country.getYCoordinates() + 45 + -d_NODESIZE / 2 + d_DELTA);
+        private void displayPlayerInfo() {
+            //printing to console for now, cannot think of a cleaner way to display.
+            System.out.println();
+            for (Player l_player : PlayerHandler.getGamePlayers()) {
+                System.out.println(MessageFormat.format("[Player `\u001B[33m{0}\u001B[0m` Map Stats]", l_player.getPlayerName()));
+                for(Country l_country : l_player.getCountriesOwned()){
+                    System.out.println(MessageFormat.format("\tId: \u001B[31m{0}\u001B[0m Name: {1} Army: \u001B[31m{2}\u001B[0m",l_country.getDId(), l_country.getName(), l_country.getArmy()));
                 }
+                System.out.println();
             }
         }
 
