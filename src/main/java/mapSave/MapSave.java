@@ -1,4 +1,5 @@
 package mapSave;
+
 import entity.Continent;
 import entity.Country;
 import entity.RiskMap;
@@ -9,16 +10,15 @@ import java.io.FileWriter;
 import java.util.List;
 
 /**
- * The class MapSave will save the data in map file when the user creates a map
+ * The main class to save the data in map file when the user creates a map.
  *
  * @author Rachit
  */
 
 public class MapSave {
 
-    RiskMap d_riskMap;
     /**
-     * This method writes the map details to map file
+     * The method to write the map details to map file.
      *
      * @param p_map  object of the map which is being processed.
      * @param p_file object of file to store map data.
@@ -42,7 +42,7 @@ public class MapSave {
     }
 
     /**
-     * This method processes the map by calling three different methods and makes a string to be written in map file.
+     * The method to process the map by calling three different methods and to make a string to be written in map file.
      *
      * @param p_Map object of the map which is processed
      * @return String to be written in the map file
@@ -56,10 +56,10 @@ public class MapSave {
 
 
     /**
-     * This method processes the continents.
+     * The method to process continents.
      *
-     * @param p_Map object of the map which is being processed
-     * @return a string that contains details of the continents that will eventually be written in the map file.
+     * @param p_Map object of the map which is being processed.
+     * @return  string that contains details of the continents that will eventually be written in the map file.
      */
     private static StringBuilder processContinent(RiskMap p_Map) {
         StringBuilder l_continentData = new StringBuilder();
@@ -73,9 +73,9 @@ public class MapSave {
     }
 
     /**
-     * This method is for processing countries.
+     * The method to process countries.
      *
-     * @param p_Map object of the map that is being processed
+     * @param p_Map object of the map that is being processed.
      * @return a string that contains details of countries that will ultimately be written in the map file.
      */
     private static StringBuilder processCountries(RiskMap p_Map) {
@@ -86,7 +86,8 @@ public class MapSave {
 
         for (Continent  l_continent : p_Map.getContinents()) {
             for (Country l_country : l_continent.getCountries()) {
-                l_countryData.append(l_country.getDId()).append(" ").append(l_country.getName()).append(" ").append(l_continent.getId());
+                l_countryData.append(l_country.getDId()).append(" ").append(l_country.getName()).append(" ").append(l_continent.getId())
+                        .append(" ").append(l_country.getXCoordinates()).append(" ").append(l_country.getYCoordinates());
                 l_countryData.append("\n");
             }
         }
@@ -94,7 +95,7 @@ public class MapSave {
     }
 
     /**
-     * This method is for processing adjacent countries.
+     * The method to process adjacent countries.
      *
      * @param p_Map object of map that is being processed.
      * @return a string that contains adjacent countries and that will be written in map file.
