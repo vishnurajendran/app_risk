@@ -4,6 +4,8 @@ import common.*;
 import entity.Continent;
 import entity.Country;
 import entity.RiskMap;
+import mapSave.MapSave;
+import mapShow.MapViewer;
 
 import java.io.File;
 import java.io.IOException;
@@ -471,10 +473,34 @@ public class MapEditor implements ISubApplication {
 
     private void cmdShowMap(Command p_command){
         //call to display map.
+        MapViewer.showMap();
     }
 
     private void cmdSaveMap(Command p_command){
         //write the map object to file.
+        if(p_command.getCmdAttributes().isEmpty() || p_command.getCmdAttributes().get(0).getArguments().isEmpty()) {
+            System.out.println("File name missing to save map.");
+            return;
+        }
+
+        if(!p_command.getCmdAttributes().get(0).getOption().isEmpty()) {
+            System.out.println("This command does not support options.");
+            return;
+        }
+
+        if(!MapValidator.validateMap(d_map)){
+            System.out.println("Error, this map cannot be saved, Validation failed");
+        }
+
+        String fileName = p_command.getCmdAttributes().get(0).getArguments().get(0);
+        try {
+            File file = new File(fileName);
+            MapSave.saveMapFile(d_map, file);
+            System.out.println("Map successfully saved");
+        }
+        catch(Exception ex){
+            System.out.println("Map save was unsuccessful");
+        }
     }
 
     /**
