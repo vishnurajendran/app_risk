@@ -8,6 +8,7 @@ import java.util.Arrays;
 
 /**
  * A mock implementation for game for testing application class.
+ *
  * @author vishnurajendran
  */
 public class GameMock implements ISubApplication {

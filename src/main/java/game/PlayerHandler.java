@@ -17,9 +17,21 @@ import java.util.LinkedHashSet;
  */
 public class PlayerHandler {
 
+    /**
+     * int code for issue order invalid command
+     */
     public static final int ISSUEODER_INVALID_CMD = 1;
+    /**
+     * int code for issue order deploy to invalid country
+     */
     public static final int ISSUEORDER_PLAYER_DOESNT_OWN_COUNTRY = 2;
+    /**
+     * int code for issue order deploy more than available error
+     */
     public static final int ISSUEORDER_TRYING_DEPLOY_MORE_THAN_AVAIALBLE = 3;
+    /**
+     * int code for issue order success
+     */
     public static final int ISSUEORDER_SUCCESS = 4;
 
     private static ArrayList<Player> d_gamePlayers = new ArrayList<>();
@@ -29,10 +41,17 @@ public class PlayerHandler {
     private static MapLoader d_loadedMap;
 
     /**
+     * default constructor
+     */
+    public PlayerHandler() {
+
+    }
+
+    /**
      * cleans up and resets all internal vars to
      * default values
      */
-    public static void cleanup(){
+    public static void cleanup() {
         d_gamePlayers.clear();
         d_whichPlayersTurn = 0;
         d_loadedMap = null;
@@ -142,6 +161,11 @@ public class PlayerHandler {
         displayGamePlayersCountries(l_currentPlayer);
     }
 
+    /**
+     * Displays the player's country stats
+     *
+     * @param p_player player to print stats for
+     */
     public static void displayGamePlayersCountries(Player p_player) {
         ArrayList<Country> l_playerCountries = p_player.getCountriesOwned();
         System.out.println("The player owns following countries: ");
@@ -159,7 +183,6 @@ public class PlayerHandler {
      * 3 means the player deployed more armies than they had (ISSUEORDER_TRYING_DEPLOY_MORE_THAN_AVAIALBLE).
      * 4 means the command is valid and can proceed to deploy order (ISSUEORDER_SUCCESS)
      */
-
     public static int issueOrder(Command p_cmd) {
         int l_indexOfPlayer = d_whichPlayersTurn % d_gamePlayers.size();
         Player l_currentPlayer = d_gamePlayers.get(l_indexOfPlayer);
@@ -174,7 +197,7 @@ public class PlayerHandler {
                 Logger.log("Number exception");
                 return ISSUEODER_INVALID_CMD;
             }
-            if (!l_currentPlayer.getCountriesOwned().stream().anyMatch((a)->a.getDId() == l_countryId)) {
+            if (!l_currentPlayer.getCountriesOwned().stream().anyMatch((a) -> a.getDId() == l_countryId)) {
                 Logger.log("The player doesn't have this country");
                 return ISSUEORDER_PLAYER_DOESNT_OWN_COUNTRY;
             } else if (l_currentPlayer.getAvailableReinforcements() < l_deployReinforcements) {
@@ -222,6 +245,7 @@ public class PlayerHandler {
 
     /**
      * updates player turn
+     *
      * @param p_incrementValue value to update the player turn by
      */
     public static void increasePlayerTurn(int p_incrementValue) {

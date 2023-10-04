@@ -46,15 +46,6 @@ public class Country {
     }
 
     /**
-     * Clone method for returning a clone of the object Country
-     *
-     * @return Country object
-     */
-    public Country clone() {
-        return new Country(this.d_id, this.d_name, this.d_continentId, this.d_xCoordinates, this.d_yCoordinates);
-    }
-
-    /**
      * Constructor for the country without coordinates.
      *
      * @param p_id          The number id for the country, should be unique.
@@ -71,6 +62,15 @@ public class Country {
     }
 
     /**
+     * Clone method for returning a clone of the object Country
+     *
+     * @return Country object
+     */
+    public Country clone() {
+        return new Country(this.d_id, this.d_name, this.d_continentId, this.d_xCoordinates, this.d_yCoordinates);
+    }
+
+    /**
      * Setter for ID
      *
      * @param p_id The number id for the country, should be unique.
@@ -79,52 +79,7 @@ public class Country {
         this.d_id = p_id;
     }
 
-    /**
-     * Setter for Continent ID.
-     *
-     * @param p_continentId The continent ID that this country below to.
-     */
-    public void setContinentId(int p_continentId) {
-        this.d_continentId = p_continentId;
-    }
-
-    /**
-     * Setter for XCoordinates.
-     *
-     * @param p_xCoordinates The X Coordinates of this country coming from standard domination map, might not be needed for this command line version.
-     */
-    public void setXCoordinates(int p_xCoordinates) {
-        this.d_xCoordinates = p_xCoordinates;
-    }
-
-    /**
-     * Setter for YCoordinates
-     *
-     * @param p_yCoordinates The Y Coordinates of this country coming from standard domination map.
-     */
-    public void setYCoordinates(int p_yCoordinates) {
-        this.d_yCoordinates = p_yCoordinates;
-    }
-
-    /**
-     * Setter for name of the country.
-     *
-     * @param p_name The name of the country.
-     */
-    public void setName(String p_name) {
-        this.d_name = p_name;
-    }
-
-    /**
-     * Setter for number of army in the country.
-     *
-     * @param p_army The amount of armies inside the country as an int.
-     */
-    public void setArmy(int p_army) {
-        this.d_army = p_army;
-    }
-
-    public void incrementArmy(int p_army){
+    public void incrementArmy(int p_army) {
         this.d_army += p_army;
     }
 
@@ -137,6 +92,14 @@ public class Country {
         return d_army;
     }
 
+    /**
+     * Setter for number of army in the country.
+     *
+     * @param p_army The amount of armies inside the country as an int.
+     */
+    public void setArmy(int p_army) {
+        this.d_army = p_army;
+    }
 
     /**
      * Getter for the name of the country.
@@ -145,6 +108,15 @@ public class Country {
      */
     public String getName() {
         return d_name;
+    }
+
+    /**
+     * Setter for name of the country.
+     *
+     * @param p_name The name of the country.
+     */
+    public void setName(String p_name) {
+        this.d_name = p_name;
     }
 
     /**
@@ -166,6 +138,15 @@ public class Country {
     }
 
     /**
+     * Setter for Continent ID.
+     *
+     * @param p_continentId The continent ID that this country below to.
+     */
+    public void setContinentId(int p_continentId) {
+        this.d_continentId = p_continentId;
+    }
+
+    /**
      * Getter for X coordinates
      *
      * @return X coordinates of the country
@@ -175,12 +156,30 @@ public class Country {
     }
 
     /**
+     * Setter for XCoordinates.
+     *
+     * @param p_xCoordinates The X Coordinates of this country coming from standard domination map, might not be needed for this command line version.
+     */
+    public void setXCoordinates(int p_xCoordinates) {
+        this.d_xCoordinates = p_xCoordinates;
+    }
+
+    /**
      * Getter for Y coordinates
      *
      * @return Y coordinates of the country
      */
     public int getYCoordinates() {
         return d_yCoordinates;
+    }
+
+    /**
+     * Setter for YCoordinates
+     *
+     * @param p_yCoordinates The Y Coordinates of this country coming from standard domination map.
+     */
+    public void setYCoordinates(int p_yCoordinates) {
+        this.d_yCoordinates = p_yCoordinates;
     }
 
     /**
@@ -210,8 +209,7 @@ public class Country {
     public boolean removeBorder(Country p_border) {
         if (!isNull(d_borders.get(p_border.getDId()))) {
             d_borders.remove(p_border.d_id);
-        }
-        else {
+        } else {
             Logger.log("Border doesn't exist");
         }
         return true;

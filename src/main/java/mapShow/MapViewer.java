@@ -19,7 +19,9 @@ import java.util.Map;
  */
 public class MapViewer extends JFrame {
 
-    /** The RiskMap instance used in the application. */
+    /**
+     * The RiskMap instance used in the application.
+     */
     private final RiskMap d_RISK_MAP = createRiskMap();
 
     /**
@@ -41,6 +43,16 @@ public class MapViewer extends JFrame {
     }
 
     /**
+     * The main entry point for the application.
+     */
+    public static void showMap() {
+        SwingUtilities.invokeLater(() -> {
+            MapViewer mapViewer = new MapViewer();
+            mapViewer.setVisible(true);
+        });
+    }
+
+    /**
      * Initializes the user interface for the application.
      */
     private void initializeUI() {
@@ -56,16 +68,6 @@ public class MapViewer extends JFrame {
     }
 
     /**
-     * The main entry point for the application.
-     */
-    public static void showMap() {
-        SwingUtilities.invokeLater(() -> {
-            MapViewer mapViewer = new MapViewer();
-            mapViewer.setVisible(true);
-        });
-    }
-
-    /**
      * The panel class for drawing the RiskMap.
      */
     static class RiskMapPanel extends JPanel {
@@ -73,9 +75,13 @@ public class MapViewer extends JFrame {
         private final int d_DELTA = 75;
         private final int d_NODESIZE = 8;
 
-        /** The RiskMap instance to be rendered. */
+        /**
+         * The RiskMap instance to be rendered.
+         */
         private final RiskMap d_RISK_MAP;
-        /** Map of continent names to colors. */
+        /**
+         * Map of continent names to colors.
+         */
         private final Map<String, Color> d_CONTINENT_COLORS;
 
         /**
@@ -104,7 +110,7 @@ public class MapViewer extends JFrame {
             // Draw continents, countries, and connections
             for (Country country : d_RISK_MAP.getCountries()) {
                 Continent currContinent = d_RISK_MAP.getContinentById(country.getContinentId());
-                if(!continents.contains(currContinent)){
+                if (!continents.contains(currContinent)) {
                     continents.add(currContinent);
                 }
 
@@ -123,19 +129,19 @@ public class MapViewer extends JFrame {
                 g.setColor(Color.GRAY);
                 for (Country connectedCountry : country.getBorders().values()) {
                     g.drawLine(
-                            country.getXCoordinates() + d_NODESIZE/2, country.getYCoordinates() + d_DELTA + d_NODESIZE/2,
-                            connectedCountry.getXCoordinates() + d_NODESIZE/2, connectedCountry.getYCoordinates() + d_DELTA + d_NODESIZE/2
+                            country.getXCoordinates() + d_NODESIZE / 2, country.getYCoordinates() + d_DELTA + d_NODESIZE / 2,
+                            connectedCountry.getXCoordinates() + d_NODESIZE / 2, connectedCountry.getYCoordinates() + d_DELTA + d_NODESIZE / 2
                     );
                 }
             }
 
             //Draw text over everything else
-            for(Country country : d_RISK_MAP.getCountries()){
+            for (Country country : d_RISK_MAP.getCountries()) {
 
                 // Draw country name
                 g.setColor(Color.YELLOW);
                 g.setFont(new Font("default", Font.BOLD, 12));
-                g.drawString(country.getDId()+"", country.getXCoordinates(), country.getYCoordinates() - d_NODESIZE/2 + d_DELTA);
+                g.drawString(country.getDId() + "", country.getXCoordinates(), country.getYCoordinates() - d_NODESIZE / 2 + d_DELTA);
 
                 // Display player info
                 displayPlayerInfo(g, country);
@@ -145,11 +151,11 @@ public class MapViewer extends JFrame {
             g.setColor(Color.WHITE);
 
             //display continents
-            for(Continent continent : continents){
+            for (Continent continent : continents) {
                 int minY = continent.getCountries().get(0).getYCoordinates();
                 int midX = 0;
-                for (Country country: continent.getCountries()) {
-                    if(minY > country.getYCoordinates())
+                for (Country country : continent.getCountries()) {
+                    if (minY > country.getYCoordinates())
                         minY = country.getYCoordinates();
 
                     Point p = countryPoint.get(country);
@@ -166,16 +172,16 @@ public class MapViewer extends JFrame {
         /**
          * Displays player information on the map.
          *
-         * @param g The graphics context.
+         * @param g       The graphics context.
          * @param country The country for which player information is displayed.
          */
         private void displayPlayerInfo(Graphics g, Country country) {
             for (Player player : PlayerHandler.getGamePlayers()) {
-                if (player.getCountriesOwned().stream().anyMatch((a)->a.getDId() == country.getDId())) {
+                if (player.getCountriesOwned().stream().anyMatch((a) -> a.getDId() == country.getDId())) {
                     g.setColor(Color.GREEN);
                     // Display the total available reinforcements for the player
                     int availableReinforcements = player.getAvailableReinforcements();
-                    g.drawString(player.getPlayerName()+ " ( " + availableReinforcements + " ) ", country.getXCoordinates(), country.getYCoordinates() + 45 + - d_NODESIZE/2 + d_DELTA);
+                    g.drawString(player.getPlayerName() + " ( " + availableReinforcements + " ) ", country.getXCoordinates(), country.getYCoordinates() + 45 + -d_NODESIZE / 2 + d_DELTA);
                 }
             }
         }

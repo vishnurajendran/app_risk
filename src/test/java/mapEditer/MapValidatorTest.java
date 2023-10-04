@@ -38,7 +38,7 @@ class MapValidatorTest {
      * @see <a href="file:testResources/ValidTestMap.map"></a>
      */
     @Test
-    void testIsMapValid(){
+    void testIsMapValid() {
         RiskMap l_nullMap = null;
         assertFalse(MapValidator.validateMap(l_nullMap));
 
@@ -56,7 +56,7 @@ class MapValidatorTest {
      * Placeholder test function to test individual cases.
      */
     @Test
-    void testMap(){
+    void testMap() {
         d_mapLoader.loadMap("testResources/test.map");
         RiskMap l_map2 = d_mapLoader.getMap();
         assertTrue(MapValidator.validateMap(l_map2));

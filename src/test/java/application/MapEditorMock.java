@@ -8,6 +8,7 @@ import java.util.Arrays;
 
 /**
  * A mock implementation for map-editor for testing application class.
+ *
  * @author vishnurajendran
  */
 public class MapEditorMock implements ISubApplication {

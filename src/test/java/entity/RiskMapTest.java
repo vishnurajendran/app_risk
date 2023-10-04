@@ -32,8 +32,8 @@ class RiskMapTest {
      * Sample data 2 for border related features:
      * p_id:3; p_name: Mexico; p_continentId:3; p_xCoordinates: 5; p_yCoordinates: 6;
      * army:1
-     *
-     *
+     * <p>
+     * <p>
      * Continent have detailed info below which is similar to ContinentTest
      * Sample data: p_id:1; p_name:"Asia"; p_controlValue:7; p_color:"yellow";
      * Sample data for add continent:
@@ -91,7 +91,7 @@ class RiskMapTest {
      * Australia should be added to the map.
      */
     @Test
-    void testAddContinent(){
+    void testAddContinent() {
         assertFalse(d_testRiskMap.getContinentIds().contains(2));
         d_testRiskMap.addContinent(d_testContinent2);
         assertTrue(d_testRiskMap.getContinentIds().contains(2));
@@ -102,7 +102,7 @@ class RiskMapTest {
      * Mexico will be added connection with America.
      */
     @Test
-    void addBorder(){
+    void addBorder() {
         d_testRiskMap.addCountry(d_testBorderCountry2);
         assertEquals(0, d_testBorderCountry2.getBorders().size());
 
@@ -162,7 +162,7 @@ class RiskMapTest {
      * Expected value: Country object of id:2
      */
     @Test
-    void testGetCountryById(){
+    void testGetCountryById() {
         Country l_country = d_testRiskMap.getCountryById(2);
         assertEquals(d_testBorderCountry, l_country);
     }
@@ -172,7 +172,7 @@ class RiskMapTest {
      * Expected value: Continent object of id:1
      */
     @Test
-    void testGetContinentById(){
+    void testGetContinentById() {
         Continent l_continent = d_testRiskMap.getContinentById(1);
         assertEquals(d_testContinent, l_continent);
     }

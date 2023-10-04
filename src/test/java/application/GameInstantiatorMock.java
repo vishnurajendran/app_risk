@@ -5,13 +5,15 @@ import common.ISubApplication;
 
 /**
  * a mock implementation for game instantiator for testing application class.
+ *
  * @author vishnurajendran
  */
 public class GameInstantiatorMock implements ISubAppInstantiator {
 
     /**
      * This method creates a new instance of GameMock class.
-     * <b><color=red> FOR TESTING ONLY <b/></color><b/>
+     * <b>FOR TESTING ONLY</b>
+     *
      * @return instance of GameMock
      */
     @Override

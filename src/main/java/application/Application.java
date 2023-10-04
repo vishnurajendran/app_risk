@@ -9,20 +9,20 @@ import java.util.HashMap;
  * This Class is the first layer.
  * Application will manage switching of modes
  * and also interpreting first layer of commands.
+ *
  * @author vishnurajendran
  */
 
 
-
-public class Application{
+public class Application {
 
     private final ISubAppInstantiator d_gameInstantiator;
     private final ISubAppInstantiator d_mapEditorInstantiator;
+    private final HashMap<String, IMethod> d_cmdToActionMap;
     private ISubApplication d_activeSubApplication;
     private boolean d_initialised;
     private boolean d_hasQuit;
     private AppState d_appState = AppState.Standard;
-    private final HashMap<String, IMethod> d_cmdToActionMap;
 
 
     /**
@@ -31,12 +31,13 @@ public class Application{
      * ie: the application will accept app commands only.
      */
     public Application() {
-        this(null,null);
+        this(null, null);
     }
 
     /**
      * Parameterised constructor for Application
-     * @param p_gameInstantiator instance of the game instantiator
+     *
+     * @param p_gameInstantiator      instance of the game instantiator
      * @param p_mapEditorInstantiator instance of the map-editor instantiator
      */
     public Application(ISubAppInstantiator p_gameInstantiator, ISubAppInstantiator p_mapEditorInstantiator) {
@@ -61,6 +62,7 @@ public class Application{
 
     /**
      * Fetches the application quit status
+     *
      * @return true if application has quit, else false
      */
     public boolean hasQuit() {
@@ -72,7 +74,7 @@ public class Application{
      * This instance.
      */
     public void startup() {
-        if(d_gameInstantiator == null || d_mapEditorInstantiator == null) {
+        if (d_gameInstantiator == null || d_mapEditorInstantiator == null) {
             Logger.logWarning("application has no references for map editor or game instantiators available, no commands will be processed");
             return;
         }
@@ -82,40 +84,40 @@ public class Application{
 
     /**
      * This method processes the command provided.
+     *
      * @param p_command command passed to application
      */
     public void processCommand(Command p_command) {
 
-        if(d_hasQuit)
+        if (d_hasQuit)
             return;
 
-        if(!d_initialised) {
+        if (!d_initialised) {
             Logger.logWarning("application is not initialised, all commands are ignored");
             return;
         }
 
         //check if command is an app command
-        if(d_cmdToActionMap.containsKey(p_command.getCmdName())) {
+        if (d_cmdToActionMap.containsKey(p_command.getCmdName())) {
             //run command at application level.
             Logger.log("Found application level command " + p_command.getCmdName());
             d_cmdToActionMap.get(p_command.getCmdName()).invoke(p_command);
-        }
-        else if (d_activeSubApplication != null && d_activeSubApplication.canProcess(p_command.getCmdName())) {
+        } else if (d_activeSubApplication != null && d_activeSubApplication.canProcess(p_command.getCmdName())) {
             //send it to the active sub-application.
             Logger.log("sending command to sub-application " + p_command.getCmdName());
             d_activeSubApplication.submitCommand(p_command);
-        }
-        else
+        } else
             printInvalidCommandMessage(p_command);
 
         //check if a command has put the sub-app to a closed state.
         //if yes, we simply close this instance and return standard application state.
-        if(d_activeSubApplication != null && d_activeSubApplication.hasQuit())
+        if (d_activeSubApplication != null && d_activeSubApplication.hasQuit())
             closeCurrSubAppInstance();
     }
 
     /**
      * Prints the invalid command to the console
+     *
      * @param p_cmd the command that was input by the user.
      */
     private void printInvalidCommandMessage(Command p_cmd) {
@@ -123,13 +125,13 @@ public class Application{
     }
 
     private void printInvalidStateStartCmdUsage(AppState state) {
-        switch(state){
+        switch (state) {
             case Game:
-                                 System.out.println(ApplicationConstants.MSG_INVALID_START_GAME_CMD_USAGE);
-                                 break;
+                System.out.println(ApplicationConstants.MSG_INVALID_START_GAME_CMD_USAGE);
+                break;
             case MapEditor:
-                                 System.out.println(ApplicationConstants.MSG_INVALID_MAP_EDITOR_GAME_CMD_USAGE);
-                                 break;
+                System.out.println(ApplicationConstants.MSG_INVALID_MAP_EDITOR_GAME_CMD_USAGE);
+                break;
             default:
                 System.out.println(ApplicationConstants.MSG_INVALID_CMD_USAGE);
         }
@@ -141,7 +143,7 @@ public class Application{
      * and sets app state to Standard
      */
     private void closeCurrSubAppInstance() {
-        if(d_activeSubApplication != null) {
+        if (d_activeSubApplication != null) {
             Logger.log("closing current sub-application");
             d_activeSubApplication.shutdown();
             d_activeSubApplication = null;
@@ -177,10 +179,11 @@ public class Application{
 
     /**
      * This method closes the current active sub-application.
+     *
      * @param p_command cmd object sent for additional processing
      */
     private void cmdExitSubApp(Command p_command) {
-        if(d_activeSubApplication != null)
+        if (d_activeSubApplication != null)
             closeCurrSubAppInstance();
         else
             System.out.println(ApplicationConstants.MSG_INVALID_EXIT_CMD);
@@ -190,6 +193,7 @@ public class Application{
      * This method handles how the application handles app close.
      * This method is invoked by the process command
      * when app quit command is issued.
+     *
      * @param p_command cmd object sent for additional processing
      */
     private void cmdExitApp(Command p_command) {
@@ -200,12 +204,12 @@ public class Application{
 
     /**
      * This method loads a new instance of the game
+     *
      * @param p_command cmd object sent for additional processing
      */
     private void cmdStartGame(Command p_command) {
         Logger.log("Loading new Game");
-        if(!d_appState.equals(AppState.Standard))
-        {
+        if (!d_appState.equals(AppState.Standard)) {
             printInvalidStateStartCmdUsage(AppState.Game);
             return;
         }
@@ -213,11 +217,9 @@ public class Application{
         closeCurrSubAppInstance();
         d_activeSubApplication = createInstance(d_gameInstantiator);
 
-        if(d_activeSubApplication == null)
-        {
+        if (d_activeSubApplication == null) {
             Logger.logError("Game Instance is null");
-        }
-        else {
+        } else {
             d_appState = AppState.Game;
             //This command will be further processed by the map editor
             d_activeSubApplication.submitCommand(p_command);
@@ -226,13 +228,13 @@ public class Application{
 
     /**
      * This method handles loads a new instance of the map editor.
+     *
      * @param p_command cmd object sent for additional processing
      */
     private void cmdStartMapEditor(Command p_command) {
         Logger.log("Loading new Map editor");
 
-        if(!d_appState.equals(AppState.Standard))
-        {
+        if (!d_appState.equals(AppState.Standard)) {
             printInvalidStateStartCmdUsage(AppState.MapEditor);
             return;
         }
@@ -240,11 +242,9 @@ public class Application{
         closeCurrSubAppInstance();
         d_activeSubApplication = createInstance(d_mapEditorInstantiator);
 
-        if(d_activeSubApplication == null)
-        {
+        if (d_activeSubApplication == null) {
             Logger.logError("Map-Editor Instance is null");
-        }
-        else {
+        } else {
             d_appState = AppState.MapEditor;
             //This command will be further processed by the map editor
             d_activeSubApplication.submitCommand(p_command);
@@ -254,12 +254,13 @@ public class Application{
     /**
      * Creates an instance of type ISubApplication using the instantitator provided.
      * and also attempts at initialisation before returning the instance.
+     *
      * @param p_instantiator the instantiator used for creating the instance for ISubApplication.
      * @return instance of ISubApplication using the p_instantiator
      */
     private ISubApplication createInstance(ISubAppInstantiator p_instantiator) {
         ISubApplication l_subApp = p_instantiator.createInstance();
-        if(l_subApp != null)
+        if (l_subApp != null)
             l_subApp.initialise();
         return l_subApp;
     }

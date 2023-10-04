@@ -11,7 +11,7 @@ class GameEngineTest {
     GameEngine d_gameEngineTest;
 
     @BeforeEach
-    void setUp(){
+    void setUp() {
         d_gameEngineTest = new GameEngine();
     }
 
@@ -19,7 +19,7 @@ class GameEngineTest {
      * Tests game engine auto-quit on incorrect command.
      */
     @Test
-    void testAutoQuit(){
+    void testAutoQuit() {
         d_gameEngineTest.submitCommand(Command.parseString("loadmap"));
         assertTrue(d_gameEngineTest.hasQuit());
     }

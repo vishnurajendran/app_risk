@@ -28,7 +28,7 @@ public class MapSave {
 
         FileWriter l_fileWriter;
         try {
-            if (p_map == null){
+            if (p_map == null) {
                 System.out.println("Map object is NULL! ");
             }
 
@@ -49,7 +49,7 @@ public class MapSave {
      */
     private static String parseMapAndReturnString(RiskMap p_Map) {
 
-        return "\nname " + p_Map.getName() +  "\n\n" +  String.valueOf(processContinent(p_Map)) +
+        return "\nname " + p_Map.getName() + "\n\n" + String.valueOf(processContinent(p_Map)) +
                 processCountries(p_Map) +
                 processAdjacentCountries(p_Map);
     }
@@ -58,7 +58,7 @@ public class MapSave {
      * The method to process continents.
      *
      * @param p_Map object of the map which is being processed.
-     * @return  string that contains details of the continents that will eventually be written in the map file.
+     * @return string that contains details of the continents that will eventually be written in the map file.
      */
     private static StringBuilder processContinent(RiskMap p_Map) {
         StringBuilder l_continentData = new StringBuilder();
@@ -83,7 +83,7 @@ public class MapSave {
         l_countryData.append("[countries]");
         l_countryData.append("\n");
 
-        for (Continent  l_continent : p_Map.getContinents()) {
+        for (Continent l_continent : p_Map.getContinents()) {
             for (Country l_country : l_continent.getCountries()) {
                 l_countryData.append(l_country.getDId()).append(" ").append(l_country.getName()).append(" ").append(l_continent.getId())
                         .append(" ").append(l_country.getXCoordinates()).append(" ").append(l_country.getYCoordinates());

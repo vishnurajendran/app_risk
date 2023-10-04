@@ -17,12 +17,12 @@ import java.util.*;
  */
 
 public class GameEngine implements ISubApplication {
+    private static MapLoader d_loadedMap;
+    private static boolean d_hasQuit;
     private final HashMap<String, IMethod> d_cmdtoGameAction;
     private ArrayList<ArrayList<String>> d_cmdArguments;
     private ArrayList<String> d_cmdOption;
-    private static MapLoader d_loadedMap;
     private GameState d_gameState = GameState.Initial;
-    private static boolean d_hasQuit;
 
     /**
      * default constructor
@@ -32,6 +32,20 @@ public class GameEngine implements ISubApplication {
         d_cmdArguments = new ArrayList<>();
         d_cmdOption = new ArrayList<>();
         d_hasQuit = false;
+    }
+
+    /**
+     * @return current instance of map loader
+     */
+    public static MapLoader getLoadedMap() {
+        return d_loadedMap;
+    }
+
+    /**
+     * quits the game.
+     */
+    public static void quitGame() {
+        d_hasQuit = true;
     }
 
     /**
@@ -136,7 +150,7 @@ public class GameEngine implements ISubApplication {
     @Override
     public boolean canProcess(String p_cmdName) {
 
-        if(p_cmdName.equals(GameCommands.CMD_SHOWMAP))
+        if (p_cmdName.equals(GameCommands.CMD_SHOWMAP))
             return true;
 
         if (d_gameState.equals(GameState.Initial)) {
@@ -170,9 +184,10 @@ public class GameEngine implements ISubApplication {
 
     /**
      * this method handles how deploy cmd is executed.
+     *
      * @param p_command command for further processing.
      */
-    private void cmdDeploy(Command p_command){
+    private void cmdDeploy(Command p_command) {
         if (d_gameState.equals(GameState.DeployMode)) {
             int canIssueOrder = PlayerHandler.issueOrder(p_command);
 
@@ -205,9 +220,10 @@ public class GameEngine implements ISubApplication {
 
     /**
      * this methods opens the map viewer
+     *
      * @param p_command command for further processing.
      */
-    private void showMap(Command p_command){
+    private void showMap(Command p_command) {
         MapViewer.showMap();
     }
 
@@ -237,25 +253,11 @@ public class GameEngine implements ISubApplication {
     }
 
     /**
-     * @return current instance of map loader
-     */
-    public static MapLoader getLoadedMap() {
-        return d_loadedMap;
-    }
-
-    /**
      * shuts down the game and clears all data
      * held for gameplay.
      */
     @Override
     public void shutdown() {
         PlayerHandler.cleanup();
-    }
-
-    /**
-     * quits the game.
-     */
-    public static void quitGame() {
-        d_hasQuit = true;
     }
 }

@@ -10,6 +10,8 @@ import static java.util.Objects.nonNull;
 /**
  * A class to hold map information, it uses a java.util.map to hold countries and continents on the map, but it has
  * no other relationship with Java standard map.
+ *
+ * @author Weichen
  */
 public class RiskMap {
     String d_name;
@@ -18,8 +20,6 @@ public class RiskMap {
 
     /**
      * Default Constructor that only initialize the map.
-     *
-     * @author Weichen
      */
     public RiskMap() {
         d_countries = new HashMap<Integer, Country>();
@@ -42,12 +42,12 @@ public class RiskMap {
      *
      * @return Riskmap object
      */
-    public RiskMap clone(){
+    public RiskMap clone() {
         RiskMap l_riskMapClone = new RiskMap(this.d_name);
-        for(Map.Entry<Integer,Country> l_entryCountry: this.d_countries.entrySet()){
+        for (Map.Entry<Integer, Country> l_entryCountry : this.d_countries.entrySet()) {
             l_riskMapClone.d_countries.put(l_entryCountry.getKey(), l_entryCountry.getValue().clone());
         }
-        for(Map.Entry<Integer,Continent> l_entryContinent: this.d_continents.entrySet()){
+        for (Map.Entry<Integer, Continent> l_entryContinent : this.d_continents.entrySet()) {
             l_riskMapClone.d_continents.put(l_entryContinent.getKey(), l_entryContinent.getValue().clone());
         }
         return l_riskMapClone;
@@ -77,17 +77,17 @@ public class RiskMap {
      * @param p_continentId id of continent.
      * @return true if continent present, false otherwise.
      */
-    public boolean hasContinent(Integer p_continentId){
+    public boolean hasContinent(Integer p_continentId) {
         return d_continents.containsKey(p_continentId);
     }
 
     /**
      * Checks if the map has the continent with given countryId.
      *
-     * @param p_countryId   id of country as an integer
-     * @return   true if continent present, false otherwise.
+     * @param p_countryId id of country as an integer
+     * @return true if continent present, false otherwise.
      */
-    public boolean hasCountry(Integer p_countryId){
+    public boolean hasCountry(Integer p_countryId) {
         return d_countries.containsKey(p_countryId);
     }
 
@@ -104,35 +104,33 @@ public class RiskMap {
     /**
      * This method adds the country added to the map to Continent object.
      *
-     * @param p_country     Country object of the country to be added.
+     * @param p_country Country object of the country to be added.
      */
-    void addCountryToContinent(Country p_country){
+    void addCountryToContinent(Country p_country) {
         Continent l_continent = getContinentById(p_country.getContinentId());
-        if(nonNull(l_continent)) {
+        if (nonNull(l_continent)) {
             l_continent.addCountry(p_country);
-        }
-        else {
+        } else {
             Logger.logError("Riskmap loader: country added to null continent");
         }
     }
 
     /**
-     *This method removes the country from continent
+     * This method removes the country from continent
      *
      * @param p_country country object to be removed
      */
-    void removeCountryFromContinent(Country p_country){
+    void removeCountryFromContinent(Country p_country) {
         Continent l_continent = getContinentById(p_country.getContinentId());
-        if(nonNull(l_continent)) {
+        if (nonNull(l_continent)) {
             l_continent.removeCountry(p_country);
-        }
-        else {
+        } else {
             Logger.logError("Riskmap loader: country removed from null continent");
         }
     }
 
     /**
-     *This method removes the country from map
+     * This method removes the country from map
      *
      * @param p_country country object to be removed
      */
@@ -142,15 +140,15 @@ public class RiskMap {
     }
 
     /**
-     *This method removes continent from the map.
+     * This method removes continent from the map.
      *
      * @param p_continent Object continent to be removed.
      */
-    public void removeContinent(Continent p_continent){
+    public void removeContinent(Continent p_continent) {
         //remove all countries of the continent
-        if(hasContinent(p_continent.getId())){
+        if (hasContinent(p_continent.getId())) {
             ArrayList<Country> l_countries = getCountries();
-            for(Country l_country : l_countries){
+            for (Country l_country : l_countries) {
                 removeCountry(l_country);
             }
             d_continents.remove(p_continent.getId());
@@ -182,14 +180,15 @@ public class RiskMap {
 
     /**
      * Add a single connection between these two countries. This behaviour will be done to both country.
-     * @param p_countryId The first country ID
+     *
+     * @param p_countryId        The first country ID
      * @param p_anotherCountryId The second country ID
-     * @return
+     * @return true if border was added successfully, else false
      */
-    public boolean addBorder(int p_countryId,int p_anotherCountryId){
+    public boolean addBorder(int p_countryId, int p_anotherCountryId) {
         Country l_country = d_countries.get(p_countryId);
-        Country l_anotherCountry=d_countries.get(p_anotherCountryId);
-        if(isNull(l_country)||isNull(l_anotherCountry)){
+        Country l_anotherCountry = d_countries.get(p_anotherCountryId);
+        if (isNull(l_country) || isNull(l_anotherCountry)) {
             return false;
         }
         l_country.addBorder(l_anotherCountry);
@@ -209,7 +208,7 @@ public class RiskMap {
     /**
      * This method returns a list of countries present in map.
      *
-     * @return  ArrayList of country Object.
+     * @return ArrayList of country Object.
      */
     public ArrayList<Country> getCountries() {
         return new ArrayList<Country>(d_countries.values());
@@ -228,7 +227,7 @@ public class RiskMap {
     /**
      * This method returns a list of continents present in map.
      *
-     * @return  ArrayList of continent Object.
+     * @return ArrayList of continent Object.
      */
     public ArrayList<Continent> getContinents() {
         return new ArrayList<Continent>(d_continents.values());
@@ -262,8 +261,9 @@ public class RiskMap {
 
     /**
      * Increase the army value of the country
+     *
      * @param p_countryId The id that we got from the player deployment
-     * @param p_army The number of armies that the player wants to deploy on this country
+     * @param p_army      The number of armies that the player wants to deploy on this country
      */
     public void increaseCountryArmyById(int p_countryId, int p_army) {
         Country l_country = d_countries.get(p_countryId);
@@ -274,8 +274,8 @@ public class RiskMap {
     /**
      * Get country from country id
      *
-     * @param p_countryId   unique country id as an Integer
-     * @return              Country object
+     * @param p_countryId unique country id as an Integer
+     * @return Country object
      */
     public Country getCountryById(int p_countryId) {
         return d_countries.get(p_countryId);
@@ -284,8 +284,8 @@ public class RiskMap {
     /**
      * Get continent from continent id
      *
-     * @param p_continentId     unique continent id as an integer
-     * @return                  Continent object
+     * @param p_continentId unique continent id as an integer
+     * @return Continent object
      */
     public Continent getContinentById(int p_continentId) {
         return d_continents.get(p_continentId);

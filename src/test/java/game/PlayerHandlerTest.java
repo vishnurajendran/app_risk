@@ -20,8 +20,8 @@ class PlayerHandlerTest {
         PlayerHandler.addGamePlayers(new ArrayList<>(Arrays.asList("player1", "player2", "player3")));
         Continent continent = new Continent(1, "test-continent", 2);
         ArrayList<Player> allPlayers = PlayerHandler.getGamePlayers();
-        for(int i = 0;i<allPlayers.size();i++){
-            allPlayers.get(i).assignCountry(new Country(i, "test-country"+i, 1), 0);
+        for (int i = 0; i < allPlayers.size(); i++) {
+            allPlayers.get(i).assignCountry(new Country(i, "test-country" + i, 1), 0);
         }
     }
 
