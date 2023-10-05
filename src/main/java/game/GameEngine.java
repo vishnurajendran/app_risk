@@ -105,7 +105,6 @@ public class GameEngine implements ISubApplication {
      * This method adds players to the game players list and displays them in the console
      */
     private void updatePlayers(Command p_cmd) {
-        //Logger.log(d_cmdOption + ":" + GameCommands.CMD_GAME_PLAYER_OPTION_ADD);
         for (int i = 0; i < d_cmdOption.size(); i++) {
             if (d_cmdOption.get(i).equals(GameCommands.CMD_GAME_PLAYER_OPTION_ADD) && !d_cmdArguments.isEmpty()) {
                 PlayerHandler.addGamePlayers(d_cmdArguments.get(i));
@@ -125,7 +124,7 @@ public class GameEngine implements ISubApplication {
      */
     private void assignCountries(Command p_cmd) {
 
-        if(PlayerHandler.getGamePlayers().size() <= 1){
+        if (PlayerHandler.getGamePlayers().size() <= 1) {
             System.out.println("Not enough players to start the game. the game needs at-least 2 players");
             return;
         }
@@ -180,7 +179,6 @@ public class GameEngine implements ISubApplication {
      */
     @Override
     public void submitCommand(Command p_command) {
-        //d_gamePlayers = p_gamePlayers;
         loadArgumentsAndOption(p_command);
         if (p_command.getCmdName().equals(GameCommands.CMD_LOAD_MAP) && p_command.getCmdAttributes().isEmpty()) {
             d_hasQuit = true;
@@ -245,7 +243,6 @@ public class GameEngine implements ISubApplication {
         do {
             orderToExecute.executeOrder();
             Logger.log("Executing order for: " + PlayerHandler.getGamePlayers().get(l_index % PlayerHandler.getGamePlayers().size()).getPlayerName() + ", Orders remaining: " + PlayerHandler.getGamePlayers().get(l_index % PlayerHandler.getGamePlayers().size()).getOrderSize());
-            //l_index = (l_index+1)%PlayerHandler.getGamePlayers().size();
             l_index = (l_index + 1) % PlayerHandler.getGamePlayers().size();
             for (int i = 0; i < PlayerHandler.getGamePlayers().size(); i++) {
                 orderToExecute = PlayerHandler.getGamePlayers().get(l_index % PlayerHandler.getGamePlayers().size()).nextOrder();
