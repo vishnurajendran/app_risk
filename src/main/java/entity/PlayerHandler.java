@@ -117,8 +117,8 @@ public class PlayerHandler {
 
     public static void assignCountriesToPlayer(MapLoader p_loadedMap) {
         ArrayList<Integer> randomCountryIDs = new ArrayList<>();
-        for (int i = 1; i < p_loadedMap.getMap().getCountries().size(); i++) {
-            randomCountryIDs.add(i);
+        for (int i = 0; i < p_loadedMap.getMap().getCountries().size(); i++) {
+            randomCountryIDs.add(p_loadedMap.getMap().getCountries().get(i).getDId());
         }
         if (p_loadedMap.getMap().getCountryIds().size() < d_gamePlayers.size()) {
             System.out.println("ERROR: Number of players are greater than the number of countries in the map");
