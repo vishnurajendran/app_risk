@@ -28,12 +28,14 @@ public class MapEditor implements ISubApplication {
     private RiskMap d_map;
     private String d_filename;
     private boolean d_isMapInitialised = false;
+    private static boolean d_hasQuit;
 
     /**
      * Constructor for mapEditor
      */
     public MapEditor() {
         d_cmdToActionMap = new HashMap<>();
+        d_hasQuit = false;
     }
 
     /**
@@ -56,7 +58,14 @@ public class MapEditor implements ISubApplication {
      */
     @Override
     public boolean hasQuit() {
-        return false;
+        return d_hasQuit;
+    }
+
+    /**
+     * quits the map editor.
+     */
+    public static void quitMapEditor(){
+        d_hasQuit = true;
     }
 
     /**
@@ -262,7 +271,11 @@ public class MapEditor implements ISubApplication {
             if (!p_riskMap.hasContinent(l_continentId)) {
                 System.out.println("Continent not present in the map!");
                 return false;
-            } else {
+            }
+            else if(p_riskMap.hasCountry(l_countryId)) {
+                System.out.println("Country already present in the map!");
+                return false;
+            }else {
                 Continent l_continent = p_riskMap.getContinentById(l_continentId);
                 if (l_continent.hasCountry(l_countryId)) {
                     System.out.println("Country already present in the continent!");
@@ -278,7 +291,7 @@ public class MapEditor implements ISubApplication {
     }
 
     /**
-     * This method executes remove countinent command
+     * This method executes remove continent command
      *
      * @param p_args    list of args(country_id)
      * @param p_riskMap temporary map object to perform command operation
@@ -287,7 +300,7 @@ public class MapEditor implements ISubApplication {
     private boolean executeRemoveCountry(ArrayList<String> p_args, RiskMap p_riskMap) {
         for (String l_arg : p_args) {
             int l_countryId = Integer.parseInt(l_arg);
-            if (p_riskMap.hasCountry(l_countryId)) {
+            if (!p_riskMap.hasCountry(l_countryId)) {
                 System.out.println("Country not present in the map!");
                 return false;
             } else {
@@ -459,11 +472,19 @@ public class MapEditor implements ISubApplication {
 
     }
 
+    /**
+     * Executes the command showmap
+     *
+     * @param p_command The command objects passed down by the application
+     */
     private void cmdShowMap(Command p_command) {
-        //call to display map.
         MapViewer.showMap();
     }
 
+    /**
+     * Executes the command savemap
+     * @param p_command The command objects passed down by the application
+     */
     private void cmdSaveMap(Command p_command) {
         //write the map object to file.
         if (p_command.getCmdAttributes().isEmpty() || p_command.getCmdAttributes().get(0).getArguments().isEmpty()) {
@@ -528,15 +549,18 @@ public class MapEditor implements ISubApplication {
                 d_filename = NEW_MAP_FILE_NAME;
                 d_map = new RiskMap(NEW_MAP_FILE_NAME);
                 d_isMapInitialised = true;
+                Logger.log("Command " + p_command.toString() + " Successful!");
             }
             return;
         } else if (!p_command.getCmdAttributes().get(0).getOption().isEmpty()) {
             System.out.println("Incorrect command, invalid option found" + p_command.toString());
+            quitMapEditor();
             return;
         } else if (!p_command.getCmdAttributes().get(0).getArguments().isEmpty()) {
             l_filename = p_command.getCmdAttributes().get(0).getArguments().get(0);
         } else {
             System.out.println("Invalid arguments!" + p_command.toString());
+            quitMapEditor();
             return;
         }
 
@@ -545,11 +569,12 @@ public class MapEditor implements ISubApplication {
         RiskMap l_riskMap = l_mapLoader.getMap();
         if (isNull(l_riskMap) || !MapValidator.validateMap(l_riskMap)) {
             System.out.println("Invalid map!, load another file or start from scratch!");
+            quitMapEditor();
             return;
         }
 
         d_isMapInitialised = true;
-        d_map = l_riskMap;  //clone?
+        d_map = l_riskMap;
         d_filename = l_filename;
         Logger.log("Command " + p_command.toString() + " Successful!");
     }
@@ -563,11 +588,13 @@ public class MapEditor implements ISubApplication {
     private void cmdValidateMap(Command p_command) {
         if (!d_isMapInitialised || isNull(d_map)) {
             System.out.println("No Map loaded in the mapEditor!");
+            quitMapEditor();
             return;
         }
         boolean l_isMapValid = MapValidator.validateMap(d_map);
         if (!l_isMapValid) {
             System.out.println("Map is invalid!");
+            quitMapEditor();
         } else {
             System.out.println("Map is Valid!");
         }
