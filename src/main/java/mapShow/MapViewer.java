@@ -22,12 +22,13 @@ public class MapViewer extends JFrame {
     /**
      * The RiskMap instance used in the application.
      */
-    private final RiskMap d_RISK_MAP = createRiskMap();
+    private final RiskMap d_RISK_MAP;
 
     /**
      * Constructor for the MapViewer class.
      */
-    public MapViewer() {
+    public MapViewer(RiskMap p_map) {
+        d_RISK_MAP = p_map;
         initializeUI();
     }
 
@@ -44,10 +45,12 @@ public class MapViewer extends JFrame {
 
     /**
      * The main entry point for the application.
+     *
+     * @param p_map map to show
      */
-    public static void showMap() {
+    public static void showMap(RiskMap p_map) {
         SwingUtilities.invokeLater(() -> {
-            MapViewer l_mapViewer = new MapViewer();
+            MapViewer l_mapViewer = new MapViewer(p_map);
             l_mapViewer.setVisible(true);
         });
     }

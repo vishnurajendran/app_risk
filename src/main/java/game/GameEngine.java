@@ -232,7 +232,7 @@ public class GameEngine implements ISubApplication {
      * @param p_command command for further processing.
      */
     private void showMap(Command p_command) {
-        MapViewer.showMap();
+        MapViewer.showMap(d_loadedMap.getMap());
     }
 
     /**
