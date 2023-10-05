@@ -478,7 +478,7 @@ public class MapEditor implements ISubApplication {
      * @param p_command The command objects passed down by the application
      */
     private void cmdShowMap(Command p_command) {
-        MapViewer.showMap();
+        MapViewer.showMap(d_map);
     }
 
     /**
