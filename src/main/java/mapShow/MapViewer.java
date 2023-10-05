@@ -178,8 +178,8 @@ public class MapViewer extends JFrame {
             System.out.println();
             for (Player l_player : PlayerHandler.getGamePlayers()) {
                 System.out.println(MessageFormat.format("[Player `\u001B[33m{0}\u001B[0m` Map Stats]", l_player.getPlayerName()));
-                for(Country l_country : l_player.getCountriesOwned()){
-                    System.out.println(MessageFormat.format("\tId: \u001B[31m{0}\u001B[0m Name: {1} Army: \u001B[31m{2}\u001B[0m",l_country.getDId(), l_country.getName(), l_country.getArmy()));
+                for (Country l_country : l_player.getCountriesOwned()) {
+                    System.out.println(MessageFormat.format("\tId: \u001B[31m{0}\u001B[0m Name: {1} Army: \u001B[31m{2}\u001B[0m", l_country.getDId(), l_country.getName(), l_country.getArmy()));
                 }
                 System.out.println();
             }

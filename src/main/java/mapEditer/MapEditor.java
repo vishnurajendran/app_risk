@@ -24,11 +24,11 @@ import static mapEditer.MapEditorCommands.*;
  */
 public class MapEditor implements ISubApplication {
 
+    private static boolean d_hasQuit;
     private final HashMap<String, IMethod> d_cmdToActionMap;
     private RiskMap d_map;
     private String d_filename;
     private boolean d_isMapInitialised = false;
-    private static boolean d_hasQuit;
 
     /**
      * Constructor for mapEditor
@@ -36,6 +36,13 @@ public class MapEditor implements ISubApplication {
     public MapEditor() {
         d_cmdToActionMap = new HashMap<>();
         d_hasQuit = false;
+    }
+
+    /**
+     * quits the map editor.
+     */
+    public static void quitMapEditor() {
+        d_hasQuit = true;
     }
 
     /**
@@ -59,13 +66,6 @@ public class MapEditor implements ISubApplication {
     @Override
     public boolean hasQuit() {
         return d_hasQuit;
-    }
-
-    /**
-     * quits the map editor.
-     */
-    public static void quitMapEditor(){
-        d_hasQuit = true;
     }
 
     /**
@@ -271,11 +271,10 @@ public class MapEditor implements ISubApplication {
             if (!p_riskMap.hasContinent(l_continentId)) {
                 System.out.println("Continent not present in the map!");
                 return false;
-            }
-            else if(p_riskMap.hasCountry(l_countryId)) {
+            } else if (p_riskMap.hasCountry(l_countryId)) {
                 System.out.println("Country already present in the map!");
                 return false;
-            }else {
+            } else {
                 Continent l_continent = p_riskMap.getContinentById(l_continentId);
                 if (l_continent.hasCountry(l_countryId)) {
                     System.out.println("Country already present in the continent!");
@@ -483,6 +482,7 @@ public class MapEditor implements ISubApplication {
 
     /**
      * Executes the command savemap
+     *
      * @param p_command The command objects passed down by the application
      */
     private void cmdSaveMap(Command p_command) {
