@@ -12,19 +12,29 @@ public class Logger {
 
     private static SimpleDateFormat d_formatter;
     private static LogBuffer d_logBuffer;
-    private static boolean isInitialised = false;
+    private static boolean d_isInitialised = false;
+
+    /**
+     * private constructor to make class purely static.
+     */
+    private Logger(){
+
+    }
 
     /**
      * Initialises the logger, and prepares for logging.
      * @param p_enableConsolePrinting flag to enable console printing.
      */
     public static void Initialise(boolean p_enableConsolePrinting){
+        if(d_isInitialised)
+            return;
+
         d_logBuffer = new LogBuffer();
         d_logBuffer.registerWriter(new FileLogWriter());
         if(p_enableConsolePrinting){
             d_logBuffer.registerWriter(new ConsoleLogWriter());
         }
-        isInitialised = true;
+        d_isInitialised = true;
     }
 
     /**
@@ -39,35 +49,35 @@ public class Logger {
 
 
     /**
-     * Logs a message to the console
-     * @param msg message to print
+     * Logs a message
+     * @param p_msg message to print
      */
-    public static void log(String msg) {
-        if(!isInitialised)
+    public static void log(String p_msg) {
+        if(!d_isInitialised)
             return;
 
-        d_logBuffer.log(LogLevel.Log, "[" + getTime() + "] LOG: " + msg, true);
+        d_logBuffer.log(LogType.Log, "[" + getTime() + "] LOG: " + p_msg, true);
     }
 
     /**
-     * Logs a warning to the console in yellow color
-     * @param warning warning message to print
+     * Logs a warning
+     * @param p_warning warning message to print
      */
-    public static void logWarning(String warning) {
-        if(!isInitialised)
+    public static void logWarning(String p_warning) {
+        if(!d_isInitialised)
             return;
 
-        d_logBuffer.log(LogLevel.Warn,"[" + getTime() + "] WARN: " + warning, true);
+        d_logBuffer.log(LogType.Warn,"[" + getTime() + "] WARN: " + p_warning, true);
     }
 
     /**
-     * Logs a warning to the console in red color
-     * @param error error message to print
+     * Logs an error
+     * @param p_error error message to print
      */
-    public static void logError(String error) {
-        if(!isInitialised)
+    public static void logError(String p_error) {
+        if(!d_isInitialised)
             return;
 
-        d_logBuffer.log(LogLevel.Error,"[" + getTime() + "] ERROR: " + error, true);
+        d_logBuffer.log(LogType.Error,"[" + getTime() + "] ERROR: " + p_error, true);
     }
 }

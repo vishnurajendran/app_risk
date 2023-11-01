@@ -11,6 +11,13 @@ public class ConsoleLogWriter implements ILogWriter {
     private static final String COLOR_YELLOW = "\u001B[33m";
 
     /**
+     * Constructor for ConsoleLogWriter.
+     */
+    public ConsoleLogWriter(){
+
+    }
+
+    /**
      * Implements the ILogWriter function to write to console.
      * @param p_data logging data to write.
      */
@@ -25,14 +32,14 @@ public class ConsoleLogWriter implements ILogWriter {
      * @param message
      * @return
      */
-    private String colorFormat(LogLevel level, String message){
-        if(level == LogLevel.Log)
+    private String colorFormat(LogType level, String message){
+        if(level == LogType.Log)
             return message;
 
         String newMsg = "";
-        if(level == LogLevel.Warn)
+        if(level == LogType.Warn)
             newMsg += COLOR_YELLOW;
-        else if(level == LogLevel.Error)
+        else if(level == LogType.Error)
             newMsg += COLOR_RED;
 
         newMsg += message + " " + COLOR_RESET;

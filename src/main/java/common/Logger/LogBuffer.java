@@ -24,13 +24,13 @@ public class LogBuffer implements ILogBuffer {
 
     /**
      * Implementation of the interface method.
-     * @param msg message to log.
-     * @param flush true if flush the buffer immediately.
+     * @param p_msg message to log.
+     * @param p_flush true if flush the buffer immediately.
      */
     @Override
-    public void log(LogLevel level, String msg, boolean flush) {
-        d_buffer.add(new LogData(level, msg));
-        if(flush)
+    public void log(LogType p_level, String p_msg, boolean p_flush) {
+        d_buffer.add(new LogData(p_level, p_msg));
+        if(p_flush)
         {
             flush();
         }

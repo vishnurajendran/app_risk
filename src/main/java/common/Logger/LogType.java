@@ -1,12 +1,12 @@
 package common.Logger;
 
 /**
- * Enum values to handle log levels.
+ * Enum values to handle log types.
  * @author vishnurajendran
  */
-public enum LogLevel {
+public enum LogType {
     /**
-     * Standard log
+     * Standard logs
      */
     Log,
     /**

@@ -6,21 +6,21 @@ package common.Logger;
 public interface ILogBuffer {
     /**
      * Log to buffer.
-     * @param level level of logging.
-     * @param msg message to log.
-     * @param flush flush immediately if true.
+     * @param p_level level of logging.
+     * @param p_msg message to log.
+     * @param p_flush flush immediately if true.
      */
-    public void log(LogLevel level, String msg, boolean flush);
+    public void log(LogType p_level, String p_msg, boolean p_flush);
 
     /**
      * Register writers
-     * @param writer writer to register.
+     * @param p_writer writer to register.
      */
-    public void registerWriter(ILogWriter writer);
+    public void registerWriter(ILogWriter p_writer);
 
     /**
      * Remove writer
-     * @param writer writer to remove.
+     * @param p_writer writer to remove.
      */
-    public void unRegisterWriter(ILogWriter writer);
+    public void unRegisterWriter(ILogWriter p_writer);
 }

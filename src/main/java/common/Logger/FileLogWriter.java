@@ -15,8 +15,7 @@ public class FileLogWriter implements ILogWriter{
    private String dirPath = "Logs";
 
     /**
-     * Constructor for FileLogWriter,
-     * creates a file handle to write log messages to.
+     * Constructor for FileLogWriter.
      */
     public FileLogWriter(){
         SimpleDateFormat l_formatter = new SimpleDateFormat("YYYY-MM-dd-HH-mm-ss");
