@@ -2,6 +2,7 @@ package game;
 
 import application.ApplicationConstants;
 import common.*;
+import common.Logger.Logger;
 import entity.MapLoader;
 import entity.Player;
 import entity.PlayerHandler;
@@ -111,7 +112,7 @@ public class GameEngine implements ISubApplication {
             } else if (d_cmdOption.get(i).equals(GameCommands.CMD_GAME_PLAYER_OPTION_REMOVE) && !d_cmdArguments.isEmpty()) {
                 PlayerHandler.removeGamePlayers(d_cmdArguments.get(i));
             } else {
-                System.out.println(MessageFormat.format(ApplicationConstants.MSG_INVALID_CMD, p_cmd.getCmdName()));
+                System.out.println(MessageFormat.format(ApplicationConstants.ERR_MSG_INVALID_CMD, p_cmd.getCmdName()));
             }
         }
         PlayerHandler.displayGamePlayers();

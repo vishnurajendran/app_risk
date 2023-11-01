@@ -1,9 +1,6 @@
 package entity;
 
-import common.Logger;
-import entity.Continent;
-import entity.Country;
-import entity.RiskMap;
+import common.Logger.Logger;
 import game.GameEngine;
 
 import java.io.File;

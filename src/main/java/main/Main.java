@@ -3,7 +3,7 @@ package main;
 import application.Application;
 import common.Command;
 import common.ISubAppInstantiator;
-import common.Logger;
+import common.Logger.Logger;
 import game.GameInstantiator;
 import mapEditer.MapEditorInstantiator;
 
@@ -33,7 +33,8 @@ public class Main {
      */
     public static void main(String[] args) {
 
-        Logger.SetConsolePrinting(args.length > 0 && args[0].equals(SYMB_DEBUGGING));
+        boolean consolePrint = args.length > 0 && args[0].equals(SYMB_DEBUGGING);
+        Logger.Initialise(consolePrint);
         Scanner l_sc = new Scanner(System.in);
 
         //create instance of game and map instantiators and application.
@@ -46,9 +47,13 @@ public class Main {
 
         //game loop
         while (!l_app.hasQuit()) {
-            Command l_cmd = Command.parseString(l_sc.nextLine());
-            if (l_cmd != null)
+            String l_input = l_sc.nextLine();
+            Command l_cmd = Command.parseString(l_input);
+            if (l_cmd != null) {
+                String cmdMsg = "user input to parse '"+l_input+"'\n\t\t\t\tparsed to - "+l_cmd;
+                Logger.log(cmdMsg);
                 l_app.processCommand(l_cmd);
+            }
         }
 
         //cleanup

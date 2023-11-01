@@ -1,6 +1,7 @@
 package application;
 
 import common.*;
+import common.Logger.Logger;
 
 import java.text.MessageFormat;
 import java.util.HashMap;
@@ -121,21 +122,20 @@ public class Application {
      * @param p_cmd the command that was input by the user.
      */
     private void printInvalidCommandMessage(Command p_cmd) {
-        System.out.println(MessageFormat.format(ApplicationConstants.MSG_INVALID_CMD, p_cmd.getCmdName()));
+        Logger.logError(MessageFormat.format(ApplicationConstants.ERR_MSG_INVALID_CMD, p_cmd.getCmdName()));
     }
 
     private void printInvalidStateStartCmdUsage(AppState state) {
         switch (state) {
             case Game:
-                System.out.println(ApplicationConstants.MSG_INVALID_START_GAME_CMD_USAGE);
+                Logger.logError(ApplicationConstants.ERR_MSG_INVALID_START_GAME_CMD_USAGE);
                 break;
             case MapEditor:
-                System.out.println(ApplicationConstants.MSG_INVALID_MAP_EDITOR_GAME_CMD_USAGE);
+                Logger.logError(ApplicationConstants.ERR_MSG_INVALID_MAP_EDITOR_GAME_CMD_USAGE);
                 break;
             default:
-                System.out.println(ApplicationConstants.MSG_INVALID_CMD_USAGE);
+                Logger.logError(ApplicationConstants.ERR_INVALID_CMD_USAGE);
         }
-
     }
 
     /**
@@ -186,7 +186,7 @@ public class Application {
         if (d_activeSubApplication != null)
             closeCurrSubAppInstance();
         else
-            System.out.println(ApplicationConstants.MSG_INVALID_EXIT_CMD);
+            Logger.logError(ApplicationConstants.MSG_INVALID_EXIT_CMD);
     }
 
     /**
@@ -233,7 +233,6 @@ public class Application {
      */
     private void cmdStartMapEditor(Command p_command) {
         Logger.log("Loading new Map editor");
-
         if (!d_appState.equals(AppState.Standard)) {
             printInvalidStateStartCmdUsage(AppState.MapEditor);
             return;

@@ -1,4 +1,4 @@
-package common;
+package common.Logger;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -10,20 +10,21 @@ import java.util.Date;
  */
 public class Logger {
 
-    private static final String COLOR_RESET = "\u001B[0m";
-    private static final String COLOR_RED = "\u001B[31m";
-    private static final String COLOR_YELLOW = "\u001B[33m";
-
-    private static boolean d_printToConsole = false;
     private static SimpleDateFormat d_formatter;
+    private static LogBuffer d_logBuffer;
+    private static boolean isInitialised = false;
 
     /**
-     * Enables or disables the flag that prints logs to console.
-     *
-     * @param p_printToConsole flag to set or unset.
+     * Initialises the logger, and prepares for logging.
+     * @param p_enableConsolePrinting flag to enable console printing.
      */
-    public static void SetConsolePrinting(boolean p_printToConsole) {
-        d_printToConsole = p_printToConsole;
+    public static void Initialise(boolean p_enableConsolePrinting){
+        d_logBuffer = new LogBuffer();
+        d_logBuffer.registerWriter(new FileLogWriter());
+        if(p_enableConsolePrinting){
+            d_logBuffer.registerWriter(new ConsoleLogWriter());
+        }
+        isInitialised = true;
     }
 
     /**
@@ -39,31 +40,34 @@ public class Logger {
 
     /**
      * Logs a message to the console
-     *
      * @param msg message to print
      */
     public static void log(String msg) {
-        if (d_printToConsole)
-            System.out.println("[" + getTime() + "] LOG: " + msg);
+        if(!isInitialised)
+            return;
+
+        d_logBuffer.log(LogLevel.Log, "[" + getTime() + "] LOG: " + msg, true);
     }
 
     /**
      * Logs a warning to the console in yellow color
-     *
      * @param warning warning message to print
      */
     public static void logWarning(String warning) {
-        if (d_printToConsole)
-            System.out.println(COLOR_YELLOW + "[" + getTime() + "] WARN: " + warning + " " + COLOR_RESET);
+        if(!isInitialised)
+            return;
+
+        d_logBuffer.log(LogLevel.Warn,"[" + getTime() + "] WARN: " + warning, true);
     }
 
     /**
      * Logs a warning to the console in red color
-     *
      * @param error error message to print
      */
     public static void logError(String error) {
-        if (d_printToConsole)
-            System.out.println(COLOR_RED + "[" + getTime() + "] ERROR: " + error + " " + COLOR_RESET);
+        if(!isInitialised)
+            return;
+
+        d_logBuffer.log(LogLevel.Error,"[" + getTime() + "] ERROR: " + error, true);
     }
 }

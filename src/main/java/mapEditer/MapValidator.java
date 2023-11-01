@@ -1,6 +1,6 @@
 package mapEditer;
 
-import common.Logger;
+import common.Logger.Logger;
 import entity.Continent;
 import entity.RiskMap;
 import entity.Country;

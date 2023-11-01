@@ -1,6 +1,6 @@
 package entity;
 
-import common.Logger;
+import common.Logger.Logger;
 
 import java.util.*;
 
