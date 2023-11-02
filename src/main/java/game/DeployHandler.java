@@ -7,12 +7,12 @@ import entity.PlayerHandler;
 /**
  * @author Soham
  */
-public class DeployHandler implements ISubApplication{
-    GameEngine d_gameEngine;
+public class DeployHandler implements IGameStateHandler{
 
-    DeployHandler(GameEngine p_gameEngine){
-        d_gameEngine = p_gameEngine;
+    public DeployHandler(){
+
     }
+
 
     public static void DeployArmies(Command p_command){
             int canIssueOrder = PlayerHandler.issueOrder(p_command);
@@ -66,27 +66,12 @@ public class DeployHandler implements ISubApplication{
     }
 
     @Override
-    public void initialise() {
-
+    public void performAction(GameEngine gameEngine, Command command) {
+        DeployArmies(command);
     }
 
     @Override
-    public boolean hasQuit() {
-        return false;
-    }
-
-    @Override
-    public boolean canProcess(String p_cmdName) {
-        return false;
-    }
-
-    @Override
-    public void submitCommand(Command p_command) {
-
-    }
-
-    @Override
-    public void shutdown() {
-
+    public boolean canProcessCommand(String p_cmdName) {
+        return p_cmdName.equals(GameCommands.CMD_DEPLOY_COUNTRIES);
     }
 }

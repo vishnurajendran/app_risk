@@ -1,6 +1,5 @@
 package game;
 
-import application.ApplicationConstants;
 import common.Command;
 import common.IMethod;
 import common.ISubApplication;
@@ -9,7 +8,6 @@ import entity.MapLoader;
 import entity.PlayerHandler;
 import mapShow.MapViewer;
 
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -22,38 +20,44 @@ import java.util.HashMap;
  */
 
 public class GameEngine implements ISubApplication {
-    private static MapLoader d_loadedMap;
-    private static boolean d_hasQuit;
+    public static MapLoader d_LoadedMap;
+    public static boolean d_HasQuit;
     private final HashMap<String, IMethod> d_cmdtoGameAction;
-    private ArrayList<ArrayList<String>> d_cmdArguments;
-    private ArrayList<String> d_cmdOption;
+    public static ArrayList<ArrayList<String>> d_CmdArguments;
+    public static ArrayList<String> d_CmdOption;
     private GameState d_gameState = GameState.Initial;
 
-    private DeployHandler d_deployHander;
+    private IGameStateHandler d_activeGameStateHandler;
+
+    private static IGameStateHandler d_currentState;
 
     /**
      * default constructor
      */
     public GameEngine() {
         d_cmdtoGameAction = new HashMap<>();
-        d_cmdArguments = new ArrayList<>();
-        d_cmdOption = new ArrayList<>();
-        d_hasQuit = false;
-        d_deployHander = new DeployHandler(this);
+        d_CmdArguments = new ArrayList<>();
+        d_CmdOption = new ArrayList<>();
+        d_HasQuit = false;
+        d_currentState = new InitialGame();
     }
 
     /**
      * @return current instance of map loader
      */
     public static MapLoader getLoadedMap() {
-        return d_loadedMap;
+        return d_LoadedMap;
     }
 
     /**
      * quits the game.
      */
     public static void quitGame() {
-        d_hasQuit = true;
+        d_HasQuit = true;
+    }
+
+    public static void changeState(IGameStateHandler p_changedState) {
+        d_currentState = p_changedState;
     }
 
     /**
@@ -61,14 +65,14 @@ public class GameEngine implements ISubApplication {
      * to d_cmdOption and d_cmdArguments, respectively for better readability of the code
      */
     private void loadArgumentsAndOption(Command p_cmd) {
-        d_cmdArguments = new ArrayList<>();
-        d_cmdOption = new ArrayList<>();
+        d_CmdArguments = new ArrayList<>();
+        d_CmdOption = new ArrayList<>();
         for (int i = 0; i < p_cmd.getCmdAttributes().size(); i++) {
             if (!p_cmd.getCmdAttributes().isEmpty()) {
-                d_cmdArguments.add(p_cmd.getCmdAttributes().get(i).getArguments());
+                d_CmdArguments.add(p_cmd.getCmdAttributes().get(i).getArguments());
             }
             if (!p_cmd.getCmdAttributes().isEmpty()) {
-                d_cmdOption.add(p_cmd.getCmdAttributes().get(i).getOption());
+                d_CmdOption.add(p_cmd.getCmdAttributes().get(i).getOption());
             }
         }
 
@@ -79,65 +83,9 @@ public class GameEngine implements ISubApplication {
      */
     private void registerGameCommands() {
         Logger.log("Registering game commands");
-        d_cmdtoGameAction.put(GameCommands.CMD_LOAD_MAP, this::loadGameMap);
-        d_cmdtoGameAction.put(GameCommands.CMD_ASSIGN_COUNTRIES_TO_PLAYER, this::assignCountries);
-        d_cmdtoGameAction.put(GameCommands.CMD_GAME_PLAYER, this::updatePlayers);
-        d_cmdtoGameAction.put(GameCommands.CMD_DEPLOY_COUNTRIES, this::cmdDeploy);
         d_cmdtoGameAction.put(GameCommands.CMD_SHOWMAP, this::showMap);
     }
 
-    /**
-     * This method loads the map into a variable
-     * quits the game stage if the map cannot be loaded.
-     *
-     * @param p_cmd is the command that was passed from the application phase
-     */
-    private void loadGameMap(Command p_cmd) {
-        try {
-            d_loadedMap = new MapLoader(d_cmdArguments.get(0).get(0));
-            if (!d_hasQuit) {
-                System.out.println("Loaded map: " + d_cmdArguments);
-            } else {
-                System.out.println("ERROR: Error loading map, check the Map Name again.");
-            }
-
-        } catch (Exception e) {
-            System.out.println("ERROR: Error loading map, check the Map Name again.");
-            d_hasQuit = true;
-        }
-    }
-
-    /**
-     * This method adds players to the game players list and displays them in the console
-     */
-    private void updatePlayers(Command p_cmd) {
-        for (int i = 0; i < d_cmdOption.size(); i++) {
-            if (d_cmdOption.get(i).equals(GameCommands.CMD_GAME_PLAYER_OPTION_ADD) && !d_cmdArguments.isEmpty()) {
-                PlayerHandler.addGamePlayers(d_cmdArguments.get(i));
-            } else if (d_cmdOption.get(i).equals(GameCommands.CMD_GAME_PLAYER_OPTION_REMOVE) && !d_cmdArguments.isEmpty()) {
-                PlayerHandler.removeGamePlayers(d_cmdArguments.get(i));
-            } else {
-                System.out.println(MessageFormat.format(ApplicationConstants.MSG_INVALID_CMD, p_cmd.getCmdName()));
-            }
-        }
-        PlayerHandler.displayGamePlayers();
-    }
-
-    /**
-     * Used to assign countries to a player
-     *
-     * @param p_cmd
-     */
-    private void assignCountries(Command p_cmd) {
-
-        if (PlayerHandler.getGamePlayers().size() <= 1) {
-            System.out.println("Not enough players to start the game. the game needs at-least 2 players");
-            return;
-        }
-
-        PlayerHandler.assignCountriesToPlayer(d_loadedMap);
-        d_gameState = GameState.DeployMode;
-    }
 
     @Override
     public void initialise() {
@@ -151,7 +99,7 @@ public class GameEngine implements ISubApplication {
      */
     @Override
     public boolean hasQuit() {
-        return d_hasQuit;
+        return d_HasQuit;
     }
 
     /**
@@ -165,14 +113,19 @@ public class GameEngine implements ISubApplication {
 
         if (p_cmdName.equals(GameCommands.CMD_SHOWMAP))
             return true;
-
-        if (d_gameState.equals(GameState.Initial)) {
-            return GameCommands.CHECKVALIDCOMMANDSFORINITIAL.contains(p_cmdName);
-        } else if (d_gameState.equals(GameState.DeployMode)) {
-            return p_cmdName.equals(GameCommands.CMD_DEPLOY_COUNTRIES);
-        }
-
-        return false;
+//        if (d_gameState.equals(GameState.Initial)) {
+//            if(GameCommands.CHECKVALIDCOMMANDSFORINITIAL.contains(p_cmdName)){
+//                d_currentState = new InitialGame();
+//                return true;
+//            }
+//        } else if (d_gameState.equals(GameState.DeployMode)) {
+//            if(p_cmdName.equals(GameCommands.CMD_DEPLOY_COUNTRIES)){
+//                d_currentState = new DeployHandler();
+//                return true;
+//            }
+//            return false;
+//        }
+        return d_currentState.canProcessCommand(p_cmdName);
     }
 
     /**
@@ -187,24 +140,13 @@ public class GameEngine implements ISubApplication {
     public void submitCommand(Command p_command) {
         loadArgumentsAndOption(p_command);
         if (p_command.getCmdName().equals(GameCommands.CMD_LOAD_MAP) && p_command.getCmdAttributes().isEmpty()) {
-            d_hasQuit = true;
+            d_HasQuit = true;
         }
-        if (d_cmdtoGameAction.containsKey(p_command.getCmdName())) {
-            d_cmdtoGameAction.get(p_command.getCmdName()).invoke(p_command);
+        if (d_currentState.canProcessCommand(p_command.getCmdName())) {
+            d_currentState.performAction(this, p_command);
         }
     }
 
-    /**
-     * this method handles how deploy cmd is executed.
-     *
-     * @param p_command command for further processing.
-     */
-    private void cmdDeploy(Command p_command) {
-
-        if(d_gameState.equals(GameState.DeployMode)){
-            DeployHandler.DeployArmies(p_command);
-        }
-    }
 
     /**
      * this methods opens the map viewer
@@ -212,7 +154,7 @@ public class GameEngine implements ISubApplication {
      * @param p_command command for further processing.
      */
     private void showMap(Command p_command) {
-        MapViewer.showMap(d_loadedMap.getMap());
+        MapViewer.showMap(d_LoadedMap.getMap());
     }
 
 
