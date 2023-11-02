@@ -6,7 +6,7 @@ package game;
  *
  * @author Soham
  */
-public enum GameState {
+public enum GameStates {
 
     /**
      * Starting state of game.

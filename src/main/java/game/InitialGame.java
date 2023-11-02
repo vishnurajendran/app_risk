@@ -10,7 +10,7 @@ import java.text.MessageFormat;
 /**
  * @author Soham
  */
-public class InitialGame implements IGameStateHandler{
+public class InitialGame implements IGameState {
 
     private boolean d_hasQuit;
 
@@ -69,7 +69,7 @@ public class InitialGame implements IGameStateHandler{
         }
 
         PlayerHandler.assignCountriesToPlayer(GameEngine.d_LoadedMap);
-        GameEngine.changeState(new DeployHandler());
+        GameEngine.changeState(GameStates.DeployMode);
     }
 
     @Override

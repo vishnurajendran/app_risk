@@ -25,11 +25,11 @@ public class GameEngine implements ISubApplication {
     private final HashMap<String, IMethod> d_cmdtoGameAction;
     public static ArrayList<ArrayList<String>> d_CmdArguments;
     public static ArrayList<String> d_CmdOption;
-    private GameState d_gameState = GameState.Initial;
+    private GameStates d_gameState = GameStates.Initial;
 
-    private IGameStateHandler d_activeGameStateHandler;
+    private IGameState d_activeGameStateHandler;
 
-    private static IGameStateHandler d_currentState;
+    private static IGameState d_currentState;
 
     /**
      * default constructor
@@ -56,8 +56,8 @@ public class GameEngine implements ISubApplication {
         d_HasQuit = true;
     }
 
-    public static void changeState(IGameStateHandler p_changedState) {
-        d_currentState = p_changedState;
+    public static void changeState(GameStates p_newState) {
+        d_currentState = GameStateFactory.get(p_newState);
     }
 
     /**
@@ -113,18 +113,6 @@ public class GameEngine implements ISubApplication {
 
         if (p_cmdName.equals(GameCommands.CMD_SHOWMAP))
             return true;
-//        if (d_gameState.equals(GameState.Initial)) {
-//            if(GameCommands.CHECKVALIDCOMMANDSFORINITIAL.contains(p_cmdName)){
-//                d_currentState = new InitialGame();
-//                return true;
-//            }
-//        } else if (d_gameState.equals(GameState.DeployMode)) {
-//            if(p_cmdName.equals(GameCommands.CMD_DEPLOY_COUNTRIES)){
-//                d_currentState = new DeployHandler();
-//                return true;
-//            }
-//            return false;
-//        }
         return d_currentState.canProcessCommand(p_cmdName);
     }
 
@@ -166,5 +154,20 @@ public class GameEngine implements ISubApplication {
     @Override
     public void shutdown() {
         PlayerHandler.cleanup();
+    }
+
+
+    static class GameStateFactory{
+        private GameStateFactory(){
+            
+        }
+
+        public static IGameState get(GameStates p_newState) {
+            return switch (p_newState) {
+                case GameStates.Initial -> new InitialGame();
+                case GameStates.DeployMode -> new DeployHandler();
+                default -> null;
+            };
+        }
     }
 }

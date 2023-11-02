@@ -5,7 +5,7 @@ import common.*;
 /**
  * @author Soham
  */
-public interface IGameStateHandler {
+public interface IGameState {
 
     public void performAction(GameEngine gameEngine,Command command);
 

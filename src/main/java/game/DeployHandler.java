@@ -7,7 +7,7 @@ import entity.PlayerHandler;
 /**
  * @author Soham
  */
-public class DeployHandler implements IGameStateHandler{
+public class DeployHandler implements IGameState {
 
     public DeployHandler(){
 
