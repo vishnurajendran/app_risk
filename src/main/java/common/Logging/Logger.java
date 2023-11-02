@@ -3,6 +3,7 @@ package common.Logging;
 import java.io.PrintStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Simple logging class
@@ -26,14 +27,15 @@ public class Logger {
      * Initialises the logger, and prepares for logging.
      * @param p_enableConsolePrinting flag to enable console printing.
      */
-    public static void Initialise(boolean p_enableConsolePrinting){
+    public static void initialise(List<ILogWriter> p_logWriters, boolean p_hasConsoleWriter){
         if(d_isInitialised)
             return;
 
         d_logBuffer = new LogBuffer();
-        d_logBuffer.registerWriter(new FileLogWriter());
-        if(p_enableConsolePrinting){
-            d_logBuffer.registerWriter(new ConsoleLogWriter());
+
+        //register the writers.
+        for(ILogWriter l_writer : p_logWriters ){
+           d_logBuffer.registerWriter(l_writer);
         }
 
         //modify the print stream to log all System.Out writes.
@@ -42,7 +44,7 @@ public class Logger {
                 d_logBuffer.log(LogType.STDOUT, "[" + getTime() + "] SOUT: " + s, true);
 
                 //only print this if not in console printing mode.
-                if(!p_enableConsolePrinting)
+                if(!p_hasConsoleWriter)
                     super.println(s);
             }
         });

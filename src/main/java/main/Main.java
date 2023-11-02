@@ -3,10 +3,15 @@ package main;
 import application.Application;
 import common.Command;
 import common.ISubAppInstantiator;
+import common.Logging.ConsoleLogWriter;
+import common.Logging.FileLogWriter;
+import common.Logging.ILogWriter;
 import common.Logging.Logger;
 import game.GameInstantiator;
 import mapEditer.MapEditorInstantiator;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -15,12 +20,7 @@ import java.util.Scanner;
  * @author vishnurajendran
  */
 public class Main {
-
     private static final String SYMB_DEBUGGING = "--debug";
-
-    private static boolean isDebuggingMode() {
-        return true;
-    }
 
     /**
      * The main function initialises the application class
@@ -33,11 +33,17 @@ public class Main {
      */
     public static void main(String[] args) {
 
-        boolean consolePrint = args.length > 0 && args[0].equals(SYMB_DEBUGGING);
-        Logger.Initialise(consolePrint);
-        Scanner l_sc = new Scanner(System.in);
+        //Set up logger.
+        boolean L_consolePrint = args.length > 0 && args[0].equals(SYMB_DEBUGGING);
+        List<ILogWriter> l_logWriters = new ArrayList<>();
+        l_logWriters.add(new FileLogWriter());
+        if(L_consolePrint)
+            l_logWriters.add(new ConsoleLogWriter());
 
-        //create instance of game and map instantiators and application.
+        Logger.initialise(l_logWriters ,L_consolePrint);
+
+        //Setup application
+        Scanner l_sc = new Scanner(System.in);
         ISubAppInstantiator l_gameInstantiator = new GameInstantiator();
         ISubAppInstantiator l_mapInstantiator = new MapEditorInstantiator();
         Application l_app = new Application(l_gameInstantiator, l_mapInstantiator);
