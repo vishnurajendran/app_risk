@@ -12,6 +12,7 @@ import java.util.List;
  */
 public class Logger {
 
+    private static PrintStream d_stdOut = new PrintStream(System.out);
     private static SimpleDateFormat d_formatter;
     private static LogBuffer d_logBuffer;
     private static boolean d_isInitialised = false;
@@ -37,6 +38,7 @@ public class Logger {
     public static void cleanUp(){
         d_logBuffer = null;
         d_printStream = null;
+        System.setOut(d_stdOut);
         d_isInitialised = false;
     }
 
