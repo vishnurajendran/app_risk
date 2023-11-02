@@ -214,6 +214,15 @@ public class Country {
     }
 
     /**
+     * Check if the country is next to the country with give id
+     * @param p_countryId the id of the neighbour
+     * @return True if they are next to each other, false if they are not
+     */
+    public boolean isNeighbour(int p_countryId) {
+        return !isNull(d_borders.get(p_countryId));
+    }
+
+    /**
      * Override the toString to show detailed info of the class
      *
      * @return A string contain ID, name continentID and borders details.

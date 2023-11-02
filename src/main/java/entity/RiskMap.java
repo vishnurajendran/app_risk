@@ -139,6 +139,7 @@ public class RiskMap {
         d_countries.remove(p_country.getDId());
     }
 
+
     /**
      * This method removes continent from the map.
      *
@@ -290,6 +291,32 @@ public class RiskMap {
     public Continent getContinentById(int p_continentId) {
         return d_continents.get(p_continentId);
     }
+
+    /**
+     * Get army count in a country given an ID
+     *
+     * @param p_countryId unique country id as an integer
+     * @return Army count in a country
+     */
+    public int getArmyByCountryId(int p_countryId) {
+        return d_countries.get(p_countryId).getArmy();
+    }
+
+    /**
+     * Check if two country are next to each other
+     *
+     * @param p_country1 The id of the first country
+     * @param p_country2 The id of the second country
+     * @return True if they are next to each other, false if they are not
+     */
+    public boolean isNeighbour(int p_country1, int p_country2) {
+        Country l_country1 = d_countries.get(p_country1);
+        if (isNull(l_country1)) {
+            return false;
+        }
+        return l_country1.isNeighbour(p_country2);
+    }
+
 
     /**
      * Override the toString method to show country detail better
