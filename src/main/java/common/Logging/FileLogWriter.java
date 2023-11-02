@@ -11,7 +11,7 @@ import java.util.Date;
  */
 public class FileLogWriter implements ILogWriter{
 
-   private String d_filePath;
+    private String d_filePath;
    private String dirPath = "Logs";
 
     /**
@@ -21,6 +21,14 @@ public class FileLogWriter implements ILogWriter{
         SimpleDateFormat l_formatter = new SimpleDateFormat("YYYY-MM-dd-HH-mm-ss");
         d_filePath = dirPath + "/Log_" + l_formatter.format(new Date())+".log";
     }
+
+    /**
+     * @return the filepath in string, for the log file currently being written to.
+     */
+    public String getFilePath() {
+        return d_filePath;
+    }
+
     @Override
     public void onLogEntered(LogData p_data) {
         try {
