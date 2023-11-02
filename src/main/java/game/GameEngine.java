@@ -29,6 +29,8 @@ public class GameEngine implements ISubApplication {
     private ArrayList<String> d_cmdOption;
     private GameState d_gameState = GameState.Initial;
 
+    private DeployHandler d_deployHander;
+
     /**
      * default constructor
      */
@@ -37,6 +39,7 @@ public class GameEngine implements ISubApplication {
         d_cmdArguments = new ArrayList<>();
         d_cmdOption = new ArrayList<>();
         d_hasQuit = false;
+        d_deployHander = new DeployHandler(this);
     }
 
     /**
@@ -197,6 +200,7 @@ public class GameEngine implements ISubApplication {
      * @param p_command command for further processing.
      */
     private void cmdDeploy(Command p_command) {
+
         if(d_gameState.equals(GameState.DeployMode)){
             DeployHandler.DeployArmies(p_command);
         }

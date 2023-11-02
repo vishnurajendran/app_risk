@@ -7,11 +7,15 @@ import entity.PlayerHandler;
 /**
  * @author Soham
  */
-public class DeployHandler {
+public class DeployHandler implements ISubApplication{
+    GameEngine d_gameEngine;
+
+    DeployHandler(GameEngine p_gameEngine){
+        d_gameEngine = p_gameEngine;
+    }
 
     public static void DeployArmies(Command p_command){
             int canIssueOrder = PlayerHandler.issueOrder(p_command);
-
             Logger.log(String.valueOf(canIssueOrder));
             if (canIssueOrder == PlayerHandler.ISSUEORDER_SUCCESS) {
                 int l_availableReinforcements;
@@ -59,5 +63,30 @@ public class DeployHandler {
             }
 
         } while (orderToExecute != null);
+    }
+
+    @Override
+    public void initialise() {
+
+    }
+
+    @Override
+    public boolean hasQuit() {
+        return false;
+    }
+
+    @Override
+    public boolean canProcess(String p_cmdName) {
+        return false;
+    }
+
+    @Override
+    public void submitCommand(Command p_command) {
+
+    }
+
+    @Override
+    public void shutdown() {
+
     }
 }
