@@ -1,7 +1,7 @@
 package application;
 
 import common.*;
-import common.Logger.Logger;
+import common.Logging.Logger;
 
 import java.text.MessageFormat;
 import java.util.HashMap;
@@ -122,19 +122,19 @@ public class Application {
      * @param p_cmd the command that was input by the user.
      */
     private void printInvalidCommandMessage(Command p_cmd) {
-        Logger.logError(MessageFormat.format(ApplicationConstants.ERR_MSG_INVALID_CMD, p_cmd.getCmdName()));
+        System.out.println(MessageFormat.format(ApplicationConstants.ERR_MSG_INVALID_CMD, p_cmd.getCmdName()));
     }
 
     private void printInvalidStateStartCmdUsage(AppState state) {
         switch (state) {
             case Game:
-                Logger.logError(ApplicationConstants.ERR_MSG_INVALID_START_GAME_CMD_USAGE);
+                System.out.println(ApplicationConstants.ERR_MSG_INVALID_START_GAME_CMD_USAGE);
                 break;
             case MapEditor:
-                Logger.logError(ApplicationConstants.ERR_MSG_INVALID_MAP_EDITOR_GAME_CMD_USAGE);
+                System.out.println(ApplicationConstants.ERR_MSG_INVALID_MAP_EDITOR_GAME_CMD_USAGE);
                 break;
             default:
-                Logger.logError(ApplicationConstants.ERR_INVALID_CMD_USAGE);
+                System.out.println(ApplicationConstants.ERR_INVALID_CMD_USAGE);
         }
     }
 
@@ -144,7 +144,7 @@ public class Application {
      */
     private void closeCurrSubAppInstance() {
         if (d_activeSubApplication != null) {
-            Logger.log("closing current sub-application");
+            System.out.println("closing current sub-application");
             d_activeSubApplication.shutdown();
             d_activeSubApplication = null;
         }
@@ -186,7 +186,7 @@ public class Application {
         if (d_activeSubApplication != null)
             closeCurrSubAppInstance();
         else
-            Logger.logError(ApplicationConstants.MSG_INVALID_EXIT_CMD);
+            System.out.println(ApplicationConstants.MSG_INVALID_EXIT_CMD);
     }
 
     /**

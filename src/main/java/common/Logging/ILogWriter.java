@@ -1,4 +1,4 @@
-package common.Logger;
+package common.Logging;
 
 /**
  * This interface implements log writing capability,

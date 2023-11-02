@@ -1,4 +1,4 @@
-package common.Logger;
+package common.Logging;
 /**
  * This interface acts the observable for all the log writers
  * @author vishnurajendran

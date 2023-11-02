@@ -1,7 +1,7 @@
 package mapEditer;
 
 import common.*;
-import common.Logger.Logger;
+import common.Logging.Logger;
 import entity.Continent;
 import entity.Country;
 import entity.MapLoader;

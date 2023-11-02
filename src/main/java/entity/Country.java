@@ -1,6 +1,6 @@
 package entity;
 
-import common.Logger.Logger;
+import common.Logging.Logger;
 
 import java.util.HashMap;
 import java.util.Map;

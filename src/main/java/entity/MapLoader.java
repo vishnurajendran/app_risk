@@ -1,6 +1,6 @@
 package entity;
 
-import common.Logger.Logger;
+import common.Logging.Logger;
 import game.GameEngine;
 
 import java.io.File;

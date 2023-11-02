@@ -1,4 +1,4 @@
-package common.Logger;
+package common.Logging;
 
 /**
  * Enum values to handle log types.

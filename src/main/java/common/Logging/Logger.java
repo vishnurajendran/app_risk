@@ -1,5 +1,6 @@
-package common.Logger;
+package common.Logging;
 
+import java.io.PrintStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -34,6 +35,15 @@ public class Logger {
         if(p_enableConsolePrinting){
             d_logBuffer.registerWriter(new ConsoleLogWriter());
         }
+
+        //modify the print stream to log all System.Out writes.
+        System.setOut(new PrintStream(System.out) {
+            public void println(String s) {
+                log("STD_OUT >> " + s);
+                super.println(s);
+            }
+        });
+
         d_isInitialised = true;
     }
 

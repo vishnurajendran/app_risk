@@ -2,7 +2,7 @@ package game;
 
 import application.ApplicationConstants;
 import common.*;
-import common.Logger.Logger;
+import common.Logging.Logger;
 import entity.MapLoader;
 import entity.Player;
 import entity.PlayerHandler;

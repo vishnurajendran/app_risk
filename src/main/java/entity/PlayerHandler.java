@@ -1,7 +1,7 @@
 package entity;
 
 import common.Command;
-import common.Logger.Logger;
+import common.Logging.Logger;
 import game.DeployOrder;
 
 import java.util.ArrayList;

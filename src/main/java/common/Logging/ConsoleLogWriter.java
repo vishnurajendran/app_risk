@@ -1,4 +1,4 @@
-package common.Logger;
+package common.Logging;
 
 /**
  * Implementation for ILogWriter that writes log to console.
@@ -23,7 +23,7 @@ public class ConsoleLogWriter implements ILogWriter {
      */
     @Override
     public void onLogEntered(LogData p_data) {
-        System.out.println(colorFormat(p_data.getLevel(), p_data.getMessage()));
+        System.out.printf(colorFormat(p_data.getLevel(), p_data.getMessage())+"\n");
     }
 
     /**

@@ -1,4 +1,4 @@
-package common.Logger;
+package common.Logging;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package common.Logger;
+package common.Logging;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;

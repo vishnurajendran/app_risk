@@ -3,7 +3,7 @@ package main;
 import application.Application;
 import common.Command;
 import common.ISubAppInstantiator;
-import common.Logger.Logger;
+import common.Logging.Logger;
 import game.GameInstantiator;
 import mapEditer.MapEditorInstantiator;
 

@@ -1,4 +1,4 @@
-package common.Logger;
+package common.Logging;
 
 /**
  * This class holds the log information that is sent from
