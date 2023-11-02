@@ -24,7 +24,7 @@ public class FileLogWriter implements ILogWriter{
     @Override
     public void onLogEntered(LogData p_data) {
         try {
-            appendToFile(p_data.getMessage());
+            appendToFile(p_data.getLevel(), p_data.getMessage());
         }
         catch (IOException ex){
             System.out.println("Error printing to file");
@@ -33,17 +33,17 @@ public class FileLogWriter implements ILogWriter{
 
     /**
      * Creates or appends to file.
-     * @param msg message to write.
+     * @param p_msg message to write.
      * @throws IOException when an exception occurs during write.
      */
-    private void appendToFile(String msg) throws IOException{
+    private void appendToFile(LogType p_type, String p_msg) throws IOException{
         File l_dir = new File(dirPath);
         if(!l_dir.exists())
             l_dir.mkdir();
 
         File l_file = new File(d_filePath);
         FileWriter l_fileWriter = new FileWriter(l_file, true);
-        l_fileWriter.write(msg+"\n");
+        l_fileWriter.write(p_msg+"\n");
         l_fileWriter.close();
     }
 }

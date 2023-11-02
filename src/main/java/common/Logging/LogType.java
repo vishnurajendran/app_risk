@@ -16,5 +16,10 @@ public enum LogType {
     /**
      * Error logs
      */
-    Error
+    Error,
+
+    /**
+     * Special case for printing STD_OUTS.
+     */
+    STDOUT
 }

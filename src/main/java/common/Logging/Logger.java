@@ -39,8 +39,11 @@ public class Logger {
         //modify the print stream to log all System.Out writes.
         System.setOut(new PrintStream(System.out) {
             public void println(String s) {
-                log("STD_OUT >> " + s);
-                super.println(s);
+                d_logBuffer.log(LogType.STDOUT, "[" + getTime() + "] SOUT: " + s, true);
+
+                //only print this if not in console printing mode.
+                if(!p_enableConsolePrinting)
+                    super.println(s);
             }
         });
 
