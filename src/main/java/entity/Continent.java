@@ -12,11 +12,11 @@ import java.util.Map;
  */
 public class Continent {
 
-    int d_id;
-    String d_name;
-    int d_controlValue;
-    Map<Integer, Country> d_countries;
-    String d_color;
+    private int d_id;
+    private String d_name;
+    private int d_controlValue;
+    private Map<Integer, Country> d_countries;
+    private String d_color;
 
     /**
      * Parameterised Constructor for the Continent

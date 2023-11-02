@@ -14,9 +14,9 @@ import static java.util.Objects.nonNull;
  * @author Weichen
  */
 public class RiskMap {
-    String d_name;
-    Map<Integer, Country> d_countries;
-    Map<Integer, Continent> d_continents;
+    private String d_name;
+    private Map<Integer, Country> d_countries;
+    private Map<Integer, Continent> d_continents;
 
     /**
      * Default Constructor that only initialize the map.
