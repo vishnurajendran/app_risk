@@ -87,7 +87,9 @@ class FileLoggingTest {
      */
     @AfterEach
     public void afterTest() {
+        File logFile = new File(d_fileLogWriter.getFilePath());
         Logger.cleanUp();
+        logFile.delete();
     }
 
 }
