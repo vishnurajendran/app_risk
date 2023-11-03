@@ -3,10 +3,15 @@ package main;
 import application.Application;
 import common.Command;
 import common.ISubAppInstantiator;
-import common.Logger;
+import common.Logging.ConsoleLogWriter;
+import common.Logging.FileLogWriter;
+import common.Logging.ILogWriter;
+import common.Logging.Logger;
 import game.GameInstantiator;
 import mapEditer.MapEditorInstantiator;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -15,12 +20,7 @@ import java.util.Scanner;
  * @author vishnurajendran
  */
 public class Main {
-
     private static final String SYMB_DEBUGGING = "--debug";
-
-    private static boolean isDebuggingMode() {
-        return true;
-    }
 
     /**
      * The main function initialises the application class
@@ -33,10 +33,17 @@ public class Main {
      */
     public static void main(String[] args) {
 
-        Logger.SetConsolePrinting(args.length > 0 && args[0].equals(SYMB_DEBUGGING));
-        Scanner l_sc = new Scanner(System.in);
+        //Set up logger.
+        boolean L_consolePrint = args.length > 0 && args[0].equals(SYMB_DEBUGGING);
+        List<ILogWriter> l_logWriters = new ArrayList<>();
+        l_logWriters.add(new FileLogWriter());
+        if(L_consolePrint)
+            l_logWriters.add(new ConsoleLogWriter());
 
-        //create instance of game and map instantiators and application.
+        Logger.initialise(l_logWriters ,L_consolePrint);
+
+        //Setup application
+        Scanner l_sc = new Scanner(System.in);
         ISubAppInstantiator l_gameInstantiator = new GameInstantiator();
         ISubAppInstantiator l_mapInstantiator = new MapEditorInstantiator();
         Application l_app = new Application(l_gameInstantiator, l_mapInstantiator);
@@ -46,9 +53,13 @@ public class Main {
 
         //game loop
         while (!l_app.hasQuit()) {
-            Command l_cmd = Command.parseString(l_sc.nextLine());
-            if (l_cmd != null)
+            String l_input = l_sc.nextLine();
+            Command l_cmd = Command.parseString(l_input);
+            if (l_cmd != null) {
+                String cmdMsg = "user input to parse '"+l_input+"'\n\t\t\t\tparsed to - "+l_cmd;
+                Logger.log(cmdMsg);
                 l_app.processCommand(l_cmd);
+            }
         }
 
         //cleanup
