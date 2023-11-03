@@ -3,7 +3,7 @@ package game;
 import common.Command;
 import common.IMethod;
 import common.ISubApplication;
-import common.Logger;
+import common.Logging.Logger;
 import entity.MapLoader;
 import entity.PlayerHandler;
 import mapShow.MapViewer;
