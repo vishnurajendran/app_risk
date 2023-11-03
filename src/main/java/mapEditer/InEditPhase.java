@@ -15,7 +15,6 @@ import java.util.ArrayList;
 
 import static java.util.Objects.isNull;
 import static mapEditer.MapEditorCommands.*;
-import static mapEditer.MapEditorCommands.CMD_VALIDATE_MAP;
 
 public class InEditPhase extends Phase{
     public InEditPhase(MapEditor p_mapEditor) {
@@ -34,10 +33,10 @@ public class InEditPhase extends Phase{
      */
     private boolean executeCmdSaveMap(Command p_command) {
         //write the map object to file.
-        //to-do:
-//        if (!MapValidator.validateMap(d_map)) {
-//            System.out.println("Error, this map cannot be saved, Validation failed");
-//        }
+        if (!MapValidator.validateMap(d_mapEditor.d_map)) {
+            System.out.println("Error, this map cannot be saved, Validation failed");
+            return false;
+        }
 
         String fileName = p_command.getCmdAttributes().get(0).getArguments().get(0);
         try {

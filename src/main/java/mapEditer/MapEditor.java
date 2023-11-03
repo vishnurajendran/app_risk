@@ -2,19 +2,7 @@ package mapEditer;
 
 import common.*;
 import common.Logging.Logger;
-import entity.Continent;
-import entity.Country;
-import entity.MapLoader;
 import entity.RiskMap;
-import mapShow.MapViewer;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-
-import static java.util.Objects.isNull;
-import static mapEditer.MapEditorCommands.*;
 
 
 /**
@@ -56,7 +44,7 @@ public class MapEditor implements ISubApplication {
      */
     @Override
     public void initialise() {
-        registerMapEditorCommands();
+
     }
 
     /**
@@ -70,14 +58,6 @@ public class MapEditor implements ISubApplication {
     @Override
     public boolean hasQuit() {
         return d_hasQuit;
-    }
-
-    /**
-     * This method registers all map editor commands and the methods
-     * to be invoked for those commands with an internal command map.
-     */
-    private void registerMapEditorCommands() {
-        Logger.log("Registering Map editor commands");
     }
 
     /**
@@ -113,7 +93,7 @@ public class MapEditor implements ISubApplication {
                d_phase.postExecute();
            }
            else{
-               System.out.println("Operation Unscuccessful!");
+               System.out.println("Operation Unsuccessful!");
            }
         }
         else{
