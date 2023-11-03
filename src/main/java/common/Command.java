@@ -103,4 +103,14 @@ public class Command {
     public ArrayList<CommandAttribute> getCmdAttributes() {
         return d_attributes;
     }
+
+    /**
+     * override for toString to print
+     * Command class instance.
+     * @return
+     */
+    @Override
+    public String toString() {
+        return "CMD: " + d_cmdName + ", ATTRIB" + d_attributes;
+    }
 }

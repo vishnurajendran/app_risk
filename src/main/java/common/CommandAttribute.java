@@ -44,4 +44,9 @@ public class CommandAttribute {
     public ArrayList<String> getArguments() {
         return d_arguments;
     }
+
+    @Override
+    public String toString() {
+        return "{OPT: "+ d_option + ", ARGS: " + d_arguments + "}";
+    }
 }

@@ -83,7 +83,7 @@ class ApplicationTest {
         assertEquals(d_app.getAppState(), AppState.Game);
         d_app.processCommand(Command.parseString(ApplicationTestConstants.GAME_TEST_CMD));
         String l_actual = d_outStream.toString();
-        String l_errMsg = MessageFormat.format(ApplicationConstants.MSG_INVALID_CMD, ApplicationTestConstants.GAME_TEST_CMD);
+        String l_errMsg = MessageFormat.format(ApplicationConstants.ERR_MSG_INVALID_CMD, ApplicationTestConstants.GAME_TEST_CMD);
         assertFalse(l_actual.contains(l_errMsg));
     }
 
@@ -119,7 +119,7 @@ class ApplicationTest {
         assertEquals(d_app.getAppState(), AppState.MapEditor);
         d_app.processCommand(Command.parseString(ApplicationTestConstants.MAPEDITOR_TEST_CMD));
         String l_actual = d_outStream.toString();
-        String l_errMsg = MessageFormat.format(ApplicationConstants.MSG_INVALID_CMD, ApplicationTestConstants.MAPEDITOR_TEST_CMD);
+        String l_errMsg = MessageFormat.format(ApplicationConstants.ERR_MSG_INVALID_CMD, ApplicationTestConstants.MAPEDITOR_TEST_CMD);
         assertFalse(l_actual.contains(l_errMsg));
     }
 
@@ -143,7 +143,7 @@ class ApplicationTest {
     void testInvalidCmd() {
         d_app.processCommand(Command.parseString(ApplicationTestConstants.INVALID_CMD));
         String l_actual = d_outStream.toString();
-        String l_errMsg = MessageFormat.format(ApplicationConstants.MSG_INVALID_CMD, ApplicationTestConstants.INVALID_CMD);
+        String l_errMsg = MessageFormat.format(ApplicationConstants.ERR_MSG_INVALID_CMD, ApplicationTestConstants.INVALID_CMD);
         assertTrue(l_actual.contains(l_errMsg));
     }
 }
