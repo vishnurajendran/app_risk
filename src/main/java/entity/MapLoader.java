@@ -10,13 +10,13 @@ import java.util.Scanner;
 import static java.util.Objects.isNull;
 
 public class MapLoader {
-    static RiskMap d_riskMap;
+    static RiskMap d_riskMap=null;
 
     /**
      * Default constructor that initialize an empty map.
      */
     public MapLoader() {
-        d_riskMap = new RiskMap();
+        cleanUp();
     }
 
     /**
@@ -25,7 +25,7 @@ public class MapLoader {
      * @param p_mapName
      */
     public MapLoader(String p_mapName) {
-        d_riskMap = new RiskMap();
+        cleanUp();
         loadMap(p_mapName);
     }
 
@@ -39,6 +39,7 @@ public class MapLoader {
         try {
             File l_mapFile = new File(p_mapName);
             Scanner l_scanner = new Scanner(l_mapFile);
+            d_riskMap=new RiskMap();
             while (l_scanner.hasNextLine()) {
                 String l_line = l_scanner.nextLine();
                 // skip empty lines
@@ -137,7 +138,7 @@ public class MapLoader {
             return true;
         } catch (Exception e) {
             Logger.logError(e.getMessage());
-            d_riskMap = new RiskMap();
+            cleanUp();
             GameEngine.quitGame();
             return false;
         }
@@ -152,5 +153,12 @@ public class MapLoader {
         return d_riskMap;
     }
 
+    /**
+     * Clean up the map in map loader
+     * Point it to null for now
+     */
+    public static void cleanUp(){
+        d_riskMap=null;
+    }
 
 }

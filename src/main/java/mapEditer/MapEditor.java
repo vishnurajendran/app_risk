@@ -566,8 +566,8 @@ public class MapEditor implements ISubApplication {
         }
 
         //load the map from existing file and validate before proceeding further
-        MapLoader l_mapLoader = new MapLoader(l_filename);
-        RiskMap l_riskMap = l_mapLoader.getMap();
+        MapLoader.loadMap(l_filename);
+        RiskMap l_riskMap = MapLoader.getMap();
         if (isNull(l_riskMap) || !MapValidator.validateMap(l_riskMap)) {
             System.out.println("Invalid map!, load another file or start from scratch!");
             quitMapEditor();
