@@ -154,6 +154,16 @@ public class MapLoader {
     }
 
     /**
+     * Getter for the map.
+     * @param p_mapName The file name of the map.
+     * @return The map that is loaded.
+     */
+    public static RiskMap getMap(String p_mapName) {
+        loadMap(p_mapName);
+        return d_riskMap;
+    }
+
+    /**
      * Clean up the map in map loader
      * Point it to null for now
      */
