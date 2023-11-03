@@ -10,7 +10,7 @@ import java.util.Scanner;
 import static java.util.Objects.isNull;
 
 public class MapLoader {
-    static RiskMap d_riskMap=null;
+    private static RiskMap d_riskMap=null;
 
     /**
      * Default constructor that initialize an empty map.
