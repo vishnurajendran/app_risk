@@ -10,7 +10,7 @@ import java.util.Scanner;
 import static java.util.Objects.isNull;
 
 public class MapLoader {
-    RiskMap d_riskMap;
+    static RiskMap d_riskMap;
 
     /**
      * Default constructor that initialize an empty map.
@@ -35,7 +35,7 @@ public class MapLoader {
      * @param p_mapName The file name of the map.
      * @return A boolean of whether the load is succeeded.
      */
-    public boolean loadMap(String p_mapName) {
+    public static boolean loadMap(String p_mapName) {
         try {
             File l_mapFile = new File(p_mapName);
             Scanner l_scanner = new Scanner(l_mapFile);
@@ -148,7 +148,7 @@ public class MapLoader {
      *
      * @return The map that is loaded.
      */
-    public RiskMap getMap() {
+    public static RiskMap getMap() {
         return d_riskMap;
     }
 

@@ -293,16 +293,6 @@ public class RiskMap {
     }
 
     /**
-     * Get army count in a country given an ID
-     *
-     * @param p_countryId unique country id as an integer
-     * @return Army count in a country
-     */
-    public int getArmyByCountryId(int p_countryId) {
-        return d_countries.get(p_countryId).getArmy();
-    }
-
-    /**
      * Check if two country are next to each other
      *
      * @param p_country1 The id of the first country
