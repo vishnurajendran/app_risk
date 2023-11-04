@@ -14,7 +14,7 @@ class PlayerTest {
      */
     @Test
     void assignReinforcementsToPlayer() {
-        Player player = new Player("test-player");
+        Player player = new Player("test-player", null);
 
         //no countries, should return 3 since max(0,floor(0/3)) = 3
         player.assignReinforcementsToPlayer();

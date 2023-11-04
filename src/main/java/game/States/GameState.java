@@ -1,14 +1,14 @@
 package game.States;
 
-import game.Context;
+import game.Data.Context;
 
 /**
  * @author Soham
  */
 public abstract class GameState implements IGameState {
-    protected Context ctx;
+    protected Context d_context;
     @Override
-    public void setContext(Context ctx) {
-        this.ctx = ctx;
+    public void setContext(Context p_ctx) {
+        this.d_context = p_ctx;
     }
 }

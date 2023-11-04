@@ -2,7 +2,7 @@ package entity;
 
 import common.Command;
 import common.Logging.Logger;
-import game.DeployOrder;
+import game.Orders.DeployOrder;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -37,7 +37,7 @@ public class PlayerHandler {
 
     private static int d_whichPlayersTurn;
 
-    private static MapLoader d_loadedMap;
+    private static RiskMap d_loadedMap;
 
     /**
      * default constructor
@@ -63,7 +63,7 @@ public class PlayerHandler {
      *
      * @param p_playerNamesToAdd is the list of players to add to the d_gameplayers object
      */
-    public static void addGamePlayers(ArrayList<String> p_playerNamesToAdd) {
+    public static void addGamePlayers(ArrayList<String> p_playerNamesToAdd, RiskMap p_map) {
         // Create a LinkedHashSet to remove duplicates while preserving order
         LinkedHashSet<String> setWithoutDuplicates = new LinkedHashSet<>(p_playerNamesToAdd);
 
@@ -85,7 +85,7 @@ public class PlayerHandler {
         }
 
         for (String name : p_playerNames) {
-            d_gamePlayers.add(new Player(name));
+            d_gamePlayers.add(new Player(name, p_map));
         }
     }
 
@@ -115,12 +115,12 @@ public class PlayerHandler {
      * @param p_loadedMap is a reference to the map to help assign countries
      */
 
-    public static void assignCountriesToPlayer(MapLoader p_loadedMap) {
+    public static void assignCountriesToPlayer(RiskMap p_loadedMap) {
         ArrayList<Integer> randomCountryIDs = new ArrayList<>();
-        for (int i = 0; i < p_loadedMap.getMap().getCountries().size(); i++) {
-            randomCountryIDs.add(p_loadedMap.getMap().getCountries().get(i).getDId());
+        for (int i = 0; i < p_loadedMap.getCountries().size(); i++) {
+            randomCountryIDs.add(p_loadedMap.getCountries().get(i).getDId());
         }
-        if (p_loadedMap.getMap().getCountryIds().size() < d_gamePlayers.size()) {
+        if (p_loadedMap.getCountryIds().size() < d_gamePlayers.size()) {
             System.out.println("ERROR: Number of players are greater than the number of countries in the map");
             return;
         }
@@ -129,7 +129,7 @@ public class PlayerHandler {
         Logger.log("Countries were assigned in the following order: " + String.valueOf(randomCountryIDs));
         int l_index = 0;
         while (randomCountryIDs.size() > 0) {
-            d_gamePlayers.get(l_index).assignCountry(p_loadedMap.getMap().getCountryById(randomCountryIDs.get(0)), p_loadedMap.getMap().getCountryArmyById(randomCountryIDs.get(0)));
+            d_gamePlayers.get(l_index).assignCountry(p_loadedMap.getCountryById(randomCountryIDs.get(0)), p_loadedMap.getCountryArmyById(randomCountryIDs.get(0)));
             l_index = (l_index + 1) % d_gamePlayers.size();
             randomCountryIDs.remove(0);
         }
@@ -144,14 +144,14 @@ public class PlayerHandler {
      *
      * @param p_loadedMap is a reference to the map to access every country's armies
      */
-    public static void displayGamePlayersWithCountries(MapLoader p_loadedMap) {
+    public static void displayGamePlayersWithCountries(RiskMap p_loadedMap) {
         Player l_currentPlayer = d_gamePlayers.get(d_whichPlayersTurn % d_gamePlayers.size());
         Logger.log("Displaying countries assigned to players");
         d_loadedMap = p_loadedMap;
         for (Player name : d_gamePlayers) {
             System.out.println(name.getPlayerName() + " Owns: ");
-            name.getCountriesOwned().forEach((key) -> System.out.println(" " + d_loadedMap.getMap().getCountryById(key.getDId()).getName() + ", ID: "
-                    + key.getDId() + ", Armies: " + d_loadedMap.getMap().getCountryById(key.getDId()).getArmy()));
+            name.getCountriesOwned().forEach((key) -> System.out.println(" " + d_loadedMap.getCountryById(key.getDId()).getName() + ", ID: "
+                    + key.getDId() + ", Armies: " + d_loadedMap.getCountryById(key.getDId()).getArmy()));
             System.out.println();
         }
         l_currentPlayer.assignReinforcementsToPlayer();
@@ -260,5 +260,13 @@ public class PlayerHandler {
         for (Player player : d_gamePlayers) {
             player.assignReinforcementsToPlayer();
         }
+    }
+
+    public static Player getCurrentPlayer(){
+        Player currentPlayer = null;
+        if(PlayerHandler.getPlayerTurn() <= PlayerHandler.getGamePlayers().size()-1){
+            currentPlayer = PlayerHandler.getGamePlayers().get(PlayerHandler.getPlayerTurn());
+        }
+        return currentPlayer;
     }
 }

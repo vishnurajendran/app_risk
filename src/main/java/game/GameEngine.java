@@ -1,15 +1,15 @@
 package game;
 
 import common.Command;
-import common.IMethod;
 import common.ISubApplication;
-import entity.MapLoader;
+import common.Logging.Logger;
 import entity.PlayerHandler;
+import entity.RiskMap;
+import game.Data.Context;
+import game.States.GameState;
+import game.States.GameStateFactory;
 import game.States.GameStates;
 import game.States.IGameState;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 
 
 /**
@@ -20,75 +20,56 @@ import java.util.HashMap;
  */
 
 public class GameEngine implements ISubApplication {
-    public static MapLoader d_LoadedMap;
-    public static boolean d_HasQuit;
-    private final HashMap<String, IMethod> d_cmdtoGameAction;
-    public static ArrayList<ArrayList<String>> d_CmdArguments;
-    public static ArrayList<String> d_CmdOption;
+    private RiskMap d_map;
+    private boolean d_HasQuit;
+
     private GameStates d_gameState = GameStates.GameStart;
 
-    private IGameState d_activeGameStateHandler;
-
-    private static IGameState d_currentState;
+    private IGameState d_currentState;
 
     /**
      * default constructor
      */
     public GameEngine() {
-        d_cmdtoGameAction = new HashMap<>();
-        d_CmdArguments = new ArrayList<>();
-        d_CmdOption = new ArrayList<>();
         d_HasQuit = false;
-        d_currentState = new GameStart();
     }
 
     /**
-     * @return current instance of map loader
+     * sets current instance of map
      */
-    public static MapLoader getLoadedMap() {
-        return d_LoadedMap;
+    public void setMap(RiskMap p_map) {
+        d_map = p_map;
+    }
+
+    /**
+     * @return current instance of map
+     */
+    public RiskMap getLoadedMap() {
+        return d_map;
     }
 
     /**
      * quits the game.
      */
-    public static void quitGame() {
+    public void quitGame() {
         d_HasQuit = true;
     }
 
-    public static void changeState(GameStates p_newState) {
+    public GameStates getGameState() {
+        return d_gameState;
+    }
+
+    public void changeState(GameStates p_newState) {
+        Logger.log("Changing State From " + d_gameState + " >>> " + p_newState);
         d_currentState = GameStateFactory.get(p_newState);
+        d_currentState.setContext(new Context(PlayerHandler.getCurrentPlayer(), this));
+        d_gameState = p_newState;
     }
-
-    /**
-     * This method stores the action and arguments
-     * to d_cmdOption and d_cmdArguments, respectively for better readability of the code
-     */
-    private void loadArgumentsAndOption(Command p_cmd) {
-        d_CmdArguments = new ArrayList<>();
-        d_CmdOption = new ArrayList<>();
-        for (int i = 0; i < p_cmd.getCmdAttributes().size(); i++) {
-            if (!p_cmd.getCmdAttributes().isEmpty()) {
-                d_CmdArguments.add(p_cmd.getCmdAttributes().get(i).getArguments());
-            }
-            if (!p_cmd.getCmdAttributes().isEmpty()) {
-                d_CmdOption.add(p_cmd.getCmdAttributes().get(i).getOption());
-            }
-        }
-
-    }
-
-    /**
-     * This method registers game commands and associates them with corresponding action methods.
-     */
-//    private void registerGameCommands() {
-//        Logger.log("Registering game commands");
-//    }
 
 
     @Override
     public void initialise() {
-
+        changeState(GameStates.GameStart);
     }
 
     /**
@@ -125,12 +106,12 @@ public class GameEngine implements ISubApplication {
      */
     @Override
     public void submitCommand(Command p_command) {
-        loadArgumentsAndOption(p_command);
+        //loadArgumentsAndOption(p_command);
         if (p_command.getCmdName().equals(GameCommands.CMD_LOAD_MAP) && p_command.getCmdAttributes().isEmpty()) {
             d_HasQuit = true;
         }
         if (d_currentState.canProcessCommand(p_command.getCmdName())) {
-            d_currentState.performAction(new Context(d_currentState), p_command);
+            d_currentState.performAction(p_command);
         }
     }
 
@@ -142,4 +123,9 @@ public class GameEngine implements ISubApplication {
     public void shutdown() {
         PlayerHandler.cleanup();
     }
+
+    public RiskMap getMap() {
+        return d_map;
+    }
+
 }

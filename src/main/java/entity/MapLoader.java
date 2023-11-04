@@ -138,7 +138,6 @@ public class MapLoader {
         } catch (Exception e) {
             Logger.logError(e.getMessage());
             d_riskMap = new RiskMap();
-            GameEngine.quitGame();
             return false;
         }
     }

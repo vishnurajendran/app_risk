@@ -1,7 +1,5 @@
-package game;
-
-import game.States.GameStates;
-import game.States.IGameState;
+package game.States;
+import game.States.Concrete.*;
 
 /**
  * @author Soham
@@ -12,9 +10,9 @@ public class GameStateFactory {
     }
     public static IGameState get(GameStates p_newState) {
         return switch (p_newState) {
-            case GameStart -> new GameStart();
-            case IssueOrder -> new IssueOrder();
-            case ExecuteOrder -> new ExecuteOrders();
+            case GameStart -> new GameStartState();
+            case IssueOrder -> new IssueOrderState();
+            case ExecuteOrder -> new ExecuteOrderState();
             case GameOver -> new GameOver();
                 default -> null;
         };

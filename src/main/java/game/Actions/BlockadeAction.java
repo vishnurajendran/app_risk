@@ -1,17 +1,12 @@
 package game.Actions;
 
 import common.Command;
-import game.Context;
+import game.Data.Context;
 
 /**
  * @author Soham
  */
-public class BlockadeAction extends IssueOrderAction {
-    private Context d_context;
-    @Override
-    public void SetContext(Context p_ctx) {
-        this.d_context = p_ctx;
-    }
+public class BlockadeAction extends GameAction {
 
     @Override
     public void execute(Command cmd) {
@@ -19,7 +14,7 @@ public class BlockadeAction extends IssueOrderAction {
     }
 
     @Override
-    public void cleanup() {
+    public void postExecute() {
 
     }
 }

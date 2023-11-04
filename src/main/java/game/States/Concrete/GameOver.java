@@ -1,14 +1,16 @@
-package game;
+package game.States.Concrete;
 
 import common.Command;
+import game.Data.Context;
+import game.States.GameState;
 import game.States.IGameState;
 
 /**
  * @author Soham
  */
-public class GameOver implements IGameState {
+public class GameOver extends GameState {
     @Override
-    public void performAction(Context p_ctx, Command p_command) {
+    public void performAction(Command p_command) {
 
     }
 
@@ -17,8 +19,4 @@ public class GameOver implements IGameState {
         return false;
     }
 
-    @Override
-    public void setContext(Context p_ctx) {
-
-    }
 }

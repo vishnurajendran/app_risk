@@ -1,8 +1,7 @@
 package entity;
 
-import entity.Country;
 import game.GameEngine;
-import game.Order;
+import game.Orders.Order;
 
 import java.util.ArrayList;
 
@@ -24,17 +23,21 @@ public class Player {
 
     private int bonusForOwningContinent = 0;
 
+    private RiskMap d_map;
+
     Player() {
         d_playerName = "";
         d_availableReinforcements = 0;
         d_listOfCountriesOwned = new ArrayList<>();
         d_orders = new ArrayList<>();
+        d_map = null;
     }
 
-    Player(String playerName) {
+    Player(String p_playerName, RiskMap p_map) {
         this.d_availableReinforcements = 5;
-        this.d_playerName = playerName;
+        this.d_playerName = p_playerName;
         d_listOfCountriesOwned = new ArrayList<>();
+        d_map = p_map;
     }
 
     /**
@@ -69,12 +72,12 @@ public class Player {
      */
     public void calculateBonusReinforcements() {
         ArrayList<Country> continentsWithContries = new ArrayList<>();
-        if (GameEngine.getLoadedMap() == null) {
+        if (d_map == null) {
             bonusForOwningContinent = 0;
             return;
         }
 
-        var continent = GameEngine.getLoadedMap().getMap().getContinents();
+        var continent = d_map.getContinents();
         for (int i = 0; i < continent.size(); i++) {
             continentsWithContries.addAll(continent.get(i).getCountries());
             if (d_listOfCountriesOwned.contains(continentsWithContries)) {
@@ -111,7 +114,7 @@ public class Player {
      * @param p_reinforcements no. of re-inforcements.
      */
     public void assignReinforcementsToCountry(int p_countryId, int p_reinforcements) {
-        GameEngine.getLoadedMap().getMap().increaseCountryArmyById(p_countryId, p_reinforcements);
+        d_map.increaseCountryArmyById(p_countryId, p_reinforcements);
     }
 
     /**

@@ -19,7 +19,7 @@ class PlayerHandlerTest {
      */
     @BeforeEach
     void setUp() {
-        PlayerHandler.addGamePlayers(new ArrayList<>(Arrays.asList("player1", "player2", "player3")));
+        PlayerHandler.addGamePlayers(new ArrayList<>(Arrays.asList("player1", "player2", "player3")), null);
         Continent continent = new Continent(1, "test-continent", 2);
         ArrayList<Player> allPlayers = PlayerHandler.getGamePlayers();
         for (int i = 0; i < allPlayers.size(); i++) {
