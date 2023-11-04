@@ -27,6 +27,11 @@ public class IssueOrder implements IGameState {
         d_cmdToActionMap.get(p_command.getCmdName()).invoke(p_command);
     }
 
+    /**
+     * this methods opens the map viewer
+     *
+     * @param p_command command for further processing.
+     */
     public void ShowMap(Command p_command) {
         MapViewer.showMap(GameEngine.d_LoadedMap.getMap());
     }

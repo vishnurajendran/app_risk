@@ -130,18 +130,9 @@ public class GameEngine implements ISubApplication {
             d_HasQuit = true;
         }
         if (d_currentState.canProcessCommand(p_command.getCmdName())) {
-            d_currentState.performAction(new Context(PlayerHandler.getGamePlayers().get(0),d_currentState), p_command);
+            d_currentState.performAction(new Context(), p_command);
         }
     }
-
-
-    /**
-     * this methods opens the map viewer
-     *
-     * @param p_command command for further processing.
-     */
-
-
 
     /**
      * shuts down the game and clears all data
