@@ -14,7 +14,7 @@ import static mapEditer.MapEditorCommands.*;
  */
 public class PreEditPhase extends Phase{
     public PreEditPhase(MapEditor p_mapEditor) {
-        super();
+        super(p_mapEditor);
     }
 
     private boolean isValidSaveCommand(Command p_command){

@@ -5,7 +5,7 @@ import common.Logging.Logger;
 
 public class PostEditPhase extends Phase{
         public PostEditPhase(MapEditor p_mapEditor) {
-            super();
+            super(p_mapEditor);
         }
 
     @Override

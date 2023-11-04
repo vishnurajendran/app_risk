@@ -94,7 +94,6 @@ public class MapEditor implements ISubApplication {
            }
            else{
                System.out.println("MapEdit Operation Unsuccessful!");
-               quitMapEditor();
            }
         }
         else{

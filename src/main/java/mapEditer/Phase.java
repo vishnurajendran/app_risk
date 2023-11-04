@@ -1,6 +1,10 @@
 package mapEditer;
 
+import application.ApplicationConstants;
 import common.Command;
+
+import java.text.MessageFormat;
+import java.util.Map;
 
 /**
  * This class handles all the phases in map editor:
@@ -14,15 +18,22 @@ public abstract class Phase {
 
     MapEditor d_mapEditor;
 
+    Phase (){
+        d_mapEditor = null;
+    }
+
+    Phase (MapEditor p_mapEditor){
+        d_mapEditor = p_mapEditor;
+    }
+
     abstract boolean isValidCommand(Command p_command);
 
     abstract boolean executeCommand(Command p_command);
 
     abstract boolean postExecute();
 
-     //to-do: invalid cmd mssg
     public void InvalidCommandMessage(){
-         System.out.println("invalid cmnd");
+        System.out.println("The command is invalid and cannot be processed. please try again");
     }
 
 }
