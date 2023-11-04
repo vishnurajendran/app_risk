@@ -7,8 +7,9 @@ import game.States.IGameState;
  * @author Soham
  */
 public class ExecuteOrders implements IGameState {
+
     @Override
-    public void performAction(GameEngine gameEngine, Command command) {
+    public void performAction(Context p_ctx, Command p_command) {
 
     }
 

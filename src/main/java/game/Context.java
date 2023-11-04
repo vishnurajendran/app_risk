@@ -12,7 +12,8 @@ public class Context {
     protected IGameState d_activeState;
 
     public Context(){
-
+        d_currentPlayer = null;
+        d_activeState = null;
     }
     public Context(Player p_currentPlayer, IGameState p_activeState){
         d_currentPlayer = p_currentPlayer;

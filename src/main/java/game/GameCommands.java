@@ -49,7 +49,7 @@ public class GameCommands {
     /**
      * Valid command set
      */
-    public static final Set<String> CHECKVALIDCOMMANDSFORINITIAL = new HashSet<>(Arrays.asList(CMD_LOAD_MAP, CMD_GAME_PLAYER, CMD_ASSIGN_COUNTRIES_TO_PLAYER, CMD_SHOWMAP));
+    public static final Set<String> CHECK_VALID_COMMANDS_FOR_ISSUEORDER = new HashSet<>(Arrays.asList(CMD_GAME_PLAYER, CMD_ASSIGN_COUNTRIES_TO_PLAYER, CMD_SHOWMAP, CMD_DEPLOY_COUNTRIES));
     /**
      * Error messages for displaying to user
      */

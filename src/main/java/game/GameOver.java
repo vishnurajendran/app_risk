@@ -8,7 +8,7 @@ import game.States.IGameState;
  */
 public class GameOver implements IGameState {
     @Override
-    public void performAction(GameEngine gameEngine, Command command) {
+    public void performAction(Context p_ctx, Command p_command) {
 
     }
 

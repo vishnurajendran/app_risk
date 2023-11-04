@@ -10,6 +10,7 @@ import game.States.IGameState;
  */
 public class GameStart implements IGameState {
 
+    Context d_context;
     private boolean d_hasQuit;
 
     GameStart(){
@@ -42,7 +43,8 @@ public class GameStart implements IGameState {
 
 
     @Override
-    public void performAction(GameEngine gameEngine, Command p_command) {
+    public void performAction(Context p_context, Command p_command) {
+        setContext(p_context);
         if (p_command.getCmdName().equals(GameCommands.CMD_LOAD_MAP)) {
             loadGameMap(p_command);
         }
@@ -55,6 +57,6 @@ public class GameStart implements IGameState {
 
     @Override
     public void setContext(Context p_ctx) {
-
+        d_context = p_ctx;
     }
 }

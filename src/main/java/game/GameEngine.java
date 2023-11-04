@@ -3,12 +3,10 @@ package game;
 import common.Command;
 import common.IMethod;
 import common.ISubApplication;
-import common.Logging.Logger;
 import entity.MapLoader;
 import entity.PlayerHandler;
 import game.States.GameStates;
 import game.States.IGameState;
-import mapShow.MapViewer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -83,15 +81,14 @@ public class GameEngine implements ISubApplication {
     /**
      * This method registers game commands and associates them with corresponding action methods.
      */
-    private void registerGameCommands() {
-        Logger.log("Registering game commands");
-        d_cmdtoGameAction.put(GameCommands.CMD_SHOWMAP, this::showMap);
-    }
+//    private void registerGameCommands() {
+//        Logger.log("Registering game commands");
+//    }
 
 
     @Override
     public void initialise() {
-        registerGameCommands();
+
     }
 
     /**
@@ -133,7 +130,7 @@ public class GameEngine implements ISubApplication {
             d_HasQuit = true;
         }
         if (d_currentState.canProcessCommand(p_command.getCmdName())) {
-            d_currentState.performAction(this, p_command);
+            d_currentState.performAction(new Context(PlayerHandler.getGamePlayers().get(0),d_currentState), p_command);
         }
     }
 
@@ -143,9 +140,6 @@ public class GameEngine implements ISubApplication {
      *
      * @param p_command command for further processing.
      */
-    private void showMap(Command p_command) {
-        MapViewer.showMap(d_LoadedMap.getMap());
-    }
 
 
 

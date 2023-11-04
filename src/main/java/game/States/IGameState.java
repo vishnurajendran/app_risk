@@ -1,15 +1,14 @@
 package game.States;
 
-import common.*;
+import common.Command;
 import game.Context;
-import game.GameEngine;
 
 /**
  * @author Soham
  */
 public interface IGameState {
 
-    public void performAction(GameEngine gameEngine, Command command);
+    public void performAction(Context context,  Command command);
 
     public boolean canProcessCommand(String p_cmdName);
 
