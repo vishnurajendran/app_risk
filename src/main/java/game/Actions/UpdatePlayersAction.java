@@ -14,6 +14,7 @@ import java.text.MessageFormat;
  */
 public class UpdatePlayersAction extends IssueOrderAction {
 
+    private Context d_context;
     /**
      * This method adds players to the game players list and displays them in the console
      */
@@ -46,8 +47,8 @@ public class UpdatePlayersAction extends IssueOrderAction {
     }
 
     @Override
-    public void SetContext(Context ctx) {
-
+    public void SetContext(Context p_ctx) {
+        this.d_context = p_ctx;
     }
 
     @Override

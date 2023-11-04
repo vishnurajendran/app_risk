@@ -12,6 +12,9 @@ import game.Order;
  * @author Soham
  */
 public class DeployOrderActions extends IssueOrderAction {
+
+    private Context d_context;
+
     public static void cmdDeployAction(Command p_command){
         int canIssueOrder = PlayerHandler.issueOrder(p_command);
         Logger.log(String.valueOf(canIssueOrder));
@@ -64,8 +67,8 @@ public class DeployOrderActions extends IssueOrderAction {
     }
 
     @Override
-    public void SetContext(Context ctx) {
-
+    public void SetContext(Context p_ctx) {
+        this.d_context = p_ctx;
     }
 
     @Override

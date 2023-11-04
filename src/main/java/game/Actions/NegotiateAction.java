@@ -7,9 +7,10 @@ import game.Context;
  * @author Soham
  */
 public class NegotiateAction extends IssueOrderAction {
+    private Context d_context;
     @Override
-    public void SetContext(Context ctx) {
-
+    public void SetContext(Context p_ctx) {
+        this.d_context = p_ctx;
     }
 
     @Override
