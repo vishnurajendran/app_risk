@@ -31,7 +31,7 @@ public class PreEditPhase extends Phase{
     }
 
     private boolean isValidEditCommand(Command p_command){
-        if(!p_command.getCmdAttributes().get(0).getOption().isEmpty()) {
+        if(!p_command.getCmdAttributes().isEmpty() && !p_command.getCmdAttributes().get(0).getOption().isEmpty()) {
             System.out.println("Incorrect command, invalid option found" + p_command.toString());
             return false;
         }
@@ -84,18 +84,23 @@ public class PreEditPhase extends Phase{
         switch (l_command){
             case CMD_SAVE_MAP : {
                 isValidCommand = isValidSaveCommand(p_command);
+                break;
             }
             case CMD_EDIT_MAP : {
                 isValidCommand =  isValidEditCommand(p_command);
+                break;
             }
             case CMD_SHOW_MAP: {
                 isValidCommand =  true;
+                break;
             }
             case CMD_VALIDATE_MAP: {
                 isValidCommand = isMapEditorInValidState();
+                break;
             }
             default: {
                 isValidCommand = isMapEditorInValidState() && isValidEditEntityCommand(p_command);
+                break;
             }
         }
 

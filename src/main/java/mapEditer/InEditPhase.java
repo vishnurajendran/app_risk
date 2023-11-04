@@ -75,6 +75,7 @@ public class InEditPhase extends Phase{
             //creating new map file for editmap
             Logger.log("File name not found!, Creating a map from scratch");
             if (createNewMapFile(NEW_MAP_FILE_NAME)) {
+                d_mapEditor = new MapEditor();
                 d_mapEditor.d_filename = NEW_MAP_FILE_NAME;
                 d_mapEditor.d_map = new RiskMap(NEW_MAP_FILE_NAME);
                 d_mapEditor.d_isMapInitialised = true;
@@ -83,14 +84,11 @@ public class InEditPhase extends Phase{
             return true;
         } else if (!p_command.getCmdAttributes().get(0).getOption().isEmpty()) {
             System.out.println("Incorrect command, invalid option found" + p_command.toString());
-            //quitMapEditor
-            //to-do quit mapeditor
             return false;
         } else if (!p_command.getCmdAttributes().get(0).getArguments().isEmpty()) {
             l_filename = p_command.getCmdAttributes().get(0).getArguments().get(0);
         } else {
             System.out.println("Invalid arguments!" + p_command.toString());
-            //quitMapEditor();
             return false;
         }
 
@@ -99,10 +97,10 @@ public class InEditPhase extends Phase{
         RiskMap l_riskMap = l_mapLoader.getMap();
         if (isNull(l_riskMap) || !MapValidator.validateMap(l_riskMap)) {
             System.out.println("Invalid map!, load another file or start from scratch!");
-            //quitMapEditor();
             return false;
         }
 
+        d_mapEditor = new MapEditor();
         d_mapEditor.d_isMapInitialised = true;
         d_mapEditor.d_map = l_riskMap;
         d_mapEditor.d_filename = l_filename;
@@ -373,27 +371,35 @@ public class InEditPhase extends Phase{
         switch (l_command){
             case CMD_SAVE_MAP : {
                 l_executionSuccessful = executeCmdSaveMap(p_command);
+                break;
             }
             case CMD_EDIT_MAP : {
                 l_executionSuccessful = executeCmdEditMap(p_command);
+                break;
             }
             case CMD_SHOW_MAP: {
                 l_executionSuccessful = executeCmdShowMap(p_command);
+                break;
             }
             case CMD_VALIDATE_MAP: {
                 l_executionSuccessful = executeCmdValidateMap(p_command);
+                break;
             }
             case CMD_EDIT_COUNTRY: {
                 l_executionSuccessful = executeCmdEditCountry(p_command);
+                break;
             }
             case CMD_EDIT_CONTINENT: {
                 l_executionSuccessful = executeCmdEditContinent(p_command);
+                break;
             }
             case CMD_EDIT_NEIGHBOR: {
                 l_executionSuccessful = executeCmdEditNeighbor(p_command);
+                break;
             }
             default: {
                 Logger.log("Inconsistent state! invalid command");
+                break;
             }
         }
 

@@ -13,7 +13,7 @@ import entity.RiskMap;
  */
 public class MapEditor implements ISubApplication {
 
-    private static boolean d_hasQuit;
+    private boolean d_hasQuit;
     public RiskMap d_map;
     public String d_filename;
     public boolean d_isMapInitialised = false;
@@ -29,7 +29,7 @@ public class MapEditor implements ISubApplication {
     /**
      * quits the map editor.
      */
-    public static void quitMapEditor() {
+    public  void quitMapEditor() {
         d_hasQuit = true;
     }
 
@@ -93,11 +93,13 @@ public class MapEditor implements ISubApplication {
                d_phase.postExecute();
            }
            else{
-               System.out.println("Operation Unsuccessful!");
+               System.out.println("MapEdit Operation Unsuccessful!");
+               quitMapEditor();
            }
         }
         else{
             System.out.println("Incorrect command!" + p_command.getCmdName());
+            quitMapEditor();
         }
     }
 

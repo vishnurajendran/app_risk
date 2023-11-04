@@ -1,6 +1,7 @@
 package mapEditer;
 
 import common.Command;
+import common.Logging.Logger;
 
 public class PostEditPhase extends Phase{
         public PostEditPhase(MapEditor p_mapEditor) {
@@ -21,7 +22,7 @@ public class PostEditPhase extends Phase{
 
     @Override
     boolean postExecute() {
-        System.out.println("Operation Successful");
+        Logger.log("MapEditor Operation Successful");
         return true;
     }
 }
