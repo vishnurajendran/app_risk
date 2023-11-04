@@ -130,7 +130,7 @@ public class GameEngine implements ISubApplication {
             d_HasQuit = true;
         }
         if (d_currentState.canProcessCommand(p_command.getCmdName())) {
-            d_currentState.performAction(new Context(), p_command);
+            d_currentState.performAction(new Context(d_currentState), p_command);
         }
     }
 
