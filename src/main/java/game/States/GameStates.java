@@ -1,4 +1,4 @@
-package game;
+package game.States;
 
 /**
  * This enum provides the states of the game
@@ -11,11 +11,21 @@ public enum GameStates {
     /**
      * Starting state of game.
      */
-    Initial,
+    GameStart,
 
     /**
      * Deploying state of the game.
      */
-    DeployMode,
+    IssueOrder,
+
+    /**
+     * Executing state of the game.
+     */
+    ExecuteOrder,
+
+    /**
+     * GameOver state
+     */
+    GameOver,
 
 }

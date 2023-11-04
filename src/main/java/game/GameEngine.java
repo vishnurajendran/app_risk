@@ -6,6 +6,8 @@ import common.ISubApplication;
 import common.Logging.Logger;
 import entity.MapLoader;
 import entity.PlayerHandler;
+import game.States.GameStates;
+import game.States.IGameState;
 import mapShow.MapViewer;
 
 import java.util.ArrayList;
@@ -25,7 +27,7 @@ public class GameEngine implements ISubApplication {
     private final HashMap<String, IMethod> d_cmdtoGameAction;
     public static ArrayList<ArrayList<String>> d_CmdArguments;
     public static ArrayList<String> d_CmdOption;
-    private GameStates d_gameState = GameStates.Initial;
+    private GameStates d_gameState = GameStates.GameStart;
 
     private IGameState d_activeGameStateHandler;
 
@@ -39,7 +41,7 @@ public class GameEngine implements ISubApplication {
         d_CmdArguments = new ArrayList<>();
         d_CmdOption = new ArrayList<>();
         d_HasQuit = false;
-        d_currentState = new InitialGame();
+        d_currentState = new GameStart();
     }
 
     /**
