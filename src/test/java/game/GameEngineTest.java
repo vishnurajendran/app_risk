@@ -13,6 +13,7 @@ class GameEngineTest {
     @BeforeEach
     void setUp() {
         d_gameEngineTest = new GameEngine();
+        d_gameEngineTest.initialise();
     }
 
     /**

@@ -1,15 +1,14 @@
 package game;
 
-import application.ApplicationConstants;
-import common.*;
+import common.Command;
+import common.ISubApplication;
 import common.Logging.Logger;
-import entity.MapLoader;
-import entity.Player;
 import entity.PlayerHandler;
-import mapShow.MapViewer;
-
-import java.text.MessageFormat;
-import java.util.*;
+import entity.RiskMap;
+import game.Data.Context;
+import game.States.GameStateFactory;
+import game.States.GameStates;
+import game.States.IGameState;
 
 
 /**
@@ -20,123 +19,60 @@ import java.util.*;
  */
 
 public class GameEngine implements ISubApplication {
-    private static MapLoader d_loadedMap;
-    private static boolean d_hasQuit;
-    private final HashMap<String, IMethod> d_cmdtoGameAction;
-    private ArrayList<ArrayList<String>> d_cmdArguments;
-    private ArrayList<String> d_cmdOption;
-    private GameState d_gameState = GameState.Initial;
+    private RiskMap d_map;
+    private boolean d_HasQuit;
+
+    private GameStates d_gameState = GameStates.GameStart;
+
+    private IGameState d_currentState;
 
     /**
      * default constructor
      */
     public GameEngine() {
-        d_cmdtoGameAction = new HashMap<>();
-        d_cmdArguments = new ArrayList<>();
-        d_cmdOption = new ArrayList<>();
-        d_hasQuit = false;
+        d_HasQuit = false;
     }
 
     /**
-     * @return current instance of map loader
+     * sets current instance of map
      */
-    public static MapLoader getLoadedMap() {
-        return d_loadedMap;
+    public void setMap(RiskMap p_map) {
+        d_map = p_map;
+    }
+
+    /**
+     * @return current instance of map
+     */
+    public RiskMap getLoadedMap() {
+        return d_map;
     }
 
     /**
      * quits the game.
      */
-    public static void quitGame() {
-        d_hasQuit = true;
+    public void quitGame() {
+        d_HasQuit = true;
+    }
+
+    public GameStates getGameState() {
+        return d_gameState;
     }
 
     /**
-     * This method stores the action and arguments
-     * to d_cmdOption and d_cmdArguments, respectively for better readability of the code
+     * Change the state of the game
+     * @param p_newState is the new state
      */
-    private void loadArgumentsAndOption(Command p_cmd) {
-        d_cmdArguments = new ArrayList<>();
-        d_cmdOption = new ArrayList<>();
-        for (int i = 0; i < p_cmd.getCmdAttributes().size(); i++) {
-            if (!p_cmd.getCmdAttributes().isEmpty()) {
-                d_cmdArguments.add(p_cmd.getCmdAttributes().get(i).getArguments());
-            }
-            if (!p_cmd.getCmdAttributes().isEmpty()) {
-                d_cmdOption.add(p_cmd.getCmdAttributes().get(i).getOption());
-            }
-        }
-
+    public void changeState(GameStates p_newState) {
+        Logger.log("Changing State From " + d_gameState + " >>> " + p_newState);
+        d_currentState = GameStateFactory.get(p_newState);
+        d_currentState.setContext(new Context(PlayerHandler.getCurrentPlayer(), this));
+        d_gameState = p_newState;
     }
 
-    /**
-     * This method registers game commands and associates them with corresponding action methods.
-     */
-    private void registerGameCommands() {
-        Logger.log("Registering game commands");
-        d_cmdtoGameAction.put(GameCommands.CMD_LOAD_MAP, this::loadGameMap);
-        d_cmdtoGameAction.put(GameCommands.CMD_ASSIGN_COUNTRIES_TO_PLAYER, this::assignCountries);
-        d_cmdtoGameAction.put(GameCommands.CMD_GAME_PLAYER, this::updatePlayers);
-        d_cmdtoGameAction.put(GameCommands.CMD_DEPLOY_COUNTRIES, this::cmdDeploy);
-        d_cmdtoGameAction.put(GameCommands.CMD_SHOWMAP, this::showMap);
-    }
-
-    /**
-     * This method loads the map into a variable
-     * quits the game stage if the map cannot be loaded.
-     *
-     * @param p_cmd is the command that was passed from the application phase
-     */
-    private void loadGameMap(Command p_cmd) {
-        try {
-            d_loadedMap = new MapLoader(d_cmdArguments.get(0).get(0));
-            if (!d_hasQuit) {
-                System.out.println("Loaded map: " + d_cmdArguments);
-            } else {
-                System.out.println("ERROR: Error loading map, check the Map Name again.");
-            }
-
-        } catch (Exception e) {
-            System.out.println("ERROR: Error loading map, check the Map Name again.");
-            d_hasQuit = true;
-        }
-    }
-
-    /**
-     * This method adds players to the game players list and displays them in the console
-     */
-    private void updatePlayers(Command p_cmd) {
-        for (int i = 0; i < d_cmdOption.size(); i++) {
-            if (d_cmdOption.get(i).equals(GameCommands.CMD_GAME_PLAYER_OPTION_ADD) && !d_cmdArguments.isEmpty()) {
-                PlayerHandler.addGamePlayers(d_cmdArguments.get(i));
-            } else if (d_cmdOption.get(i).equals(GameCommands.CMD_GAME_PLAYER_OPTION_REMOVE) && !d_cmdArguments.isEmpty()) {
-                PlayerHandler.removeGamePlayers(d_cmdArguments.get(i));
-            } else {
-                System.out.println(MessageFormat.format(ApplicationConstants.ERR_MSG_INVALID_CMD, p_cmd.getCmdName()));
-            }
-        }
-        PlayerHandler.displayGamePlayers();
-    }
-
-    /**
-     * Used to assign countries to a player
-     *
-     * @param p_cmd
-     */
-    private void assignCountries(Command p_cmd) {
-
-        if (PlayerHandler.getGamePlayers().size() <= 1) {
-            System.out.println("Not enough players to start the game. the game needs at-least 2 players");
-            return;
-        }
-
-        PlayerHandler.assignCountriesToPlayer(d_loadedMap);
-        d_gameState = GameState.DeployMode;
-    }
 
     @Override
     public void initialise() {
-        registerGameCommands();
+        changeState(GameStates.GameStart);
     }
 
     /**
@@ -146,7 +82,7 @@ public class GameEngine implements ISubApplication {
      */
     @Override
     public boolean hasQuit() {
-        return d_hasQuit;
+        return d_HasQuit;
     }
 
     /**
@@ -160,14 +96,7 @@ public class GameEngine implements ISubApplication {
 
         if (p_cmdName.equals(GameCommands.CMD_SHOWMAP))
             return true;
-
-        if (d_gameState.equals(GameState.Initial)) {
-            return GameCommands.CHECKVALIDCOMMANDSFORINITIAL.contains(p_cmdName);
-        } else if (d_gameState.equals(GameState.DeployMode)) {
-            return p_cmdName.equals(GameCommands.CMD_DEPLOY_COUNTRIES);
-        }
-
-        return false;
+        return d_currentState.canProcessCommand(p_cmdName);
     }
 
     /**
@@ -180,82 +109,13 @@ public class GameEngine implements ISubApplication {
      */
     @Override
     public void submitCommand(Command p_command) {
-        loadArgumentsAndOption(p_command);
+        //loadArgumentsAndOption(p_command);
         if (p_command.getCmdName().equals(GameCommands.CMD_LOAD_MAP) && p_command.getCmdAttributes().isEmpty()) {
-            d_hasQuit = true;
+            d_HasQuit = true;
         }
-        if (d_cmdtoGameAction.containsKey(p_command.getCmdName())) {
-            d_cmdtoGameAction.get(p_command.getCmdName()).invoke(p_command);
+        if (d_currentState.canProcessCommand(p_command.getCmdName())) {
+            d_currentState.performAction(p_command);
         }
-    }
-
-    /**
-     * this method handles how deploy cmd is executed.
-     *
-     * @param p_command command for further processing.
-     */
-    private void cmdDeploy(Command p_command) {
-        if (d_gameState.equals(GameState.DeployMode)) {
-            int canIssueOrder = PlayerHandler.issueOrder(p_command);
-
-            Logger.log(String.valueOf(canIssueOrder));
-            if (canIssueOrder == PlayerHandler.ISSUEORDER_SUCCESS) {
-                int l_availableReinforcements;
-                // runs a loop through all the players to check if they have armies left
-                for (int i = 0; i < PlayerHandler.getGamePlayers().size(); i++) {
-                    Player l_currentPlayer = PlayerHandler.getGamePlayers().get(PlayerHandler.getPlayerTurn() % PlayerHandler.getGamePlayers().size());
-                    l_availableReinforcements = l_currentPlayer.getAvailableReinforcements();
-                    // once it finds a player with armies>0, it stops and lets the player deploy
-                    if (l_availableReinforcements != 0) {
-                        System.out.println(l_currentPlayer.getPlayerName()
-                                + "'s turn, Reinforcements left: " + l_availableReinforcements);
-                        PlayerHandler.displayGamePlayersCountries(l_currentPlayer);
-                        return;
-                    } else {
-                        PlayerHandler.increasePlayerTurn(1);
-                    }
-                }
-                // When everyone has depleted their armies, it executes all the orders
-                System.out.println("Everyone deployed their reinforcements");
-                executeOrders();
-                PlayerHandler.reassignValuesForNextTurn();
-            } else {
-                System.out.println(GameCommands.DEPLOYERRORMESSAGE.get(canIssueOrder - 1));
-            }
-        }
-    }
-
-    /**
-     * this methods opens the map viewer
-     *
-     * @param p_command command for further processing.
-     */
-    private void showMap(Command p_command) {
-        MapViewer.showMap(d_loadedMap.getMap());
-    }
-
-    /**
-     * This method executes all the orders
-     * in a round-robin fashion as they were generated by the user
-     */
-    private void executeOrders() {
-        int l_index = 0;
-        Order orderToExecute = PlayerHandler.getGamePlayers().get(0).nextOrder();
-        do {
-            orderToExecute.executeOrder();
-            Logger.log("Executing order for: " + PlayerHandler.getGamePlayers().get(l_index % PlayerHandler.getGamePlayers().size()).getPlayerName() + ", Orders remaining: " + PlayerHandler.getGamePlayers().get(l_index % PlayerHandler.getGamePlayers().size()).getOrderSize());
-            l_index = (l_index + 1) % PlayerHandler.getGamePlayers().size();
-            for (int i = 0; i < PlayerHandler.getGamePlayers().size(); i++) {
-                orderToExecute = PlayerHandler.getGamePlayers().get(l_index % PlayerHandler.getGamePlayers().size()).nextOrder();
-                if (orderToExecute == null) {
-                    l_index = (l_index + 1) % PlayerHandler.getGamePlayers().size();
-                } else {
-                    break;
-                }
-
-            }
-
-        } while (orderToExecute != null);
     }
 
     /**
@@ -266,4 +126,9 @@ public class GameEngine implements ISubApplication {
     public void shutdown() {
         PlayerHandler.cleanup();
     }
+
+    public RiskMap getMap() {
+        return d_map;
+    }
+
 }

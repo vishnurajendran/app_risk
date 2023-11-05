@@ -139,7 +139,6 @@ public class MapLoader {
         } catch (Exception e) {
             Logger.logError(e.getMessage());
             cleanUp();
-            GameEngine.quitGame();
             return false;
         }
     }
