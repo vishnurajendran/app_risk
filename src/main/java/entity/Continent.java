@@ -53,13 +53,15 @@ public class Continent {
 
     /**
      * Clone method for returning a clone of the object Continent
+     * This methods take a clone map object and adds the cloned countries of the map in the continent
      *
+     * @param p_riskMap     the number id for the continent, should be unique.
      * @return Continent object
      */
-    public Continent clone() {
+    public Continent clone(RiskMap p_riskMap) {
         Continent l_continent = new Continent(this.d_id, this.d_name, this.d_controlValue, this.d_color);
         for (Map.Entry<Integer, Country> l_entry : this.d_countries.entrySet()) {
-            l_continent.d_countries.put(l_entry.getKey(), l_entry.getValue().clone());
+            l_continent.d_countries.put(l_entry.getKey(), p_riskMap.getCountryById(l_entry.getKey()));
         }
         return l_continent;
     }
@@ -70,7 +72,6 @@ public class Continent {
      * @param p_country Country object to be added
      */
     public void addCountry(Country p_country) {
-        //TODO:overrides if country already present?? chk for duplication
         this.d_countries.put(p_country.getDId(), p_country);
     }
 
@@ -182,7 +183,7 @@ public class Continent {
      * @return A string contain ID, name and Control value.
      */
     public String toString() {
-        return "Id: " + d_id + " Name: " + d_name + " ControlValue: " + d_controlValue + "Color:" + d_color;
+       return "Id: " + d_id + " Name: " + d_name + " ControlValue: " + d_controlValue + " Color:" + d_color + " Countries: " + this.d_countries.keySet().toString();
     }
 
 }
