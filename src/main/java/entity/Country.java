@@ -14,18 +14,16 @@ import static java.util.Objects.isNull;
  * @author Weichen
  */
 public class Country {
-    int d_id;
-    String d_name;
-
-    int d_army;
-
-    int d_continentId;
+    private int d_id;
+    private String d_name;
+    private int d_army;
+    private int d_continentId;
     //offered in the sample file and not sure if we need to use
-    int d_xCoordinates;
-    int d_yCoordinates;
+    private int d_xCoordinates;
+    private int d_yCoordinates;
 
     //LinkedList<Integer> d_borders;
-    Map<Integer, Country> d_borders;
+    private Map<Integer, Country> d_borders;
 
     /**
      * Constructor for the country.
@@ -213,6 +211,15 @@ public class Country {
             Logger.log("Border doesn't exist");
         }
         return true;
+    }
+
+    /**
+     * Check if the country is next to the country with give id
+     * @param p_countryId the id of the neighbour
+     * @return True if they are next to each other, false if they are not
+     */
+    public boolean isNeighbour(int p_countryId) {
+        return !isNull(d_borders.get(p_countryId));
     }
 
     /**

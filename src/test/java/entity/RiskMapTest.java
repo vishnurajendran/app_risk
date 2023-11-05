@@ -189,6 +189,16 @@ class RiskMapTest {
     }
 
     /**
+     * Unit test checking if two countries are neighbour
+     * Country 1 and 2 should be neighbour, and 1 and 3 should not
+     */
+    @Test
+    void isNeighbour(){
+        assertTrue(d_testRiskMap.isNeighbour(1,2));
+        assertFalse(d_testRiskMap.isNeighbour(1,3));
+    }
+
+    /**
      * Unit test for override toString
      * The Expected output is:
      * "Map Test Map\n" +
