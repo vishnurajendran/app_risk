@@ -264,8 +264,13 @@ public class PlayerHandler {
 
     public static Player getCurrentPlayer(){
         Player currentPlayer = null;
-        if(PlayerHandler.getPlayerTurn() <= PlayerHandler.getGamePlayers().size()-1){
-            currentPlayer = PlayerHandler.getGamePlayers().get(PlayerHandler.getPlayerTurn());
+        //System.out.println(PlayerHandler.getPlayerTurn() + "::" + PlayerHandler.getGamePlayers().size());
+//        if(d_whichPlayersTurn <= PlayerHandler.getGamePlayers().size()-1){
+//            currentPlayer = PlayerHandler.getGamePlayers().get(d_whichPlayersTurn);
+//        }
+        if(!PlayerHandler.getGamePlayers().isEmpty()){
+            int playerIndex = d_whichPlayersTurn % PlayerHandler.getGamePlayers().size();
+            currentPlayer = PlayerHandler.getGamePlayers().get(playerIndex);
         }
         return currentPlayer;
     }

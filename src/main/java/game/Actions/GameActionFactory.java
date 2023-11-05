@@ -14,7 +14,7 @@ public class GameActionFactory {
     }
 
     public static GameAction getAssignCountriesAction(){
-        return new AddRemovePlayerAction();
+        return new AssignCountriesAction();
     }
 
     public static GameAction getDeployAction() {

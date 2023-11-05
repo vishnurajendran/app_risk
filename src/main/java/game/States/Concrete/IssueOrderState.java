@@ -2,11 +2,12 @@ package game.States.Concrete;
 
 import common.Command;
 import common.IMethod;
+import entity.PlayerHandler;
 import game.Actions.GameAction;
 import game.Actions.GameActionFactory;
-import game.Data.Context;
 import game.GameCommands;
 import game.States.GameState;
+import game.States.GameStates;
 import mapShow.MapViewer;
 
 import java.util.HashMap;
@@ -62,6 +63,16 @@ public class IssueOrderState extends GameState {
 
         // can we allow more commands
         // approach 1. more commands possible? if yes -> switch to next player, when all player exhausted switch to execute.
+        int l_availableReinforcements;
+        for (int i = PlayerHandler.getGamePlayers().indexOf(PlayerHandler.getCurrentPlayer()); i < PlayerHandler.getGamePlayers().size();i++){
+            l_availableReinforcements = PlayerHandler.getCurrentPlayer().getAvailableReinforcements();
+            if(l_availableReinforcements != 0){
+                return;
+            }
+            PlayerHandler.increasePlayerTurn(1);
+        }
+        System.out.println("Issue Order stage is complete. Switching to Execute Order.");
+        d_context.getEngine().changeState(GameStates.ExecuteOrder);
         // approach 2. wait for player commit. if yes -> switch to next player, when all commited switch state to execute.
     }
 
