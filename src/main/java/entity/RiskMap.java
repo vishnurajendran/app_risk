@@ -14,9 +14,9 @@ import static java.util.Objects.nonNull;
  * @author Weichen
  */
 public class RiskMap {
-    String d_name;
-    Map<Integer, Country> d_countries;
-    Map<Integer, Continent> d_continents;
+    private String d_name;
+    private Map<Integer, Country> d_countries;
+    private Map<Integer, Continent> d_continents;
 
     /**
      * Default Constructor that only initialize the map.
@@ -47,8 +47,13 @@ public class RiskMap {
         for (Map.Entry<Integer, Country> l_entryCountry : this.d_countries.entrySet()) {
             l_riskMapClone.d_countries.put(l_entryCountry.getKey(), l_entryCountry.getValue().clone());
         }
+        for (Map.Entry<Integer, Country> l_entryCountry : this.d_countries.entrySet()) {
+            for(Integer l_neighborId : l_entryCountry.getValue().getBorders().keySet()){
+                l_riskMapClone.getCountryById(l_entryCountry.getKey()).addBorder(l_riskMapClone.getCountryById(l_neighborId));
+            }
+        }
         for (Map.Entry<Integer, Continent> l_entryContinent : this.d_continents.entrySet()) {
-            l_riskMapClone.d_continents.put(l_entryContinent.getKey(), l_entryContinent.getValue().clone());
+            l_riskMapClone.d_continents.put(l_entryContinent.getKey(), l_entryContinent.getValue().clone(l_riskMapClone));
         }
         return l_riskMapClone;
     }
@@ -136,8 +141,12 @@ public class RiskMap {
      */
     public void removeCountry(Country p_country) {
         removeCountryFromContinent(p_country);
+        for(Country l_neighborCountry : p_country.getBorders().values()){
+            l_neighborCountry.removeBorder(p_country);
+        }
         d_countries.remove(p_country.getDId());
     }
+
 
     /**
      * This method removes continent from the map.
@@ -147,7 +156,7 @@ public class RiskMap {
     public void removeContinent(Continent p_continent) {
         //remove all countries of the continent
         if (hasContinent(p_continent.getId())) {
-            ArrayList<Country> l_countries = getCountries();
+            ArrayList<Country> l_countries = p_continent.getCountries();
             for (Country l_country : l_countries) {
                 removeCountry(l_country);
             }
@@ -290,6 +299,22 @@ public class RiskMap {
     public Continent getContinentById(int p_continentId) {
         return d_continents.get(p_continentId);
     }
+
+    /**
+     * Check if two country are next to each other
+     *
+     * @param p_country1 The id of the first country
+     * @param p_country2 The id of the second country
+     * @return True if they are next to each other, false if they are not
+     */
+    public boolean isNeighbour(int p_country1, int p_country2) {
+        Country l_country1 = d_countries.get(p_country1);
+        if (isNull(l_country1)) {
+            return false;
+        }
+        return l_country1.isNeighbour(p_country2);
+    }
+
 
     /**
      * Override the toString method to show country detail better

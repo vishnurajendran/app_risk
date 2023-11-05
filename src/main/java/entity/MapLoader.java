@@ -10,13 +10,13 @@ import java.util.Scanner;
 import static java.util.Objects.isNull;
 
 public class MapLoader {
-    RiskMap d_riskMap;
+    private static RiskMap d_riskMap=null;
 
     /**
      * Default constructor that initialize an empty map.
      */
     public MapLoader() {
-        d_riskMap = new RiskMap();
+        cleanUp();
     }
 
     /**
@@ -25,7 +25,7 @@ public class MapLoader {
      * @param p_mapName
      */
     public MapLoader(String p_mapName) {
-        d_riskMap = new RiskMap();
+        cleanUp();
         loadMap(p_mapName);
     }
 
@@ -35,10 +35,11 @@ public class MapLoader {
      * @param p_mapName The file name of the map.
      * @return A boolean of whether the load is succeeded.
      */
-    public boolean loadMap(String p_mapName) {
+    public static boolean loadMap(String p_mapName) {
         try {
             File l_mapFile = new File(p_mapName);
             Scanner l_scanner = new Scanner(l_mapFile);
+            d_riskMap=new RiskMap();
             while (l_scanner.hasNextLine()) {
                 String l_line = l_scanner.nextLine();
                 // skip empty lines
@@ -137,7 +138,7 @@ public class MapLoader {
             return true;
         } catch (Exception e) {
             Logger.logError(e.getMessage());
-            d_riskMap = new RiskMap();
+            cleanUp();
             return false;
         }
     }
@@ -147,9 +148,26 @@ public class MapLoader {
      *
      * @return The map that is loaded.
      */
-    public RiskMap getMap() {
+    public static RiskMap getMap() {
         return d_riskMap;
     }
 
+    /**
+     * Getter for the map.
+     * @param p_mapName The file name of the map.
+     * @return The map that is loaded.
+     */
+    public static RiskMap getMap(String p_mapName) {
+        loadMap(p_mapName);
+        return d_riskMap;
+    }
+
+    /**
+     * Clean up the map in map loader
+     * Point it to null for now
+     */
+    public static void cleanUp(){
+        d_riskMap=null;
+    }
 
 }
