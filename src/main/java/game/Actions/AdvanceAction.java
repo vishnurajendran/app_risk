@@ -1,7 +1,6 @@
 package game.Actions;
 
 import common.Command;
-import game.Data.Context;
 
 /**
  * @author Soham
@@ -9,7 +8,7 @@ import game.Data.Context;
 public class AdvanceAction extends GameAction {
 
     @Override
-    public void execute(Command cmd) {
+    public void execute(Command p_cmd) {
 
     }
 

@@ -39,11 +39,21 @@ public class PlayerHandler {
 
     private static RiskMap d_loadedMap;
 
+    private static boolean d_countriesAssigned = false;
+
     /**
      * default constructor
      */
     public PlayerHandler() {
 
+    }
+
+    public static void countriesAssigned(boolean p_countriesAssigned){
+        d_countriesAssigned = p_countriesAssigned;
+    }
+
+    public static boolean areCountriesAssigned(){
+        return d_countriesAssigned;
     }
 
     /**

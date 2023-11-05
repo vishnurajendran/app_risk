@@ -27,6 +27,10 @@ public class ExecuteOrderState extends GameState {
         d_context.getEngine().changeState(GameStates.IssueOrder);
     }
 
+    /**
+     * Executes order for each player in a round-robin fashion
+     * Once no orders are left to execute, it terminates
+     */
     public void executeOrders() {
         int l_index = 0;
         Order orderToExecute = PlayerHandler.getGamePlayers().get(0).nextOrder();

@@ -6,7 +6,6 @@ import common.Logging.Logger;
 import entity.PlayerHandler;
 import entity.RiskMap;
 import game.Data.Context;
-import game.States.GameState;
 import game.States.GameStateFactory;
 import game.States.GameStates;
 import game.States.IGameState;
@@ -59,6 +58,10 @@ public class GameEngine implements ISubApplication {
         return d_gameState;
     }
 
+    /**
+     * Change the state of the game
+     * @param p_newState is the new state
+     */
     public void changeState(GameStates p_newState) {
         Logger.log("Changing State From " + d_gameState + " >>> " + p_newState);
         d_currentState = GameStateFactory.get(p_newState);

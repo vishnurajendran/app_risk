@@ -11,6 +11,6 @@ public abstract class GameAction {
     public void SetContext(Context p_ctx){
         this.d_context = p_ctx;
     }
-    public abstract void execute(Command cmd);
+    public abstract void execute(Command p_cmd);
     public abstract void postExecute();
 }

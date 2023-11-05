@@ -2,14 +2,20 @@ package game.Data;
 
 import entity.Player;
 import game.GameEngine;
-import game.States.IGameState;
 
 /**
  * @author Soham
  */
 public class Context {
+
+    /**
+     * stores the current active player
+     */
     private Player d_currentPlayer;
 
+    /**
+     * Instance of game engine
+     */
     private GameEngine d_engine;
 
     public Context(){
@@ -20,10 +26,16 @@ public class Context {
         d_engine = p_engine;
     }
 
+    /**
+     * @return current player in the game
+     */
     public Player getCurrentPlayer(){
         return d_currentPlayer;
     }
 
+    /**
+     * @return the instance of game engine
+     */
     public GameEngine getEngine() {
         return d_engine;
     }
