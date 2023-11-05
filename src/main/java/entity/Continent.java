@@ -56,10 +56,10 @@ public class Continent {
      *
      * @return Continent object
      */
-    public Continent clone() {
+    public Continent clone(RiskMap p_riskMap) {
         Continent l_continent = new Continent(this.d_id, this.d_name, this.d_controlValue, this.d_color);
         for (Map.Entry<Integer, Country> l_entry : this.d_countries.entrySet()) {
-            l_continent.d_countries.put(l_entry.getKey(), l_entry.getValue().clone());
+            l_continent.d_countries.put(l_entry.getKey(), p_riskMap.getCountryById(l_entry.getKey()));
         }
         return l_continent;
     }
@@ -182,7 +182,12 @@ public class Continent {
      * @return A string contain ID, name and Control value.
      */
     public String toString() {
-        return "Id: " + d_id + " Name: " + d_name + " ControlValue: " + d_controlValue + "Color:" + d_color;
+        String l_str = "Id: " + d_id + " Name: " + d_name + " ControlValue: " + d_controlValue + "Color:" + d_color + "Countries: {";
+        for (Country l_entry : this.d_countries.values()) {
+            l_str = l_str + l_entry.toString() + ",";
+        }
+        l_str += "}";
+        return l_str;
     }
 
 }

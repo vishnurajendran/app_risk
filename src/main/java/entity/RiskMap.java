@@ -47,8 +47,13 @@ public class RiskMap {
         for (Map.Entry<Integer, Country> l_entryCountry : this.d_countries.entrySet()) {
             l_riskMapClone.d_countries.put(l_entryCountry.getKey(), l_entryCountry.getValue().clone());
         }
+        for (Map.Entry<Integer, Country> l_entryCountry : this.d_countries.entrySet()) {
+            for(Integer l_neighborId : l_entryCountry.getValue().getBorders().keySet()){
+                l_riskMapClone.getCountryById(l_entryCountry.getKey()).addBorder(l_riskMapClone.getCountryById(l_neighborId));
+            }
+        }
         for (Map.Entry<Integer, Continent> l_entryContinent : this.d_continents.entrySet()) {
-            l_riskMapClone.d_continents.put(l_entryContinent.getKey(), l_entryContinent.getValue().clone());
+            l_riskMapClone.d_continents.put(l_entryContinent.getKey(), l_entryContinent.getValue().clone(l_riskMapClone));
         }
         return l_riskMapClone;
     }
@@ -136,6 +141,9 @@ public class RiskMap {
      */
     public void removeCountry(Country p_country) {
         removeCountryFromContinent(p_country);
+        for(Country l_neighborCountry : p_country.getBorders().values()){
+            l_neighborCountry.removeBorder(p_country);
+        }
         d_countries.remove(p_country.getDId());
     }
 
@@ -147,7 +155,7 @@ public class RiskMap {
     public void removeContinent(Continent p_continent) {
         //remove all countries of the continent
         if (hasContinent(p_continent.getId())) {
-            ArrayList<Country> l_countries = getCountries();
+            ArrayList<Country> l_countries = p_continent.getCountries();
             for (Country l_country : l_countries) {
                 removeCountry(l_country);
             }

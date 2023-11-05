@@ -63,7 +63,7 @@ public class Country {
 
     /**
      * Clone method for returning a clone of the object Country
-     *
+     * This method doesnot clone the borders.
      * @return Country object
      */
     public Country clone() {
@@ -221,6 +221,11 @@ public class Country {
      * @return A string contain ID, name continentID and borders details.
      */
     public String toString() {
-        return "Id: " + d_id + " Name: " + d_name + " continentId: " + d_continentId + d_borders.toString();
+        String l_str = "Id: " + d_id + " Name: " + d_name + " continentId: " + d_continentId + "borders: {";
+        for (Integer l_entry : this.d_borders.keySet()) {
+            l_str = l_str + l_entry + ",";
+        }
+        l_str += "}";
+        return l_str;
     }
 }
