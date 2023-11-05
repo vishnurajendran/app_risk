@@ -26,12 +26,32 @@ public abstract class Phase {
         d_mapEditor = p_mapEditor;
     }
 
+    /**
+     * This method is for phase1-PreEdit: command and input paramters validation
+     *
+     * @param p_command command object passed down by application
+     * @return status true if command is valid, false otherwise.
+     */
     abstract boolean isValidCommand(Command p_command);
 
+    /**
+     * This method is for phase2-InEdit: command execution
+     *
+     * @param p_command command object passed down by application
+     * @return status of command operation
+     */
     abstract boolean executeCommand(Command p_command);
 
+    /**
+     * This method is for phase2-PostEdit: Logging and other cleanup.
+     *
+     * @return  status of application.
+     */
     abstract boolean postExecute();
 
+    /**
+     * This method is called to log invalid commands in different phases.
+     */
     public void InvalidCommandMessage(){
         System.out.println("The command is invalid and cannot be processed. please try again");
     }

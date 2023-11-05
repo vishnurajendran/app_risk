@@ -16,11 +16,22 @@ import java.util.ArrayList;
 import static java.util.Objects.isNull;
 import static mapEditer.MapEditorCommands.*;
 
+/**
+ * This class implements the operations in "EDITMODE" Phase of the mapEditor
+ * MapEditor is the context class for this phase.
+ *
+ * @author TaranjeetKaur
+ */
 public class InEditPhase extends Phase{
     public InEditPhase(MapEditor p_mapEditor) {
         super(p_mapEditor);
     }
 
+    /**
+     * Command validation is not an operation for InEdit Phase
+     * @param p_command
+     * @return  false
+     */
     public boolean isValidCommand(Command p_command) {
         InvalidCommandMessage();
         return false;
@@ -30,6 +41,7 @@ public class InEditPhase extends Phase{
      * Executes the command savemap
      *
      * @param p_command The command objects passed down by the application
+     * @return true if file operation is successful, false otherwise.
      */
     private boolean executeCmdSaveMap(Command p_command) {
         //write the map object to file.
@@ -69,6 +81,12 @@ public class InEditPhase extends Phase{
         return true;
     }
 
+    /**
+     * Executes the command editmap
+     *
+     * @param p_command The command objects passed down by the application
+     * @return  rue is operation is successful, false otherwise.
+     */
     private boolean executeCmdEditMap(Command p_command) {
         String l_filename = "";
         if (p_command.getCmdAttributes().isEmpty()) {
@@ -114,6 +132,7 @@ public class InEditPhase extends Phase{
      * Executes the command showmap
      *
      * @param p_command The command objects passed down by the application
+     * @return  status true always.
      */
     private boolean executeCmdShowMap(Command p_command) {
         MapViewer.showMap(d_mapEditor.d_map);
@@ -125,6 +144,7 @@ public class InEditPhase extends Phase{
      * Validates a map and prints the result to the console ,if the map is loaded in the mapEditor
      *
      * @param p_command Command object passed down from application.
+     * @return  status true always.
      */
     private boolean executeCmdValidateMap(Command p_command) {
         boolean l_isMapValid = MapValidator.validateMap(d_mapEditor.d_map);
@@ -197,6 +217,7 @@ public class InEditPhase extends Phase{
      * This method executes editneighbor commands
      *
      * @param p_command command object passed down by application
+     * @return  status true if execution successful, false otherwise.
      */
     private boolean executeCmdEditNeighbor(Command p_command) {
         //execute commands - add and remove
@@ -276,6 +297,7 @@ public class InEditPhase extends Phase{
      * This method executes editcountry commands
      *
      * @param p_command command object passed down by application
+     * @return  status true if execution successful, false otherwise.
      */
     private boolean executeCmdEditCountry(Command p_command) {
         //execute commands - add and remove
@@ -345,6 +367,7 @@ public class InEditPhase extends Phase{
      * This method executes editcontinent commands
      *
      * @param p_command command object passed down by application
+     * @return  status true if execution successful, false otherwise.
      */
     private boolean executeCmdEditContinent(Command p_command) {
         //execute commands - add and remove
@@ -365,6 +388,12 @@ public class InEditPhase extends Phase{
         return true;
     }
 
+    /**
+     * This method executes all the valid commands for this phase
+     *
+     * @param p_command The command object passed by MapEditor
+     * @return  status true if execution successful, false otherwise.
+     */
     public boolean executeCommand(Command p_command){
         String l_command = p_command.getCmdName();
         boolean l_executionSuccessful = false;
@@ -406,6 +435,11 @@ public class InEditPhase extends Phase{
         return l_executionSuccessful;
     }
 
+    /**
+     * Command postExceute is not an operation for InEdit Phase
+     *
+     * @return  false
+     */
     public boolean postExecute(){
         InvalidCommandMessage();
         return false;

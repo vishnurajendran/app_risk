@@ -221,11 +221,6 @@ public class Country {
      * @return A string contain ID, name continentID and borders details.
      */
     public String toString() {
-        String l_str = "Id: " + d_id + " Name: " + d_name + " continentId: " + d_continentId + "borders: {";
-        for (Integer l_entry : this.d_borders.keySet()) {
-            l_str = l_str + l_entry + ",";
-        }
-        l_str += "}";
-        return l_str;
+        return "Id: " + d_id + " Name: " + d_name + " continentId: " + d_continentId + " borders: " + d_borders.keySet().toString();
     }
 }

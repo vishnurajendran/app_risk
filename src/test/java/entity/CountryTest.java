@@ -170,7 +170,7 @@ class CountryTest {
      */
     @Test
     void testToString() {
-        assertEquals("Id: 1 Name: Canada continentId: 2{2=Id: 2 Name: America continentId: 2{}}",
+        assertEquals("Id: 1 Name: Canada continentId: 2 borders: [2]",
                 d_testCountry.toString());
     }
 }

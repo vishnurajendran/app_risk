@@ -197,8 +197,9 @@ class RiskMapTest {
      */
     @Test
     void testToString() {
+
         assertEquals("Map Test Map\n" +
-                "Id: 1 Name: Canada continentId: 2{2=Id: 2 Name: America continentId: 2{}}\n" +
-                "Id: 2 Name: America continentId: 2{}\n", d_testRiskMap.toString());
+                "Id: 1 Name: Canada continentId: 2 borders: [2]\n" +
+                "Id: 2 Name: America continentId: 2 borders: []\n", d_testRiskMap.toString());
     }
 }

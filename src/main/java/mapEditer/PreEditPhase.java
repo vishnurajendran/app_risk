@@ -10,13 +10,23 @@ import static java.util.Objects.isNull;
 import static mapEditer.MapEditorCommands.*;
 
 /**
+ * This class implements the operations in "PREEDITMODE" Phase of the mapEditor
+ * MapEditor is the context class for this phase.
  *
+ * @author TaranjeetKaur
  */
 public class PreEditPhase extends Phase{
     public PreEditPhase(MapEditor p_mapEditor) {
         super(p_mapEditor);
     }
 
+    /**
+     * This method checks whether the savemap command is valid.
+     * verifies if filename is passed.
+     *
+     * @param p_command command object passed down by the application
+     * @return  true if command valid, false otherwise.
+     */
     private boolean isValidSaveCommand(Command p_command){
         if (p_command.getCmdAttributes().isEmpty() || p_command.getCmdAttributes().get(0).getArguments().isEmpty()) {
             System.out.println("File name missing to save map.");
@@ -30,6 +40,13 @@ public class PreEditPhase extends Phase{
         return true;
     }
 
+    /**
+     * This method checks whether the editmap command is valid.
+     * verifies if filename is passed.
+     *
+     * @param p_command command object passed down by the application
+     * @return  true if command valid, false otherwise.
+     */
     private boolean isValidEditCommand(Command p_command){
         if(!p_command.getCmdAttributes().isEmpty() && !p_command.getCmdAttributes().get(0).getOption().isEmpty()) {
             System.out.println("Incorrect command, invalid option found" + p_command.toString());
@@ -38,6 +55,12 @@ public class PreEditPhase extends Phase{
         return true;
     }
 
+    /**
+     * This method checks whether the mapEditor is in valid state before proceeding to edit commands
+     * verifies the map loaded for editing is initialised.
+     *
+     * @return  true if state is valid, false otherwise
+     */
     private boolean isMapEditorInValidState(){
         if (!d_mapEditor.isMapEditorInitialised()) {
             System.out.println("Map not loaded for editing, use editmap for loading an existing map or creating a new one!");
@@ -50,6 +73,13 @@ public class PreEditPhase extends Phase{
         return true;
     }
 
+    /**
+     * This method checks whether the edit commands for country, continent, neighbor are valid or not.
+     * verifies the number of attributes are correct for add, remove operations.
+     *
+     * @param p_command command object passed down by the application
+     * @return  true if command valid, false otherwise.
+     */
     private boolean isValidEditEntityCommand(Command p_command){
         //validate the cmd attributes for edit-country,continent,neighbour:
         ArrayList<CommandAttribute> l_commandAttributes = p_command.getCmdAttributes();
@@ -69,15 +99,20 @@ public class PreEditPhase extends Phase{
                 Logger.log("Odd number of arguments for -add continent");
                 return false;
             }
-            //todo: add chk for remove neibour;
-//            if (l_cAttribute.getArguments().size() % 2 != 0) {
-//                Logger.log("Odd number of arguments for edit neighbor");
-//                return false;
-//            }
+            if (CMD_EDIT_NEIGHBOR.equals(p_command.getCmdName()) && CMD_OPTION_REMOVE.equals(l_cAttribute.getOption()) && l_cAttribute.getArguments().size() % 2 != 0) {
+                Logger.log("Odd number of arguments for edit neighbor");
+                return false;
+            }
         }
         return true;
     }
 
+    /**
+     * This method is for phase1-PreEdit: command and input paramters validation
+     *
+     * @param p_command command object passed down by application
+     * @return status true if command is valid, false otherwise.
+     */
     public boolean isValidCommand(Command p_command){
         String l_command = p_command.getCmdName();
         boolean isValidCommand = false;
@@ -107,11 +142,22 @@ public class PreEditPhase extends Phase{
         return  isValidCommand;
     }
 
+    /**
+     * This method is for phase2-InEdit: command execution
+     *
+     * @param p_command command object passed down by application
+     * @return status of command operation
+     */
     public boolean executeCommand(Command p_command){
         InvalidCommandMessage();
         return false;
     }
 
+    /**
+     * This method is for phase2-PostEdit: Logging and other cleanup.
+     *
+     * @return  status of application.
+     */
     public boolean postExecute(){
         InvalidCommandMessage();
         return false;
