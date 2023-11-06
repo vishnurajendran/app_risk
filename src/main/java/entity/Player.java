@@ -4,6 +4,8 @@ import game.GameEngine;
 import game.Orders.Order;
 
 import java.util.ArrayList;
+import java.util.Random;
+import java.util.UUID;
 
 /**
  * Class PlayerDetails contains details of the player
@@ -13,31 +15,31 @@ import java.util.ArrayList;
 public class Player {
 
     private int d_availableReinforcements;
-    private String d_playerName;
+    private final String d_playerName;
     // @param listOfCountriesOwned contains the name of the country and the number of armies present.
-    private ArrayList<Country> d_listOfCountriesOwned;
-
-    private ArrayList<Order> d_orders = new ArrayList<>();
-
+    private final ArrayList<Country> d_listOfCountriesOwned;
+    private final ArrayList<Order> d_orders = new ArrayList<>();
     private Order d_tempOrder;
-
     private int bonusForOwningContinent = 0;
-
-    private RiskMap d_map;
+    private final RiskMap d_map;
+    private final ArrayList<CardType> d_ownedCards;
+    private final ArrayList<UUID> d_negotiatedPlayers;
+    private final UUID d_playerId;
+    private final Random d_randGen;
 
     Player() {
-        d_playerName = "";
-        d_availableReinforcements = 0;
-        d_listOfCountriesOwned = new ArrayList<>();
-        d_orders = new ArrayList<>();
-        d_map = null;
+       this("", null);
     }
 
     Player(String p_playerName, RiskMap p_map) {
+        d_playerId = UUID.randomUUID();
         this.d_availableReinforcements = 5;
         this.d_playerName = p_playerName;
         d_listOfCountriesOwned = new ArrayList<>();
+        d_ownedCards = new ArrayList<>();
+        d_negotiatedPlayers = new ArrayList<>();
         d_map = p_map;
+        d_randGen = new Random(d_playerId.hashCode());
     }
 
     /**
@@ -71,17 +73,17 @@ public class Player {
      * if they own every country in a particular continent
      */
     public void calculateBonusReinforcements() {
-        ArrayList<Country> continentsWithContries = new ArrayList<>();
+        ArrayList<Country> continentsWithCountries = new ArrayList<>();
         if (d_map == null) {
             bonusForOwningContinent = 0;
             return;
         }
 
         var continent = d_map.getContinents();
-        for (int i = 0; i < continent.size(); i++) {
-            continentsWithContries.addAll(continent.get(i).getCountries());
-            if (d_listOfCountriesOwned.contains(continentsWithContries)) {
-                bonusForOwningContinent = continent.get(i).getControlValue();
+        for (Continent value : continent) {
+            continentsWithCountries.addAll(value.getCountries());
+            if (d_listOfCountriesOwned.contains(continentsWithCountries)) {
+                bonusForOwningContinent = value.getControlValue();
             }
         }
     }
@@ -152,5 +154,45 @@ public class Player {
      */
     public int getOrderSize() {
         return d_orders.size();
+    }
+
+    /**
+     * @return UUID of player.
+     */
+    public UUID getPlayerId(){
+        return d_playerId;
+    }
+
+    /**
+     * Adds a random card to the card list of player
+     */
+    public void addRandomCard(){
+        CardType[] l_cards = CardType.values();
+        addCard(l_cards[d_randGen.nextInt(0,l_cards.length)]);
+    }
+
+    /**
+     * Add a card of specific type to player cards list
+     * @param p_cardType the type of card to add.
+     */
+    public void addCard(CardType p_cardType){
+        d_ownedCards.add(p_cardType);
+    }
+
+    /**
+     * check if a card is available to the player
+     * @param p_cardType type of card to check
+     * @return true if card found, else false
+     */
+    public boolean isCardAvailable(CardType p_cardType){
+        return d_ownedCards.contains(p_cardType);
+    }
+
+    /**
+     * removes a card from the player card list.
+     * @param p_cardType the type of card to remove
+     */
+    public void removeCard(CardType p_cardType){
+        d_ownedCards.remove(p_cardType);
     }
 }
