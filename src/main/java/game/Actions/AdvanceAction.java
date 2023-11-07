@@ -3,6 +3,7 @@ package game.Actions;
 import common.Command;
 import entity.Player;
 import game.GameCommands;
+import game.Orders.AdvanceOrder;
 
 /**
  * @author Soham
@@ -15,6 +16,7 @@ public class AdvanceAction extends GameAction {
     private int d_armiesInTargetCountry;
     private final Player d_currentPlayer;
     private int d_armiesInAttackersCountry;
+    private int d_armiesToAdvance;
 
     public AdvanceAction(){
          d_currentPlayer = d_context.getCurrentPlayer();
@@ -49,7 +51,7 @@ public class AdvanceAction extends GameAction {
      */
     @Override
     public void execute(Command p_cmd) {
-        if(p_cmd.getCmdAttributes().size() != 3){
+        if(p_cmd.getCmdAttributes().size() != 4){
             System.out.println(GameCommands.ADVANCE_ERROR_MESSAGES.get(0));
             return;
         }
@@ -66,9 +68,11 @@ public class AdvanceAction extends GameAction {
         }
         int l_canProcessCommand = checkCommandValidity();
         if(l_canProcessCommand == ADVANCE_ORDER_SUCCESS){
-
+            d_currentPlayer.setTempOrder(new AdvanceOrder(d_currentPlayer, d_countryNameFrom, d_countryNameTo, d_armiesToAdvance));
+            d_currentPlayer.issueOrder();
         } else{
             System.out.println(GameCommands.ADVANCE_ERROR_MESSAGES.get(l_canProcessCommand));
+            d_execStatus = ActionExecStatus.Fail;
         }
 
     }
