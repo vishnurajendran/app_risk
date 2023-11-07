@@ -66,7 +66,7 @@ public class AdvanceAction extends GameAction {
         }
         int l_canProcessCommand = checkCommandValidity();
         if(l_canProcessCommand == ADVANCE_ORDER_SUCCESS){
-            d_currentPlayer.setTempOrder(new AdvanceOrder(d_currentPlayer, d_sourceCountry, d_targetCountry, d_armiesToAdvance));
+            d_currentPlayer.setTempOrder(new AdvanceOrder(d_currentPlayer, d_sourceCountry, d_targetCountry, d_armiesToAdvance, d_context.getEngine().getMap()));
             d_currentPlayer.issueOrder();
         } else{
             System.out.println(GameCommands.ADVANCE_ERROR_MESSAGES.get(l_canProcessCommand));
