@@ -32,8 +32,8 @@ public class AdvanceOrder extends Order{
     }
     @Override
     public void executeOrder() {
-        d_ctxPlayer.assignReinforcementsToCountry(d_targetCountry, d_armiesToAdvance);
-        d_ctxPlayer.getCountriesOwned().get(d_sourceCountry).setArmy(d_ctxPlayer.getCountriesOwned().get(d_sourceCountry).getArmy()- d_armiesToAdvance);
 
+//        d_ctxPlayer.assignReinforcementsToCountry(d_targetCountry, d_armiesToAdvance);
+//        d_ctxPlayer.getCountriesOwned().get(d_sourceCountry).setArmy(d_ctxPlayer.getCountriesOwned().get(d_sourceCountry).getArmy()- d_armiesToAdvance);
     }
 }
