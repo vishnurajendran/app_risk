@@ -1,11 +1,11 @@
 package entity;
 
-import game.GameEngine;
 import game.Orders.Order;
 
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.UUID;
+
 
 /**
  * Class PlayerDetails contains details of the player
@@ -194,5 +194,14 @@ public class Player {
      */
     public void removeCard(CardType p_cardType){
         d_ownedCards.remove(p_cardType);
+    }
+
+    /**
+     * This method adds the player with given id to negotiated players list.
+     *
+     * @param p_playerId    id of player to be negotiated as an integer.
+     */
+    public void addNegotiatedPlayer(UUID p_playerId){
+        d_negotiatedPlayers.add(p_playerId);
     }
 }
