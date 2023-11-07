@@ -17,7 +17,7 @@ public class AirliftAction extends GameAction {
     private int d_armiesInTargetCountry;
     private final Player d_currentPlayer;
     private int d_armiesInSourceCountry;
-    private int d_armiesToAdvance;
+    private int d_armiesToAirlift;
 
     public AirliftAction(){
         d_currentPlayer = d_context.getCurrentPlayer();
@@ -56,7 +56,7 @@ public class AirliftAction extends GameAction {
         try {
             d_sourceCountry =  Integer.parseInt(p_cmd.getCmdAttributes().get(0).getArguments().get(0));
             d_targetCountry = Integer.parseInt(p_cmd.getCmdAttributes().get(0).getArguments().get(1));
-            d_armiesToAdvance = Integer.parseInt(p_cmd.getCmdAttributes().get(0).getArguments().get(2));
+            d_armiesToAirlift = Integer.parseInt(p_cmd.getCmdAttributes().get(0).getArguments().get(2));
             d_armiesInSourceCountry = d_context.getEngine().getMap().getCountryArmyById(d_sourceCountry);
             d_armiesInTargetCountry = d_context.getEngine().getMap().getCountryArmyById(d_targetCountry);
 
@@ -66,7 +66,7 @@ public class AirliftAction extends GameAction {
         }
         int l_canProcessCommand = checkCommandValidity();
         if(l_canProcessCommand == AIRLIFT_ORDER_SUCCESS){
-            d_currentPlayer.setTempOrder(new AirliftOrder(d_currentPlayer, d_sourceCountry, d_targetCountry, d_armiesToAdvance));
+            d_currentPlayer.setTempOrder(new AirliftOrder(d_currentPlayer, d_sourceCountry, d_targetCountry, d_armiesToAirlift));
             d_currentPlayer.issueOrder();
         } else{
             System.out.println(GameCommands.AIRLIFT_ERROR_MESSAGES.get(l_canProcessCommand));
@@ -84,10 +84,10 @@ public class AirliftAction extends GameAction {
      * @return an integer value on which the caller determines if the command passed the check
      * The errors are listed as
      * 1. Airlift command invalid
-     * 2. Player doesnt have the Airlift card
+     * 2. Player doesn't have the Airlift card
      * 3. Player doesn't own this country
      * 4. Armies greater than what player has on that country
-     * 5. The target country is not owned by the player;
+     * 5. The target country is not owned by the player
      */
     private int checkCommandValidity(){
 
@@ -101,7 +101,7 @@ public class AirliftAction extends GameAction {
             return AIRLIFT_ORDER_PLAYER_DOESNT_OWN_COUNTRY;
         }
         // checks if that country has enough armies to send
-        else if(d_armiesInSourceCountry > d_context.getEngine().getMap().getCountryArmyById(d_sourceCountry)){
+        else if(d_armiesToAirlift > d_context.getEngine().getMap().getCountryArmyById(d_sourceCountry)){
             return AIRLIFT_ORDER_MORE_THAN_AVAIALBLE;
         }
         // check if target country is owned by the player
