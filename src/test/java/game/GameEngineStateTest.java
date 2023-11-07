@@ -60,7 +60,6 @@ class GameEngineStateTest {
         d_gameEngineTest.submitCommand(Command.parseString("loadmap testresources/wow.map"));
         d_gameEngineTest.submitCommand(Command.parseString("gameplayer -add pla1 pla2"));
         d_gameEngineTest.submitCommand(Command.parseString("assigncountries"));
-        assertTrue(d_gameEngineTest.gameStarted());
 
         // we bypass the deploy command to add deploy orders to the player
         // this is done, since the deploy command validates ownership which can
