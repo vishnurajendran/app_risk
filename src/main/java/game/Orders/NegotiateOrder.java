@@ -38,6 +38,5 @@ public class NegotiateOrder extends Order{
         d_ctxPlayer.addNegotiatedPlayer(d_negotiatedPlayer.getPlayerId());
         d_negotiatedPlayer.addNegotiatedPlayer(d_ctxPlayer.getPlayerId());
         d_ctxPlayer.removeCard(CardType.Diplomat);
-        //TO-DO: clear the negotiate list after this turn.
     }
 }

@@ -1,13 +1,11 @@
 package entity;
 
-import game.GameEngine;
 import game.Orders.Order;
 
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.UUID;
 
-import static java.util.Objects.isNull;
 
 /**
  * Class PlayerDetails contains details of the player
