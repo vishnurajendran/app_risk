@@ -3,6 +3,7 @@ package game;
 
 import mapShow.MapShowConstants;
 
+import java.sql.Struct;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -60,13 +61,22 @@ public class GameCommands {
     public static final ArrayList<String> DEPLOYERRORMESSAGE = new ArrayList<>(Arrays.asList(
             "ERROR: The given deploy command isn't valid, please try again",
             "ERROR: The player doesn't own this country, please try another one",
-            "ERROR: The armies requested to deploy are more than what the player has"));
+            "ERROR: The armies requested to deploy are more than what the player has"
+    ));
 
     public static final ArrayList<String> ADVANCE_ERROR_MESSAGES = new ArrayList<>(Arrays.asList(
             "ERROR: The given advance command isn't valid, please try again",
             "ERROR: The player doesn't own this country",
             "ERROR: The armies requested to advance are more than what the player has",
             "ERROR: The given countries are not adjacent"
+    ));
+
+    public static final ArrayList<String> AIRLIFT_ERROR_MESSAGES = new ArrayList<>(Arrays.asList(
+            "ERROR: The given airlift command isn't valid please try again",
+            "ERROR: The player doesn't own the Airlift Card please try again",
+            "ERROR: The player doesnt own this country",
+            "ERROR: The armies requested to airlifted are more than what the player owns",
+            "ERROR: The target country is not owned by the player"
     ));
 
 }
