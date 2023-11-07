@@ -198,6 +198,11 @@ public class Player {
         d_ownedCards.remove(p_cardType);
     }
 
+    /**
+     * This method adds the player with given id to negotiated players list.
+     *
+     * @param p_playerId    id of player to be negotiated as an integer.
+     */
     public void addNegotiatedPlayer(UUID p_playerId){
         if(isNull(d_negotiatedPlayers)){
             d_negotiatedPlayers = new ArrayList<>();

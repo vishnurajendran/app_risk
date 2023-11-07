@@ -12,7 +12,7 @@ import java.util.UUID;
 import static java.util.Objects.isNull;
 
 /**
- * This class validates the "diplomacy card" command and creates an order to be executed.
+ * This class validates the "diplomacy card" command and creates an order to be issued.
  *
  * @author TaranjeetKaur
  */
@@ -20,9 +20,7 @@ public class NegotiateAction extends GameAction {
     private final Player d_currentPlayer;
 
     private final int NEGOTIATE_ORDER_CARD_NOT_FOUND = 0;
-
     private final int NEGOTIATE_ORDER_INVALID_ARGUMENTS = 1;
-
     private final int NEGOTIATE_ORDER_CARD_MORE_THAN_ONE_PLAYER = 2;
     private final int NEGOTIATE_ORDER_CARD_INVALID_PLAYER = 3;
     private final int NEGOTIATE_ORDER_CARD_ERROR = 4;
@@ -32,6 +30,11 @@ public class NegotiateAction extends GameAction {
     }
 
 
+    /**
+     * This method creates a negotiate Order object to be issued if command is valid.
+     *
+     * @param p_cmd command to run the action with.
+     */
     @Override
     public void execute(Command p_cmd) {
 
@@ -62,6 +65,11 @@ public class NegotiateAction extends GameAction {
         d_currentPlayer.issueOrder();
     }
 
+    /**
+     * This method checks the validity of negotiate command
+     * @param p_cmd command object passed down by application
+     * @return  true, if command is valid, false otherwise.
+     */
     private boolean checkCommandValidity(Command p_cmd){
         //validate correct number of arguments
         if(p_cmd.getCmdAttributes().isEmpty() || p_cmd.getCmdAttributes().get(0).getArguments().isEmpty()){
@@ -74,6 +82,10 @@ public class NegotiateAction extends GameAction {
         }
         return true;
     }
+
+    /**
+     * cleanup if any.
+     */
     @Override
     public void postExecute() {
         //do nothing

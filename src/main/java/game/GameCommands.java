@@ -47,6 +47,9 @@ public class GameCommands {
      */
     public static final String CMD_DEPLOY_COUNTRIES = "deploy";
 
+    /**
+     * Error messages for negotiate command.
+     */
     public static final ArrayList<String> NEGOTIATE_ERROR_MESSAGE = new ArrayList<>(Arrays.asList(
             "ERROR: You don't have Diplomacy card to play!, try any other card or command",
             "ERROR: Incorrect arguments for negotiate action!",

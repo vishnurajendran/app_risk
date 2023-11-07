@@ -19,6 +19,11 @@ public class NegotiateOrder extends Order{
         d_negotiatedPlayer = null;
     }
 
+    /**
+     * Parameterised constructor.
+     * @param p_currPlayer  Current player object
+     * @param p_oppPlayer   Negotiated player object
+     */
     public NegotiateOrder(Player p_currPlayer, Player p_oppPlayer) {
         d_ctxPlayer = p_currPlayer;
         d_negotiatedPlayer = p_oppPlayer;
