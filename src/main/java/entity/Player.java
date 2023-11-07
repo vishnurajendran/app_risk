@@ -3,9 +3,7 @@ package entity;
 import game.GameEngine;
 import game.Orders.Order;
 
-import java.util.ArrayList;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Class PlayerDetails contains details of the player
@@ -19,7 +17,6 @@ public class Player {
     // @param listOfCountriesOwned contains the name of the country and the number of armies present.
     private final ArrayList<Country> d_listOfCountriesOwned;
     private final ArrayList<Order> d_orders = new ArrayList<>();
-    private Order d_tempOrder;
     private int bonusForOwningContinent = 0;
     private final RiskMap d_map;
     private final ArrayList<CardType> d_ownedCards;
@@ -46,16 +43,11 @@ public class Player {
      * Issues an order and stores it in the d_orders variable
      * the variable will be used once it has to be executed
      */
-    public void issueOrder() {
-        if (d_tempOrder == null) {
+    public void issueOrder(Order p_newOrder) {
+        if (p_newOrder == null) {
             return;
         }
-        d_orders.add(d_tempOrder);
-    }
-
-    public void setTempOrder(Order p_newOrder) {
-        d_tempOrder = p_newOrder;
-        //d_orders.add(p_newOrder);
+        d_orders.add(p_newOrder);
     }
 
     /**
@@ -194,5 +186,44 @@ public class Player {
      */
     public void removeCard(CardType p_cardType){
         d_ownedCards.remove(p_cardType);
+    }
+
+    /**
+     * @return no.of cards available to player.
+     */
+    public int totalCardsInPossesion(){
+        return d_ownedCards.size();
+    }
+
+    /**
+     * prints the player object details.
+     * @return string with player details.
+     */
+    @Override
+    public String toString() {
+        String l_nameStr = "Name: " + d_playerName;
+        String l_reinforcementsStr = "\n\tRe-inforcements: " + d_availableReinforcements;
+        String l_cards = "\n\tAvailable Cards: ";
+        Map<CardType, Integer> cardMap = new HashMap<>();
+        for(CardType card : d_ownedCards){
+            if(cardMap.containsKey(card)) {
+                cardMap.put(card, cardMap.get(card) + 1);
+            }
+            else
+                cardMap.put(card, 1);
+        }
+
+        for(CardType card : CardType.values()){
+            l_cards += "\n\t\t"+card + ": " + (cardMap.containsKey(card) ? cardMap.get(card) : 0);
+        }
+
+        return l_nameStr + l_reinforcementsStr + l_cards;
+    }
+
+    /**
+     * @return true if player has orders.
+     */
+    public boolean hasOrders(){
+        return !d_orders.isEmpty();
     }
 }

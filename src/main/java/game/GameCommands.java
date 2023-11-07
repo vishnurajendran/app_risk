@@ -47,9 +47,35 @@ public class GameCommands {
      */
     public static final String CMD_DEPLOY_COUNTRIES = "deploy";
     /**
+     * Command for advance order
+     */
+    public static final String CMD_ADVANCE = "advance";
+    /**
+     * Command for airlift order
+     */
+    public static final String CMD_AIRLIFT = "airlift";
+    /**
+     * Command for bomb order
+     */
+    public static final String CMD_BOMB = "bomb";
+    /**
+     * Command for blockade order
+     */
+    public static final String CMD_BLOCKADE = "blockade";
+    /**
+     * Command for blockade order
+     */
+    public static final String CMD_DIPLOMACY = "negotiate";
+    /**
+     * Command for commit order
+     */
+    public static final String CMD_COMMIT = "commit";
+
+    /**
      * Valid command set
      */
-    public static final Set<String> CHECK_VALID_COMMANDS_FOR_ISSUEORDER = new HashSet<>(Arrays.asList(CMD_GAME_PLAYER, CMD_ASSIGN_COUNTRIES_TO_PLAYER, CMD_SHOWMAP, CMD_DEPLOY_COUNTRIES));
+    public static final Set<String> CHECK_VALID_COMMANDS_FOR_ISSUEORDER = new HashSet<>(Arrays.asList(CMD_GAME_PLAYER, CMD_ASSIGN_COUNTRIES_TO_PLAYER, CMD_SHOWMAP, CMD_DEPLOY_COUNTRIES, CMD_BOMB, CMD_BLOCKADE, CMD_AIRLIFT, CMD_DIPLOMACY, CMD_ADVANCE, CMD_COMMIT));
+
     /**
      * Error messages for displaying to user
      */
