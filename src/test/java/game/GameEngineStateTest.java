@@ -56,6 +56,7 @@ class GameEngineStateTest {
         // we loadmap, add players and assigncountries,
         // the last command invoke should start the game.
         d_gameEngineTest.submitCommand(Command.parseString("loadmap testresources/wow.map"));
+        assertEquals(d_gameEngineTest.getGameState(), GameStates.IssueOrder);
         d_gameEngineTest.submitCommand(Command.parseString("gameplayer -add pla1 pla2"));
         d_gameEngineTest.submitCommand(Command.parseString("assigncountries"));
         assertTrue(d_gameEngineTest.gameStarted());
@@ -68,6 +69,7 @@ class GameEngineStateTest {
     public void testExecuteState() {
         // start a game
         d_gameEngineTest.submitCommand(Command.parseString("loadmap testresources/wow.map"));
+        assertEquals(d_gameEngineTest.getGameState(), GameStates.IssueOrder);
         d_gameEngineTest.submitCommand(Command.parseString("gameplayer -add pla1 pla2"));
         d_gameEngineTest.submitCommand(Command.parseString("assigncountries"));
         assertTrue(d_gameEngineTest.gameStarted());
@@ -104,6 +106,7 @@ class GameEngineStateTest {
     public void testGameOverState() {
         // start a game
         d_gameEngineTest.submitCommand(Command.parseString("loadmap testresources/wow.map"));
+        assertEquals(d_gameEngineTest.getGameState(), GameStates.IssueOrder);
         d_gameEngineTest.submitCommand(Command.parseString("gameplayer -add pla1 pla2"));
         d_gameEngineTest.submitCommand(Command.parseString("assigncountries"));
         assertTrue(d_gameEngineTest.gameStarted());
