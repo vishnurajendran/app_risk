@@ -46,6 +46,16 @@ public class GameCommands {
      * Command for deploy order
      */
     public static final String CMD_DEPLOY_COUNTRIES = "deploy";
+
+    /**
+     * Error messages for negotiate command.
+     */
+    public static final ArrayList<String> NEGOTIATE_ERROR_MESSAGE = new ArrayList<>(Arrays.asList(
+            "ERROR: You don't have Diplomacy card to play!, try any other card or command",
+            "ERROR: Incorrect arguments for negotiate action!",
+            "ERROR: Diplomacy card can be played on only one player!",
+            "ERROR: Invalid player ID",
+            "ERROR: Invalid command, please try again"));
     /**
      * Command for advancing armies
      */

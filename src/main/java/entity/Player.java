@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.UUID;
 
+import static java.util.Objects.isNull;
+
 /**
  * Class PlayerDetails contains details of the player
  *
@@ -23,7 +25,7 @@ public class Player {
     private int bonusForOwningContinent = 0;
     private final RiskMap d_map;
     private final ArrayList<CardType> d_ownedCards;
-    private final ArrayList<UUID> d_negotiatedPlayers;
+    private ArrayList<UUID> d_negotiatedPlayers;
     private final UUID d_playerId;
     private final Random d_randGen;
 
@@ -220,5 +222,17 @@ public class Player {
      */
     public void removeCard(CardType p_cardType){
         d_ownedCards.remove(p_cardType);
+    }
+
+    /**
+     * This method adds the player with given id to negotiated players list.
+     *
+     * @param p_playerId    id of player to be negotiated as an integer.
+     */
+    public void addNegotiatedPlayer(UUID p_playerId){
+        if(isNull(d_negotiatedPlayers)){
+            d_negotiatedPlayers = new ArrayList<>();
+        }
+        d_negotiatedPlayers.add(p_playerId);
     }
 }
