@@ -7,22 +7,33 @@ import entity.Player;
  */
 public class AdvanceOrder extends Order{
 
+    /**
+     * Default Constructor
+     */
     public AdvanceOrder(){
         d_armiesToAdvance = 0;
         d_ctxPlayer = null;
         d_targetCountry = 0;
-        d_initialCountry = 0;
+        d_sourceCountry = 0;
     }
 
-    public AdvanceOrder(Player p_player,  int p_targetCountry, int p_initialCountry, int p_armiesToAdvance){
+    /**
+     * Constructor with assigned value
+     * @param p_player the current active player
+     * @param sourceCountry the country from which the armies are to be deployed
+     * @param p_targetCountry the country to which the armies are to be deployed
+     * @param p_armiesToAdvance no of armies from source to targetCountry
+     */
+    public AdvanceOrder(Player p_player,  int sourceCountry, int p_targetCountry, int p_armiesToAdvance){
         d_armiesToAdvance = p_armiesToAdvance;
         d_ctxPlayer = p_player;
         d_targetCountry = p_targetCountry;
-        d_initialCountry = p_initialCountry;
+        d_sourceCountry = sourceCountry;
     }
     @Override
     public void executeOrder() {
         d_ctxPlayer.assignReinforcementsToCountry(d_targetCountry, d_armiesToAdvance);
-        d_ctxPlayer.getCountriesOwned().get(d_initialCountry).setArmy(d_ctxPlayer.getCountriesOwned().get(d_initialCountry).getArmy()- d_armiesToAdvance);
+        d_ctxPlayer.getCountriesOwned().get(d_sourceCountry).setArmy(d_ctxPlayer.getCountriesOwned().get(d_sourceCountry).getArmy()- d_armiesToAdvance);
+
     }
 }
