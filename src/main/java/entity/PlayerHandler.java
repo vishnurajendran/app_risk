@@ -66,6 +66,7 @@ public class PlayerHandler {
      * default values
      */
     public static void cleanup() {
+        d_countriesAssigned = false;
         d_gamePlayers.clear();
         d_whichPlayersTurn = 0;
         d_loadedMap = null;

@@ -27,7 +27,6 @@ class GameEngineStateTest {
     public void setUp() {
         d_gameEngineTest = new GameEngine();
         d_gameEngineTest.initialise();
-        PlayerHandler.getGamePlayers().clear();
     }
 
     /**
