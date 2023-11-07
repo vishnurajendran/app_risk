@@ -75,6 +75,7 @@ public class GameEngine implements ISubApplication {
 
     @Override
     public void initialise() {
+        PlayerHandler.cleanup();
         changeState(GameStates.GameStart);
     }
 
