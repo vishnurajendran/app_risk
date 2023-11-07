@@ -230,4 +230,12 @@ public class Player {
     public void addNegotiatedPlayer(UUID p_playerId){
         d_negotiatedPlayers.add(p_playerId);
     }
+
+    public boolean isPlayerNegotiated(Player p_playerToCheck){
+        return d_negotiatedPlayers.contains(p_playerToCheck.getPlayerId());
+    }
+
+    public void clearNegotiatedPlayers(){
+        d_negotiatedPlayers.clear();
+    }
 }

@@ -76,7 +76,8 @@ public class GameCommands {
             "ERROR: The given advance command isn't valid, please try again",
             "ERROR: The player doesn't own this country",
             "ERROR: The armies requested to advance are more than what the player has",
-            "ERROR: The given countries are not adjacent"
+            "ERROR: The given countries are not adjacent",
+            "ERROR: You are in diplomacy with the player that owns the country"
     ));
 
 }

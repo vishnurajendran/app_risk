@@ -2,6 +2,7 @@ package game.Actions;
 
 import common.Command;
 import entity.Player;
+import entity.PlayerHandler;
 import game.GameCommands;
 import game.Orders.AdvanceOrder;
 
@@ -26,11 +27,13 @@ public class AdvanceAction extends GameAction {
 
     private final int ADVANCE_ORDER_PLAYER_DOESNT_OWN_COUNTRY = 1;
 
-    private final int ADVANCE_ORDER_MORE_THAN_AVAIALBLE = 2;
+    private final int ADVANCE_ORDER_MORE_THAN_AVAILABLE = 2;
 
     private final int ADVANCE_ORDER_COUNTRIES_NOT_ADJACENT = 3;
 
-    private final int ADVANCE_ORDER_SUCCESS = 4;
+    public static final int ADVANCE_ORDER_NEGOTIATED_PLAYER = 4;
+
+    public static final int ADVANCE_ORDER_SUCCESS = 5;
 
     /*
     * // format advance countrynamefrom countrynameto numarmies;
@@ -88,20 +91,29 @@ public class AdvanceAction extends GameAction {
      * 2. Player doesn't own this country
      * 3. Armies greater than what player has on that country
      * 4. The countries are not adjacent;
+     * 5. Checks if current player has negotiated with one of the players that owns the target country
      */
     private int checkCommandValidity(){
 
         // checks if player owns the country
-        if(d_currentPlayer.isCountryOwned(d_context.getEngine().getMap().getCountryById(d_sourceCountry))) {
+        if(!d_currentPlayer.isCountryOwned(d_context.getEngine().getMap().getCountryById(d_sourceCountry))) {
             return ADVANCE_ORDER_PLAYER_DOESNT_OWN_COUNTRY;
         }
         // checks if that country has enough armies to deploy
-        else if(d_armiesInSourceCountry > d_context.getEngine().getMap().getCountryArmyById(d_sourceCountry)){
-            return ADVANCE_ORDER_MORE_THAN_AVAIALBLE;
+        else if(d_armiesToAdvance > d_context.getEngine().getMap().getCountryArmyById(d_sourceCountry)){
+            return ADVANCE_ORDER_MORE_THAN_AVAILABLE;
         }
         // check if countries are adjacent
         else if(!d_context.getEngine().getMap().getCountryById(d_sourceCountry).isNeighbour(d_targetCountry)){
             return ADVANCE_ORDER_COUNTRIES_NOT_ADJACENT;
+        }
+        // check if player is negotiated with the player that owns the target country
+        for(Player player : PlayerHandler.getGamePlayers()){
+            if(player.isCountryOwned(d_context.getEngine().getMap().getCountryById(d_targetCountry))){
+                if(d_currentPlayer.isPlayerNegotiated(player)){
+                    return ADVANCE_ORDER_NEGOTIATED_PLAYER;
+                }
+            }
         }
         return ADVANCE_ORDER_SUCCESS;
     }
