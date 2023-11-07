@@ -11,7 +11,8 @@ import entity.Player;
 abstract public class Order {
     protected Player d_ctxPlayer;
     protected int d_targetCountry;
-    protected int d_armiesToDeploy;
+    protected int d_armiesToAdvance;
+    protected int d_sourceCountry;
 
     /**
      * this method executes the specific behaviour of an order
