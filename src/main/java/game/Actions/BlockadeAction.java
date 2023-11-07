@@ -8,6 +8,8 @@ import entity.RiskMap;
 
 import java.util.ArrayList;
 
+import static java.util.Objects.isNull;
+
 /**
  * Functionality related to blockade a country owned by the current player,
  * @author Weichen
@@ -18,7 +20,7 @@ public class BlockadeAction extends GameAction {
     public void execute(Command p_cmd) {
         Player l_player=d_context.getCurrentPlayer();
         RiskMap l_riskMap=d_context.getEngine().getMap();
-        //not sure if cmd is handled correctly here
+        //not 100% sure if cmd is handled correctly here
         ArrayList<String> l_arguments=p_cmd.getCmdAttributes().get(0).getArguments();
         if(l_arguments.size()!=1){
             System.out.print("Incorrect amount of arguments for blockade action.");
@@ -28,20 +30,20 @@ public class BlockadeAction extends GameAction {
             System.out.println("You don't have blockade card to blockade.");
             return;
         }
-        //check if the player own the country, can be refactored if a such method is added to the player class
-        boolean isOwned=false;
-        for(Country l_country:l_player.getCountriesOwned()){
-            if(l_country.getDId()==l_countryID){
-                isOwned=true;
-                break;
-            }
+        Country l_country=l_riskMap.getCountryById(l_countryID);
+        if(isNull(l_country)){
+            System.out.println("Country ID is invalid.");
+            return;
         }
-        if(!isOwned){
+
+        if(l_player.isCountryOwned(l_country)){
             System.out.println("The country is not owned by you.");
             return;
         }
 
         l_riskMap.increaseCountryArmyById(l_countryID,l_riskMap.getCountryArmyById(l_countryID)*2);
+        l_player.removeCountry(l_country);
+        l_player.removeCard(CardType.Blockade);
 
 
     }
