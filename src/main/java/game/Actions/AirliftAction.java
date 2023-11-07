@@ -7,7 +7,7 @@ import game.Orders.AirliftOrder;
 import entity.CardType;
 
 /**
- * @author Soham
+ * @author Shravani
  */
 public class AirliftAction extends GameAction {
 
@@ -92,12 +92,12 @@ public class AirliftAction extends GameAction {
     private int checkCommandValidity(){
 
         //check if player has the airlift card
-        if(d_currentPlayer.isCardAvailable(CardType.Airlift)){
+        if(!d_currentPlayer.isCardAvailable(CardType.Airlift)){
             return AIRLIFT_ORDER_PLAYER_DOESNT_OWN_AIRLIFT_CARD;
         }
 
         // checks if player owns the country
-        if(d_currentPlayer.isCountryOwned(d_context.getEngine().getMap().getCountryById(d_sourceCountry))) {
+        if(!d_currentPlayer.isCountryOwned(d_context.getEngine().getMap().getCountryById(d_sourceCountry))) {
             return AIRLIFT_ORDER_PLAYER_DOESNT_OWN_COUNTRY;
         }
         // checks if that country has enough armies to send
@@ -105,7 +105,7 @@ public class AirliftAction extends GameAction {
             return AIRLIFT_ORDER_MORE_THAN_AVAIALBLE;
         }
         // check if target country is owned by the player
-        else if(d_currentPlayer.isCountryOwned(d_context.getEngine().getMap().getCountryById(d_targetCountry))) {
+        else if(!d_currentPlayer.isCountryOwned(d_context.getEngine().getMap().getCountryById(d_targetCountry))) {
             return AIRLIFT_ORDER_PLAYER_DOESNT_OWN_TARGET_COUNTRY;
         }
         return AIRLIFT_ORDER_SUCCESS;
