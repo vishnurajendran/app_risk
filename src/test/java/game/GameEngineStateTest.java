@@ -54,10 +54,10 @@ class GameEngineStateTest {
     public void testStateAfterMapLoad() {
         // we loadmap, add players and assigncountries,
         // the last command invoke should start the game.
-//        d_gameEngineTest.submitCommand(Command.parseString("loadmap testresources/wow.map"));
-//        d_gameEngineTest.submitCommand(Command.parseString("gameplayer -add pla1 pla2"));
-//        d_gameEngineTest.submitCommand(Command.parseString("assigncountries"));
-//        assertTrue(d_gameEngineTest.gameStarted());
+        d_gameEngineTest.submitCommand(Command.parseString("loadmap testresources/wow.map"));
+        d_gameEngineTest.submitCommand(Command.parseString("gameplayer -add pla1 pla2"));
+        d_gameEngineTest.submitCommand(Command.parseString("assigncountries"));
+        assertTrue(d_gameEngineTest.gameStarted());
     }
 
     /**
@@ -69,7 +69,6 @@ class GameEngineStateTest {
         d_gameEngineTest.submitCommand(Command.parseString("loadmap testresources/wow.map"));
         d_gameEngineTest.submitCommand(Command.parseString("gameplayer -add pla1 pla2"));
         d_gameEngineTest.submitCommand(Command.parseString("assigncountries"));
-        // check if game has started
         assertTrue(d_gameEngineTest.gameStarted());
         // check if you have two players exact
         assertEquals(PlayerHandler.getGamePlayers().size(), 2);
@@ -106,7 +105,6 @@ class GameEngineStateTest {
         d_gameEngineTest.submitCommand(Command.parseString("loadmap testresources/wow.map"));
         d_gameEngineTest.submitCommand(Command.parseString("gameplayer -add pla1 pla2"));
         d_gameEngineTest.submitCommand(Command.parseString("assigncountries"));
-        // check if game has started
         assertTrue(d_gameEngineTest.gameStarted());
         // check if you have two players exact
         assertEquals(PlayerHandler.getGamePlayers().size(), 2);
