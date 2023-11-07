@@ -10,6 +10,25 @@ import game.GameCommands;
 public class AdvanceAction extends GameAction {
 
 
+    private int d_countryNameFrom;
+    private int d_countryNameTo;
+    private int d_armiesInTargetCountry;
+    private final Player d_currentPlayer;
+    private int d_armiesInAttackersCountry;
+
+    public AdvanceAction(){
+         d_currentPlayer = d_context.getCurrentPlayer();
+    }
+
+    private final int ADVANCE_ORDER_ERROR = 0;
+
+    private final int ADVANCE_ORDER_PLAYER_DOESNT_OWN_COUNTRY = 1;
+
+    private final int ADVANCE_ORDER_MORE_THAN_AVAIALBLE = 2;
+
+    private final int ADVANCE_ORDER_COUNTRIES_NOT_ADJACENT = 3;
+
+    private final int ADVANCE_ORDER_SUCCESS = 4;
 
     /*
     * // format advance countrynamefrom countrynameto numarmies;
@@ -24,8 +43,8 @@ public class AdvanceAction extends GameAction {
     /**
      * The errors are listed as
      * 1. Advance command invalid
-     * 2. Armies greater than what player has
-     * 3. Player doesn't own this country
+     * 2. Player doesn't own this country
+     * 3. Armies greater than what player has on that country
      * 4. The countries are not adjacent;
      */
     @Override
@@ -34,33 +53,46 @@ public class AdvanceAction extends GameAction {
             System.out.println(GameCommands.ADVANCE_ERROR_MESSAGES.get(0));
             return;
         }
-        int l_countryNameFrom;
-        int l_countryNameTo;
 
-        int l_armiesInTargetCountry;
-        Player l_currentPlayer = d_context.getCurrentPlayer();
-        int l_armiesInAttackersCountry;
-
-        // Using Ids to get the country name
+        // Using Ids to get the country
         try {
-            l_countryNameFrom =  Integer.parseInt(p_cmd.getCmdAttributes().get(0).getArguments().get(0));
-            l_countryNameTo = Integer.parseInt(p_cmd.getCmdAttributes().get(0).getArguments().get(1));
-            l_armiesInAttackersCountry = l_currentPlayer.getCountriesOwned().get(d_context.getEngine().getMap().getCountryById(l_countryNameFrom).getArmy()).getArmy();
-            l_armiesInTargetCountry = d_context.getEngine().getMap().getCountryById(l_countryNameTo).getArmy();
+            d_countryNameFrom =  Integer.parseInt(p_cmd.getCmdAttributes().get(0).getArguments().get(0));
+            d_countryNameTo = Integer.parseInt(p_cmd.getCmdAttributes().get(0).getArguments().get(1));
+            d_armiesInAttackersCountry = d_currentPlayer.getCountriesOwned().get(d_context.getEngine().getMap().getCountryById(d_countryNameFrom).getArmy()).getArmy();
+            d_armiesInTargetCountry = d_context.getEngine().getMap().getCountryById(d_countryNameTo).getArmy();
         } catch (Exception e){
             System.out.println(GameCommands.ADVANCE_ERROR_MESSAGES.get(0));
             return;
         }
+        int l_canProcessCommand = checkCommandValidity();
+        if(l_canProcessCommand == ADVANCE_ORDER_SUCCESS){
 
-
-
-
-
+        } else{
+            System.out.println(GameCommands.ADVANCE_ERROR_MESSAGES.get(l_canProcessCommand));
+        }
 
     }
 
     @Override
     public void postExecute() {
 
+    }
+
+
+    private int checkCommandValidity(){
+
+        // checks if player owns the country
+        if(d_currentPlayer.getCountriesOwned().stream().noneMatch((a) -> a.getDId() == d_armiesInAttackersCountry)) {
+            return ADVANCE_ORDER_PLAYER_DOESNT_OWN_COUNTRY;
+        }
+        // checks if that country has enough armies to deploy
+        else if(d_armiesInAttackersCountry > d_context.getEngine().getMap().getCountryArmyById(d_countryNameFrom)){
+            return ADVANCE_ORDER_MORE_THAN_AVAIALBLE;
+        }
+        // check if countries are adjacent
+        else if(!d_context.getEngine().getMap().getCountryById(d_countryNameFrom).isNeighbour(d_countryNameTo)){
+            return ADVANCE_ORDER_COUNTRIES_NOT_ADJACENT;
+        }
+        return ADVANCE_ORDER_SUCCESS;
     }
 }
