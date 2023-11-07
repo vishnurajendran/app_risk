@@ -33,7 +33,7 @@ public class BombAction extends GameAction {
             d_execStatus=ActionExecStatus.Fail;
             return;
         }
-        if (l_player.isCardAvailable(CardType.Bomb)){
+        if (l_player.isCardAvailable(CardType.Bomb){
             if (l_country.getD_NumberOfArmies() > 0) {
                 ArrayList<String> l_countriesOwnedList = new ArrayList<>();
                 ArrayList<String> l_adjacentList = new ArrayList<>();
