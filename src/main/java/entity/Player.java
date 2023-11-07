@@ -48,6 +48,7 @@ public class Player {
             return;
         }
         d_orders.add(p_newOrder);
+        d_negotiatedPlayers.clear();
     }
 
     /**
@@ -203,7 +204,7 @@ public class Player {
     public String toString() {
         String l_nameStr = "Name: " + d_playerName;
         String l_reinforcementsStr = "\n\tRe-inforcements: " + d_availableReinforcements;
-        String l_cards = "\n\tAvailable Cards: ";
+        String l_cardsStr = "\n\tAvailable Cards: ";
         Map<CardType, Integer> cardMap = new HashMap<>();
         for(CardType card : d_ownedCards){
             if(cardMap.containsKey(card)) {
@@ -214,10 +215,19 @@ public class Player {
         }
 
         for(CardType card : CardType.values()){
-            l_cards += "\n\t\t"+card + ": " + (cardMap.containsKey(card) ? cardMap.get(card) : 0);
+            l_cardsStr += "\n\t\t"+card + ": " + (cardMap.containsKey(card) ? cardMap.get(card) : 0);
         }
 
-        return l_nameStr + l_reinforcementsStr + l_cards;
+        String l_ordersStr = "\n[Issued Orders]";
+        if(d_orders.isEmpty())
+            l_ordersStr += "\n -- none --";
+        else
+            for(Order l_order : d_orders){
+                l_ordersStr +="\n\t"+l_order;
+            }
+
+        l_ordersStr += "\n\n";
+        return l_nameStr + l_reinforcementsStr + l_cardsStr + l_ordersStr;
     }
 
     /**
@@ -225,5 +235,12 @@ public class Player {
      */
     public boolean hasOrders(){
         return !d_orders.isEmpty();
+    }
+
+    /**
+     * clear the negotiation list for this place.
+     */
+    public void clearNegotiations(){
+        d_negotiatedPlayers.clear();
     }
 }

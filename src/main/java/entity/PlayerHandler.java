@@ -269,6 +269,7 @@ public class PlayerHandler {
         d_whichPlayersTurn = 0;
         for (Player player : d_gamePlayers) {
             player.assignReinforcementsToPlayer();
+            player.clearNegotiations();
         }
     }
 
