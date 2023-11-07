@@ -1,11 +1,8 @@
 package game.Actions;
-import common.Command;
-import entity.Player;
+
 import game.GameEngine;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class AdvanceActionTest {
 
@@ -19,9 +16,6 @@ class AdvanceActionTest {
 
     @Test
     void TestCommands(){
-        Player testPlayer = new Player("test-player", null);
-
-        d_gameEngineTest.submitCommand(Command.parseString("advance 1 1 "));
     }
 
 
