@@ -35,8 +35,9 @@ class GameEngineStateTest {
      */
     @AfterEach
     public void cleanup(){
+        d_gameEngineTest.quitGame();
+        d_gameEngineTest.shutdown();
         d_gameEngineTest = null;
-        PlayerHandler.cleanup();
     }
 
     /**
