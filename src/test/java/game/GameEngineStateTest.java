@@ -61,6 +61,9 @@ class GameEngineStateTest {
         d_gameEngineTest.submitCommand(Command.parseString("gameplayer -add pla1 pla2"));
         d_gameEngineTest.submitCommand(Command.parseString("assigncountries"));
 
+        // check if you have two players exact
+        assertEquals(PlayerHandler.getGamePlayers().size(), 2);
+
         // we bypass the deploy command to add deploy orders to the player
         // this is done, since the deploy command validates ownership which can
         // cause failures when done via sending command to the game-engine, so we do this from outside
@@ -93,6 +96,9 @@ class GameEngineStateTest {
         d_gameEngineTest.submitCommand(Command.parseString("loadmap testresources/wow.map"));
         d_gameEngineTest.submitCommand(Command.parseString("gameplayer -add pla1 pla2"));
         d_gameEngineTest.submitCommand(Command.parseString("assigncountries"));
+
+        // check if you have two players exact
+        assertEquals(PlayerHandler.getGamePlayers().size(), 2);
 
         // remove 1 player to make it just one player left.
         // usually this isn't how players are removed from game, but assigncountires
