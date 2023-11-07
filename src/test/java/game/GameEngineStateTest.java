@@ -5,6 +5,7 @@ import entity.Player;
 import entity.PlayerHandler;
 import game.Orders.DeployOrder;
 import game.States.GameStates;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -27,6 +28,15 @@ class GameEngineStateTest {
     public void setUp() {
         d_gameEngineTest = new GameEngine();
         d_gameEngineTest.initialise();
+    }
+
+    /**
+     * cleans up after each test
+     */
+    @AfterEach
+    public void cleanup(){
+        d_gameEngineTest = null;
+        PlayerHandler.cleanup();
     }
 
     /**

@@ -19,7 +19,7 @@ public class PlayerHandler {
     /**
      * list of players that has committed.
      */
-    private static ArrayList<Player> commitedPlayers = new ArrayList<>();
+    private static ArrayList<Player> d_commitedPlayers = new ArrayList<>();
 
     /**
      * int code for issue order invalid command
@@ -66,10 +66,11 @@ public class PlayerHandler {
      * default values
      */
     public static void cleanup() {
-        d_countriesAssigned = false;
         d_gamePlayers.clear();
-        d_whichPlayersTurn = 0;
+        d_commitedPlayers.clear();
+        d_countriesAssigned = false;
         d_loadedMap = null;
+        d_whichPlayersTurn = 0;
     }
 
     /**
@@ -292,20 +293,20 @@ public class PlayerHandler {
         if(isCommittedPlayer(p_player))
             return;
 
-        commitedPlayers.add(p_player);
+        d_commitedPlayers.add(p_player);
     }
 
     /**
      * @return true if this player has committed.
      */
     public static boolean isCommittedPlayer(Player p_player){
-        return commitedPlayers.contains(p_player);
+        return d_commitedPlayers.contains(p_player);
     }
 
     /**
      * @return no. of committed players
      */
     public static int getCommittedPlayerCount(){
-        return commitedPlayers.size();
+        return d_commitedPlayers.size();
     }
 }
