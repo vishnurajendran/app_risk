@@ -31,6 +31,12 @@ public class Player {
        this("", null);
     }
 
+    /**
+     * This constructor is used to add new players
+     * The number of armies are automatically assigned at 5
+     * @param p_map Risk map of the game
+     * @param p_playerName The name of the player
+     */
     Player(String p_playerName, RiskMap p_map) {
         d_playerId = UUID.randomUUID();
         this.d_availableReinforcements = 5;
@@ -100,13 +106,33 @@ public class Player {
         return l_order;
     }
 
-    /**
-     * This constructor is used to add new players
-     * The number of armies are automatically assigned at 5
-     */
+
 
     public void assignCountry(Country p_country, int p_noOfArmies) {
         d_listOfCountriesOwned.add(p_country);
+    }
+
+    /**
+     * Remove a country from the player,only remove the ownership of the country, does not change the number of army
+     * @param p_country The country need to be removed.
+     *
+     */
+    public void removeCountry(Country p_country){
+        if(!d_listOfCountriesOwned.contains(p_country)){
+            System.out.println("The player does not own the country");
+            return;
+        }
+        d_listOfCountriesOwned.remove(p_country);
+
+    }
+
+    /**
+     * Check if the country provided is owned by the current player
+     * @param p_country The country that need to check if is owned by the player
+     * @return True if it's owned by the player. False if is not
+     */
+    public boolean isCountryOwned(Country p_country){
+        return d_listOfCountriesOwned.contains(p_country);
     }
 
     /**
