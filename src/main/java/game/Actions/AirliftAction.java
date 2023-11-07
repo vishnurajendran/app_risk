@@ -79,7 +79,36 @@ public class AirliftAction extends GameAction {
     public void postExecute() {
 
     }
-
+    /**
+     * Checks if the airlift command is valid
+     * @return an integer value on which the caller determines if the command passed the check
+     * The errors are listed as
+     * 1. Airlift command invalid
+     * 2. Player doesnt have the Airlift card
+     * 3. Player doesn't own this country
+     * 4. Armies greater than what player has on that country
+     * 5. The target country is not owned by the player;
+     */
     private int checkCommandValidity(){
 
+        //check if player has the airlift card
+        if(d_currentPlayer.isCardAvailable(CardType.Airlift)){
+            return AIRLIFT_ORDER_PLAYER_DOESNT_OWN_AIRLIFT_CARD;
+        }
+
+        // checks if player owns the country
+        if(d_currentPlayer.isCountryOwned(d_context.getEngine().getMap().getCountryById(d_sourceCountry))) {
+            return AIRLIFT_ORDER_PLAYER_DOESNT_OWN_COUNTRY;
+        }
+        // checks if that country has enough armies to send
+        else if(d_armiesInSourceCountry > d_context.getEngine().getMap().getCountryArmyById(d_sourceCountry)){
+            return AIRLIFT_ORDER_MORE_THAN_AVAIALBLE;
+        }
+        // check if target country is owned by the player
+        else if(d_currentPlayer.isCountryOwned(d_context.getEngine().getMap().getCountryById(d_targetCountry))) {
+            return AIRLIFT_ORDER_PLAYER_DOESNT_OWN_TARGET_COUNTRY;
+        }
+        return AIRLIFT_ORDER_SUCCESS;
+    }
 }
+
