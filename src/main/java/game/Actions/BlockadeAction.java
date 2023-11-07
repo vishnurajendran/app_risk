@@ -54,6 +54,7 @@ public class BlockadeAction extends GameAction {
 
         l_player.setTempOrder(new BlockadeOrder(l_riskMap,l_player,l_country));
         l_player.issueOrder();
+        l_player.removeCard(CardType.Blockade);
 
     }
 
