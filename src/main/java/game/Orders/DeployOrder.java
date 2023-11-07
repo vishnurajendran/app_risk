@@ -40,4 +40,13 @@ public class DeployOrder extends Order {
     public void executeOrder() {
         d_ctxPlayer.assignReinforcementsToCountry(d_targetCountry, d_armiesToAdvance);
     }
+
+    /**
+     * overriden to print deploy order details
+     * @return a string with order details
+     */
+    @Override
+    public String toString() {
+        return "[ Deploy " + d_armiesToDeploy + " units -> " + d_targetCountry + " ]";
+    }
 }

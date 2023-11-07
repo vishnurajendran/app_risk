@@ -14,6 +14,11 @@ import java.util.*;
 public class PlayerHandler {
 
     /**
+     * list of players that has committed.
+     */
+    private static ArrayList<Player> commitedPlayers = new ArrayList<>();
+
+    /**
      * int code for issue order invalid command
      */
     public static final int ISSUEODER_INVALID_CMD = 1;
@@ -143,7 +148,6 @@ public class PlayerHandler {
         for (Player player : d_gamePlayers) {
             player.assignReinforcementsToPlayer();
         }
-        displayGamePlayersWithCountries(p_loadedMap);
     }
 
     /**
@@ -212,11 +216,8 @@ public class PlayerHandler {
             } else {
 
                 l_currentPlayer.setAvailableReinforcements(l_currentPlayer.getAvailableReinforcements() - l_deployReinforcements);
-                l_currentPlayer.setTempOrder(
-                        new DeployOrder(l_currentPlayer, l_deployReinforcements, l_countryId));
-                l_currentPlayer.issueOrder();
+                l_currentPlayer.issueOrder(new DeployOrder(l_currentPlayer, l_deployReinforcements, l_countryId));
                 Logger.log("Orders for player " + l_currentPlayer + " = " + l_currentPlayer.getOrderSize());
-                d_whichPlayersTurn += 1;
             }
         } else {
             Logger.log(String.valueOf(p_cmd.getCmdAttributes().size() + " Isn't valid"));
@@ -263,23 +264,45 @@ public class PlayerHandler {
      */
     public static void reassignValuesForNextTurn() {
         d_whichPlayersTurn = 0;
-        displayGamePlayersWithCountries(d_loadedMap);
         for (Player player : d_gamePlayers) {
             player.assignReinforcementsToPlayer();
+            player.clearNegotiations();
         }
     }
 
+    /**
+     * @return current player.
+     */
     public static Player getCurrentPlayer(){
-        Player currentPlayer = null;
-        //System.out.println(PlayerHandler.getPlayerTurn() + "::" + PlayerHandler.getGamePlayers().size());
-//        if(d_whichPlayersTurn <= PlayerHandler.getGamePlayers().size()-1){
-//            currentPlayer = PlayerHandler.getGamePlayers().get(d_whichPlayersTurn);
-//        }
         if(!PlayerHandler.getGamePlayers().isEmpty()){
             int playerIndex = d_whichPlayersTurn % PlayerHandler.getGamePlayers().size();
-            currentPlayer = PlayerHandler.getGamePlayers().get(playerIndex);
+            return PlayerHandler.getGamePlayers().get(playerIndex);
         }
-        return currentPlayer;
+        return null;
+    }
+
+    /**
+     * marks this player as committed and done with order issue-ing.
+     */
+    public static void markComitted(Player p_player){
+        if(isCommittedPlayer(p_player))
+            return;
+
+        commitedPlayers.add(p_player);
+    }
+
+    /**
+     * @return true if this player has committed.
+     */
+    public static boolean isCommittedPlayer(Player p_player){
+        return commitedPlayers.contains(p_player);
+    }
+
+    /**
+     * @return no. of committed players
+     */
+    public static int getCommittedPlayerCount(){
+        return commitedPlayers.size();
     }
 
     /**

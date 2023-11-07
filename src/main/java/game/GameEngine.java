@@ -14,7 +14,6 @@ import game.States.IGameState;
 /**
  * This is the game class that handles the main logic of the game
  * executes registering of commands and methods based on the commands.
- *
  * @author Soham
  */
 
@@ -25,6 +24,8 @@ public class GameEngine implements ISubApplication {
     private GameStates d_gameState = GameStates.GameStart;
 
     private IGameState d_currentState;
+
+    private boolean d_gameStarted = false;
 
     /**
      * default constructor
@@ -38,6 +39,8 @@ public class GameEngine implements ISubApplication {
      */
     public void setMap(RiskMap p_map) {
         d_map = p_map;
+        if(p_map == null)
+            quitGame();
     }
 
     /**
@@ -64,9 +67,9 @@ public class GameEngine implements ISubApplication {
      */
     public void changeState(GameStates p_newState) {
         Logger.log("Changing State From " + d_gameState + " >>> " + p_newState);
+        d_gameState = p_newState;
         d_currentState = GameStateFactory.get(p_newState);
         d_currentState.setContext(new Context(PlayerHandler.getCurrentPlayer(), this));
-        d_gameState = p_newState;
     }
 
 
@@ -127,8 +130,25 @@ public class GameEngine implements ISubApplication {
         PlayerHandler.cleanup();
     }
 
+    /**
+     * @return returns the instance of the map loaded.
+     */
     public RiskMap getMap() {
         return d_map;
     }
 
+    /**
+     * @return true if game has started
+     */
+    public boolean gameStarted(){
+        return d_gameStarted;
+    }
+
+    /**
+     * sets the game engine to mark the start of the game.
+     * @return
+     */
+    public void setGameStared(){
+        d_gameStarted = true;
+    }
 }
