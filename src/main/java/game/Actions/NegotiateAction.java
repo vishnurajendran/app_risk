@@ -42,14 +42,17 @@ public class NegotiateAction extends GameAction {
         try{
            if(!d_currentPlayer.isCardAvailable(CardType.Diplomat)){
                System.out.println(GameCommands.NEGOTIATE_ERROR_MESSAGE.get(NEGOTIATE_ORDER_CARD_NOT_FOUND));
+               d_execStatus = ActionExecStatus.Fail;
                return;
            }
         }catch (Exception e){
             System.out.println(GameCommands.NEGOTIATE_ERROR_MESSAGE.get(NEGOTIATE_ORDER_CARD_ERROR));
+            d_execStatus = ActionExecStatus.Fail;
             return;
         }
 
         if(!checkCommandValidity(p_cmd)){
+            d_execStatus = ActionExecStatus.Fail;
             return;
         }
 
@@ -58,6 +61,7 @@ public class NegotiateAction extends GameAction {
         Player l_oppPlayer = PlayerHandler.getPlayerById(l_oppPlayerId);
         if(isNull(l_oppPlayer)){
             System.out.println(GameCommands.NEGOTIATE_ERROR_MESSAGE.get(NEGOTIATE_ORDER_CARD_INVALID_PLAYER));
+            d_execStatus = ActionExecStatus.Fail;
             return;
         }
 
