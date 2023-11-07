@@ -45,7 +45,7 @@ public class AdvanceAction extends GameAction {
     @Override
     public void execute(Command p_cmd) {
         if(p_cmd.getCmdAttributes().size() != 3){
-            System.out.println(GameCommands.ADVANCE_ERROR_MESSAGES.get(0));
+            System.out.println(GameCommands.ADVANCE_ERROR_MESSAGES.get(ADVANCE_ORDER_ERROR));
             return;
         }
 
@@ -54,11 +54,11 @@ public class AdvanceAction extends GameAction {
             d_sourceCountry =  Integer.parseInt(p_cmd.getCmdAttributes().get(0).getArguments().get(0));
             d_targetCountry = Integer.parseInt(p_cmd.getCmdAttributes().get(0).getArguments().get(1));
             d_armiesToAdvance = Integer.parseInt(p_cmd.getCmdAttributes().get(0).getArguments().get(2));
-            d_armiesInSourceCountry = d_currentPlayer.getCountriesOwned().get(d_context.getEngine().getMap().getCountryById(d_sourceCountry).getArmy()).getArmy();
-            d_armiesInTargetCountry = d_context.getEngine().getMap().getCountryById(d_targetCountry).getArmy();
+            d_armiesInSourceCountry = d_context.getEngine().getMap().getCountryArmyById(d_sourceCountry);
+            d_armiesInTargetCountry = d_context.getEngine().getMap().getCountryArmyById(d_targetCountry);
 
         } catch (Exception e){
-            System.out.println(GameCommands.ADVANCE_ERROR_MESSAGES.get(0));
+            System.out.println(GameCommands.ADVANCE_ERROR_MESSAGES.get(ADVANCE_ORDER_ERROR));
             return;
         }
         int l_canProcessCommand = checkCommandValidity();
@@ -92,7 +92,7 @@ public class AdvanceAction extends GameAction {
     private int checkCommandValidity(){
 
         // checks if player owns the country
-        if(d_currentPlayer.getCountriesOwned().stream().noneMatch((a) -> a.getDId() == d_armiesInSourceCountry)) {
+        if(d_currentPlayer.isCountryOwned(d_context.getEngine().getMap().getCountryById(d_sourceCountry))) {
             return ADVANCE_ORDER_PLAYER_DOESNT_OWN_COUNTRY;
         }
         // checks if that country has enough armies to deploy
