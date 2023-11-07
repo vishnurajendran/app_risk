@@ -5,6 +5,7 @@ import entity.CardType;
 import entity.Country;
 import entity.Player;
 import entity.RiskMap;
+import game.Orders.BlockadeOrder;
 
 import java.util.ArrayList;
 
@@ -16,6 +17,10 @@ import static java.util.Objects.isNull;
  */
 public class BlockadeAction extends GameAction {
 
+    /**
+     * Do checks before adding order and if all checks pass, add this order to player.
+     * @param p_cmd command to run the action with.
+     */
     @Override
     public void execute(Command p_cmd) {
         d_execStatus = ActionExecStatus.Success;
@@ -47,10 +52,8 @@ public class BlockadeAction extends GameAction {
             return;
         }
 
-        l_riskMap.increaseCountryArmyById(l_countryID,l_riskMap.getCountryArmyById(l_countryID)*2);
-        l_player.removeCountry(l_country);
-        l_player.removeCard(CardType.Blockade);
-
+        l_player.setTempOrder(new BlockadeOrder(l_riskMap,l_player,l_country));
+        l_player.issueOrder();
 
     }
 
