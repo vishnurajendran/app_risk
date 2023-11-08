@@ -4,10 +4,7 @@ import common.Command;
 import common.Logging.Logger;
 import game.Orders.DeployOrder;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
+import java.util.*;
 
 /**
  * This class handles the actions that happen to the player
@@ -308,5 +305,20 @@ public class PlayerHandler {
      */
     public static int getCommittedPlayerCount(){
         return d_commitedPlayers.size();
+    }
+
+    /**
+     * This method returns the player object for given playerId
+     *
+     * @param p_playerId    playerId as an integer.
+     * @return      player object
+     */
+    public static Player getPlayerById(UUID p_playerId){
+        for(Player l_player : d_gamePlayers){
+            if(l_player.getPlayerId().equals(p_playerId)){
+                return l_player;
+            }
+        }
+        return null;
     }
 }

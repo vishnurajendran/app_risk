@@ -10,6 +10,7 @@ import entity.Player;
  */
 public class DeployOrder extends Order {
 
+    private int d_armiesToDeploy;
     /**
      * default constructor
      */
