@@ -8,6 +8,10 @@ import game.Orders.AdvanceOrder;
 
 /**
  * @author Soham
+ *
+ * this class checks all the necessary conditions for executing advance command
+ * if they pass, then it creates an order in the player
+ * which can be executed once the player runs execute
  */
 public class AdvanceAction extends GameAction {
 
@@ -35,16 +39,13 @@ public class AdvanceAction extends GameAction {
 
     public static final int ADVANCE_ORDER_SUCCESS = 5;
 
-    /*
-    * // format advance countrynamefrom countrynameto numarmies;
-    * List of things to do:
-    * 1. Basic checks: If player owns this country and if player has the amount of armies in this country
-    * 2. Check if the country that is to be attacked is its neighbour
-    * 3. Check if the player owns this country, in that case advance armies and move on
-    * 4. Otherwise, attack the country (60% chance the attacking army kills at least one defending army,
-    * and 70% chance the defending armies kill at least one attacking army)
-    * */
 
+    /**
+     * This method initialises all the variables with the command attributes
+     * It also checks if the command is of correct length.
+     * Then, if everything runs, it adds advance order to the list of orders in Player.
+     * @param p_cmd command to run the action with.
+     */
     @Override
     public void execute(Command p_cmd) {
         if(p_cmd.getCmdAttributes().size() != 3){
@@ -66,7 +67,7 @@ public class AdvanceAction extends GameAction {
         }
         int l_canProcessCommand = checkCommandValidity();
         if(l_canProcessCommand == ADVANCE_ORDER_SUCCESS){
-            d_currentPlayer.setTempOrder(new AdvanceOrder(d_currentPlayer, d_sourceCountry, d_targetCountry, d_armiesToAdvance));
+            d_currentPlayer.setTempOrder(new AdvanceOrder(d_currentPlayer, d_sourceCountry, d_targetCountry, d_armiesToAdvance, d_context.getEngine().getMap()));
             d_currentPlayer.issueOrder();
         } else{
             System.out.println(GameCommands.ADVANCE_ERROR_MESSAGES.get(l_canProcessCommand));
@@ -79,9 +80,6 @@ public class AdvanceAction extends GameAction {
     public void postExecute() {
 
     }
-
-
-    // TODO: Add the negotiate check for advancing
 
     /**
      * Checks if the advance command is valid
