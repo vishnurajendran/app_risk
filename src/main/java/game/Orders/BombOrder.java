@@ -13,8 +13,6 @@ public class BombOrder extends Order {
         d_ctxPlayer = null;
         d_targetCountry = 0;
         d_sourceCountry = 0;
-        d_armiesToAdvance = 0;
-        d_armiesToAirlift = 0;
         d_riskMap = null;
     }
 

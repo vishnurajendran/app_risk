@@ -40,7 +40,7 @@ public class BombAction extends GameAction {
         d_currentPlayer = d_context.getCurrentPlayer();
         int canIssueOrder = checkCommands();
         if(canIssueOrder == 5){
-            d_currentPlayer.setTempOrder(new BombOrder(d_currentPlayer, d_countryToBomb));
+            d_currentPlayer.setTempOrder(new BombOrder(d_currentPlayer, d_countryToBomb, d_context.getEngine().getMap()));
             d_currentPlayer.issueOrder();
         } else{
             System.out.println(GameCommands.BOMB_ERROR_MESSAGES.get(canIssueOrder));
