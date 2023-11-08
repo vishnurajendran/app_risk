@@ -78,6 +78,7 @@ public class AdvanceOrder extends Order {
             }
 
             d_ctxPlayer.assignCountry(d_riskMap.getCountryById(d_targetCountry), l_armiesInSourceCountryAdvanced);
+            d_ctxPlayer.addRandomCard();
             d_riskMap.getCountryById(d_targetCountry).setArmy(l_armiesInSourceCountryAdvanced);
         } else {
             if(l_targetCountryOwner!=null){
