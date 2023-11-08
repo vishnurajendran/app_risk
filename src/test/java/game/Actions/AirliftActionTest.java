@@ -34,7 +34,7 @@ class AirliftActionTest {
         PlayerHandler.addGamePlayers(new ArrayList<>(Arrays.asList("player1", "player2", "player3", "player4")), null);
         d_continent = new Continent(1, "test-continent", 3);
         d_gamePlayersTest = PlayerHandler.getGamePlayers();
-        d_gameEngineTest.submitCommand(Command.parseString("loadmap testresources/WoW.map"));
+        d_gameEngineTest.submitCommand(Command.parseString("loadmap testResources/WoW.map"));
         System.setOut(new PrintStream(outputStreamCaptor));
 
         d_gamePlayersTest.get(1).assignCountry(d_gameEngineTest.getMap().getCountryById(2), 5);
