@@ -12,6 +12,7 @@ import java.util.Random;
  */
 public class AdvanceOrder extends Order {
 
+    private int d_armiesToAdvance;
     /**
      * Default Constructor
      */

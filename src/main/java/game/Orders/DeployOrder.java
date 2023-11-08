@@ -10,11 +10,12 @@ import entity.Player;
  */
 public class DeployOrder extends Order {
 
+    private int d_armiesToDeploy;
     /**
      * default constructor
      */
     public DeployOrder() {
-        d_armiesToAdvance = 0;
+        d_armiesToDeploy = 0;
         d_ctxPlayer = null;
         d_targetCountry = 0;
     }
@@ -29,7 +30,7 @@ public class DeployOrder extends Order {
      */
     public DeployOrder(Player p_player, int p_armiesToDeploy, int p_targetCountry) {
         d_ctxPlayer = p_player;
-        d_armiesToAdvance = p_armiesToDeploy;
+        d_armiesToDeploy = p_armiesToDeploy;
         d_targetCountry = p_targetCountry;
     }
 
@@ -38,6 +39,6 @@ public class DeployOrder extends Order {
      */
     @Override
     public void executeOrder() {
-        d_ctxPlayer.assignReinforcementsToCountry(d_targetCountry, d_armiesToAdvance);
+        d_ctxPlayer.assignReinforcementsToCountry(d_targetCountry, d_armiesToDeploy);
     }
 }
