@@ -57,10 +57,10 @@ public class NegotiateAction extends GameAction {
             return;
         }
 
-        UUID l_oppPlayerId = null;
+        int l_oppPlayerId = -1;
         //check if player is valid and in the game to play card on.
         try {
-            l_oppPlayerId = UUID.fromString(p_cmd.getCmdAttributes().get(0).getArguments().get(0));
+            l_oppPlayerId = Integer.parseInt(p_cmd.getCmdAttributes().get(0).getArguments().get(0));
         }catch (IllegalArgumentException e){
             System.out.println(GameCommands.NEGOTIATE_ERROR_MESSAGE.get(NEGOTIATE_ORDER_CARD_INVALID_PLAYER));
             d_execStatus = ActionExecStatus.Fail;

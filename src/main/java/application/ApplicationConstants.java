@@ -47,12 +47,12 @@ public final class ApplicationConstants {
     /**
      * Message for invalid start game command usage.
      */
-    public static final String ERR_MSG_INVALID_START_GAME_CMD_USAGE = "Game has already started, you cannot use this command right now, please try another command.";
+    public static final String ERR_MSG_INVALID_START_GAME_CMD_USAGE = "to use loadmap again. please exit and then try again";
 
     /**
      * Message for invalid start map-editor command usage.
      */
-    public static final String ERR_MSG_INVALID_MAP_EDITOR_GAME_CMD_USAGE = "Map-Editor has already started, you cannot use this command right now, please try another command.";
+    public static final String ERR_MSG_INVALID_MAP_EDITOR_GAME_CMD_USAGE = "to use editmap again. please exit and then try again";
 
     /**
      * Message for Invalid exit command calls.

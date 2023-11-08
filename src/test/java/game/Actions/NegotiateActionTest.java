@@ -53,7 +53,7 @@ class NegotiateActionTest {
         void testExecuteCardNotFound() {
             Order l_order=d_player.nextOrder();
             assertNull(l_order);
-            UUID l_oppPlayerId = PlayerHandler.getPlayerIDByName(d_oppPlayer.getPlayerName());
+            int l_oppPlayerId = PlayerHandler.getPlayerIDByName(d_oppPlayer.getPlayerName());
             d_command=Command.parseString("negotiate " + l_oppPlayerId);
             d_action.execute(d_command);
             assertEquals(ActionExecStatus.Fail,d_action.getExecutionStatus());
@@ -80,7 +80,7 @@ class NegotiateActionTest {
             Order l_order=d_player.nextOrder();
             assertNull(l_order);
             d_player.addCard(CardType.Diplomat);
-            UUID l_oppPlayerId = PlayerHandler.getPlayerIDByName(d_oppPlayer.getPlayerName());
+            int l_oppPlayerId = PlayerHandler.getPlayerIDByName(d_oppPlayer.getPlayerName());
             d_command=Command.parseString("negotiate " + l_oppPlayerId);
             d_action.execute(d_command);
 
