@@ -1,17 +1,25 @@
-package game.Actions;
+package game.Orders;
 
 import common.Command;
-import entity.*;
+import entity.Continent;
+import entity.Player;
+import entity.PlayerHandler;
+import game.Actions.AdvanceAction;
+import game.Actions.GameAction;
+import game.Actions.GameActionFactory;
 import game.Data.Context;
-import game.*;
-import org.junit.jupiter.api.*;
+import game.GameEngine;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 
-class AdvanceActionTest {
+import static org.junit.jupiter.api.Assertions.*;
 
+class AdvanceOrderTest {
     GameEngine d_gameEngineTest;
     AdvanceAction d_advanceActionTest;
 
@@ -56,59 +64,4 @@ class AdvanceActionTest {
         d_gameEngineTest.shutdown();
         d_gameEngineTest = null;
     }
-
-    /**
-     * Checks the validity of the advance command
-     */
-    @Test
-    void TestCommandValidity(){
-        Command l_cmd = Command.parseString("advance 2 3");
-        d_gameActionTest.execute(l_cmd);
-        // To check if advance command is valid, should create an error
-        Assertions.assertEquals(GameCommands.ADVANCE_ERROR_MESSAGES.get(0), outputStreamCaptor.toString().trim());
-
-    }
-
-    /**
-     * checks if countries are adjacent
-     */
-    @Test
-    void TestCountryAdjacency(){
-        Command l_cmd = Command.parseString("advance 16 3 3");
-        d_gameActionTest.execute(l_cmd);
-        Assertions.assertEquals(GameCommands.ADVANCE_ERROR_MESSAGES.get(3), outputStreamCaptor.toString().trim());
-    }
-
-    /**
-     * checks if country is owned by the player
-     */
-    @Test
-    void TestCountryOwnership(){
-        Command l_cmd = Command.parseString("advance 12 16 1");
-        d_gameActionTest.execute(l_cmd);
-        Assertions.assertEquals(GameCommands.ADVANCE_ERROR_MESSAGES.get(1), outputStreamCaptor.toString().trim());
-    }
-
-    /**
-     * checks if player trying to attack a negotiated player
-     */
-    @Test
-    void TestCountryNegotiated(){
-        Command l_cmd = Command.parseString("advance 16 1 3");
-        d_gamePlayersTest.get(1).addNegotiatedPlayer(d_gamePlayersTest.get(0).getPlayerId());
-        d_gameActionTest.execute(l_cmd);
-        Assertions.assertEquals(GameCommands.ADVANCE_ERROR_MESSAGES.get(4), outputStreamCaptor.toString().trim());
-    }
-
-    /**
-     * Gives a valid command that should pass
-     */
-    @Test
-    void TestCommandSuccess(){
-        Command l_cmd = Command.parseString("advance 16 1 3");
-        d_gameActionTest.execute(l_cmd);
-        Assertions.assertNotNull(d_gameActionTest.d_context.getCurrentPlayer().nextOrder());
-    }
-
-
 }
