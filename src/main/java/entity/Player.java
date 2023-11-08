@@ -243,4 +243,44 @@ public class Player {
     public void clearNegotiations(){
         d_negotiatedPlayers.clear();
     }
+
+    /**
+     * Remove a country from the player,only remove the ownership of the country, does not change the number of army
+     * @param p_country The country need to be removed.
+     *
+     */
+    public void removeCountry(Country p_country){
+        if(!d_listOfCountriesOwned.contains(p_country)){
+            System.out.println("The player does not own the country");
+            return;
+        }
+        d_listOfCountriesOwned.remove(p_country);
+    }
+
+    /**
+     * Check if the country provided is owned by the current player
+     * @param p_country The country that need to check if is owned by the player
+     * @return True if it's owned by the player. False if is not
+     */
+    public boolean isCountryOwned(Country p_country){
+        return d_listOfCountriesOwned.contains(p_country);
+    }
+
+    /**
+     * This method checks whether the current player is negotiated with provided player
+     * @param p_playerToCheck player that caller wants to check
+     * @return true if player is negotiated, false if not
+     */
+    public boolean isPlayerNegotiated(Player p_playerToCheck){
+        return d_negotiatedPlayers.contains(p_playerToCheck.getPlayerId());
+    }
+
+
+    /**
+     * This method adds the player with given id to negotiated players list.
+     * @param p_playerId id of player to be negotiated as an integer.
+     */
+    public void addNegotiatedPlayer(UUID p_playerId){
+        d_negotiatedPlayers.add(p_playerId);
+    }
 }
