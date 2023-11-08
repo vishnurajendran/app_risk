@@ -112,4 +112,18 @@ public class MapEditor implements ISubApplication {
         Logger.log("MapEditor has shutdown.");
     }
 
+    /**
+     * @return a help string with all commands for map editor.
+     */
+    @Override
+    public String getHelp() {
+        String msg = "[ Map Editor Commands ]";
+        msg += "\tshowmap\n";
+        msg += "\teditcontinent -add continentID continentvalue -remove continentID\n";
+        msg += "\teditcountry -add countryID continentID -remove countryIDn";
+        msg += "\teditneighbor -add countryID neighborcountryID -remove countryID neighborcountryID\n";
+        msg += "\tvalidatemap\n";
+        msg += "\tsavemap filename\n";
+        return msg;
+    }
 }

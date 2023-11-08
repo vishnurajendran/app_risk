@@ -33,9 +33,6 @@ public class IssueOrderState extends GameState {
     public IssueOrderState(){
         //
         d_cmdToActionMap = new HashMap<>();
-        d_cmdToActionMap.put(GameCommands.CMD_SHOWMAP,this::cmdShowMap);
-        d_cmdToActionMap.put(GameCommands.CMD_GAME_PLAYER, this::cmdUpdatePlayers);
-        d_cmdToActionMap.put(GameCommands.CMD_ASSIGN_COUNTRIES_TO_PLAYER, this::cmdAssignCountries);
         d_cmdToActionMap.put(GameCommands.CMD_DEPLOY_COUNTRIES, this::cmdDeployAction);
         d_cmdToActionMap.put(GameCommands.CMD_BOMB, this::cmdBombAction);
         d_cmdToActionMap.put(GameCommands.CMD_BLOCKADE, this::cmdBlockadeAction);
@@ -55,8 +52,7 @@ public class IssueOrderState extends GameState {
     public void setContext(Context p_ctx) {
         super.setContext(p_ctx);
         if(d_context.getEngine().gameStarted()){
-           PlayerHandler.reassignValuesForNextTurn();
-           displayPlayerDetails();
+            displayPlayerDetails();
         }
     }
 
@@ -123,48 +119,6 @@ public class IssueOrderState extends GameState {
     @Override
     public boolean canProcessCommand(String p_cmdName) {
         return GameCommands.CHECK_VALID_COMMANDS_FOR_ISSUEORDER.contains(p_cmdName);
-    }
-
-    /**
-     * this methods opens the map viewer
-     * @param p_command command for further processing.
-     */
-    private void cmdShowMap(Command p_command) {
-        MapViewer.showMap(d_context.getEngine().getMap());
-    }
-
-    /**
-     * executes add/remove action
-     * @param p_command p_command for further processing
-     */
-    private void cmdUpdatePlayers(Command p_command) {
-        if(!validSetupCommandAtThisTime())
-            return;
-
-        GameAction l_action = GameActionFactory.getUpdatePlayerAction();
-        executeAction(l_action, p_command);
-    }
-
-    /**
-     * executes assigncountries action
-     * @param p_command p_command for further processing
-     */
-    private void cmdAssignCountries(Command p_command) {
-        if(!validSetupCommandAtThisTime())
-            return;
-
-        GameAction l_action = GameActionFactory.getAssignCountriesAction();
-        executeAction(l_action, p_command);
-
-        if(l_action.getExecutionStatus() == ActionExecStatus.Fail)
-            return;
-
-        // set game started to true.
-        // and display the player turn.
-        Logger.log("Countries Assigned");
-        d_context.getEngine().setGameStared();
-        Logger.log("Game Started");
-        displayPlayerDetails();
     }
 
     /**
@@ -265,14 +219,18 @@ public class IssueOrderState extends GameState {
     }
 
     /**
-     * @return true if setup commands are supported at this time
+     * a help message with all commands supported.
+     * @return help string
      */
-    private boolean validSetupCommandAtThisTime(){
-        if(d_context.getEngine().gameStarted()){
-            System.out.println("You cannot use this command at this time.");
-            return false;
-        }
-
-        return true;
+    @Override
+    public String getHelp() {
+        String help = "";
+        help += "\tdeploy countryID numarmies\n";
+        help += "\tadvance countrynamefrom countynameto numarmies\n";
+        help += "\tbomb countryID\n";
+        help += "\tblockade countryID\n";
+        help += "\tairlift sourcecountryID targetcountryID numarmies\n";
+        help += "\tnegotiate playerID";
+        return help;
     }
 }

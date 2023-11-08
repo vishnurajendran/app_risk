@@ -61,7 +61,7 @@ public class MapViewer extends JFrame {
      */
     private void initializeUI() {
         setTitle("Risk Map Viewer");
-        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(800, 800);
 
         // Create a panel for the game map
@@ -184,7 +184,7 @@ public class MapViewer extends JFrame {
             //printing to console for now, cannot think of a cleaner way to display.
             System.out.println();
             for (Player l_player : PlayerHandler.getGamePlayers()) {
-                System.out.println(MessageFormat.format("[Player `\u001B[33m{0}\u001B[0m` Map Stats]", l_player.getPlayerName()));
+                System.out.println(MessageFormat.format("[Player `\u001B[33m{0}\u001B[0m` Map Stats]", (l_player.getPlayerName() + "(" + l_player.getPlayerId() + ")")));
                 for (Country l_country : l_player.getCountriesOwned()) {
                     System.out.println(MessageFormat.format("\tId: \u001B[31m{0}\u001B[0m Name: {1} Army: \u001B[31m{2}\u001B[0m", l_country.getDId(), l_country.getName(), l_country.getArmy()));
                 }

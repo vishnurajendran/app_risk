@@ -174,6 +174,7 @@ public class Application {
         d_cmdToActionMap.put(ApplicationConstants.CMD_EXIT_SUB_APPLICATION, this::cmdExitSubApp);
         d_cmdToActionMap.put(ApplicationConstants.CMD_START_GAME, this::cmdStartGame);
         d_cmdToActionMap.put(ApplicationConstants.CMD_START_MAPEDITOR, this::cmdStartMapEditor);
+        d_cmdToActionMap.put(ApplicationConstants.CMD_HELP, this::cmdHelp);
         Logger.log("Registered " + d_cmdToActionMap.size() + " Entries");
     }
 
@@ -248,6 +249,28 @@ public class Application {
             //This command will be further processed by the map editor
             d_activeSubApplication.submitCommand(p_command);
         }
+    }
+
+    /**
+     * this method handles the help command invoke
+     * @param p_cmd cmd object sent for additional processing
+     */
+    private void cmdHelp(Command p_cmd){
+        String l_msg = "---- Help ----\n";
+        l_msg += "[ Application Commands ]\n";
+
+        if(d_appState == AppState.Standard) {
+            l_msg += "\tloadmap filename\n";
+            l_msg += "\teditmap filename\n";
+            l_msg += "\texit\n";
+        }
+
+        l_msg += "\texitapp\n";
+
+        if(d_activeSubApplication != null)
+            l_msg += d_activeSubApplication.getHelp();
+
+        System.out.println(l_msg);
     }
 
     /**
