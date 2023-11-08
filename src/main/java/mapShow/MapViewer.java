@@ -27,6 +27,7 @@ public class MapViewer extends JFrame {
     /**
      * Constructor for the MapViewer class.
      */
+
     public MapViewer(RiskMap p_map) {
         d_RISK_MAP = p_map;
         initializeUI();

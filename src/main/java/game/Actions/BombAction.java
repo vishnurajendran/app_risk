@@ -7,6 +7,7 @@ import common.Command;
  */
 public class BombAction extends GameAction {
 
+
     @Override
     public void execute(Command p_cmd) {
 
