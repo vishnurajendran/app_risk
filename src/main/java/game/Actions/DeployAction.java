@@ -12,10 +12,10 @@ public class DeployAction extends GameAction {
 
     @Override
     public void execute(Command p_command){
-        int canIssueOrder = PlayerHandler.issueOrder(p_command);
-        Logger.log(String.valueOf(canIssueOrder));
-        if(canIssueOrder != PlayerHandler.ISSUEORDER_SUCCESS){
-            System.out.println(GameCommands.DEPLOYERRORMESSAGE.get(canIssueOrder-1));
+        int l_issueOrderResult = PlayerHandler.issueOrder(p_command);
+        if(l_issueOrderResult != PlayerHandler.ISSUEORDER_SUCCESS){
+            d_execStatus = ActionExecStatus.Fail;
+            System.out.println(GameCommands.DEPLOYERRORMESSAGE.get(l_issueOrderResult-1));
         }
     }
 

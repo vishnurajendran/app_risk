@@ -28,7 +28,7 @@ public class Player {
     private final Random d_randGen;
 
     Player() {
-       this("", null);
+        this("", null);
     }
 
     /**

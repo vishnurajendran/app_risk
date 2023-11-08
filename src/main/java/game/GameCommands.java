@@ -62,9 +62,35 @@ public class GameCommands {
      */
     public static final String CMD_ADVANCE_ARMIES = "advance";
     /**
+     * Command for advance order
+     */
+    public static final String CMD_ADVANCE = "advance";
+    /**
+     * Command for airlift order
+     */
+    public static final String CMD_AIRLIFT = "airlift";
+    /**
+     * Command for bomb order
+     */
+    public static final String CMD_BOMB = "bomb";
+    /**
+     * Command for blockade order
+     */
+    public static final String CMD_BLOCKADE = "blockade";
+    /**
+     * Command for blockade order
+     */
+    public static final String CMD_DIPLOMACY = "negotiate";
+    /**
+     * Command for commit order
+     */
+    public static final String CMD_COMMIT = "commit";
+
+    /**
      * Valid command set
      */
-    public static final Set<String> CHECK_VALID_COMMANDS_FOR_ISSUEORDER = new HashSet<>(Arrays.asList(CMD_GAME_PLAYER, CMD_ASSIGN_COUNTRIES_TO_PLAYER, CMD_SHOWMAP, CMD_DEPLOY_COUNTRIES));
+    public static final Set<String> CHECK_VALID_COMMANDS_FOR_ISSUEORDER = new HashSet<>(Arrays.asList(CMD_GAME_PLAYER, CMD_ASSIGN_COUNTRIES_TO_PLAYER, CMD_SHOWMAP, CMD_DEPLOY_COUNTRIES, CMD_BOMB, CMD_BLOCKADE, CMD_AIRLIFT, CMD_DIPLOMACY, CMD_ADVANCE, CMD_COMMIT));
+
     /**
      * Error messages for deploying
      */
@@ -91,6 +117,14 @@ public class GameCommands {
             "ERROR: The player doesnt own this country",
             "ERROR: The armies requested to airlifted are more than what the player owns",
             "ERROR: The target country is not owned by the player"
+    ));
+
+    public static final ArrayList<String> BOMB_ERROR_MESSAGES = new ArrayList<>(Arrays.asList(
+            "ERROR: The given bomb command isn't valid, please try again",
+            "ERROR: The player doesn't own the bomb card",
+            "ERROR: You cannot bomb one of your own countries",
+            "ERROR: The given target country is not adjacent to any of the countries owned by you",
+            "ERROR: You are in diplomacy with the player that owns the country"
     ));
 
 }

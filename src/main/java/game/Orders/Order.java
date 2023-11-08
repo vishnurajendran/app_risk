@@ -20,4 +20,13 @@ abstract public class Order {
      * when invoked.
      */
     public abstract void executeOrder();
+
+    /**
+     * method override to print the name of the order
+     * @return a string with order details
+     */
+    @Override
+    public String toString() {
+        return "< " + this.getClass().getSimpleName() + " >";
+    }
 }
