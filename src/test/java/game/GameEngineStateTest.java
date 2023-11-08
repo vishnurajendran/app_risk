@@ -26,6 +26,7 @@ class GameEngineStateTest {
      */
     @BeforeEach
     public void setUp() {
+        PlayerHandler.cleanup();
         d_gameEngineTest = new GameEngine();
         d_gameEngineTest.initialise();
     }
