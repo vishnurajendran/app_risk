@@ -4,11 +4,16 @@ name testMap ^_^
 
 [continents]
 ameroki 5 yellow
+urasia 6 blue
 
 [countries]
 1 siberia 1 150 100
 2 worrick 1 200 150
+3 malta 2 220 800
+4 monaco 2 300 600
+
 
 [borders]
-1 2
-2 1
+1 2 3
+2 1 4
+

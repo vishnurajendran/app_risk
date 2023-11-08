@@ -17,7 +17,7 @@ import static java.util.Objects.isNull;
  * @author TaranjeetKaur
  */
 public class NegotiateAction extends GameAction {
-    private final Player d_currentPlayer;
+    private Player d_currentPlayer;
 
     private final int NEGOTIATE_ORDER_CARD_NOT_FOUND = 0;
     private final int NEGOTIATE_ORDER_INVALID_ARGUMENTS = 1;
@@ -26,7 +26,7 @@ public class NegotiateAction extends GameAction {
     private final int NEGOTIATE_ORDER_CARD_ERROR = 4;
 
     public NegotiateAction(){
-        d_currentPlayer = d_context.getCurrentPlayer();
+
     }
 
 
@@ -40,6 +40,7 @@ public class NegotiateAction extends GameAction {
 
         //validate if current player can perform this action.
         try{
+            d_currentPlayer = d_context.getCurrentPlayer();
            if(!d_currentPlayer.isCardAvailable(CardType.Diplomat)){
                System.out.println(GameCommands.NEGOTIATE_ERROR_MESSAGE.get(NEGOTIATE_ORDER_CARD_NOT_FOUND));
                d_execStatus = ActionExecStatus.Fail;
@@ -56,8 +57,15 @@ public class NegotiateAction extends GameAction {
             return;
         }
 
+        UUID l_oppPlayerId = null;
         //check if player is valid and in the game to play card on.
-        UUID l_oppPlayerId = UUID.fromString(p_cmd.getCmdAttributes().get(0).getArguments().get(0));
+        try {
+            l_oppPlayerId = UUID.fromString(p_cmd.getCmdAttributes().get(0).getArguments().get(0));
+        }catch (IllegalArgumentException e){
+            System.out.println(GameCommands.NEGOTIATE_ERROR_MESSAGE.get(NEGOTIATE_ORDER_CARD_INVALID_PLAYER));
+            d_execStatus = ActionExecStatus.Fail;
+            return;
+        }
         Player l_oppPlayer = PlayerHandler.getPlayerById(l_oppPlayerId);
         if(isNull(l_oppPlayer)){
             System.out.println(GameCommands.NEGOTIATE_ERROR_MESSAGE.get(NEGOTIATE_ORDER_CARD_INVALID_PLAYER));
