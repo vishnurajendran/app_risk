@@ -19,6 +19,9 @@ class AddRemovePlayerActionTest {
     private GameEngine d_engine;
     private GameAction d_action;
 
+    /**
+     * setup our environemnt
+     */
     @BeforeEach
     public void setup(){
         d_engine = new GameEngine();
@@ -28,6 +31,9 @@ class AddRemovePlayerActionTest {
         d_action.setContext(new Context(null, d_engine));
     }
 
+    /**
+     * cleanup the environment
+     */
     @AfterEach
     public void cleanup(){
         d_engine.quitGame();
