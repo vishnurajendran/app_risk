@@ -217,4 +217,20 @@ public class IssueOrderState extends GameState {
 
         return true;
     }
+
+    /**
+     * a help message with all commands supported.
+     * @return help string
+     */
+    @Override
+    public String getHelp() {
+        String help = "";
+        help += "\tdeploy countryID numarmies\n";
+        help += "\tadvance countrynamefrom countynameto numarmies\n";
+        help += "\tbomb countryID\n";
+        help += "\tblockade countryID\n";
+        help += "\tairlift sourcecountryID targetcountryID numarmies\n";
+        help += "\tnegotiate playerID";
+        return help;
+    }
 }

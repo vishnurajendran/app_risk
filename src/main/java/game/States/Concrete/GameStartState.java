@@ -159,4 +159,15 @@ public class GameStartState extends GameState {
         return d_cmdToActionMap.containsKey(p_cmdName);
     }
 
+    /**
+     * a help message with all commands supported.
+     * @return help string
+     */
+    @Override
+    public String getHelp() {
+        String help = "";
+        help += "\tgameplayer -add playername -remove playername\n";
+        help += "\tassigncountries\n";
+        return help;
+    }
 }

@@ -50,4 +50,9 @@ public class MapEditorMock implements ISubApplication {
     public void shutdown() {
         //nothing here
     }
+
+    @Override
+    public String getHelp() {
+        return "";
+    }
 }

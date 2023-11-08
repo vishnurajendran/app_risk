@@ -25,6 +25,11 @@ public final class ApplicationConstants {
     public static final String CMD_START_GAME = "loadmap";
 
     /**
+     * help editor command.
+     */
+    public static final String CMD_HELP = "help";
+
+    /**
      * Map editor command.
      */
     public static final String CMD_START_MAPEDITOR = "editmap";

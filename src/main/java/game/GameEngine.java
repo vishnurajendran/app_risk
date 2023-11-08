@@ -81,7 +81,6 @@ public class GameEngine implements ISubApplication {
 
     /**
      * This method checks if the application has quit due to an unexpected error
-     *
      * @return a boolean which says whether the application has quit.
      */
     @Override
@@ -115,8 +114,10 @@ public class GameEngine implements ISubApplication {
     public void submitCommand(Command p_command) {
 
         if(p_command.getCmdName().equals(GameCommands.CMD_SHOWMAP)){
-            if(d_map == null)
+            if(d_map == null) {
+                System.out.println("No map loaded!!");
                 return;
+            }
 
             MapViewer.showMap(d_map);
             return;
@@ -134,6 +135,14 @@ public class GameEngine implements ISubApplication {
     @Override
     public void shutdown() {
         PlayerHandler.cleanup();
+    }
+
+    @Override
+    public String getHelp() {
+        String msg = "[ Game Commands ]\n";
+        msg += "\tshowmap\n";
+        msg += (d_currentState != null ? d_currentState.getHelp() : "");
+        return msg;
     }
 
     /**
