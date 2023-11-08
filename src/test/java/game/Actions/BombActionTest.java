@@ -1,3 +1,6 @@
+/**
+ * Unit test for BombAction class.
+ */
 package game.Actions;
 
 import common.Command;
@@ -25,7 +28,9 @@ class BombActionTest {
     Continent d_continent;
     GameAction d_bombActionTest;
 
-
+    /**
+     * Setup method called before each test.
+     */
     @BeforeEach
     void setUp(){
         d_gameEngineTest = new GameEngine();
@@ -44,6 +49,9 @@ class BombActionTest {
         d_bombActionTest.setContext(new Context(d_gamePlayersTest.get(0), d_gameEngineTest));
     }
 
+    /**
+     * Cleanup method called after each test.
+     */
     @AfterEach
     void cleanup(){
         d_gameEngineTest.quitGame();
@@ -51,24 +59,31 @@ class BombActionTest {
         d_gameEngineTest = null;
     }
 
+    /**
+     * Tests the validity of the "bomb" command.
+     */
     @Test
     void TestCommandValidity(){
-
         Command l_cmd = Command.parseString("bomb");
         d_bombActionTest.execute(l_cmd);
-        // To check if bomb command is valid, should create an error
+        // To check if the bomb command is valid, it should create an error
         Assertions.assertEquals(GameCommands.BOMB_ERROR_MESSAGES.get(0), outputStreamCaptor.toString().trim());
-
     }
 
+    /**
+     * Tests if the player owns the bomb card.
+     */
     @Test
     void TestBombCardOwnership(){
         Command l_cmd = Command.parseString("bomb 2");
         d_bombActionTest.execute(l_cmd);
-        // To check if bomb command is valid, should create an error
+        // To check if the bomb command is valid, it should create an error
         Assertions.assertEquals(GameCommands.BOMB_ERROR_MESSAGES.get(1), outputStreamCaptor.toString().trim());
     }
 
+    /**
+     * Tests ownership of the country to be bombed.
+     */
     @Test
     void TestCountryOwnership(){
         Command l_cmd = Command.parseString("bomb 1");
@@ -77,17 +92,20 @@ class BombActionTest {
         Assertions.assertEquals(GameCommands.BOMB_ERROR_MESSAGES.get(2), outputStreamCaptor.toString().trim());
     }
 
+    /**
+     * Tests is the player has diplomacy with target country's owner.
+     */
     @Test
     void TestCountryNegotiated(){
         Command l_cmd = Command.parseString("bomb 23");
-
         d_bombActionTest.d_context.getCurrentPlayer().addNegotiatedPlayer((d_gamePlayersTest.get(1).getPlayerId()));
         d_bombActionTest.d_context.getCurrentPlayer().addCard(CardType.Bomb);
         d_bombActionTest.execute(l_cmd);
         Assertions.assertEquals(GameCommands.BOMB_ERROR_MESSAGES.get(4), outputStreamCaptor.toString().trim());
     }
+
     /**
-     * checks if countries are adjacent
+     * Tests if countries are adjacent.
      */
     @Test
     void TestCountryAdjacency(){
@@ -98,7 +116,7 @@ class BombActionTest {
     }
 
     /**
-     * checks if a valid command ran
+     * Tests if a valid command ran successfully.
      */
     @Test
     void TestCommandSuccess(){
@@ -107,5 +125,4 @@ class BombActionTest {
         d_bombActionTest.execute(l_cmd);
         assertNotNull(d_bombActionTest.d_context.getCurrentPlayer().nextOrder());
     }
-
 }
