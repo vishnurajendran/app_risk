@@ -231,10 +231,18 @@ public class Player {
         d_negotiatedPlayers.add(p_playerId);
     }
 
+    /**
+     * This method checks whether the current player is negotiated with provided player
+     * @param p_playerToCheck player that caller wants to check
+     * @return true if player is negotiated, false if not
+     */
     public boolean isPlayerNegotiated(Player p_playerToCheck){
         return d_negotiatedPlayers.contains(p_playerToCheck.getPlayerId());
     }
 
+    /**
+     * clears the list of negotiated players
+     */
     public void clearNegotiatedPlayers(){
         d_negotiatedPlayers.clear();
     }
