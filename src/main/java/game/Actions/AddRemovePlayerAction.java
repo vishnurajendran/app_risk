@@ -60,9 +60,9 @@ public class AddRemovePlayerAction extends GameAction{
      */
     @Override
     public void postExecute() {
-        //nothing here.
+        System.out.println("\n[ Total Players In Game ]");
         for (Player l_player: PlayerHandler.getGamePlayers()) {
-            System.out.println("Added " + l_player.getPlayerName());
+            System.out.println("\t- " + l_player.getPlayerName());
         }
     }
 
