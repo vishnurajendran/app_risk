@@ -61,7 +61,7 @@ public class MapViewer extends JFrame {
      */
     private void initializeUI() {
         setTitle("Risk Map Viewer");
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         setSize(800, 800);
 
         // Create a panel for the game map

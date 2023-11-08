@@ -267,6 +267,7 @@ public class PlayerHandler {
      */
     public static void reassignValuesForNextTurn() {
         d_whichPlayersTurn = 0;
+        d_commitedPlayers.clear();
         for (Player player : d_gamePlayers) {
             player.assignReinforcementsToPlayer();
             player.clearNegotiations();
