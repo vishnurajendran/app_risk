@@ -229,6 +229,7 @@ public class IssueOrderState extends GameState {
         help += "\tblockade countryID\n";
         help += "\tairlift sourcecountryID targetcountryID numarmies\n";
         help += "\tnegotiate playerID";
+        help += "\tcommit when all orders are issued";
         return help;
     }
 }
