@@ -14,18 +14,14 @@ import entity.RiskMap;
  */
 public class BombOrder extends Order {
 
-    private Player d_CtxPlayer;
-    private int d_TargetCountry;
-    private RiskMap d_RiskMap;
-
     /**
      * Default constructor for the {@code BombOrder} class.
      * Initializes the context player, target country ID and the game's Risk map to null.
      */
     public BombOrder() {
-        d_CtxPlayer = null;
-        d_TargetCountry = 0;
-        d_RiskMap = null;
+        d_ctxPlayer = null;
+        d_targetCountry = 0;
+        d_riskMap = null;
     }
 
     /**
@@ -36,9 +32,9 @@ public class BombOrder extends Order {
      * @param p_RiskMap      The RiskMap representing the game map.
      */
     public BombOrder(Player p_Player, int p_TargetCountry, RiskMap p_RiskMap) {
-        d_CtxPlayer = p_Player;
-        d_TargetCountry = p_TargetCountry;
-        d_RiskMap = p_RiskMap;
+        d_ctxPlayer = p_Player;
+        d_targetCountry = p_TargetCountry;
+        d_riskMap = p_RiskMap;
     }
 
     /**
@@ -50,24 +46,24 @@ public class BombOrder extends Order {
     @Override
     public void executeOrder() {
         // Get the current player
-        Player l_CurrentPlayer = d_CtxPlayer;
+        Player l_currentPlayer = d_ctxPlayer;
 
         // Get the target country by its ID from the game's map
-        Country l_TargetCountry = d_RiskMap.getCountryById(d_TargetCountry);
+        Country l_targetCountry = d_riskMap.getCountryById(d_targetCountry);
 
         // Check if the current player can perform the bomb action based on the game rules
-        if (l_CurrentPlayer != null && l_TargetCountry != null) {
+        if (l_currentPlayer != null && l_targetCountry != null) {
             // Check if the target country is not owned by the current player
-            if (!l_CurrentPlayer.isCountryOwned(l_TargetCountry)) {
+            if (!l_currentPlayer.isCountryOwned(l_targetCountry)) {
                 // Reduce the number of armies in the target country by half
-                int l_ArmiesInTargetCountry = l_TargetCountry.getArmy();
+                int l_ArmiesInTargetCountry = l_targetCountry.getArmy();
                 if (l_ArmiesInTargetCountry > 1) {
                     int l_ArmiesToReduce = l_ArmiesInTargetCountry / 2; // Reduce by half
-                    l_TargetCountry.setArmy(l_ArmiesInTargetCountry - l_ArmiesToReduce);
+                    l_targetCountry.setArmy(l_ArmiesInTargetCountry - l_ArmiesToReduce);
                     d_ctxPlayer.removeCard(CardType.Bomb);
 
                     // Updating the game state accordingly
-                    System.out.println("Bomb action executed: " + l_ArmiesToReduce + " armies reduced in " + l_TargetCountry.getName());
+                    System.out.println("Bomb action executed: " + l_ArmiesToReduce + " armies reduced in " + l_targetCountry.getName());
                 } else {
                     System.out.println("Bomb action failed: The target country doesn't have enough armies.");
                 }
