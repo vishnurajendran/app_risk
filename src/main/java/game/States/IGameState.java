@@ -29,4 +29,8 @@ public interface IGameState {
      */
     public void setContext(Context p_ctx);
 
+    /**
+     * @return a help string for this state.
+     */
+    public String getHelp();
 }

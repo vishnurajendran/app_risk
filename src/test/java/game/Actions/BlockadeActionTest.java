@@ -12,8 +12,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import javax.swing.*;
-
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
@@ -55,7 +53,7 @@ class BlockadeActionTest {
         d_country=new Country(1,"testCountry",1);
         d_riskMap.addCountry(d_country);
         d_action=new BlockadeAction();
-        d_action.SetContext(d_context);
+        d_action.setContext(d_context);
 
     }
 

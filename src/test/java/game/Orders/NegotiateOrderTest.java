@@ -2,6 +2,7 @@ package game.Orders;
 
 import entity.CardType;
 import entity.Player;
+import entity.PlayerHandler;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -20,9 +21,9 @@ class NegotiateOrderTest {
      */
     @BeforeEach
     void setUp() {
-        d_currPlayer = new Player("currPlayer" , null);
+        d_currPlayer = new Player(PlayerHandler.generatePlayerId(), "currPlayer" , null);
         d_currPlayer.addCard(CardType.Diplomat);
-        d_oppPlayer = new Player("oppPlayer" , null);
+        d_oppPlayer = new Player(PlayerHandler.generatePlayerId(),"oppPlayer" , null);
         d_negotiateOrder = new NegotiateOrder(d_currPlayer, d_oppPlayer);
     }
 

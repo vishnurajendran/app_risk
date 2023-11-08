@@ -9,7 +9,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
-import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -43,7 +42,7 @@ class NegotiateActionTest {
             d_oppPlayer = PlayerHandler.getPlayerById(PlayerHandler.getPlayerIDByName("dummy2"));
             d_context = new Context(d_player, d_gameEngine);
             d_action = new NegotiateAction();
-            d_action.SetContext(d_context);
+            d_action.setContext(d_context);
         }
 
         /**
@@ -53,7 +52,7 @@ class NegotiateActionTest {
         void testExecuteCardNotFound() {
             Order l_order=d_player.nextOrder();
             assertNull(l_order);
-            UUID l_oppPlayerId = PlayerHandler.getPlayerIDByName(d_oppPlayer.getPlayerName());
+            int l_oppPlayerId = PlayerHandler.getPlayerIDByName(d_oppPlayer.getPlayerName());
             d_command=Command.parseString("negotiate " + l_oppPlayerId);
             d_action.execute(d_command);
             assertEquals(ActionExecStatus.Fail,d_action.getExecutionStatus());
@@ -80,7 +79,7 @@ class NegotiateActionTest {
             Order l_order=d_player.nextOrder();
             assertNull(l_order);
             d_player.addCard(CardType.Diplomat);
-            UUID l_oppPlayerId = PlayerHandler.getPlayerIDByName(d_oppPlayer.getPlayerName());
+            int l_oppPlayerId = PlayerHandler.getPlayerIDByName(d_oppPlayer.getPlayerName());
             d_command=Command.parseString("negotiate " + l_oppPlayerId);
             d_action.execute(d_command);
 
