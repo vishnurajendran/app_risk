@@ -31,7 +31,7 @@ public class AirliftOrder extends Order {
      * @param p_riskMap         The RiskMap for game.
      */
     public AirliftOrder(Player p_player, int sourceCountry, int p_targetCountry, int p_armiesToAirlift, RiskMap p_riskMap) {
-        d_armiesToAdvance = p_armiesToAirlift;
+        d_armiesToAirlift = p_armiesToAirlift;
         d_ctxPlayer = p_player;
         d_targetCountry = p_targetCountry;
         d_sourceCountry = sourceCountry;
