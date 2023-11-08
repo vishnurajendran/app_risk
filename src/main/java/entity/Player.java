@@ -23,11 +23,11 @@ public class Player {
     private final UUID d_playerId;
     private final Random d_randGen;
 
-    Player() {
+    public Player() {
        this("", null);
     }
 
-    Player(String p_playerName, RiskMap p_map) {
+    public Player(String p_playerName, RiskMap p_map) {
         d_playerId = UUID.randomUUID();
         this.d_availableReinforcements = 5;
         this.d_playerName = p_playerName;
