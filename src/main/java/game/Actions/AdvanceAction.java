@@ -46,6 +46,7 @@ public class AdvanceAction extends GameAction {
      * Then, if everything runs, it adds advance order to the list of orders in Player.
      * @param p_cmd command to run the action with.
      */
+
     @Override
     public void execute(Command p_cmd) {
         if(p_cmd.getCmdAttributes().size() != 3){
@@ -91,7 +92,7 @@ public class AdvanceAction extends GameAction {
      * 4. The countries are not adjacent;
      * 5. Checks if current player has negotiated with one of the players that owns the target country
      */
-    private int checkCommandValidity(){
+    public int checkCommandValidity(){
 
         // checks if player owns the country
         if(!d_currentPlayer.isCountryOwned(d_context.getEngine().getMap().getCountryById(d_sourceCountry))) {
