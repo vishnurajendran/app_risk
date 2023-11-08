@@ -1,7 +1,6 @@
 package game.States.Concrete;
 
 import common.Command;
-import common.Logging.Logger;
 import entity.Player;
 import entity.PlayerHandler;
 import game.Data.Context;
