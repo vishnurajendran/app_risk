@@ -29,19 +29,20 @@ class AirliftActionTest {
     void setUp(){
         d_gameEngineTest = new GameEngine();
         d_gameEngineTest.initialise();
-        System.setOut(new PrintStream(outputStreamCaptor));
+
         d_airliftActionTest = new AirliftAction();
         PlayerHandler.addGamePlayers(new ArrayList<>(Arrays.asList("player1", "player2", "player3", "player4")), null);
         d_continent = new Continent(1, "test-continent", 3);
         d_gamePlayersTest = PlayerHandler.getGamePlayers();
         d_gameEngineTest.submitCommand(Command.parseString("loadmap testresources/WoW.map"));
-        d_gamePlayersTest.get(0).assignCountry(d_gameEngineTest.getMap().getCountryById(1), 5);
+        System.setOut(new PrintStream(outputStreamCaptor));
+
         d_gamePlayersTest.get(1).assignCountry(d_gameEngineTest.getMap().getCountryById(2), 5);
-        d_gamePlayersTest.get(2).assignCountry(d_gameEngineTest.getMap().getCountryById(3), 5);
-        d_gamePlayersTest.get(3).assignCountry(d_gameEngineTest.getMap().getCountryById(4), 5);
+        d_gamePlayersTest.get(1).assignCountry(d_gameEngineTest.getMap().getCountryById(5), 5);
+
 
         d_gameActionTest = GameActionFactory.getAirliftAction();
-        d_gameActionTest.SetContext(new Context(d_gamePlayersTest.get(1), d_gameEngineTest));
+        d_gameActionTest.setContext(new Context(d_gamePlayersTest.get(1), d_gameEngineTest));
     }
 
     @AfterEach
@@ -71,7 +72,7 @@ class AirliftActionTest {
 
     @Test
     void TestSourceCountryOwnership(){
-        Command l_cmd = Command.parseString("advance 1 3 3");
+        Command l_cmd = Command.parseString("airlift 1 3 3");
         d_gameActionTest.d_context.getCurrentPlayer().addCard(CardType.Airlift);
         d_gameActionTest.execute(l_cmd);
         Assertions.assertEquals(GameCommands.AIRLIFT_ERROR_MESSAGES.get(2), outputStreamCaptor.toString().trim());
@@ -79,7 +80,7 @@ class AirliftActionTest {
 
     @Test
     void TestCountryNumberOfArmies(){
-        Command l_cmd = Command.parseString("advance 1 2 11");
+        Command l_cmd = Command.parseString("airlift 2 5 11");
         d_gameActionTest.d_context.getCurrentPlayer().addCard(CardType.Airlift);
         d_gameActionTest.execute(l_cmd);
         Assertions.assertEquals(GameCommands.AIRLIFT_ERROR_MESSAGES.get(3), outputStreamCaptor.toString().trim());
@@ -87,7 +88,7 @@ class AirliftActionTest {
 
     @Test
     void TestTargetCountryOwnership(){
-        Command l_cmd = Command.parseString("advance 2 3 3");
+        Command l_cmd = Command.parseString("airlift 2 3 3");
         d_gameActionTest.d_context.getCurrentPlayer().addCard(CardType.Airlift);
         d_gameActionTest.execute(l_cmd);
         Assertions.assertEquals(GameCommands.AIRLIFT_ERROR_MESSAGES.get(4), outputStreamCaptor.toString().trim());

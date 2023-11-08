@@ -1,87 +1,62 @@
 package game.Orders;
 
-import entity.CardType;
-import entity.Country;
+import common.Command;
+import entity.Continent;
 import entity.Player;
-import entity.RiskMap;
+import entity.PlayerHandler;
+import game.GameEngine;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
-import org.junit.Before;
-import org.junit.Test;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+class AirliftOrderTest {
+    GameEngine d_gameEngineTest;
+    ArrayList<Player> d_gamePlayersTest;
+    private final ByteArrayOutputStream outputStreamCaptor = new ByteArrayOutputStream();
+    Continent d_continent;
+
+    Order d_AirliftOrderTest;
 
 
 
-import static org.junit.jupiter.api.Assertions.*;
+    @BeforeEach
+    void setUp(){
+        d_gameEngineTest = new GameEngine();
+        d_gameEngineTest.initialise();
+        PlayerHandler.addGamePlayers(new ArrayList<>(Arrays.asList("player1", "player2", "player3", "player4")), null);
+        d_continent = new Continent(1, "test-continent", 3);
+        d_gamePlayersTest = PlayerHandler.getGamePlayers();
+        d_gameEngineTest.submitCommand(Command.parseString("loadmap testResources/WoW.map"));
+        System.setOut(new PrintStream(outputStreamCaptor));
+        d_gamePlayersTest.get(1).assignCountry(d_gameEngineTest.getMap().getCountryById(16), 0);
+        d_gamePlayersTest.get(1).assignCountry(d_gameEngineTest.getMap().getCountryById(5), 5);
 
-public class AirliftOrderTest {
-    private Player player;
-    private RiskMap riskMap;
+    }
 
-    @Before
-    public void setUp() {
-        // Create a player and a risk map for testing
-        player = new Player();
-        riskMap = new RiskMap();
-        // Initialize the risk map with countries and armies
-        // Add some countries and armies to the riskMap for testing purposes
+    /**
+     * Cleanup after tests
+     */
+    @AfterEach
+    void cleanup(){
+        d_gameEngineTest.quitGame();
+        d_gameEngineTest.shutdown();
+        d_gameEngineTest = null;
     }
 
     @Test
-    public void testAirliftOrderExecution() {
-        // Create source and target countries
-        Country sourceCountry = new Country(1,"testCountry",1);
-        sourceCountry.setArmy(10); // Set 10 armies in the source country
-        Country targetCountry = new Country(2,"testCountry",2);
-
-        // Add the countries to the risk map
-        riskMap.addCountry(sourceCountry);
-        riskMap.addCountry(targetCountry);
-
-        // Create an airlift order with 5 armies
-        AirliftOrder airliftOrder = new AirliftOrder(player, 1, 2, 5, riskMap);
-
-        // Execute the airlift order
-        airliftOrder.executeOrder();
-
-        // Check if the order was executed correctly
-        assertEquals(5, targetCountry.getArmy()); // Target country should have received 5 armies
-        assertEquals(5, sourceCountry.getArmy()); // Source country should have 5 armies left
+    void TestAirliftOrder(){
+        d_AirliftOrderTest = new AdvanceOrder(d_gamePlayersTest.get(0), 5, 16, 4, d_gameEngineTest.getMap());
+        d_AirliftOrderTest.executeOrder();
+        assertEquals(1, d_gameEngineTest.getMap().getCountryById(5).getArmy());
+        assertEquals(4, d_gameEngineTest.getMap().getCountryById(16).getArmy());
+        assertTrue(d_gamePlayersTest.get(0).isCountryOwned(d_gameEngineTest.getMap().getCountryById(16)));
     }
-
-    @Test
-    public void testAirliftOrderInvalidSourceCountry() {
-        // Create an airlift order with an invalid source country
-        AirliftOrder airliftOrder = new AirliftOrder(player, 1, 2, 5, riskMap);
-
-        // Execute the airlift order
-        airliftOrder.executeOrder();
-
-        // Check if the order failed due to an invalid source country
-        // You can modify the actual failure message based on how your AirliftOrder class handles this case.
-        assertEquals("Airlift order failed: Invalid source .", getConsoleOutput());
-    }
-
-    @Test
-    public void testAirliftOrderNotEnoughArmies() {
-        // Create source and target countries
-        Country sourceCountry = new Country(1,"testCountry",1);
-        sourceCountry.setArmy(3); // Set 3 armies in the source country
-        Country targetCountry = new Country(2,"testCountry",2);
-
-        // Add the countries to the risk map
-        riskMap.addCountry(sourceCountry);
-        riskMap.addCountry(targetCountry);
-
-        // Create an airlift order with 5 armies
-        AirliftOrder airliftOrder = new AirliftOrder(player, 1, 2, 5, riskMap);
-
-        // Execute the airlift order
-        airliftOrder.executeOrder();
-
-        // Check if the order failed due to not enough armies in the source country
-        // You can modify the actual failure message based on how your AirliftOrder class handles this case.
-        assertEquals("Airlift order failed: Not enough armies in the source country.", getConsoleOutput());
-    }
-
 }
-
