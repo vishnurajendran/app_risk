@@ -14,6 +14,7 @@ public class AssignCountriesAction extends GameAction{
     @Override
     public void execute(Command p_cmd) {
         if (PlayerHandler.getGamePlayers().size() <= 1) {
+            d_execStatus = ActionExecStatus.Fail;
             System.out.println("Not enough players to start the game. the game needs at-least 2 players");
             return;
         }

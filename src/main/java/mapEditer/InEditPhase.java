@@ -247,25 +247,36 @@ public class InEditPhase extends Phase{
      * @return true is operation is successful, false otherwise.
      */
     private boolean executeAddCountry(ArrayList<String> p_args, RiskMap p_riskMap) {
-        for (int i = 0; i < p_args.size(); i++) {
-            int l_countryId = Integer.parseInt(p_args.get(i++));
-            int l_continentId = Integer.parseInt(p_args.get(i));
-            if (!p_riskMap.hasContinent(l_continentId)) {
-                System.out.println("Continent not present in the map!");
-                return false;
-            } else if (p_riskMap.hasCountry(l_countryId)) {
-                System.out.println("Country already present in the map!");
+        int l_countryId = Integer.parseInt(p_args.get(0));
+        int l_continentId = Integer.parseInt(p_args.get(1));
+        int l_xPos = 0;
+        int l_yPos = 0;
+
+        if(p_args.size() >= 3){
+            l_xPos = Integer.parseInt(p_args.get(2));
+        }
+
+        if(p_args.size() >= 4){
+            l_yPos = Integer.parseInt(p_args.get(3));
+        }
+
+        if (!p_riskMap.hasContinent(l_continentId)) {
+            System.out.println("Continent not present in the map!");
+            return false;
+        } else if (p_riskMap.hasCountry(l_countryId)) {
+            System.out.println("Country already present in the map!");
+            return false;
+        } else {
+            Continent l_continent = p_riskMap.getContinentById(l_continentId);
+            if (l_continent.hasCountry(l_countryId)) {
+                System.out.println("Country already present in the continent!");
                 return false;
             } else {
-                Continent l_continent = p_riskMap.getContinentById(l_continentId);
-                if (l_continent.hasCountry(l_countryId)) {
-                    System.out.println("Country already present in the continent!");
-                    return false;
-                } else {
-                    Country l_country = new Country(l_countryId, String.valueOf(l_countryId), l_continentId);
-                    p_riskMap.addCountry(l_country);
-                    Logger.log("Country added:" + l_country.toString());
-                }
+                Country l_country = new Country(l_countryId, String.valueOf(l_countryId), l_continentId);
+                l_country.setXCoordinates(l_xPos);
+                l_country.setYCoordinates(l_yPos);
+                p_riskMap.addCountry(l_country);
+                Logger.log("Country added:" + l_country.toString());
             }
         }
         return true;

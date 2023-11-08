@@ -112,62 +112,68 @@ public class MapViewer extends JFrame {
             ArrayList<Continent> l_continents = new ArrayList<>();
             Map<Country, Point> l_countryPoint = new HashMap<>();
 
-            // Draw continents, countries, and connections
-            for (Country l_country : d_RISK_MAP.getCountries()) {
-                Continent currContinent = d_RISK_MAP.getContinentById(l_country.getContinentId());
-                if (!l_continents.contains(currContinent)) {
-                    l_continents.add(currContinent);
-                }
+            if(d_RISK_MAP.getContinents() != null) {
+                // Draw continents, countries, and connections
+                for (Country l_country : d_RISK_MAP.getCountries()) {
+                    Continent currContinent = d_RISK_MAP.getContinentById(l_country.getContinentId());
+                    if (!l_continents.contains(currContinent)) {
+                        l_continents.add(currContinent);
+                    }
 
-                String l_continentName = d_RISK_MAP.getContinentById(l_country.getContinentId()).getName();
+                    String l_continentName = d_RISK_MAP.getContinentById(l_country.getContinentId()).getName();
 
-                p_grpahics.setColor(Color.GRAY);
-                // Draw countries with the color of their continent
-                Color l_continentColor = d_CONTINENT_COLORS.get(l_continentName);
-                p_grpahics.setColor(l_continentColor);
+                    p_grpahics.setColor(Color.GRAY);
+                    // Draw countries with the color of their continent
+                    Color l_continentColor = d_CONTINENT_COLORS.get(l_continentName);
+                    p_grpahics.setColor(l_continentColor);
 
-                p_grpahics.fillOval(l_country.getXCoordinates(), l_country.getYCoordinates() + d_DELTA, d_NODESIZE, d_NODESIZE);
+                    p_grpahics.fillOval(l_country.getXCoordinates(), l_country.getYCoordinates() + d_DELTA, d_NODESIZE, d_NODESIZE);
 
-                l_countryPoint.put(l_country, new Point(l_country.getXCoordinates(), l_country.getYCoordinates() + d_DELTA));
+                    l_countryPoint.put(l_country, new Point(l_country.getXCoordinates(), l_country.getYCoordinates() + d_DELTA));
 
-                // Draw connections to neighboring countries
-                p_grpahics.setColor(Color.GRAY);
-                for (Country l_connectedCountry : l_country.getBorders().values()) {
-                    p_grpahics.drawLine(
-                            l_country.getXCoordinates() + d_NODESIZE / 2, l_country.getYCoordinates() + d_DELTA + d_NODESIZE / 2,
-                            l_connectedCountry.getXCoordinates() + d_NODESIZE / 2, l_connectedCountry.getYCoordinates() + d_DELTA + d_NODESIZE / 2
-                    );
+                    // Draw connections to neighboring countries
+                    p_grpahics.setColor(Color.GRAY);
+                    for (Country l_connectedCountry : l_country.getBorders().values()) {
+                        p_grpahics.drawLine(
+                                l_country.getXCoordinates() + d_NODESIZE / 2, l_country.getYCoordinates() + d_DELTA + d_NODESIZE / 2,
+                                l_connectedCountry.getXCoordinates() + d_NODESIZE / 2, l_connectedCountry.getYCoordinates() + d_DELTA + d_NODESIZE / 2
+                        );
+                    }
                 }
             }
 
-            //Draw text over everything else
-            for (Country l_country : d_RISK_MAP.getCountries()) {
+            if(d_RISK_MAP.getCountries() != null) {
+                //Draw text over everything else
+                for (Country l_country : d_RISK_MAP.getCountries()) {
 
-                // Draw country name
-                p_grpahics.setColor(Color.YELLOW);
-                p_grpahics.setFont(new Font("default", Font.BOLD, 12));
-                p_grpahics.drawString(l_country.getDId() + "", l_country.getXCoordinates(), l_country.getYCoordinates() - d_NODESIZE / 2 + d_DELTA);
+                    // Draw country name
+                    p_grpahics.setColor(Color.YELLOW);
+                    p_grpahics.setFont(new Font("default", Font.BOLD, 12));
+                    p_grpahics.drawString(l_country.getDId() + "", l_country.getXCoordinates(), l_country.getYCoordinates() - d_NODESIZE / 2 + d_DELTA);
+                }
             }
 
             // Draw continent labels
             p_grpahics.setColor(Color.WHITE);
 
-            //display continents
-            for (Continent l_continent : l_continents) {
-                int l_minY = l_continent.getCountries().get(0).getYCoordinates();
-                int l_midX = 0;
-                for (Country country : l_continent.getCountries()) {
-                    if (l_minY > country.getYCoordinates())
-                        l_minY = country.getYCoordinates();
+            if(l_continents != null) {
+                //display continents
+                for (Continent l_continent : l_continents) {
+                    int l_minY = l_continent.getCountries().get(0).getYCoordinates();
+                    int l_midX = 0;
+                    for (Country country : l_continent.getCountries()) {
+                        if (l_minY > country.getYCoordinates())
+                            l_minY = country.getYCoordinates();
 
-                    Point p = l_countryPoint.get(country);
-                    l_midX += p.x;
+                        Point p = l_countryPoint.get(country);
+                        l_midX += p.x;
+                    }
+                    l_midX /= l_continent.getCountries().size();
+                    String l_label = l_continent.getName();
+
+                    p_grpahics.setFont(new Font("default", Font.BOLD, 12));
+                    p_grpahics.drawString(l_label, l_midX, l_minY + d_DELTA - 40);
                 }
-                l_midX /= l_continent.getCountries().size();
-                String l_label = l_continent.getName();
-
-                p_grpahics.setFont(new Font("default", Font.BOLD, 12));
-                p_grpahics.drawString(l_label, l_midX, l_minY + d_DELTA - 40);
             }
         }
 

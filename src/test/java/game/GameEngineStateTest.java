@@ -5,6 +5,7 @@ import entity.Player;
 import entity.PlayerHandler;
 import game.Orders.DeployOrder;
 import game.States.GameStates;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -27,7 +28,16 @@ class GameEngineStateTest {
     public void setUp() {
         d_gameEngineTest = new GameEngine();
         d_gameEngineTest.initialise();
-        PlayerHandler.getGamePlayers().clear();
+    }
+
+    /**
+     * cleans up after each test
+     */
+    @AfterEach
+    public void cleanup(){
+        d_gameEngineTest.quitGame();
+        d_gameEngineTest.shutdown();
+        d_gameEngineTest = null;
     }
 
     /**
@@ -45,7 +55,8 @@ class GameEngineStateTest {
     public void testStateAfterMapLoad() {
         // we loadmap, add players and assigncountries,
         // the last command invoke should start the game.
-        d_gameEngineTest.submitCommand(Command.parseString("loadmap testresources/wow.map"));
+        d_gameEngineTest.submitCommand(Command.parseString("loadmap testResources/WoW.map"));
+        assertEquals(d_gameEngineTest.getGameState(), GameStates.IssueOrder);
         d_gameEngineTest.submitCommand(Command.parseString("gameplayer -add pla1 pla2"));
         d_gameEngineTest.submitCommand(Command.parseString("assigncountries"));
         assertTrue(d_gameEngineTest.gameStarted());
@@ -57,9 +68,13 @@ class GameEngineStateTest {
     @Test
     public void testExecuteState() {
         // start a game
-        d_gameEngineTest.submitCommand(Command.parseString("loadmap testresources/wow.map"));
+        d_gameEngineTest.submitCommand(Command.parseString("loadmap testResources/WoW.map"));
+        assertEquals(d_gameEngineTest.getGameState(), GameStates.IssueOrder);
         d_gameEngineTest.submitCommand(Command.parseString("gameplayer -add pla1 pla2"));
         d_gameEngineTest.submitCommand(Command.parseString("assigncountries"));
+        assertTrue(d_gameEngineTest.gameStarted());
+        // check if you have two players exact
+        assertEquals(PlayerHandler.getGamePlayers().size(), 2);
 
         // we bypass the deploy command to add deploy orders to the player
         // this is done, since the deploy command validates ownership which can
@@ -90,9 +105,13 @@ class GameEngineStateTest {
     @Test
     public void testGameOverState() {
         // start a game
-        d_gameEngineTest.submitCommand(Command.parseString("loadmap testresources/wow.map"));
+        d_gameEngineTest.submitCommand(Command.parseString("loadmap testResources/WoW.map"));
+        assertEquals(d_gameEngineTest.getGameState(), GameStates.IssueOrder);
         d_gameEngineTest.submitCommand(Command.parseString("gameplayer -add pla1 pla2"));
         d_gameEngineTest.submitCommand(Command.parseString("assigncountries"));
+        assertTrue(d_gameEngineTest.gameStarted());
+        // check if you have two players exact
+        assertEquals(PlayerHandler.getGamePlayers().size(), 2);
 
         // remove 1 player to make it just one player left.
         // usually this isn't how players are removed from game, but assigncountires
