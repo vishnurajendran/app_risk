@@ -9,6 +9,8 @@ import entity.RiskMap;
  */
 public class AirliftOrder extends Order {
 
+    private int d_armiesToAirlift;
+
     /**
      * Default Constructor.
      */

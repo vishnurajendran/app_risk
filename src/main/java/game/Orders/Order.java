@@ -13,7 +13,6 @@ abstract public class Order {
     protected Player d_ctxPlayer;
     protected int d_targetCountry;
     protected int d_armiesToAdvance;
-    protected int d_armiesToAirlift;
     protected int d_sourceCountry;
 
     protected RiskMap d_riskMap;
