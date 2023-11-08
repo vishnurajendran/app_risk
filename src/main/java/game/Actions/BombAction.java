@@ -45,8 +45,7 @@ public class BombAction extends GameAction {
 
         // If all checks pass, add a BombOrder to the player's orders
         if (canIssueOrder == 5) {
-            d_currentPlayer.setTempOrder(new BombOrder(d_currentPlayer, d_countryToBomb, d_context.getEngine().getMap()));
-            d_currentPlayer.issueOrder();
+            d_currentPlayer.issueOrder(new BombOrder(d_currentPlayer, d_countryToBomb, d_context.getEngine().getMap()));
         } else {
             System.out.println(GameCommands.BOMB_ERROR_MESSAGES.get(canIssueOrder));
             d_execStatus = ActionExecStatus.Fail;

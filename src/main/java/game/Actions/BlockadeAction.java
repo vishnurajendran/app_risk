@@ -51,9 +51,7 @@ public class BlockadeAction extends GameAction {
             return;
         }
 
-        l_player.setTempOrder(new BlockadeOrder(l_riskMap,l_player,l_country));
-        l_player.issueOrder();
-
+        l_player.issueOrder(new BlockadeOrder(l_riskMap,l_player,l_country));
     }
 
     @Override

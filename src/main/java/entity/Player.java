@@ -1,15 +1,12 @@
 package entity;
 
+import game.GameEngine;
 import game.Orders.Order;
 
-import java.util.ArrayList;
-import java.util.Random;
-import java.util.UUID;
-
+import java.util.*;
 
 /**
  * Class PlayerDetails contains details of the player
- *
  * @author Soham
  */
 public class Player {
@@ -19,7 +16,6 @@ public class Player {
     // @param listOfCountriesOwned contains the name of the country and the number of armies present.
     private final ArrayList<Country> d_listOfCountriesOwned;
     private final ArrayList<Order> d_orders = new ArrayList<>();
-    private Order d_tempOrder;
     private int bonusForOwningContinent = 0;
     private final RiskMap d_map;
     private final ArrayList<CardType> d_ownedCards;
@@ -28,15 +24,9 @@ public class Player {
     private final Random d_randGen;
 
     Player() {
-        this("", null);
+       this("", null);
     }
 
-    /**
-     * This constructor is used to add new players
-     * The number of armies are automatically assigned at 5
-     * @param p_map Risk map of the game
-     * @param p_playerName The name of the player
-     */
     Player(String p_playerName, RiskMap p_map) {
         d_playerId = UUID.randomUUID();
         this.d_availableReinforcements = 5;
@@ -52,16 +42,12 @@ public class Player {
      * Issues an order and stores it in the d_orders variable
      * the variable will be used once it has to be executed
      */
-    public void issueOrder() {
-        if (d_tempOrder == null) {
+    public void issueOrder(Order p_newOrder) {
+        if (p_newOrder == null) {
             return;
         }
-        d_orders.add(d_tempOrder);
-    }
-
-    public void setTempOrder(Order p_newOrder) {
-        d_tempOrder = p_newOrder;
-        //d_orders.add(p_newOrder);
+        d_orders.add(p_newOrder);
+        d_negotiatedPlayers.clear();
     }
 
     /**
@@ -106,33 +92,13 @@ public class Player {
         return l_order;
     }
 
-
+    /**
+     * This constructor is used to add new players
+     * The number of armies are automatically assigned at 5
+     */
 
     public void assignCountry(Country p_country, int p_noOfArmies) {
         d_listOfCountriesOwned.add(p_country);
-    }
-
-    /**
-     * Remove a country from the player,only remove the ownership of the country, does not change the number of army
-     * @param p_country The country need to be removed.
-     *
-     */
-    public void removeCountry(Country p_country){
-        if(!d_listOfCountriesOwned.contains(p_country)){
-            System.out.println("The player does not own the country");
-            return;
-        }
-        d_listOfCountriesOwned.remove(p_country);
-
-    }
-
-    /**
-     * Check if the country provided is owned by the current player
-     * @param p_country The country that need to check if is owned by the player
-     * @return True if it's owned by the player. False if is not
-     */
-    public boolean isCountryOwned(Country p_country){
-        return d_listOfCountriesOwned.contains(p_country);
     }
 
     /**
@@ -223,12 +189,80 @@ public class Player {
     }
 
     /**
-     * This method adds the player with given id to negotiated players list.
-     *
-     * @param p_playerId    id of player to be negotiated as an integer.
+     * @return no.of cards available to player.
      */
-    public void addNegotiatedPlayer(UUID p_playerId){
-        d_negotiatedPlayers.add(p_playerId);
+    public int totalCardsInPossesion(){
+        return d_ownedCards.size();
+    }
+
+    /**
+     * prints the player object details.
+     * @return string with player details.
+     */
+    @Override
+    public String toString() {
+        String l_nameStr = "Name: " + d_playerName;
+        String l_reinforcementsStr = "\n\tRe-inforcements: " + d_availableReinforcements;
+        String l_cardsStr = "\n\tAvailable Cards: ";
+        Map<CardType, Integer> cardMap = new HashMap<>();
+        for(CardType card : d_ownedCards){
+            if(cardMap.containsKey(card)) {
+                cardMap.put(card, cardMap.get(card) + 1);
+            }
+            else
+                cardMap.put(card, 1);
+        }
+
+        for(CardType card : CardType.values()){
+            l_cardsStr += "\n\t\t"+card + ": " + (cardMap.containsKey(card) ? cardMap.get(card) : 0);
+        }
+
+        String l_ordersStr = "\n[Issued Orders]";
+        if(d_orders.isEmpty())
+            l_ordersStr += "\n -- none --";
+        else
+            for(Order l_order : d_orders){
+                l_ordersStr +="\n\t"+l_order;
+            }
+
+        l_ordersStr += "\n\n";
+        return l_nameStr + l_reinforcementsStr + l_cardsStr + l_ordersStr;
+    }
+
+    /**
+     * @return true if player has orders.
+     */
+    public boolean hasOrders(){
+        return !d_orders.isEmpty();
+    }
+
+    /**
+     * clear the negotiation list for this place.
+     */
+    public void clearNegotiations(){
+        d_negotiatedPlayers.clear();
+    }
+
+    /**
+     * Remove a country from the player,only remove the ownership of the country, does not change the number of army
+     * @param p_country The country need to be removed.
+     *
+     */
+    public void removeCountry(Country p_country){
+        if(!d_listOfCountriesOwned.contains(p_country)){
+            System.out.println("The player does not own the country");
+            return;
+        }
+        d_listOfCountriesOwned.remove(p_country);
+    }
+
+    /**
+     * Check if the country provided is owned by the current player
+     * @param p_country The country that need to check if is owned by the player
+     * @return True if it's owned by the player. False if is not
+     */
+    public boolean isCountryOwned(Country p_country){
+        return d_listOfCountriesOwned.contains(p_country);
     }
 
     /**
@@ -240,10 +274,12 @@ public class Player {
         return d_negotiatedPlayers.contains(p_playerToCheck.getPlayerId());
     }
 
+
     /**
-     * clears the list of negotiated players
+     * This method adds the player with given id to negotiated players list.
+     * @param p_playerId id of player to be negotiated as an integer.
      */
-    public void clearNegotiatedPlayers(){
-        d_negotiatedPlayers.clear();
+    public void addNegotiatedPlayer(UUID p_playerId){
+        d_negotiatedPlayers.add(p_playerId);
     }
 }

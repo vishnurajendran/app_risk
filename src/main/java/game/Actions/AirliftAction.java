@@ -70,8 +70,7 @@ public class AirliftAction extends GameAction {
 
         int l_canProcessCommand = checkCommandValidity();
         if (l_canProcessCommand == AIRLIFT_ORDER_SUCCESS) {
-            d_currentPlayer.setTempOrder(new AirliftOrder(d_currentPlayer, d_sourceCountry, d_targetCountry, d_armiesToAirlift, d_context.getEngine().getMap()));
-            d_currentPlayer.issueOrder();
+            d_currentPlayer.issueOrder(new AirliftOrder(d_currentPlayer, d_sourceCountry, d_targetCountry, d_armiesToAirlift, d_context.getEngine().getMap()));
         } else {
             System.out.println(GameCommands.AIRLIFT_ERROR_MESSAGES.get(l_canProcessCommand));
             d_execStatus = ActionExecStatus.Fail;
