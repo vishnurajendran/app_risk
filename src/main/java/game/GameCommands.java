@@ -65,13 +65,16 @@ public class GameCommands {
      */
     public static final Set<String> CHECK_VALID_COMMANDS_FOR_ISSUEORDER = new HashSet<>(Arrays.asList(CMD_GAME_PLAYER, CMD_ASSIGN_COUNTRIES_TO_PLAYER, CMD_SHOWMAP, CMD_DEPLOY_COUNTRIES));
     /**
-     * Error messages for displaying to user
+     * Error messages for deploying
      */
     public static final ArrayList<String> DEPLOYERRORMESSAGE = new ArrayList<>(Arrays.asList(
             "ERROR: The given deploy command isn't valid, please try again",
             "ERROR: The player doesn't own this country, please try another one",
             "ERROR: The armies requested to deploy are more than what the player has"));
 
+    /**
+     * Error messages for advancing
+     */
     public static final ArrayList<String> ADVANCE_ERROR_MESSAGES = new ArrayList<>(Arrays.asList(
             "ERROR: The given advance command isn't valid, please try again",
             "ERROR: The player doesn't own this country",
