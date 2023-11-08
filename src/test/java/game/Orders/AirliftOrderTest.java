@@ -1,3 +1,8 @@
+/**
+ * This class contains unit tests for the AirliftOrder class.
+ *
+ * @author Shravani
+ */
 package game.Orders;
 
 import common.Command;
@@ -25,10 +30,12 @@ class AirliftOrderTest {
 
     Order d_AirliftOrderTest;
 
-
-
+    /**
+     * Setup method that initializes the test environment before each test case.
+     * It creates a GameEngine, adds players, sets up a continent, and assigns countries to players.
+     */
     @BeforeEach
-    void setUp(){
+    void setUp() {
         d_gameEngineTest = new GameEngine();
         d_gameEngineTest.initialise();
         PlayerHandler.addGamePlayers(new ArrayList<>(Arrays.asList("player1", "player2", "player3", "player4")), null);
@@ -38,23 +45,29 @@ class AirliftOrderTest {
         System.setOut(new PrintStream(outputStreamCaptor));
         d_gamePlayersTest.get(1).assignCountry(d_gameEngineTest.getMap().getCountryById(16), 0);
         d_gamePlayersTest.get(1).assignCountry(d_gameEngineTest.getMap().getCountryById(5), 5);
-
     }
 
     /**
-     * Cleanup after tests
+     * Cleanup method that runs after each test case to clean up and reset the environment.
      */
     @AfterEach
-    void cleanup(){
+    void cleanup() {
         d_gameEngineTest.quitGame();
         d_gameEngineTest.shutdown();
         d_gameEngineTest = null;
     }
 
+    /**
+     * Test the AirliftOrder behavior.
+     * It creates an AirliftOrder, executes it, and then asserts that the order works as expected.
+     */
     @Test
-    void TestAirliftOrder(){
+    void TestAirliftOrder() {
+        // Create an AirliftOrder and execute it
         d_AirliftOrderTest = new AdvanceOrder(d_gamePlayersTest.get(0), 5, 16, 4, d_gameEngineTest.getMap());
         d_AirliftOrderTest.executeOrder();
+
+        // Check if the armies were correctly airlifted
         assertEquals(1, d_gameEngineTest.getMap().getCountryById(5).getArmy());
         assertEquals(4, d_gameEngineTest.getMap().getCountryById(16).getArmy());
         assertTrue(d_gamePlayersTest.get(0).isCountryOwned(d_gameEngineTest.getMap().getCountryById(16)));

@@ -1,3 +1,11 @@
+/**
+ * unit test for AirliftAction class.
+ * It ensures that the AirliftAction behaves correctly in different scenarios.
+ *
+ * @author Shravani
+
+ */
+
 package game.Actions;
 
 import common.Command;
@@ -25,6 +33,10 @@ class AirliftActionTest {
     GameAction d_gameActionTest;
 
 
+    /**
+     * Setup method that initializes the test environment before each test case.
+     * It creates a GameEngine, adds players, sets up a continent, and assigns countries to players.
+     */
     @BeforeEach
     void setUp(){
         d_gameEngineTest = new GameEngine();
@@ -45,6 +57,9 @@ class AirliftActionTest {
         d_gameActionTest.setContext(new Context(d_gamePlayersTest.get(1), d_gameEngineTest));
     }
 
+    /**
+     * Cleanup method that runs after each test case to clean up and reset the environment.
+     */
     @AfterEach
     void cleanup(){
         d_gameEngineTest.quitGame();
@@ -52,6 +67,9 @@ class AirliftActionTest {
         d_gameEngineTest = null;
     }
 
+    /**
+     * Tests the validity of the Airlift command by checking if it produces the expected error message.
+     */
     @Test
     void TestCommandValidity(){
 
@@ -62,6 +80,9 @@ class AirliftActionTest {
 
     }
 
+    /**
+     * Tests whether the player has the ownership of the Airlift card and checks for the expected error message.
+     */
     @Test
     void TestAirliftCardOwnership(){
         Command l_cmd = Command.parseString("airlift 2 3 3");
@@ -70,6 +91,9 @@ class AirliftActionTest {
         Assertions.assertEquals(GameCommands.AIRLIFT_ERROR_MESSAGES.get(1), outputStreamCaptor.toString().trim());
     }
 
+    /**
+     * Tests whether the player owns the Source country and checks for the expected error message.
+     */
     @Test
     void TestSourceCountryOwnership(){
         Command l_cmd = Command.parseString("airlift 1 3 3");
@@ -78,6 +102,9 @@ class AirliftActionTest {
         Assertions.assertEquals(GameCommands.AIRLIFT_ERROR_MESSAGES.get(2), outputStreamCaptor.toString().trim());
     }
 
+    /**
+     * Tests whether the player has enough number of armies in that country and checks for the expected error message.
+     */
     @Test
     void TestCountryNumberOfArmies(){
         Command l_cmd = Command.parseString("airlift 2 5 11");
@@ -86,6 +113,9 @@ class AirliftActionTest {
         Assertions.assertEquals(GameCommands.AIRLIFT_ERROR_MESSAGES.get(3), outputStreamCaptor.toString().trim());
     }
 
+    /**
+     * Tests whether the player owns the target country and checks for the expected error message.
+     */
     @Test
     void TestTargetCountryOwnership(){
         Command l_cmd = Command.parseString("airlift 2 3 3");
