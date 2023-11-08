@@ -51,7 +51,7 @@ class AdvanceOrderTest {
         d_gamePlayersTest.get(2).assignCountry(d_gameEngineTest.getMap().getCountryById(2), 4);
         d_gamePlayersTest.get(3).assignCountry(d_gameEngineTest.getMap().getCountryById(12), 4);
         d_gameActionTest = GameActionFactory.getAdvanceAction();
-        d_gameActionTest.SetContext(new Context(d_gamePlayersTest.get(0), d_gameEngineTest));
+        d_gameActionTest.setContext(new Context(d_gamePlayersTest.get(0), d_gameEngineTest));
     }
 
     /**
