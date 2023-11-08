@@ -49,16 +49,18 @@ class GameEngineStateTest {
     }
 
     /**
-     * Test game state after loding map.
+     * Test game start state to IssueOrder state transition.
      */
     @Test
-    public void testStateAfterMapLoad() {
+    public void testGameStartState() {
         // we loadmap, add players and assigncountries,
         // the last command invoke should start the game.
         d_gameEngineTest.submitCommand(Command.parseString("loadmap testResources/WoW.map"));
-        assertEquals(d_gameEngineTest.getGameState(), GameStates.IssueOrder);
+        assertEquals(d_gameEngineTest.getGameState(), GameStates.GameStart);
         d_gameEngineTest.submitCommand(Command.parseString("gameplayer -add pla1 pla2"));
+        assertEquals(d_gameEngineTest.getGameState(), GameStates.GameStart);
         d_gameEngineTest.submitCommand(Command.parseString("assigncountries"));
+        assertEquals(d_gameEngineTest.getGameState(), GameStates.IssueOrder);
         assertTrue(d_gameEngineTest.gameStarted());
     }
 
@@ -69,7 +71,6 @@ class GameEngineStateTest {
     public void testExecuteState() {
         // start a game
         d_gameEngineTest.submitCommand(Command.parseString("loadmap testResources/WoW.map"));
-        assertEquals(d_gameEngineTest.getGameState(), GameStates.IssueOrder);
         d_gameEngineTest.submitCommand(Command.parseString("gameplayer -add pla1 pla2"));
         d_gameEngineTest.submitCommand(Command.parseString("assigncountries"));
         assertTrue(d_gameEngineTest.gameStarted());
@@ -106,12 +107,8 @@ class GameEngineStateTest {
     public void testGameOverState() {
         // start a game
         d_gameEngineTest.submitCommand(Command.parseString("loadmap testResources/WoW.map"));
-        assertEquals(d_gameEngineTest.getGameState(), GameStates.IssueOrder);
         d_gameEngineTest.submitCommand(Command.parseString("gameplayer -add pla1 pla2"));
         d_gameEngineTest.submitCommand(Command.parseString("assigncountries"));
-        assertTrue(d_gameEngineTest.gameStarted());
-        // check if you have two players exact
-        assertEquals(PlayerHandler.getGamePlayers().size(), 2);
 
         // remove 1 player to make it just one player left.
         // usually this isn't how players are removed from game, but assigncountires

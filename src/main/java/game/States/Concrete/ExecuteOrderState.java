@@ -75,7 +75,7 @@ public class ExecuteOrderState extends GameState {
             d_context.getEngine().changeState(GameStates.GameOver);
         }
         else
-            d_context.getEngine().changeState(GameStates.IssueOrder);
+            d_context.getEngine().changeState(GameStates.RoundInitState);
     }
 
     /**

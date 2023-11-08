@@ -9,6 +9,7 @@ import game.Data.Context;
 import game.States.GameStateFactory;
 import game.States.GameStates;
 import game.States.IGameState;
+import mapShow.MapViewer;
 
 
 /**
@@ -112,10 +113,15 @@ public class GameEngine implements ISubApplication {
      */
     @Override
     public void submitCommand(Command p_command) {
-        //loadArgumentsAndOption(p_command);
-        if (p_command.getCmdName().equals(GameCommands.CMD_LOAD_MAP) && p_command.getCmdAttributes().isEmpty()) {
-            d_HasQuit = true;
+
+        if(p_command.getCmdName().equals(GameCommands.CMD_SHOWMAP)){
+            if(d_map == null)
+                return;
+
+            MapViewer.showMap(d_map);
+            return;
         }
+
         if (d_currentState.canProcessCommand(p_command.getCmdName())) {
             d_currentState.performAction(p_command);
         }
