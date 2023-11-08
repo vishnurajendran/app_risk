@@ -43,7 +43,6 @@ class AdvanceActionTest {
         d_continent = new Continent(1, "test-continent", 3);
         d_gamePlayersTest = PlayerHandler.getGamePlayers();
         d_gameEngineTest.submitCommand(Command.parseString("loadmap testresources/WoW.map"));
-        System.out.flush();
         System.setOut(new PrintStream(outputStreamCaptor));
         d_gamePlayersTest.get(0).assignCountry(d_gameEngineTest.getMap().getCountryById(1), 4);
         d_gamePlayersTest.get(1).assignCountry(d_gameEngineTest.getMap().getCountryById(16), 4);
