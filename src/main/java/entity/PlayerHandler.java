@@ -221,7 +221,6 @@ public class PlayerHandler {
                 l_currentPlayer.setAvailableReinforcements(l_currentPlayer.getAvailableReinforcements() - l_deployReinforcements);
                 l_currentPlayer.issueOrder(new DeployOrder(l_currentPlayer, l_deployReinforcements, l_countryId));
                 Logger.log("Orders for player " + l_currentPlayer + " = " + l_currentPlayer.getOrderSize());
-                d_whichPlayersTurn += 1;
             }
         } else {
             Logger.log(String.valueOf(p_cmd.getCmdAttributes().size() + " Isn't valid"));
