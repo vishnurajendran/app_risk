@@ -13,6 +13,7 @@ import java.util.Random;
 public class AdvanceOrder extends Order {
 
     private int d_armiesToAdvance;
+
     /**
      * Default Constructor
      */
@@ -63,15 +64,26 @@ public class AdvanceOrder extends Order {
             }
         }
 
-        if (l_armiesInTargetCountry <= 0) {
-            for (Player player : PlayerHandler.getGamePlayers()) {
-                if (player.isCountryOwned(d_riskMap.getCountryById(d_targetCountry))) {
-                    player.removeCountry(d_riskMap.getCountryById(d_targetCountry));
-                }
+        Player l_targetCountryOwner = null;
+        for (Player player : PlayerHandler.getGamePlayers()) {
+            if (player.isCountryOwned(d_riskMap.getCountryById(d_targetCountry))) {
+                player.removeCountry(d_riskMap.getCountryById(d_targetCountry));
+                l_targetCountryOwner = player;
             }
+        }
+        if (l_armiesInTargetCountry <= 0) {
+            if (l_targetCountryOwner != null) {
+                System.out.println(d_ctxPlayer.getPlayerName() + " conquered " + d_riskMap.getCountryById(d_targetCountry).getName()
+                        + "that was owned by " + l_targetCountryOwner.getPlayerName());
+            }
+
             d_ctxPlayer.assignCountry(d_riskMap.getCountryById(d_targetCountry), l_armiesInSourceCountryAdvanced);
             d_riskMap.getCountryById(d_targetCountry).setArmy(l_armiesInSourceCountryAdvanced);
         } else {
+            if(l_targetCountryOwner!=null){
+                System.out.println(l_targetCountryOwner.getPlayerName() + " defended an attack from "
+                        + d_ctxPlayer.getPlayerName() + " on " + d_riskMap.getCountryById(d_targetCountry).getName());
+            }
             d_riskMap.getCountryById(d_targetCountry).setArmy(l_armiesInTargetCountry);
         }
     }
