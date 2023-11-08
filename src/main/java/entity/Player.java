@@ -7,7 +7,6 @@ import java.util.*;
 
 /**
  * Class PlayerDetails contains details of the player
- *
  * @author Soham
  */
 public class Player {

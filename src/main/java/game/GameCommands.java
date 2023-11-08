@@ -119,4 +119,12 @@ public class GameCommands {
             "ERROR: The target country is not owned by the player"
     ));
 
+    public static final ArrayList<String> BOMB_ERROR_MESSAGES = new ArrayList<>(Arrays.asList(
+            "ERROR: The given bomb command isn't valid, please try again",
+            "ERROR: The player doesn't own the bomb card",
+            "ERROR: You cannot bomb one of your own countries",
+            "ERROR: The given target country is not adjacent to any of the countries owned by you",
+            "ERROR: You are in diplomacy with the player that owns the country"
+    ));
+
 }
