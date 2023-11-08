@@ -19,13 +19,10 @@ public class AdvanceAction extends GameAction {
     private int d_sourceCountry;
     private int d_targetCountry;
     private int d_armiesInTargetCountry;
-    private final Player d_currentPlayer;
+    private Player d_currentPlayer;
     private int d_armiesInSourceCountry;
     private int d_armiesToAdvance;
 
-    public AdvanceAction(){
-         d_currentPlayer = d_context.getCurrentPlayer();
-    }
 
     private final int ADVANCE_ORDER_ERROR = 0;
 
@@ -46,9 +43,16 @@ public class AdvanceAction extends GameAction {
      * Then, if everything runs, it adds advance order to the list of orders in Player.
      * @param p_cmd command to run the action with.
      */
+
     @Override
     public void execute(Command p_cmd) {
-        if(p_cmd.getCmdAttributes().size() != 3){
+        d_currentPlayer = d_context.getCurrentPlayer();
+        if(p_cmd.getCmdAttributes().isEmpty()){
+            System.out.println(GameCommands.ADVANCE_ERROR_MESSAGES.get(ADVANCE_ORDER_ERROR));
+            d_execStatus = ActionExecStatus.Fail;
+            return;
+        }
+        else if(p_cmd.getCmdAttributes().get(0).getArguments().size() != 3){
             System.out.println(GameCommands.ADVANCE_ERROR_MESSAGES.get(ADVANCE_ORDER_ERROR));
             d_execStatus = ActionExecStatus.Fail;
             return;
@@ -92,7 +96,7 @@ public class AdvanceAction extends GameAction {
      * 4. The countries are not adjacent;
      * 5. Checks if current player has negotiated with one of the players that owns the target country
      */
-    private int checkCommandValidity(){
+    public int checkCommandValidity(){
 
         // checks if player owns the country
         if(!d_currentPlayer.isCountryOwned(d_context.getEngine().getMap().getCountryById(d_sourceCountry))) {

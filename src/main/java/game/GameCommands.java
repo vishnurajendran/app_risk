@@ -3,7 +3,6 @@ package game;
 
 import mapShow.MapShowConstants;
 
-import java.sql.Struct;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -106,7 +105,7 @@ public class GameCommands {
     public static final ArrayList<String> ADVANCE_ERROR_MESSAGES = new ArrayList<>(Arrays.asList(
             "ERROR: The given advance command isn't valid, please try again",
             "ERROR: The player doesn't own this country",
-            "ERROR: The armies requested to advance are more than what the player has",
+            "ERROR: The armies requested to advance are more than what the player has on the country",
             "ERROR: The given countries are not adjacent",
             "ERROR: You are in diplomacy with the player that owns the country"
     ));
