@@ -45,7 +45,7 @@ public class BlockadeOrder extends Order{
 
         d_riskMap.increaseCountryArmyById(d_targetCountry,d_riskMap.getCountryArmyById(d_country.getDId())*2);
         d_ctxPlayer.removeCountry(d_country);
-        d_ctxPlayer.removeCard(CardType.Blockade);
+
 
     }
 }
