@@ -1,5 +1,6 @@
 package game.Orders;
 
+import entity.CardType;
 import entity.Country;
 import entity.Player;
 import entity.RiskMap;
@@ -54,6 +55,7 @@ public class AirliftOrder extends Order {
                     // Move armies from source to target country
                     sourceCountry.setArmy(sourceCountry.getArmy() - d_armiesToAirlift);
                     targetCountry.setArmy(targetCountry.getArmy() + d_armiesToAirlift);
+                    d_ctxPlayer.removeCard(CardType.Airlift);
 
                     // Print a message
                     System.out.println("Airlift successful: Moved " + d_armiesToAirlift + " armies from " +

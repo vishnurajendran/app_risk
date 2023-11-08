@@ -51,6 +51,7 @@ public class AirliftAction extends GameAction {
         // Check if the command format is valid
         if (p_cmd.getCmdAttributes().size() != 3) {
             System.out.println(GameCommands.AIRLIFT_ERROR_MESSAGES.get(AIRLIFT_ORDER_ERROR));
+            d_execStatus = ActionExecStatus.Fail;
             return;
         }
 
@@ -63,6 +64,7 @@ public class AirliftAction extends GameAction {
             d_armiesInTargetCountry = d_context.getEngine().getMap().getCountryArmyById(d_targetCountry);
         } catch (Exception e) {
             System.out.println(GameCommands.AIRLIFT_ERROR_MESSAGES.get(AIRLIFT_ORDER_ERROR));
+            d_execStatus = ActionExecStatus.Fail;
             return;
         }
 

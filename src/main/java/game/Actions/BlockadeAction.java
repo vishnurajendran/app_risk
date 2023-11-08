@@ -26,7 +26,6 @@ public class BlockadeAction extends GameAction {
         d_execStatus = ActionExecStatus.Success;
         Player l_player=d_context.getCurrentPlayer();
         RiskMap l_riskMap=d_context.getEngine().getMap();
-        //not 100% sure if cmd is handled correctly here
         ArrayList<String> l_arguments=p_cmd.getCmdAttributes().get(0).getArguments();
         if(l_arguments.size()!=1){
             System.out.print("Incorrect amount of arguments for blockade action.");
