@@ -8,8 +8,6 @@ import entity.PlayerHandler;
 import game.GameCommands;
 import game.Orders.BombOrder;
 
-import java.util.ArrayList;
-
 /**
  * Functionality related to bomb a country owned by the current player,
  *
