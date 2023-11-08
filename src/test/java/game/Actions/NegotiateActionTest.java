@@ -9,7 +9,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
-import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -43,7 +42,7 @@ class NegotiateActionTest {
             d_oppPlayer = PlayerHandler.getPlayerById(PlayerHandler.getPlayerIDByName("dummy2"));
             d_context = new Context(d_player, d_gameEngine);
             d_action = new NegotiateAction();
-            d_action.SetContext(d_context);
+            d_action.setContext(d_context);
         }
 
         /**

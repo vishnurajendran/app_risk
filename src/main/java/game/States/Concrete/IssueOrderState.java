@@ -2,7 +2,6 @@ package game.States.Concrete;
 
 import common.Command;
 import common.IMethod;
-import common.Logging.Logger;
 import entity.Player;
 import entity.PlayerHandler;
 import game.Actions.ActionExecStatus;
@@ -12,7 +11,6 @@ import game.Data.Context;
 import game.GameCommands;
 import game.States.GameState;
 import game.States.GameStates;
-import mapShow.MapViewer;
 
 import java.util.HashMap;
 
@@ -73,7 +71,7 @@ public class IssueOrderState extends GameState {
      */
     private void executeAction(GameAction p_action, Command p_command){
         // we want the updated current player to go to this state
-        p_action.SetContext(new Context(PlayerHandler.getCurrentPlayer(), d_context.getEngine()));
+        p_action.setContext(new Context(PlayerHandler.getCurrentPlayer(), d_context.getEngine()));
         p_action.execute(p_command);
         p_action.postExecute();
 
