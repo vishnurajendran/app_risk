@@ -4,6 +4,8 @@ import entity.Player;
 import game.GameEngine;
 
 /**
+ * This is a pure data class used to send contextual data
+ * to states and actions.
  * @author Soham
  */
 public class Context {

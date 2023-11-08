@@ -1,6 +1,8 @@
 package game.Actions;
 
 /**
+ * This factory provide helper functions to create instances
+ * of new actions.
  * @author vishnurajendran
  */
 public class GameActionFactory {

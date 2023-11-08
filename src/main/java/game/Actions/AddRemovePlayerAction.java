@@ -11,6 +11,8 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 
 /**
+ * This action implements gameplayer command to add or remove
+ * players in a game.
  * @author vishnurajendran
  */
 public class AddRemovePlayerAction extends GameAction{

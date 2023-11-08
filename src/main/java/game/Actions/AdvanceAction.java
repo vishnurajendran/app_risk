@@ -7,11 +7,10 @@ import game.GameCommands;
 import game.Orders.AdvanceOrder;
 
 /**
- * @author Soham
- *
  * this class checks all the necessary conditions for executing advance command
  * if they pass, then it creates an order in the player
  * which can be executed once the player runs execute
+ * @author Soham
  */
 public class AdvanceAction extends GameAction {
 

@@ -2,6 +2,8 @@ package game.States;
 import game.States.Concrete.*;
 
 /**
+ * This factory provides helper functions
+ * to get new instances of a state.
  * @author Soham
  */
 public class GameStateFactory {

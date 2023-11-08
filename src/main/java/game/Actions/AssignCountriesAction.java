@@ -4,6 +4,7 @@ import common.Command;
 import entity.PlayerHandler;
 
 /**
+ * This action handles assigncountries command.
  * @author vishnurajendran
  */
 public class AssignCountriesAction extends GameAction{

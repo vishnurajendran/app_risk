@@ -6,8 +6,12 @@ package game.Actions;
  * @author vishnurajendran
  */
 public enum ActionExecStatus {
-    //execution completed successfully.
+    /**
+     * This enum denotes an execution success (default)
+     */
     Success,
-    //execution failed.
+    /**
+     * This enum denotes an execution failured
+     */
     Fail
 }

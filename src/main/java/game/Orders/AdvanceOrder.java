@@ -7,8 +7,8 @@ import entity.RiskMap;
 import java.util.Random;
 
 /**
- * @author Soham
  * this class executes the advance orders present in the players list of orders.
+ * @author Soham
  */
 public class AdvanceOrder extends Order {
 

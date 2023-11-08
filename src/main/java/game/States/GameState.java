@@ -3,6 +3,9 @@ package game.States;
 import game.Data.Context;
 
 /**
+ * This class implements the IGameState interface and
+ * provides an implementation for setContext, all concrete states
+ * are to be extending this abstract class.
  * @author Soham
  */
 public abstract class GameState implements IGameState {
