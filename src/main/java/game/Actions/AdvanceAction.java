@@ -57,8 +57,6 @@ public class AdvanceAction extends GameAction {
             d_execStatus = ActionExecStatus.Fail;
             return;
         }
-
-        // Using Ids to get the country
         try {
             d_sourceCountry =  Integer.parseInt(p_cmd.getCmdAttributes().get(0).getArguments().get(0));
             d_targetCountry = Integer.parseInt(p_cmd.getCmdAttributes().get(0).getArguments().get(1));
