@@ -1,74 +1,98 @@
 package game.Actions;
 
-import org.junit.Before;
-import org.junit.Test;
-import static org.junit.Assert.*;
-import game.GameEngine;
-import entity.Player;
-import entity.Country;
-import entity.CardType;
+import common.Command;
+import entity.*;
+import game.Data.Context;
+import game.*;
+import org.junit.jupiter.api.Assertions;
 
-public class AirliftActionTest {
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.AfterEach;
 
-    private AirliftAction airliftAction;
-    private GameEngine gameContext;
-    private Player currentPlayer;
-    private Country sourceCountry;
-    private Country targetCountry;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+import java.util.*;
 
-    @Before
-    public void setUp() {
-        gameContext = new GameEngine();
-        airliftAction = new AirliftAction();
-        currentPlayer = new Player();
-        sourceCountry = new Country(1, "Source Country", 1);
-        targetCountry = new Country(2, "Target Country", 2);
-        currentPlayer.addCard(CardType.Airlift);
-        currentPlayer.assignCountry(sourceCountry, 10);
-        currentPlayer.assignCountry(targetCountry, 9);
+class AirliftActionTest {
 
-        gameContext.setEngine(new GameEngine());
-        gameContext.setCurrentPlayer(currentPlayer);
-        gameContext.getEngine().setMap();
+    GameEngine d_gameEngineTest;
+    AirliftAction d_airliftActionTest;
+
+    ArrayList<Player> d_gamePlayersTest;
+    private final ByteArrayOutputStream outputStreamCaptor = new ByteArrayOutputStream();
+    Continent d_continent;
+    GameAction d_gameActionTest;
+
+
+    @BeforeEach
+    void setUp(){
+        d_gameEngineTest = new GameEngine();
+        d_gameEngineTest.initialise();
+        System.setOut(new PrintStream(outputStreamCaptor));
+        d_airliftActionTest = new AirliftAction();
+        PlayerHandler.addGamePlayers(new ArrayList<>(Arrays.asList("player1", "player2", "player3", "player4")), null);
+        d_continent = new Continent(1, "test-continent", 3);
+        d_gamePlayersTest = PlayerHandler.getGamePlayers();
+        d_gameEngineTest.submitCommand(Command.parseString("loadmap testresources/wow.map"));
+        d_gamePlayersTest.get(0).assignCountry(d_gameEngineTest.getMap().getCountryById(1), 5);
+        d_gamePlayersTest.get(1).assignCountry(d_gameEngineTest.getMap().getCountryById(2), 5);
+        d_gamePlayersTest.get(2).assignCountry(d_gameEngineTest.getMap().getCountryById(3), 5);
+        d_gamePlayersTest.get(3).assignCountry(d_gameEngineTest.getMap().getCountryById(4), 5);
+
+        d_gameActionTest = GameActionFactory.getAirliftAction();
+        d_gameActionTest.SetContext(new Context(d_gamePlayersTest.get(1), d_gameEngineTest));
+    }
+
+    @AfterEach
+    void cleanup(){
+        d_gameEngineTest.quitGame();
+        d_gameEngineTest.shutdown();
+        d_gameEngineTest = null;
     }
 
     @Test
-    public void testCheckCommandValidityInvalidCommand() {
-        int result = airliftAction.checkCommandValidity();
-        assertEquals(0, result); // 1. AIRLIFT_ORDER_ERROR: Airlift command is invalid.
+    void TestCommandValidity(){
+
+        Command l_cmd = Command.parseString("airlift 2 3");
+        d_gameActionTest.execute(l_cmd);
+        // To check if airlift command is valid, should create an error
+        Assertions.assertEquals(GameCommands.AIRLIFT_ERROR_MESSAGES.get(0), outputStreamCaptor.toString().trim());
+
     }
 
     @Test
-    public void testCheckCommandValidityPlayerDoesntOwnAirliftCard() {
-        currentPlayer.removeCard(CardType.Airlift);
-        int result = airliftAction.checkCommandValidity();
-        assertEquals(1, result); // 2. AIRLIFT_ORDER_PLAYER_DOESNT_OWN_AIRLIFT_CARD
+    void TestAirliftCardOwnership(){
+        Command l_cmd = Command.parseString("airlift 2 3 3");
+        d_gameActionTest.execute(l_cmd);
+        // To check if airlift command is valid, should create an error
+        Assertions.assertEquals(GameCommands.AIRLIFT_ERROR_MESSAGES.get(1), outputStreamCaptor.toString().trim());
     }
 
     @Test
-    public void testCheckCommandValidityPlayerDoesntOwnSourceCountry() {
-        currentPlayer.removeCountry(sourceCountry);
-        int result = airliftAction.checkCommandValidity();
-        assertEquals(2, result); // 3. AIRLIFT_ORDER_PLAYER_DOESNT_OWN_COUNTRY
+    void TestSourceCountryOwnership(){
+        Command l_cmd = Command.parseString("advance 1 3 3");
+        d_gameActionTest.d_context.getCurrentPlayer().addCard(CardType.Airlift);
+        d_gameActionTest.execute(l_cmd);
+        Assertions.assertEquals(GameCommands.AIRLIFT_ERROR_MESSAGES.get(2), outputStreamCaptor.toString().trim());
     }
 
     @Test
-    public void testCheckCommandValidityMoreArmiesRequestedThanAvailable() {
-        sourceCountry.setArmy(2);
-        int result = airliftAction.checkCommandValidity();
-        assertEquals(3, result); // 4. AIRLIFT_ORDER_MORE_THAN_AVAILABLE
+    void TestCountryNumberOfArmies(){
+        Command l_cmd = Command.parseString("advance 1  11");
+        d_gameActionTest.d_context.getCurrentPlayer().addCard(CardType.Airlift);
+        d_gameActionTest.execute(l_cmd);
+        Assertions.assertEquals(GameCommands.AIRLIFT_ERROR_MESSAGES.get(3), outputStreamCaptor.toString().trim());
     }
 
     @Test
-    public void testCheckCommandValidityPlayerDoesntOwnTargetCountry() {
-        currentPlayer.removeCountry(targetCountry);
-        int result = airliftAction.checkCommandValidity();
-        assertEquals(4, result); // 5. AIRLIFT_ORDER_PLAYER_DOESNT_OWN_TARGET_COUNTRY
+    void TestTargetCountryOwnership(){
+        Command l_cmd = Command.parseString("advance 2 3 3");
+        d_gameActionTest.d_context.getCurrentPlayer().addCard(CardType.Airlift);
+        d_gameActionTest.execute(l_cmd);
+        Assertions.assertEquals(GameCommands.AIRLIFT_ERROR_MESSAGES.get(4), outputStreamCaptor.toString().trim());
     }
 
-    @Test
-    public void testCheckCommandValiditySuccessful() {
-        int result = airliftAction.checkCommandValidity();
-        assertEquals(5, result); // 6. AIRLIFT ACTION SUCCESSFUL
-    }
+
+
 }
