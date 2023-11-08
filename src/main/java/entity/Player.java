@@ -23,10 +23,16 @@ public class Player {
     private final UUID d_playerId;
     private final Random d_randGen;
 
-    Player() {
+    public Player() {
        this("", null);
     }
 
+    /**
+     * This constructor is used to add new players
+     * The number of armies are automatically assigned at 5
+     * @param p_playerName name of player
+     * @param p_map current map
+     */
     public Player(String p_playerName, RiskMap p_map) {
         d_playerId = UUID.randomUUID();
         this.d_availableReinforcements = 5;
@@ -92,13 +98,15 @@ public class Player {
         return l_order;
     }
 
-    /**
-     * This constructor is used to add new players
-     * The number of armies are automatically assigned at 5
-     */
 
+    /**
+     * Assign country to a player with the given amount of player
+     * @param p_country The country what to assign
+     * @param p_noOfArmies The number of Armies on the land
+     */
     public void assignCountry(Country p_country, int p_noOfArmies) {
         d_listOfCountriesOwned.add(p_country);
+        p_country.setArmy(p_noOfArmies);
     }
 
     /**
