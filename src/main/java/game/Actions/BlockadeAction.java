@@ -33,7 +33,7 @@ public class BlockadeAction extends GameAction {
             return;
         }
         int l_countryID=Integer.parseInt(l_arguments.get(0));
-        if(l_player.isCardAvailable(CardType.Blockade)){
+        if(!l_player.isCardAvailable(CardType.Blockade)){
             System.out.println("You don't have blockade card to blockade.");
             d_execStatus=ActionExecStatus.Fail;
             return;
@@ -45,7 +45,7 @@ public class BlockadeAction extends GameAction {
             return;
         }
 
-        if(l_player.isCountryOwned(l_country)){
+        if(!l_player.isCountryOwned(l_country)){
             System.out.println("The country is not owned by you.");
             d_execStatus=ActionExecStatus.Fail;
             return;

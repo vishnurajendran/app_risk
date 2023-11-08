@@ -51,4 +51,10 @@ public interface ISubApplication {
      * to be a final chance to clean up any resources used.
      */
     public void shutdown();
+
+    /**
+     * @return a help string for this application.
+     */
+    public String getHelp();
+
 }

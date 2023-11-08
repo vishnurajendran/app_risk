@@ -30,14 +30,14 @@ public class BlockadeOrder extends Order{
      */
     @Override
     public void executeOrder() {
-        if(d_ctxPlayer.isCardAvailable(CardType.Blockade)){
+        if(!d_ctxPlayer.isCardAvailable(CardType.Blockade)){
             System.out.println("You don't have blockade card to blockade at the execution." +
                     "The card might already been used or removed.");
             return;
         }
 
 
-        if(d_ctxPlayer.isCountryOwned(d_country)){
+        if(!d_ctxPlayer.isCountryOwned(d_country)){
             System.out.println("The country is not owned by you at the execution." +
                     " The ownership of country might changed.");
             return;
@@ -45,7 +45,7 @@ public class BlockadeOrder extends Order{
 
         d_riskMap.increaseCountryArmyById(d_targetCountry,d_riskMap.getCountryArmyById(d_country.getDId())*2);
         d_ctxPlayer.removeCountry(d_country);
-        d_ctxPlayer.removeCard(CardType.Blockade);
+
 
     }
 }

@@ -14,7 +14,7 @@ public abstract class GameAction {
      * sets the context for this action.
      * @param p_ctx context to set.
      */
-    public void SetContext(Context p_ctx){
+    public void setContext(Context p_ctx){
         this.d_context = p_ctx;
     }
 

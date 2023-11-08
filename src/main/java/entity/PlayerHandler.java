@@ -99,8 +99,18 @@ public class PlayerHandler {
         }
 
         for (String name : p_playerNames) {
-            d_gamePlayers.add(new Player(name, p_map));
+            d_gamePlayers.add(new Player(generatePlayerId(),name, p_map));
         }
+    }
+
+    /**
+     * @return a numerical number that can be used as an Id for players
+     */
+    public static int generatePlayerId(){
+        if(d_gamePlayers == null)
+            d_gamePlayers = new ArrayList<>();
+
+        return d_gamePlayers.size() + 1;
     }
 
     /**
@@ -293,9 +303,9 @@ public class PlayerHandler {
      * @param p_playerId    playerId as an integer.
      * @return      player object
      */
-    public static Player getPlayerById(UUID p_playerId){
+    public static Player getPlayerById(int p_playerId){
         for(Player l_player : d_gamePlayers){
-            if(l_player.getPlayerId().equals(p_playerId)){
+            if(l_player.getPlayerId() == p_playerId){
                 return l_player;
             }
         }
@@ -324,5 +334,20 @@ public class PlayerHandler {
             return;
 
         d_commitedPlayers.add(p_player);
+    }
+
+    /**
+     * Returns the unique uuid of the player with given name
+     * used for testing.
+     * @param p_name    name of the player.
+     * @return  return the uuid of the player.
+     */
+    public static int getPlayerIDByName(String p_name){
+        for (Player player : d_gamePlayers) {
+            if (player.getPlayerName().equals(p_name)) {
+                return player.getPlayerId();
+            }
+        }
+        return -1;
     }
 }

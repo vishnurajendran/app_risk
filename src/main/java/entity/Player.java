@@ -19,23 +19,29 @@ public class Player {
     private int bonusForOwningContinent = 0;
     private final RiskMap d_map;
     private final ArrayList<CardType> d_ownedCards;
-    private final ArrayList<UUID> d_negotiatedPlayers;
-    private final UUID d_playerId;
+    private final ArrayList<Integer> d_negotiatedPlayers;
+    private final int d_playerId;
     private final Random d_randGen;
 
-    Player() {
-       this("", null);
+    public Player() {
+       this(0,"", null);
     }
 
-    Player(String p_playerName, RiskMap p_map) {
-        d_playerId = UUID.randomUUID();
+    /**
+     * This constructor is used to add new players
+     * The number of armies are automatically assigned at 5
+     * @param p_playerName name of player
+     * @param p_map current map
+     */
+    public Player(int p_id, String p_playerName, RiskMap p_map) {
+        d_playerId = p_id;
         this.d_availableReinforcements = 5;
         this.d_playerName = p_playerName;
         d_listOfCountriesOwned = new ArrayList<>();
         d_ownedCards = new ArrayList<>();
         d_negotiatedPlayers = new ArrayList<>();
         d_map = p_map;
-        d_randGen = new Random(d_playerId.hashCode());
+        d_randGen = new Random(UUID.randomUUID().hashCode());
     }
 
     /**
@@ -92,13 +98,15 @@ public class Player {
         return l_order;
     }
 
-    /**
-     * This constructor is used to add new players
-     * The number of armies are automatically assigned at 5
-     */
 
+    /**
+     * Assign country to a player with the given amount of player
+     * @param p_country The country what to assign
+     * @param p_noOfArmies The number of Armies on the land
+     */
     public void assignCountry(Country p_country, int p_noOfArmies) {
         d_listOfCountriesOwned.add(p_country);
+        p_country.setArmy(p_noOfArmies);
     }
 
     /**
@@ -151,7 +159,7 @@ public class Player {
     /**
      * @return UUID of player.
      */
-    public UUID getPlayerId(){
+    public int getPlayerId(){
         return d_playerId;
     }
 
@@ -279,7 +287,7 @@ public class Player {
      * This method adds the player with given id to negotiated players list.
      * @param p_playerId id of player to be negotiated as an integer.
      */
-    public void addNegotiatedPlayer(UUID p_playerId){
+    public void addNegotiatedPlayer(int p_playerId){
         d_negotiatedPlayers.add(p_playerId);
     }
 }

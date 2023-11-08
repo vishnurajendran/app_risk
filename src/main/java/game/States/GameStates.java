@@ -14,6 +14,13 @@ public enum GameStates {
     GameStart,
 
     /**
+     * this state acts as the init state
+     * for a new round of the game, if game has not
+     * been started, changes state quietly.
+     */
+    RoundInitState,
+
+    /**
      * Deploying state of the game.
      */
     IssueOrder,
