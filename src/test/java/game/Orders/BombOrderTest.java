@@ -1,3 +1,6 @@
+/**
+ * unit tests for the BombOrderTest class.
+ */
 package game.Orders;
 
 import common.Command;
@@ -19,14 +22,14 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class BombOrderTest {
     GameEngine d_gameEngineTest;
-
     ArrayList<Player> d_gamePlayersTest;
     private final ByteArrayOutputStream outputStreamCaptor = new ByteArrayOutputStream();
     Continent d_continent;
-
     BombOrder d_bombOrder;
 
-
+    /**
+     * Setup method called before each test.
+     */
     @BeforeEach
     void setUp(){
         d_gameEngineTest = new GameEngine();
@@ -42,6 +45,9 @@ class BombOrderTest {
         d_bombOrder = new BombOrder(d_gamePlayersTest.get(0), 23, d_gameEngineTest.getMap());
     }
 
+    /**
+     * Cleanup method called after each test.
+     */
     @AfterEach
     void cleanup(){
         d_gameEngineTest.quitGame();
@@ -49,12 +55,13 @@ class BombOrderTest {
         d_gameEngineTest = null;
     }
 
+    /**
+     * Tests the execution of the Bomb Command.
+     */
     @Test
     void TestBombOrderExecution(){
         assertTrue(d_bombOrder.d_ctxPlayer.isCardAvailable(CardType.Bomb));
         d_bombOrder.executeOrder();
-
         assertEquals(3, d_bombOrder.d_riskMap.getCountryById(d_bombOrder.d_targetCountry).getArmy());
     }
-
 }
