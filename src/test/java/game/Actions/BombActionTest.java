@@ -16,15 +16,14 @@ import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-class BombtActionTest {
+class BombActionTest {
 
     GameEngine d_gameEngineTest;
-    BombAction d_bombActionTest;
 
     ArrayList<Player> d_gamePlayersTest;
     private final ByteArrayOutputStream outputStreamCaptor = new ByteArrayOutputStream();
     Continent d_continent;
-    GameAction d_gameActionTest;
+    GameAction d_bombActionTest;
 
 
     @BeforeEach
@@ -41,8 +40,8 @@ class BombtActionTest {
         d_gamePlayersTest.get(1).assignCountry(d_gameEngineTest.getMap().getCountryById(23), 5);
         d_gamePlayersTest.get(2).assignCountry(d_gameEngineTest.getMap().getCountryById(2), 5);
 
-        d_gameActionTest = GameActionFactory.getBombAction();
-        d_gameActionTest.SetContext(new Context(d_gamePlayersTest.get(0), d_gameEngineTest));
+        d_bombActionTest = GameActionFactory.getBombAction();
+        d_bombActionTest.setContext(new Context(d_gamePlayersTest.get(0), d_gameEngineTest));
     }
 
     @AfterEach
@@ -52,19 +51,11 @@ class BombtActionTest {
         d_gameEngineTest = null;
     }
 
-    /*
-    Things to check in bomb
-    1. If the command is valid
-    2. If player owns the bomb card
-    3. If player owns the target country
-    4. If player has negotiated with the target player.
-     */
-
     @Test
     void TestCommandValidity(){
 
         Command l_cmd = Command.parseString("bomb");
-        d_gameActionTest.execute(l_cmd);
+        d_bombActionTest.execute(l_cmd);
         // To check if bomb command is valid, should create an error
         Assertions.assertEquals(GameCommands.BOMB_ERROR_MESSAGES.get(0), outputStreamCaptor.toString().trim());
 
@@ -73,7 +64,7 @@ class BombtActionTest {
     @Test
     void TestBombCardOwnership(){
         Command l_cmd = Command.parseString("bomb 2");
-        d_gameActionTest.execute(l_cmd);
+        d_bombActionTest.execute(l_cmd);
         // To check if bomb command is valid, should create an error
         Assertions.assertEquals(GameCommands.BOMB_ERROR_MESSAGES.get(1), outputStreamCaptor.toString().trim());
     }
@@ -81,8 +72,8 @@ class BombtActionTest {
     @Test
     void TestCountryOwnership(){
         Command l_cmd = Command.parseString("bomb 1");
-        d_gameActionTest.d_context.getCurrentPlayer().addCard(CardType.Bomb);
-        d_gameActionTest.execute(l_cmd);
+        d_bombActionTest.d_context.getCurrentPlayer().addCard(CardType.Bomb);
+        d_bombActionTest.execute(l_cmd);
         Assertions.assertEquals(GameCommands.BOMB_ERROR_MESSAGES.get(2), outputStreamCaptor.toString().trim());
     }
 
@@ -90,9 +81,9 @@ class BombtActionTest {
     void TestCountryNegotiated(){
         Command l_cmd = Command.parseString("bomb 23");
 
-        d_gameActionTest.d_context.getCurrentPlayer().addNegotiatedPlayer((d_gamePlayersTest.get(1).getPlayerId()));
-        d_gameActionTest.d_context.getCurrentPlayer().addCard(CardType.Bomb);
-        d_gameActionTest.execute(l_cmd);
+        d_bombActionTest.d_context.getCurrentPlayer().addNegotiatedPlayer((d_gamePlayersTest.get(1).getPlayerId()));
+        d_bombActionTest.d_context.getCurrentPlayer().addCard(CardType.Bomb);
+        d_bombActionTest.execute(l_cmd);
         Assertions.assertEquals(GameCommands.BOMB_ERROR_MESSAGES.get(4), outputStreamCaptor.toString().trim());
     }
     /**
@@ -101,8 +92,8 @@ class BombtActionTest {
     @Test
     void TestCountryAdjacency(){
         Command l_cmd = Command.parseString("bomb 2");
-        d_gameActionTest.d_context.getCurrentPlayer().addCard(CardType.Bomb);
-        d_gameActionTest.execute(l_cmd);
+        d_bombActionTest.d_context.getCurrentPlayer().addCard(CardType.Bomb);
+        d_bombActionTest.execute(l_cmd);
         Assertions.assertEquals(GameCommands.BOMB_ERROR_MESSAGES.get(3), outputStreamCaptor.toString().trim());
     }
 
@@ -112,9 +103,9 @@ class BombtActionTest {
     @Test
     void TestCommandSuccess(){
         Command l_cmd = Command.parseString("bomb 23");
-        d_gameActionTest.d_context.getCurrentPlayer().addCard(CardType.Bomb);
-        d_gameActionTest.execute(l_cmd);
-        assertNotNull(d_gameActionTest.d_context.getCurrentPlayer().nextOrder());
+        d_bombActionTest.d_context.getCurrentPlayer().addCard(CardType.Bomb);
+        d_bombActionTest.execute(l_cmd);
+        assertNotNull(d_bombActionTest.d_context.getCurrentPlayer().nextOrder());
     }
 
 }
