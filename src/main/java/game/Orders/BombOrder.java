@@ -1,5 +1,6 @@
 package game.Orders;
 
+import entity.CardType;
 import entity.Country;
 import entity.Player;
 import entity.RiskMap;
@@ -63,6 +64,7 @@ public class BombOrder extends Order {
                 if (l_ArmiesInTargetCountry > 1) {
                     int l_ArmiesToReduce = l_ArmiesInTargetCountry / 2; // Reduce by half
                     l_TargetCountry.setArmy(l_ArmiesInTargetCountry - l_ArmiesToReduce);
+                    d_ctxPlayer.removeCard(CardType.Bomb);
 
                     // Updating the game state accordingly
                     System.out.println("Bomb action executed: " + l_ArmiesToReduce + " armies reduced in " + l_TargetCountry.getName());

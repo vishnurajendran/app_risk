@@ -49,6 +49,7 @@ public class BombAction extends GameAction {
             d_currentPlayer.issueOrder();
         } else {
             System.out.println(GameCommands.BOMB_ERROR_MESSAGES.get(canIssueOrder));
+            d_execStatus = ActionExecStatus.Fail;
         }
     }
 
