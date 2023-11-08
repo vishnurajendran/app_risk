@@ -45,7 +45,7 @@ class GameEngineStateTest {
      */
     @Test
     public void testDefaultStartState() {
-       assertEquals(d_gameEngineTest.getGameState(), GameStates.GameStart);
+        assertEquals(d_gameEngineTest.getGameState(), GameStates.GameStart);
     }
 
     /**
