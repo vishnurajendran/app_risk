@@ -34,7 +34,7 @@ class AirliftActionTest {
         PlayerHandler.addGamePlayers(new ArrayList<>(Arrays.asList("player1", "player2", "player3", "player4")), null);
         d_continent = new Continent(1, "test-continent", 3);
         d_gamePlayersTest = PlayerHandler.getGamePlayers();
-        d_gameEngineTest.submitCommand(Command.parseString("loadmap testresources/wow.map"));
+        d_gameEngineTest.submitCommand(Command.parseString("loadmap testresources/WoW.map"));
         d_gamePlayersTest.get(0).assignCountry(d_gameEngineTest.getMap().getCountryById(1), 5);
         d_gamePlayersTest.get(1).assignCountry(d_gameEngineTest.getMap().getCountryById(2), 5);
         d_gamePlayersTest.get(2).assignCountry(d_gameEngineTest.getMap().getCountryById(3), 5);
@@ -79,7 +79,7 @@ class AirliftActionTest {
 
     @Test
     void TestCountryNumberOfArmies(){
-        Command l_cmd = Command.parseString("advance 1  11");
+        Command l_cmd = Command.parseString("advance 1 2 11");
         d_gameActionTest.d_context.getCurrentPlayer().addCard(CardType.Airlift);
         d_gameActionTest.execute(l_cmd);
         Assertions.assertEquals(GameCommands.AIRLIFT_ERROR_MESSAGES.get(3), outputStreamCaptor.toString().trim());
