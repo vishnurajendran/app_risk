@@ -325,4 +325,20 @@ public class PlayerHandler {
 
         d_commitedPlayers.add(p_player);
     }
+
+    /**
+     * Returns the unique uuid of the player with given name
+     * used for testing.
+     * @param p_name    name of the player.
+     * @return  return the uuid of the player.
+     */
+    public static UUID getPlayerIDByName(String p_name){
+        for (Player player : d_gamePlayers) {
+            if (player.getPlayerName().equals(p_name)) {
+                return player.getPlayerId();
+            }
+        }
+        return null;
+    }
+
 }
