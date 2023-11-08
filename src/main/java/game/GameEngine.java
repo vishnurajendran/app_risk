@@ -9,6 +9,7 @@ import game.Data.Context;
 import game.States.GameStateFactory;
 import game.States.GameStates;
 import game.States.IGameState;
+import mapShow.MapViewer;
 
 
 /**
@@ -80,7 +81,6 @@ public class GameEngine implements ISubApplication {
 
     /**
      * This method checks if the application has quit due to an unexpected error
-     *
      * @return a boolean which says whether the application has quit.
      */
     @Override
@@ -112,10 +112,17 @@ public class GameEngine implements ISubApplication {
      */
     @Override
     public void submitCommand(Command p_command) {
-        //loadArgumentsAndOption(p_command);
-        if (p_command.getCmdName().equals(GameCommands.CMD_LOAD_MAP) && p_command.getCmdAttributes().isEmpty()) {
-            d_HasQuit = true;
+
+        if(p_command.getCmdName().equals(GameCommands.CMD_SHOWMAP)){
+            if(d_map == null) {
+                System.out.println("No map loaded!!");
+                return;
+            }
+
+            MapViewer.showMap(d_map);
+            return;
         }
+
         if (d_currentState.canProcessCommand(p_command.getCmdName())) {
             d_currentState.performAction(p_command);
         }
@@ -128,6 +135,14 @@ public class GameEngine implements ISubApplication {
     @Override
     public void shutdown() {
         PlayerHandler.cleanup();
+    }
+
+    @Override
+    public String getHelp() {
+        String msg = "[ Game Commands ]\n";
+        msg += "\tshowmap\n";
+        msg += (d_currentState != null ? d_currentState.getHelp() : "");
+        return msg;
     }
 
     /**

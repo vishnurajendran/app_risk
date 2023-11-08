@@ -19,12 +19,12 @@ public class Player {
     private int bonusForOwningContinent = 0;
     private final RiskMap d_map;
     private final ArrayList<CardType> d_ownedCards;
-    private final ArrayList<UUID> d_negotiatedPlayers;
-    private final UUID d_playerId;
+    private final ArrayList<Integer> d_negotiatedPlayers;
+    private final int d_playerId;
     private final Random d_randGen;
 
     public Player() {
-       this("", null);
+       this(0,"", null);
     }
 
     /**
@@ -33,15 +33,15 @@ public class Player {
      * @param p_playerName name of player
      * @param p_map current map
      */
-    public Player(String p_playerName, RiskMap p_map) {
-        d_playerId = UUID.randomUUID();
+    public Player(int p_id, String p_playerName, RiskMap p_map) {
+        d_playerId = p_id;
         this.d_availableReinforcements = 5;
         this.d_playerName = p_playerName;
         d_listOfCountriesOwned = new ArrayList<>();
         d_ownedCards = new ArrayList<>();
         d_negotiatedPlayers = new ArrayList<>();
         d_map = p_map;
-        d_randGen = new Random(d_playerId.hashCode());
+        d_randGen = new Random(UUID.randomUUID().hashCode());
     }
 
     /**
@@ -159,7 +159,7 @@ public class Player {
     /**
      * @return UUID of player.
      */
-    public UUID getPlayerId(){
+    public int getPlayerId(){
         return d_playerId;
     }
 
@@ -287,7 +287,7 @@ public class Player {
      * This method adds the player with given id to negotiated players list.
      * @param p_playerId id of player to be negotiated as an integer.
      */
-    public void addNegotiatedPlayer(UUID p_playerId){
+    public void addNegotiatedPlayer(int p_playerId){
         d_negotiatedPlayers.add(p_playerId);
     }
 }
