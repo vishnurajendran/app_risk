@@ -79,7 +79,7 @@ public class AdvanceOrder extends Order {
             }
             if (l_armiesInTargetCountry <= 0) {
                 System.out.println(d_ctxPlayer.getPlayerName() + " conquered " + d_riskMap.getCountryById(d_targetCountry).getName()
-                        + "that was owned by " + l_targetCountryOwner.getPlayerName());
+                        + " that was owned by " + l_targetCountryOwner.getPlayerName());
 
                 d_ctxPlayer.assignCountry(d_riskMap.getCountryById(d_targetCountry), l_armiesInSourceCountryAdvanced);
                 d_ctxPlayer.addRandomCard();
