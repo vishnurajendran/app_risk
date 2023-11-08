@@ -156,6 +156,9 @@ public class IssueOrderState extends GameState {
         GameAction l_action = GameActionFactory.getAssignCountriesAction();
         executeAction(l_action, p_command);
 
+        if(l_action.getExecutionStatus() == ActionExecStatus.Fail)
+            return;
+
         // set game started to true.
         // and display the player turn.
         Logger.log("Countries Assigned");
