@@ -51,6 +51,7 @@ public class AdvanceAction extends GameAction {
     public void execute(Command p_cmd) {
         if(p_cmd.getCmdAttributes().size() != 3){
             System.out.println(GameCommands.ADVANCE_ERROR_MESSAGES.get(ADVANCE_ORDER_ERROR));
+            d_execStatus = ActionExecStatus.Fail;
             return;
         }
 
@@ -64,12 +65,12 @@ public class AdvanceAction extends GameAction {
 
         } catch (Exception e){
             System.out.println(GameCommands.ADVANCE_ERROR_MESSAGES.get(ADVANCE_ORDER_ERROR));
+            d_execStatus = ActionExecStatus.Fail;
             return;
         }
         int l_canProcessCommand = checkCommandValidity();
         if(l_canProcessCommand == ADVANCE_ORDER_SUCCESS){
-            d_currentPlayer.setTempOrder(new AdvanceOrder(d_currentPlayer, d_sourceCountry, d_targetCountry, d_armiesToAdvance, d_context.getEngine().getMap()));
-            d_currentPlayer.issueOrder();
+            d_currentPlayer.issueOrder(new AdvanceOrder(d_currentPlayer, d_sourceCountry, d_targetCountry, d_armiesToAdvance, d_context.getEngine().getMap()));
         } else{
             System.out.println(GameCommands.ADVANCE_ERROR_MESSAGES.get(l_canProcessCommand));
             d_execStatus = ActionExecStatus.Fail;

@@ -2,29 +2,31 @@ package game.States.Concrete;
 
 import common.Command;
 import common.Logging.Logger;
+import entity.Player;
 import entity.PlayerHandler;
 import game.Data.Context;
 import game.Orders.Order;
 import game.States.GameState;
 import game.States.GameStates;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author Soham
  */
 public class ExecuteOrderState extends GameState {
 
-    public ExecuteOrderState(){
-
-    }
-
+    /**
+     * overrides game state to execute orders and try to update
+     * game state.
+     * @param p_ctx context to set
+     */
     @Override
     public void setContext(Context p_ctx) {
         super.setContext(p_ctx);
-
         executeOrders();
-        //run some game logic
-        //by default we shift back to game Issue Order state.
-        d_context.getEngine().changeState(GameStates.IssueOrder);
+        tryCheckGameState();
     }
 
     /**
@@ -36,7 +38,7 @@ public class ExecuteOrderState extends GameState {
         Order orderToExecute = PlayerHandler.getGamePlayers().get(0).nextOrder();
         do {
             orderToExecute.executeOrder();
-            Logger.log("Executing order for: " + PlayerHandler.getGamePlayers().get(l_index % PlayerHandler.getGamePlayers().size()).getPlayerName() + ", Orders remaining: " + PlayerHandler.getGamePlayers().get(l_index % PlayerHandler.getGamePlayers().size()).getOrderSize());
+            System.out.println("Executing order for: " + PlayerHandler.getGamePlayers().get(l_index % PlayerHandler.getGamePlayers().size()).getPlayerName() + ", Orders remaining: " + PlayerHandler.getGamePlayers().get(l_index % PlayerHandler.getGamePlayers().size()).getOrderSize());
             l_index = (l_index + 1) % PlayerHandler.getGamePlayers().size();
             for (int i = 0; i < PlayerHandler.getGamePlayers().size(); i++) {
                 orderToExecute = PlayerHandler.getGamePlayers().get(l_index % PlayerHandler.getGamePlayers().size()).nextOrder();
@@ -46,15 +48,50 @@ public class ExecuteOrderState extends GameState {
                     break;
                 }
             }
-
         } while (orderToExecute != null);
     }
 
+    /**
+     * checks game state and shifts state accordingly
+     * there are two states possible
+     * 1. IssueOrder of game can continue.
+     * 2. GameOver is only one player remains.
+     */
+    private void tryCheckGameState(){
+        List<Player> l_playersToRemove = new ArrayList<>();
+        for (Player l_player: PlayerHandler.getGamePlayers()) {
+            if(l_player.getCountriesOwned().isEmpty())
+                l_playersToRemove.add(l_player);
+        }
+
+        while(!l_playersToRemove.isEmpty()){
+            Player l_playerToRemove = l_playersToRemove.remove(0);
+            PlayerHandler.getGamePlayers().remove(l_playerToRemove);
+            System.out.println(l_playerToRemove.getPlayerName() + " was eliminated from the game");
+        }
+
+        //shift state to game over, if only 1 player exists
+        if(PlayerHandler.getGamePlayers().size() == 1){
+            d_context.getEngine().changeState(GameStates.GameOver);
+        }
+        else
+            d_context.getEngine().changeState(GameStates.IssueOrder);
+    }
+
+    /**
+     * no command can be performed in this state.
+     * @param p_command command to perform
+     */
     @Override
     public void performAction(Command p_command) {
         //nothing here.
     }
 
+    /**
+     * returns false, as this state is command less.
+     * @param p_cmdName command to check (irrelevant to this state.)
+     * @return false always.
+     */
     @Override
     public boolean canProcessCommand(String p_cmdName) {
         return false;

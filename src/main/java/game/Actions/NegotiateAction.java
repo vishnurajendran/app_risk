@@ -65,8 +65,7 @@ public class NegotiateAction extends GameAction {
             return;
         }
 
-        d_currentPlayer.setTempOrder(new NegotiateOrder(d_currentPlayer, l_oppPlayer));
-        d_currentPlayer.issueOrder();
+        d_currentPlayer.issueOrder(new NegotiateOrder(d_currentPlayer, l_oppPlayer));
     }
 
     /**
