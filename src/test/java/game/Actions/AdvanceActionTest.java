@@ -1,14 +1,21 @@
 package game.Actions;
 
 import common.Command;
-import entity.*;
+import entity.Continent;
+import entity.Player;
+import entity.PlayerHandler;
 import game.Data.Context;
-import game.*;
-import org.junit.jupiter.api.*;
+import game.GameCommands;
+import game.GameEngine;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 class AdvanceActionTest {
 
@@ -16,11 +23,9 @@ class AdvanceActionTest {
     AdvanceAction d_advanceActionTest;
 
     ArrayList<Player> d_gamePlayersTest;
-    private final PrintStream standardOut = System.out;
     private final ByteArrayOutputStream outputStreamCaptor = new ByteArrayOutputStream();
     Continent d_continent;
     GameAction d_gameActionTest;
-    PlayerHandler d_playerHandlerTest;
 
 
     /**
@@ -33,12 +38,13 @@ class AdvanceActionTest {
     void setUp(){
         d_gameEngineTest = new GameEngine();
         d_gameEngineTest.initialise();
-        System.setOut(new PrintStream(outputStreamCaptor));
         d_advanceActionTest = new AdvanceAction();
         PlayerHandler.addGamePlayers(new ArrayList<>(Arrays.asList("player1", "player2", "player3", "player4")), null);
         d_continent = new Continent(1, "test-continent", 3);
         d_gamePlayersTest = PlayerHandler.getGamePlayers();
-        d_gameEngineTest.submitCommand(Command.parseString("loadmap testresources/wow.map"));
+        d_gameEngineTest.submitCommand(Command.parseString("loadmap testresources/WoW.map"));
+        System.out.flush();
+        System.setOut(new PrintStream(outputStreamCaptor));
         d_gamePlayersTest.get(0).assignCountry(d_gameEngineTest.getMap().getCountryById(1), 4);
         d_gamePlayersTest.get(1).assignCountry(d_gameEngineTest.getMap().getCountryById(16), 4);
         d_gamePlayersTest.get(2).assignCountry(d_gameEngineTest.getMap().getCountryById(2), 4);
@@ -77,6 +83,16 @@ class AdvanceActionTest {
         Command l_cmd = Command.parseString("advance 16 3 3");
         d_gameActionTest.execute(l_cmd);
         Assertions.assertEquals(GameCommands.ADVANCE_ERROR_MESSAGES.get(3), outputStreamCaptor.toString().trim());
+    }
+
+    /**
+     * checks if player has enough armies
+     */
+    @Test
+    void TestCountryArmies(){
+        Command l_cmd = Command.parseString("advance 16 1 5");
+        d_gameActionTest.execute(l_cmd);
+        Assertions.assertEquals(GameCommands.ADVANCE_ERROR_MESSAGES.get(2), outputStreamCaptor.toString().trim());
     }
 
     /**
