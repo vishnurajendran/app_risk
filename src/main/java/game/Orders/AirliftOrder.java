@@ -51,7 +51,7 @@ public class AirliftOrder extends Order {
             if (sourceCountry != null && targetCountry != null) {
 
                 // Check if the source country has enough armies for the airlift
-                if (d_armiesToAirlift < sourceCountry.getArmy()) {
+                if (d_armiesToAirlift <= sourceCountry.getArmy()) {
                     // Move armies from source to target country
                     sourceCountry.setArmy(sourceCountry.getArmy() - d_armiesToAirlift);
                     targetCountry.setArmy(targetCountry.getArmy() + d_armiesToAirlift);

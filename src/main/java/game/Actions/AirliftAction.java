@@ -99,7 +99,7 @@ public class AirliftAction extends GameAction {
      * 4. AIRLIFT_ORDER_MORE_THAN_AVAILABLE: Armies requested for airlift exceed what the source country has.
      * 5. AIRLIFT_ORDER_PLAYER_DOESNT_OWN_TARGET_COUNTRY: The target country is not owned by the player.
      */
-    private int checkCommandValidity() {
+    int checkCommandValidity() {
         // Check if the player has the airlift card
         if (!d_currentPlayer.isCardAvailable(CardType.Airlift)) {
             return AIRLIFT_ORDER_PLAYER_DOESNT_OWN_AIRLIFT_CARD;
