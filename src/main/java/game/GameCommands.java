@@ -114,7 +114,7 @@ public class GameCommands {
             "ERROR: The given airlift command isn't valid please try again",
             "ERROR: The player doesn't own the Airlift Card please try again",
             "ERROR: The player doesnt own this country",
-            "ERROR: The armies requested to airlifted are more than what the player owns",
+            "ERROR: The armies requested to airlifted are more than what the player owns in that country",
             "ERROR: The target country is not owned by the player"
     ));
 

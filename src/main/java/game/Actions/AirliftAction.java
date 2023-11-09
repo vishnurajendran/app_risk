@@ -18,7 +18,7 @@ public class AirliftAction extends GameAction {
     private int d_sourceCountry;
     private int d_targetCountry;
     private int d_armiesInTargetCountry;
-    private final Player d_currentPlayer;
+    private Player d_currentPlayer;
     private int d_armiesInSourceCountry;
     private int d_armiesToAirlift;
 
@@ -27,7 +27,7 @@ public class AirliftAction extends GameAction {
      * Initializes the current player to the player who issues the Airlift action.
      */
     public AirliftAction() {
-        d_currentPlayer = d_context.getCurrentPlayer();
+
     }
 
     private final int AIRLIFT_ORDER_ERROR = 0;
@@ -48,8 +48,14 @@ public class AirliftAction extends GameAction {
      */
     @Override
     public void execute(Command p_cmd) {
+        d_currentPlayer = d_context.getCurrentPlayer();
+        if (p_cmd.getCmdAttributes().isEmpty()){
+        System.out.println(GameCommands.AIRLIFT_ERROR_MESSAGES.get(AIRLIFT_ORDER_ERROR));
+        d_execStatus = ActionExecStatus.Fail;
+        return;
+        }
         // Check if the command format is valid
-        if (p_cmd.getCmdAttributes().size() != 3) {
+            else if (p_cmd.getCmdAttributes().get(0).getArguments().size() != 3) {
             System.out.println(GameCommands.AIRLIFT_ERROR_MESSAGES.get(AIRLIFT_ORDER_ERROR));
             d_execStatus = ActionExecStatus.Fail;
             return;
@@ -93,7 +99,7 @@ public class AirliftAction extends GameAction {
      * 4. AIRLIFT_ORDER_MORE_THAN_AVAILABLE: Armies requested for airlift exceed what the source country has.
      * 5. AIRLIFT_ORDER_PLAYER_DOESNT_OWN_TARGET_COUNTRY: The target country is not owned by the player.
      */
-    private int checkCommandValidity() {
+    int checkCommandValidity() {
         // Check if the player has the airlift card
         if (!d_currentPlayer.isCardAvailable(CardType.Airlift)) {
             return AIRLIFT_ORDER_PLAYER_DOESNT_OWN_AIRLIFT_CARD;
