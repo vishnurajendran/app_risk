@@ -3,7 +3,6 @@ package game.Actions;
 import common.Command;
 import common.Logging.Logger;
 import entity.Player;
-import entity.PlayerHandler;
 import game.GameCommands;
 import game.Orders.DeployOrder;
 
@@ -70,7 +69,7 @@ public class DeployAction extends GameAction {
             } else {
 
                 l_currentPlayer.setAvailableReinforcements(l_currentPlayer.getAvailableReinforcements() - l_deployReinforcements);
-                l_currentPlayer.issueOrder(new DeployOrder(l_currentPlayer, l_deployReinforcements, l_countryId));
+                l_currentPlayer.issueOrder(new DeployOrder(l_currentPlayer, l_deployReinforcements, l_countryId, d_context.getEngine().getMap()));
                 Logger.log("Orders for player " + l_currentPlayer + " = " + l_currentPlayer.getOrderSize());
             }
         } else {

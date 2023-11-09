@@ -85,10 +85,10 @@ class GameEngineStateTest {
 
         // do for player 1
         Player l_playerRef = PlayerHandler.getGamePlayers().get(0);
-        l_playerRef.issueOrder(new DeployOrder(l_playerRef,5,1));
+        l_playerRef.issueOrder(new DeployOrder(l_playerRef,5,1, d_gameEngineTest.getMap()));
         // do for player 2 now.
         l_playerRef = PlayerHandler.getGamePlayers().get(1);
-        l_playerRef.issueOrder(new DeployOrder(l_playerRef,5,2));
+        l_playerRef.issueOrder(new DeployOrder(l_playerRef,5,2, d_gameEngineTest.getMap()));
 
         //we just need to send commit to the engine to change state now.
         d_gameEngineTest.submitCommand(Command.parseString("commit"));
@@ -125,7 +125,7 @@ class GameEngineStateTest {
         // the game-engine.
 
         Player l_playerRef = PlayerHandler.getGamePlayers().get(0);
-        l_playerRef.issueOrder(new DeployOrder(l_playerRef,5,1));
+        l_playerRef.issueOrder(new DeployOrder(l_playerRef,5,1, d_gameEngineTest.getMap()));
 
 
         //we just need to send commit to the engine to change state now.
