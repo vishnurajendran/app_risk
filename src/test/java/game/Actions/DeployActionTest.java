@@ -5,6 +5,7 @@ import entity.Country;
 import entity.Player;
 import entity.PlayerHandler;
 import game.Data.Context;
+import game.GameEngine;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,18 +17,22 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class DeployActionTest {
     DeployAction d_action;
+    GameEngine d_gameEngine;
     /**
      * Setup player handler
      */
     @BeforeEach
     void setUp() {
+        d_gameEngine = new GameEngine();
+        d_gameEngine.initialise();
+        d_gameEngine.submitCommand(Command.parseString("loadmap testResources/WoW.map"));
         PlayerHandler.addGamePlayers(new ArrayList<>(Arrays.asList("player1", "player2", "player3")), null);
         ArrayList<Player> allPlayers = PlayerHandler.getGamePlayers();
         for (int i = 0; i < allPlayers.size(); i++) {
             allPlayers.get(i).assignCountry(new Country(i, "test-country" + i, 1), 1);
         }
         d_action = new DeployAction();
-        d_action.setContext(new Context(PlayerHandler.getGamePlayers().get(0), null));
+        d_action.setContext(new Context(PlayerHandler.getGamePlayers().get(0), d_gameEngine));
     }
 
     /**

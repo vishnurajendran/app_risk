@@ -47,8 +47,8 @@ class DeployOrderTest {
      */
     @Test
     void TestDeployOrder() {
-        d_deployOrderTest.add(new DeployOrder(d_gamePlayersTest.get(0), 2, 22));
-        d_deployOrderTest.add(new DeployOrder(d_gamePlayersTest.get(0), 1, 33));
+        d_deployOrderTest.add(new DeployOrder(d_gamePlayersTest.get(0), 2, 22, d_gameEngineTest.getMap()));
+        d_deployOrderTest.add(new DeployOrder(d_gamePlayersTest.get(0), 1, 33, d_gameEngineTest.getMap()));
         d_deployOrderTest.get(0).executeOrder();
         d_deployOrderTest.get(1).executeOrder();
 

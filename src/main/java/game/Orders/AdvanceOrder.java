@@ -84,6 +84,7 @@ public class AdvanceOrder extends Order {
                 d_ctxPlayer.assignCountry(d_riskMap.getCountryById(d_targetCountry), l_armiesInSourceCountryAdvanced);
                 d_ctxPlayer.addRandomCard();
                 d_riskMap.getCountryById(d_targetCountry).setArmy(l_armiesInSourceCountryAdvanced);
+                l_targetCountryOwner.removeCountry(d_riskMap.getCountryById(d_targetCountry));
             } else {
                 System.out.println(l_targetCountryOwner.getPlayerName() + " defended an attack from "
                         + d_ctxPlayer.getPlayerName() + " on " + d_riskMap.getCountryById(d_targetCountry).getName());
