@@ -161,7 +161,6 @@ public class GameEngine implements ISubApplication {
 
     /**
      * sets the game engine to mark the start of the game.
-     * @return
      */
     public void setGameStared(){
         d_gameStarted = true;

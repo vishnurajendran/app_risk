@@ -12,6 +12,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * This state executes all orders in a round-robin fashion,
+ * post execution switches to next round state or game-over
+ * depending on the no of players remaining.
  * @author Soham
  */
 public class ExecuteOrderState extends GameState {

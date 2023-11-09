@@ -7,6 +7,7 @@ import game.States.GameState;
 import game.States.GameStates;
 
 /**
+ * This state acts as the initialisation state for a new round
  * @author vishnurajendran
  */
 public class RoundInitState extends GameState {

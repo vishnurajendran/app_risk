@@ -4,6 +4,8 @@ import common.Command;
 import game.Data.Context;
 
 /**
+ * this interface provides the methods a GameState should
+ * have to be successfully used with game engine
  * @author Soham
  */
 public interface IGameState {

@@ -4,6 +4,9 @@ import common.Command;
 import game.Data.Context;
 
 /**
+ * A GameAction is any action invoked by a command. their major purpose
+ * is to abstract states from command execution logic. all commands have an
+ * action associated to it, each action extends this class.
  * @author Soham
  */
 public abstract class GameAction {
