@@ -94,9 +94,10 @@ public class BombAction extends GameAction {
         for (Country country : d_currentPlayer.getCountriesOwned()) {
             if (country.isNeighbour(d_countryToBomb)) {
                 isCommandValid = 5;
-                return isCommandValid;
             }
-            isCommandValid = 3;
+            else {
+                isCommandValid = 3;
+            }
         }
 
         // Check if the player has a diplomacy with the target country's owner
