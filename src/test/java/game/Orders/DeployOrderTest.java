@@ -46,7 +46,7 @@ class DeployOrderTest {
      * Deploys armies in two countries and checks if they deployed.
      */
     @Test
-    void TestAirliftOrder() {
+    void TestDeployOrder() {
         d_deployOrderTest.add(new DeployOrder(d_gamePlayersTest.get(0), 2, 22));
         d_deployOrderTest.add(new DeployOrder(d_gamePlayersTest.get(0), 1, 33));
         d_deployOrderTest.get(0).executeOrder();
