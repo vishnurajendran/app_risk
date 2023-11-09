@@ -56,7 +56,7 @@ public class AdvanceOrder extends Order {
             Player l_targetCountryOwner = null;
             for (Player player : PlayerHandler.getGamePlayers()) {
                 if (player.isCountryOwned(d_riskMap.getCountryById(d_targetCountry))) {
-                    player.removeCountry(d_riskMap.getCountryById(d_targetCountry));
+                    //player.removeCountry(d_riskMap.getCountryById(d_targetCountry));
                     l_targetCountryOwner = player;
                 }
             }
@@ -88,7 +88,7 @@ public class AdvanceOrder extends Order {
             } else {
                 System.out.println(l_targetCountryOwner.getPlayerName() + " defended an attack from "
                         + d_ctxPlayer.getPlayerName() + " on " + d_riskMap.getCountryById(d_targetCountry).getName());
-
+                d_riskMap.getCountryById(d_targetCountry).setArmy(l_armiesInTargetCountry);
             }
         }
     }

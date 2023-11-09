@@ -1,6 +1,5 @@
 package entity;
 
-import game.GameEngine;
 import game.Orders.Order;
 
 import java.util.*;
