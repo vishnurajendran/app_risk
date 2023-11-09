@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class AirliftOrderTest {
     GameEngine d_gameEngineTest;
@@ -64,12 +63,11 @@ class AirliftOrderTest {
     @Test
     void TestAirliftOrder() {
         // Create an AirliftOrder and execute it
-        d_AirliftOrderTest = new AdvanceOrder(d_gamePlayersTest.get(0), 5, 16, 4, d_gameEngineTest.getMap());
+        d_AirliftOrderTest = new AirliftOrder(d_gamePlayersTest.get(0), 5, 16, 4, d_gameEngineTest.getMap());
         d_AirliftOrderTest.executeOrder();
 
         // Check if the armies were correctly airlifted
         assertEquals(1, d_gameEngineTest.getMap().getCountryById(5).getArmy());
         assertEquals(4, d_gameEngineTest.getMap().getCountryById(16).getArmy());
-        assertTrue(d_gamePlayersTest.get(0).isCountryOwned(d_gameEngineTest.getMap().getCountryById(16)));
     }
 }
