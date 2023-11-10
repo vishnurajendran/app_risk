@@ -50,7 +50,7 @@ public class BlockadeAction extends GameAction {
             d_execStatus=ActionExecStatus.Fail;
             return;
         }
-
+        l_player.removeCard(CardType.Blockade);
         l_player.issueOrder(new BlockadeOrder(l_riskMap,l_player,l_country));
     }
 
