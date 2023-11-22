@@ -1,12 +1,16 @@
 package common.Serialisation;
+import com.google.gson.ExclusionStrategy;
+import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import java.lang.reflect.Type;
 
 /**
  * @author vishnurajendran
  */
 public class JsonSerialisation {
-    private static Gson serialiser = new Gson();
+    private static Gson serialiser = new GsonBuilder().setPrettyPrinting().setExclusionStrategies(new ExStrat()).create();
 
     /**
      * private constructor to block

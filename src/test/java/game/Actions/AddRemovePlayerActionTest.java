@@ -27,7 +27,7 @@ class AddRemovePlayerActionTest {
         d_engine = new GameEngine();
         d_action = new AddRemovePlayerAction();
         MapLoader.loadMap("testResources/WoW.map");
-        d_engine.setMap(MapLoader.getMap());
+        d_engine.setMap(MapLoader.getMap(), "testResources/WoW.map");
         d_action.setContext(new Context(null, d_engine));
     }
 

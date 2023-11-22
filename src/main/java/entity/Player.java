@@ -1,8 +1,10 @@
 package entity;
 
+import common.Serialisation.ExcludeSerialisation;
 import game.GameEngine;
 import game.Orders.Order;
 
+import javax.swing.text.html.Option;
 import java.util.*;
 
 /**
@@ -13,13 +15,15 @@ public class Player {
 
     private int d_availableReinforcements;
     private final String d_playerName;
-    // @param listOfCountriesOwned contains the name of the country and the number of armies present.
-    private final ArrayList<Country> d_listOfCountriesOwned;
+    private final ArrayList<Integer> d_listOfCountriesOwned;
     private final ArrayList<Order> d_orders = new ArrayList<>();
     private int bonusForOwningContinent = 0;
-    private final RiskMap d_map;
-    private final ArrayList<CardType> d_ownedCards;
-    private final ArrayList<Integer> d_negotiatedPlayers;
+
+    //we will exclude the map reference from any serialisations.
+    @ExcludeSerialisation
+    private RiskMap d_map;
+    private ArrayList<CardType> d_ownedCards;
+    private ArrayList<Integer> d_negotiatedPlayers;
     private final int d_playerId;
 
     public Player() {
@@ -69,17 +73,29 @@ public class Player {
      * if they own every country in a particular continent
      */
     public void calculateBonusReinforcements() {
-        ArrayList<Country> continentsWithCountries = new ArrayList<>();
         if (d_map == null) {
             bonusForOwningContinent = 0;
             return;
         }
 
-        var continent = d_map.getContinents();
-        for (Continent value : continent) {
-            continentsWithCountries.addAll(value.getCountries());
-            if (d_listOfCountriesOwned.contains(continentsWithCountries)) {
-                bonusForOwningContinent = value.getControlValue();
+        var continents = d_map.getContinents();
+        ArrayList<Country> l_listOfCountriesOwned = getCountriesOwned();
+        for (Continent l_continent : continents) {
+            ArrayList<Country> l_countriesInContinent = new ArrayList<>(l_continent.getCountries());
+            //check if all countries of this
+
+            while(!l_listOfCountriesOwned.isEmpty()){
+                Country l_country = l_listOfCountriesOwned.get(0);
+
+                //remove from continent country list, if match found.
+                if(l_countriesInContinent.contains(l_country)){
+                    l_countriesInContinent.remove(l_country);
+                }
+                l_listOfCountriesOwned.remove(l_country);
+            }
+
+            if (l_countriesInContinent.isEmpty()) {
+                bonusForOwningContinent = l_continent.getControlValue();
             }
         }
     }
@@ -103,7 +119,7 @@ public class Player {
      * @param p_noOfArmies The number of Armies on the land
      */
     public void assignCountry(Country p_country, int p_noOfArmies) {
-        d_listOfCountriesOwned.add(p_country);
+        d_listOfCountriesOwned.add(p_country.getDId());
         p_country.setArmy(p_noOfArmies);
     }
 
@@ -144,7 +160,11 @@ public class Player {
      * @return list of Country owned by player
      */
     public ArrayList<Country> getCountriesOwned() {
-        return d_listOfCountriesOwned;
+        ArrayList<Country> l_countryList = new ArrayList<>();
+        for(Integer l_id : d_listOfCountriesOwned){
+            l_countryList.add(d_map.getCountryById(l_id));
+        }
+        return l_countryList;
     }
 
     /**
@@ -288,5 +308,13 @@ public class Player {
      */
     public void addNegotiatedPlayer(int p_playerId){
         d_negotiatedPlayers.add(p_playerId);
+    }
+
+    /**
+     * Set the map reference for player.
+     * @param p_mapReference map reference to set.
+     */
+    public void setMapReference(RiskMap p_mapReference){
+        this.d_map = p_mapReference;
     }
 }

@@ -47,7 +47,7 @@ class BlockadeActionTest {
 
         d_riskMap=new RiskMap();
         d_gameEngine=new GameEngine();
-        d_gameEngine.setMap(d_riskMap);
+        d_gameEngine.setMap(d_riskMap,"");
         d_player=new Player();
         d_context=new Context(d_player,d_gameEngine);
         d_country=new Country(1,"testCountry",1);

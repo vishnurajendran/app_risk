@@ -173,6 +173,7 @@ public class Application {
         d_cmdToActionMap.put(ApplicationConstants.CMD_EXIT_APP, this::cmdExitApp);
         d_cmdToActionMap.put(ApplicationConstants.CMD_EXIT_SUB_APPLICATION, this::cmdExitSubApp);
         d_cmdToActionMap.put(ApplicationConstants.CMD_START_GAME, this::cmdStartGame);
+        d_cmdToActionMap.put(ApplicationConstants.CMD_LOAD_GAME, this::cmdStartGame);
         d_cmdToActionMap.put(ApplicationConstants.CMD_START_MAPEDITOR, this::cmdStartMapEditor);
         d_cmdToActionMap.put(ApplicationConstants.CMD_HELP, this::cmdHelp);
         Logger.log("Registered " + d_cmdToActionMap.size() + " Entries");
@@ -209,7 +210,7 @@ public class Application {
      * @param p_command cmd object sent for additional processing
      */
     private void cmdStartGame(Command p_command) {
-        Logger.log("Loading new Game");
+        Logger.log("Loading new Game Instance");
         if (!d_appState.equals(AppState.Standard)) {
             printInvalidStateStartCmdUsage(AppState.Game);
             return;
@@ -233,7 +234,7 @@ public class Application {
      * @param p_command cmd object sent for additional processing
      */
     private void cmdStartMapEditor(Command p_command) {
-        Logger.log("Loading new Map editor");
+        Logger.log("Loading new Map editor Instance");
         if (!d_appState.equals(AppState.Standard)) {
             printInvalidStateStartCmdUsage(AppState.MapEditor);
             return;
