@@ -21,7 +21,6 @@ public class Player {
     private final ArrayList<CardType> d_ownedCards;
     private final ArrayList<Integer> d_negotiatedPlayers;
     private final int d_playerId;
-    private final Random d_randGen;
 
     public Player() {
        this(0,"", null);
@@ -41,7 +40,6 @@ public class Player {
         d_ownedCards = new ArrayList<>();
         d_negotiatedPlayers = new ArrayList<>();
         d_map = p_map;
-        d_randGen = new Random(UUID.randomUUID().hashCode());
     }
 
     /**
@@ -167,8 +165,9 @@ public class Player {
      * Adds a random card to the card list of player
      */
     public void addRandomCard(){
+        Random l_randGen = new Random();
         CardType[] l_cards = CardType.values();
-        addCard(l_cards[d_randGen.nextInt(0,l_cards.length)]);
+        addCard(l_cards[l_randGen.nextInt(0,l_cards.length)]);
     }
 
     /**
