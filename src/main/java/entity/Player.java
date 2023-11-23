@@ -1,10 +1,7 @@
 package entity;
 
 import common.Serialisation.ExcludeSerialisation;
-import game.GameEngine;
 import game.Orders.Order;
-
-import javax.swing.text.html.Option;
 import java.util.*;
 
 /**
@@ -276,11 +273,11 @@ public class Player {
      *
      */
     public void removeCountry(Country p_country){
-        if(!d_listOfCountriesOwned.contains(p_country)){
+        if(!d_listOfCountriesOwned.contains(p_country.getDId())){
             System.out.println("The player does not own the country");
             return;
         }
-        d_listOfCountriesOwned.remove(p_country);
+        d_listOfCountriesOwned.remove(Integer.valueOf(p_country.getDId()));
     }
 
     /**
@@ -289,7 +286,7 @@ public class Player {
      * @return True if it's owned by the player. False if is not
      */
     public boolean isCountryOwned(Country p_country){
-        return d_listOfCountriesOwned.contains(p_country);
+        return d_listOfCountriesOwned.contains(p_country.getDId());
     }
 
     /**

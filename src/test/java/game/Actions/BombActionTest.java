@@ -36,10 +36,10 @@ class BombActionTest {
         d_gameEngineTest = new GameEngine();
         d_gameEngineTest.initialise();
         d_bombActionTest = new BombAction();
-        PlayerHandler.addGamePlayers(new ArrayList<>(Arrays.asList("player1", "player2", "player3")), null);
         d_continent = new Continent(1, "test-continent", 3);
-        d_gamePlayersTest = PlayerHandler.getGamePlayers();
         d_gameEngineTest.submitCommand(Command.parseString("loadmap testResources/WoW.map"));
+        PlayerHandler.addGamePlayers(new ArrayList<>(Arrays.asList("player1", "player2", "player3")), d_gameEngineTest.getMap());
+        d_gamePlayersTest = PlayerHandler.getGamePlayers();
         System.setOut(new PrintStream(outputStreamCaptor));
         d_gamePlayersTest.get(0).assignCountry(d_gameEngineTest.getMap().getCountryById(1), 5);
         d_gamePlayersTest.get(1).assignCountry(d_gameEngineTest.getMap().getCountryById(23), 5);
