@@ -157,6 +157,9 @@ public class Player {
      * @return list of Country owned by player
      */
     public ArrayList<Country> getCountriesOwned() {
+        if(d_map == null)
+            return new ArrayList<>();
+
         ArrayList<Country> l_countryList = new ArrayList<>();
         for(Integer l_id : d_listOfCountriesOwned){
             l_countryList.add(d_map.getCountryById(l_id));
