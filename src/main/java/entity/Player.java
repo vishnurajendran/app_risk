@@ -1,7 +1,10 @@
 package entity;
 
+import game.Data.Context;
 import game.GameEngine;
 import game.Orders.Order;
+import game.States.Strategy.HumanStrategy;
+import game.States.Strategy.Strategy;
 
 import java.util.*;
 
@@ -23,6 +26,10 @@ public class Player {
     private final int d_playerId;
     private final Random d_randGen;
 
+    //private final PlayerStrategies d_playerStrategy;
+
+    private final Strategy d_playerStrategy;
+
     public Player() {
        this(0,"", null);
     }
@@ -42,6 +49,27 @@ public class Player {
         d_negotiatedPlayers = new ArrayList<>();
         d_map = p_map;
         d_randGen = new Random(UUID.randomUUID().hashCode());
+        d_playerStrategy = new HumanStrategy();
+    }
+
+    /**
+     * This constructor provides an option to provide the player strategy to the player
+     * @param p_id id of the player
+     * @param p_playerName name of the player
+     * @param p_map reference for map
+     * @param p_playerStrategy defines the strategy of the player.
+     */
+    public Player(int p_id, String p_playerName, RiskMap p_map, Strategy p_playerStrategy) {
+        d_playerId = p_id;
+        this.d_availableReinforcements = 5;
+        this.d_playerName = p_playerName;
+        d_listOfCountriesOwned = new ArrayList<>();
+        d_ownedCards = new ArrayList<>();
+        d_negotiatedPlayers = new ArrayList<>();
+        d_map = p_map;
+        d_randGen = new Random(UUID.randomUUID().hashCode());
+        d_playerStrategy = p_playerStrategy;
+        d_playerStrategy.setContext(new Context(this, new GameEngine()));
     }
 
     /**
@@ -54,6 +82,10 @@ public class Player {
         }
         d_orders.add(p_newOrder);
         d_negotiatedPlayers.clear();
+    }
+
+    public void issueOrder(){
+        issueOrder(d_playerStrategy.decide());
     }
 
     /**
@@ -289,5 +321,28 @@ public class Player {
      */
     public void addNegotiatedPlayer(int p_playerId){
         d_negotiatedPlayers.add(p_playerId);
+    }
+
+    /**
+     * Get the strategy of the player
+     * @return instance of Strategy class type.
+     */
+    public Strategy getPlayerStrategy(){
+        return d_playerStrategy;
+    }
+
+    /**
+     * @return if player is human or not
+     */
+    public boolean isPlayerHuman(){
+        return d_playerStrategy instanceof HumanStrategy;
+    }
+
+    /**
+     * set the context for strategy class to use
+     * @param p_ctxGameEngine instance of game engine to be used for context
+     */
+    public void setStrategyContext(GameEngine p_ctxGameEngine){
+        d_playerStrategy.setContext(new Context(this, p_ctxGameEngine));
     }
 }

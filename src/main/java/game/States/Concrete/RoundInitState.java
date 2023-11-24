@@ -17,6 +17,19 @@ public class RoundInitState extends GameState {
         super.setContext(p_ctx);
         PlayerHandler.reassignValuesForNextTurn();
         d_context.getEngine().changeState(GameStates.IssueOrder);
+        issueOrderForAI();
+    }
+
+    /**
+     * Handles issuing orders for AI players with strategies.
+     */
+    public void issueOrderForAI(){
+        while(!PlayerHandler.getCurrentPlayer().isPlayerHuman() && !PlayerHandler.isCommittedPlayer(PlayerHandler.getCurrentPlayer())){
+            PlayerHandler.getCurrentPlayer().issueOrder();
+            PlayerHandler.increasePlayerTurn(1);
+        }
+        super.setContext(new Context(PlayerHandler.getCurrentPlayer(), d_context.getEngine()));
+        d_context.getCurrentPlayer().setStrategyContext(d_context.getEngine());
     }
 
     /**
@@ -26,12 +39,12 @@ public class RoundInitState extends GameState {
      */
     @Override
     public void performAction(Command command) {
-        //do nothin
+        //do nothing
     }
 
     /**
      * this method will always return false
-     * as this state is supposed to take any commands for execution
+     * as this state is not supposed to take any commands for execution
      * @param p_cmdName command to check
      * @return
      */

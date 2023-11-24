@@ -62,6 +62,16 @@ public class IssueOrderState extends GameState {
     @Override
     public void performAction(Command p_command) {
         d_cmdToActionMap.get(p_command.getCmdName()).invoke(p_command);
+        issueOrdersForAI();
+        super.setContext(new Context(PlayerHandler.getCurrentPlayer(), d_context.getEngine()));
+        d_context.getCurrentPlayer().setStrategyContext(d_context.getEngine());
+    }
+
+    public void issueOrdersForAI(){
+        while(!PlayerHandler.getCurrentPlayer().isPlayerHuman() && !PlayerHandler.isCommittedPlayer(PlayerHandler.getCurrentPlayer())){
+            PlayerHandler.getCurrentPlayer().issueOrder();
+            PlayerHandler.increasePlayerTurn(1);
+        }
     }
 
     /**

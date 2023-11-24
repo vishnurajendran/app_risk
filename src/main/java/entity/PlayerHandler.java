@@ -1,10 +1,11 @@
 package entity;
 
-import common.Command;
 import common.Logging.Logger;
-import game.Orders.DeployOrder;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
 
 /**
  * This class handles the actions that happen to the player
@@ -226,7 +227,7 @@ public class PlayerHandler {
         }
     }
 
-        public static Player getCurrentPlayer(){
+    public static Player getCurrentPlayer(){
         Player currentPlayer = null;
         if(!PlayerHandler.getGamePlayers().isEmpty()){
             int playerIndex = d_whichPlayersTurn % PlayerHandler.getGamePlayers().size();
