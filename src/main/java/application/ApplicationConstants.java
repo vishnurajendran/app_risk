@@ -52,7 +52,7 @@ public final class ApplicationConstants {
     /**
      * Message for invalid start game command usage.
      */
-    public static final String ERR_MSG_INVALID_START_GAME_CMD_USAGE = "to use loadmap again. please exit and then try again";
+    public static final String ERR_MSG_INVALID_START_GAME_CMD_USAGE = "to use {0} again. please exit and then try again";
 
     /**
      * Message for invalid start map-editor command usage.

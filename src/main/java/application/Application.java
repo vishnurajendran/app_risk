@@ -2,6 +2,7 @@ package application;
 
 import common.*;
 import common.Logging.Logger;
+import game.GameCommands;
 
 import java.text.MessageFormat;
 import java.util.HashMap;
@@ -125,10 +126,18 @@ public class Application {
         System.out.println(MessageFormat.format(ApplicationConstants.ERR_MSG_INVALID_CMD, p_cmd.getCmdName()));
     }
 
-    private void printInvalidStateStartCmdUsage(AppState state) {
+    /**
+     * print invalid messages.
+     * @param state
+     * @param p_cmdName
+     */
+    private void printInvalidStateStartCmdUsage(AppState state, String p_cmdName) {
         switch (state) {
             case Game:
-                System.out.println(ApplicationConstants.ERR_MSG_INVALID_START_GAME_CMD_USAGE);
+                System.out.println(
+                        MessageFormat.format(
+                                ApplicationConstants.ERR_MSG_INVALID_START_GAME_CMD_USAGE,
+                                p_cmdName));
                 break;
             case MapEditor:
                 System.out.println(ApplicationConstants.ERR_MSG_INVALID_MAP_EDITOR_GAME_CMD_USAGE);
@@ -212,7 +221,7 @@ public class Application {
     private void cmdStartGame(Command p_command) {
         Logger.log("Loading new Game Instance");
         if (!d_appState.equals(AppState.Standard)) {
-            printInvalidStateStartCmdUsage(AppState.Game);
+            printInvalidStateStartCmdUsage(AppState.Game, p_command.getCmdName());
             return;
         }
 
@@ -236,7 +245,7 @@ public class Application {
     private void cmdStartMapEditor(Command p_command) {
         Logger.log("Loading new Map editor Instance");
         if (!d_appState.equals(AppState.Standard)) {
-            printInvalidStateStartCmdUsage(AppState.MapEditor);
+            printInvalidStateStartCmdUsage(AppState.MapEditor, p_command.getCmdName());
             return;
         }
 

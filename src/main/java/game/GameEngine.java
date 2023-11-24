@@ -10,13 +10,18 @@ import entity.PlayerHandler;
 import entity.RiskMap;
 import game.Data.Context;
 import game.Data.GameSaveData;
+import game.Orders.Order;
+import game.Orders.Serailisation.OrderSaveConverter;
+import game.Orders.Serailisation.OrderSaveData;
 import game.States.GameStateFactory;
 import game.States.GameStates;
 import game.States.IGameState;
 import mapShow.MapViewer;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 
 /**
@@ -198,12 +203,17 @@ public class GameEngine implements ISubApplication {
         if(!p_command.getCmdAttributes().isEmpty()){
             l_path = p_command.getCmdAttributes().get(0).getArguments().get(0);
         }
-        GameSaveData l_data = new GameSaveData(d_gameState, PlayerHandler.getPlayerSaveData(), MapSaveData.createSaveData(d_map, d_mapPath));
-        if(GameSaveManager.saveGame(l_data, l_path)){
-            Logger.log("Game Saved!!");
+        try {
+            GameSaveData l_data = new GameSaveData(d_gameState, PlayerHandler.getPlayerSaveData(), MapSaveData.createSaveData(d_map, d_mapPath));
+            if (GameSaveManager.saveGame(l_data, l_path)) {
+                System.out.println("Game Saved!!");
+            } else
+                System.out.println("Could not save game");
         }
-        else
-            Logger.logError("Could not save game");
+        catch (Exception ex){
+            System.out.println("Could not save game");
+            Logger.logError(ex.getMessage());
+        }
     }
 
     /**
@@ -217,6 +227,7 @@ public class GameEngine implements ISubApplication {
             return;
         }
 
+        // load data from file
         String l_path = p_command.getCmdAttributes().get(0).getArguments().get(0);
         GameSaveData l_data = GameSaveManager.loadSave(l_path);
         if(l_data == null) {
@@ -225,11 +236,35 @@ public class GameEngine implements ISubApplication {
             return;
         }
 
+        // setup players
         setMap(MapSaveData.parseSaveData(l_data.getMapData()), l_data.getMapData().getMapFilepath());
         PlayerHandler.loadFromPlayerSaveData(l_data.getPlayerSaveData());
         for(Player player : PlayerHandler.getGamePlayers()){
             player.setMapReference(d_map);
         }
+
+        // load all the orders to the players
+        List<Player> l_playerList = PlayerHandler.getGamePlayers();
+        for(Player l_player : l_playerList){
+            int l_id = l_player.getPlayerId();
+            if(!l_data.getPlayerSaveData().getPlayerOrderMap().containsKey(l_id))
+            {
+                System.out.println("Cannot load from file, Data is corrupted or invalid.");
+                quitGame();
+                return;
+            }
+
+            List<OrderSaveData> l_orderSaves = l_data.getPlayerSaveData().
+                                                getPlayerOrderMap().get(l_id);
+            //add all the orders back
+            for(OrderSaveData l_orderSave : l_orderSaves){
+                Order l_order = OrderSaveConverter.parseOrderSaveData(l_orderSave,l_playerList,d_map);
+                l_player.issueOrder(l_order);
+            }
+        }
+
+        setGameStared();
+        // change state of the game.
         changeState(l_data.getGameState());
         System.out.println("Loaded game from "+l_path+"!!");
     }

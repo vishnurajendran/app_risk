@@ -1,8 +1,11 @@
 package entity;
-import entity.Player;
+
+import game.Orders.Serailisation.OrderSaveData;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * this class holds all the data, that is needed to re-store
@@ -12,6 +15,7 @@ import java.util.List;
 public class PlayerSaveData {
     private List<Player> d_playerList;
     private List<Integer> d_commitedPlayers;
+    private Map<Integer, List<OrderSaveData>> d_playerOrderMap;
     private int d_playerTurn = 0;
 
     /**
@@ -39,6 +43,12 @@ public class PlayerSaveData {
             }
         }
 
+        d_playerOrderMap = new HashMap<>();
+        for(Player l_player : p_players){
+            d_playerOrderMap.put(l_player.getPlayerId(),
+                    l_player.getOrderSaveData());
+        }
+
         d_playerTurn = p_playerTurn;
     }
 
@@ -56,10 +66,18 @@ public class PlayerSaveData {
         return d_commitedPlayers;
     }
 
+    /**
+     * @return index of current player in the list.
+     */
     public int getPlayerTurn() {
         return d_playerTurn;
     }
 
-
+    /**
+     * @return player order map
+     */
+    public Map<Integer,List<OrderSaveData>> getPlayerOrderMap() {
+        return d_playerOrderMap;
+    }
 
 }

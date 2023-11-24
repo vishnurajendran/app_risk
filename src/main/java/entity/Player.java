@@ -2,6 +2,9 @@ package entity;
 
 import common.Serialisation.ExcludeSerialisation;
 import game.Orders.Order;
+import game.Orders.Serailisation.OrderSaveData;
+import game.Orders.Serailisation.OrderSaveConverter;
+
 import java.util.*;
 
 /**
@@ -13,7 +16,10 @@ public class Player {
     private int d_availableReinforcements;
     private final String d_playerName;
     private final ArrayList<Integer> d_listOfCountriesOwned;
-    private final ArrayList<Order> d_orders = new ArrayList<>();
+
+    //we will add these back manually when loading saves.
+    @ExcludeSerialisation
+    private ArrayList<Order> d_orders = new ArrayList<>();
     private int bonusForOwningContinent = 0;
 
     //we will exclude the map reference from any serialisations.
@@ -52,7 +58,6 @@ public class Player {
             return;
         }
         d_orders.add(p_newOrder);
-        d_negotiatedPlayers.clear();
     }
 
     /**
@@ -316,5 +321,13 @@ public class Player {
      */
     public void setMapReference(RiskMap p_mapReference){
         this.d_map = p_mapReference;
+    }
+
+    public List<OrderSaveData> getOrderSaveData(){
+        List<OrderSaveData> l_saveData = new ArrayList<>();
+        for(Order l_order : d_orders){
+            l_saveData.add(OrderSaveConverter.createOrderSaveData(l_order));
+        }
+        return l_saveData;
     }
 }

@@ -1,6 +1,7 @@
 package entity;
 
 import common.Logging.Logger;
+import game.Orders.Serailisation.OrderSaveData;
 
 import java.util.*;
 
@@ -311,6 +312,7 @@ public class PlayerHandler {
         }
         d_gamePlayers = new ArrayList<>(l_playerList);
         d_whichPlayersTurn = p_data.getPlayerTurn();
+        d_countriesAssigned = true;
         return true;
     }
 }
