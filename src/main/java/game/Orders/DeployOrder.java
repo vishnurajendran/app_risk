@@ -50,6 +50,11 @@ public class DeployOrder extends Order {
 
     }
 
+    @Override
+    public OrderType getOrderType() {
+        return OrderType.Deploy;
+    }
+
     public String canExecuteCommand(){
         // checks if player owns the country
         if(!d_ctxPlayer.isCountryOwned(d_riskMap.getCountryById(d_targetCountry))) {
@@ -57,6 +62,14 @@ public class DeployOrder extends Order {
         }
         return "SUCCESS";
     }
+
+    /**
+     * @return the number of armies to deploy.
+     */
+    public int getArmiesToDeploy() {
+        return d_armiesToDeploy;
+    }
+
     /**
      * overriden to print deploy order details
      * @return a string with order details

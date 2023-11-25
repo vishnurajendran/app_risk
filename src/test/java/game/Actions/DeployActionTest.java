@@ -26,10 +26,10 @@ class DeployActionTest {
         d_gameEngine = new GameEngine();
         d_gameEngine.initialise();
         d_gameEngine.submitCommand(Command.parseString("loadmap testResources/WoW.map"));
-        PlayerHandler.addGamePlayers(new ArrayList<>(Arrays.asList("player1", "player2", "player3")), null);
+        PlayerHandler.addGamePlayers(new ArrayList<>(Arrays.asList("player1", "player2", "player3")), d_gameEngine.getMap());
         ArrayList<Player> allPlayers = PlayerHandler.getGamePlayers();
         for (int i = 0; i < allPlayers.size(); i++) {
-            allPlayers.get(i).assignCountry(new Country(i, "test-country" + i, 1), 1);
+            allPlayers.get(i).assignCountry(d_gameEngine.getMap().getCountryById(i+1), 1);
         }
         d_action = new DeployAction();
         d_action.setContext(new Context(PlayerHandler.getGamePlayers().get(0), d_gameEngine));
@@ -50,7 +50,7 @@ class DeployActionTest {
      */
     @Test
     void testValidOrder() {
-        d_action.execute(Command.parseString("deploy 0 1"));
+        d_action.execute(Command.parseString("deploy 1 1"));
         assertEquals(d_action.getExecutionStatus(),ActionExecStatus.Success);
     }
 
@@ -61,7 +61,7 @@ class DeployActionTest {
      */
     @Test
     void testInvalidOrderTooManyReinforcements() {
-        d_action.execute(Command.parseString("deploy 0 7"));
+        d_action.execute(Command.parseString("deploy 1 7"));
         assertEquals(d_action.getExecutionStatus(),ActionExecStatus.Fail);
     }
 
@@ -72,7 +72,7 @@ class DeployActionTest {
      */
     @Test
     void testInvalidOrderInvalidCountry() {
-        d_action.execute(Command.parseString("deploy 1 2"));
+        d_action.execute(Command.parseString("deploy 2 2"));
         assertEquals(d_action.getExecutionStatus(),ActionExecStatus.Fail);
     }
 }

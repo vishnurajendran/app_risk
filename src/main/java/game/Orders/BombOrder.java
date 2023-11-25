@@ -75,4 +75,9 @@ public class BombOrder extends Order {
             System.out.println("Bomb action failed: Invalid player or target country.");
         }
     }
+
+    @Override
+    public OrderType getOrderType() {
+        return OrderType.Bomb;
+    }
 }

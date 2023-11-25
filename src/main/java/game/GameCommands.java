@@ -22,6 +22,16 @@ public class GameCommands {
     public static final String CMD_LOAD_MAP = "loadmap";
 
     /**
+     * Command to save game
+     */
+    public static final String CMD_SAVE_GAME = "savegame";
+
+    /**
+     * Command to load game
+     */
+    public static final String CMD_LOAD_GAME = "loadgame";
+
+    /**
      * Command to show map.
      */
     public static final String CMD_SHOWMAP = MapShowConstants.CMD_MAPSHOW;
