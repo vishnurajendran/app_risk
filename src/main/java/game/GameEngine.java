@@ -198,6 +198,13 @@ public class GameEngine implements ISubApplication {
      * @param p_command command to process further.
      */
     private void saveGame(Command p_command){
+
+        if(!gameStarted()){
+            System.out.println("A game needs to be active, to be saved");
+            System.out.println("\t- A game starts after players are added and the countries are assigned.");
+            return;
+        }
+
         Logger.log("saving...");
         String l_path = "";
         if(!p_command.getCmdAttributes().isEmpty()){

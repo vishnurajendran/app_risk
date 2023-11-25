@@ -19,6 +19,14 @@ public class FileIO {
         return l_file.exists();
     }
 
+    public static boolean removeFile(String p_path){
+        File l_file = new File(p_path);
+        if(l_file.exists())
+            return l_file.delete();
+
+        return false;
+    }
+
     public static boolean writeTextFile(String p_path, String p_data){
         try {
             if (p_path.isBlank()) {
