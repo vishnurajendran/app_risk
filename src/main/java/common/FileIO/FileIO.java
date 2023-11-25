@@ -10,15 +10,30 @@ import java.util.Scanner;
  * @author vishnurajendran
  */
 public class FileIO {
+
+    /**
+     * private constructor to make this class
+     * non-instantiable
+     */
     private FileIO(){
 
     }
 
+    /**
+     * checks if a file exists.
+     * @param p_path path to file
+     * @return true if file exists, else false.
+     */
     public static boolean fileExists(String p_path){
         File l_file = new File(p_path);
         return l_file.exists();
     }
 
+    /**
+     * removes the file.
+     * @param p_path path to file
+     * @return true if file was removed
+     */
     public static boolean removeFile(String p_path){
         File l_file = new File(p_path);
         if(l_file.exists())
@@ -27,6 +42,12 @@ public class FileIO {
         return false;
     }
 
+    /**
+     * writes to a file (overwrites, it already exists)
+     * @param p_path path to file
+     * @param p_data data to write
+     * @return true if file is written else false.
+     */
     public static boolean writeTextFile(String p_path, String p_data){
         try {
             if (p_path.isBlank()) {
@@ -44,6 +65,11 @@ public class FileIO {
         }
     }
 
+    /**
+     * reads a file.
+     * @param p_path path to file
+     * @return string data in the file.
+     */
     public static String readTextFile(String p_path){
         try {
             File l_file = new File(p_path);
