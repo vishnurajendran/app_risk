@@ -36,115 +36,17 @@ public class MapLoader {
      * @return A boolean of whether the load is succeeded.
      */
     public static boolean loadMap(String p_mapName) {
-        Scanner l_scanner=null;
-        try {
-            File l_mapFile = new File(p_mapName);
-            l_scanner = new Scanner(l_mapFile);
-            d_riskMap=new RiskMap();
-            while (l_scanner.hasNextLine()) {
-                String l_line = l_scanner.nextLine();
-                // skip empty lines
-                if (l_line.isEmpty()) {
-                    continue;
-                }
-                String[] l_linePieces = l_line.split(" ");
-                //skip comments
-                if (l_linePieces[0].equals(";")) {
-                    continue;
-                }
-
-                // load the name
-                if (l_linePieces[0].equals("name")) {
-                    d_riskMap.setName(l_line.substring(l_line.indexOf(" ") + 1));
-                }
-                // load continents
-                if (l_linePieces[0].equals("[continents]")) {
-                    int l_continentID = 1;
-                    l_line = l_scanner.nextLine();
-                    while (!l_line.isEmpty()) {
-                        l_linePieces = l_line.split(" ");
-                        Continent l_continent;
-                        switch (l_linePieces.length) {
-                            case 2:
-                                l_continent = new Continent(l_continentID, l_linePieces[0], Integer.parseInt(l_linePieces[1]));
-                                break;
-                            case 3:
-                                l_continent = new Continent(l_continentID, l_linePieces[0], Integer.parseInt(l_linePieces[1]), l_linePieces[2]);
-                                break;
-                            default:
-                                throw new Exception("InCorrect amount of arguments");
-
-                        }
-                        d_riskMap.addContinent(l_continent);
-                        l_continentID++;
-                        if (l_scanner.hasNextLine()) {
-                            l_line = l_scanner.nextLine();
-                        } else {
-                            break;
-                        }
-                    }
-                }
-
-                // load countries
-                if (l_linePieces[0].equals("[countries]")) {
-                    l_line = l_scanner.nextLine();
-                    while (!l_line.isEmpty()) {
-                        l_linePieces = l_line.split(" ");
-                        Country l_country;
-                        switch (l_linePieces.length) {
-                            case 3:
-                                l_country = new Country(Integer.parseInt(l_linePieces[0]), l_linePieces[1],
-                                        Integer.parseInt(l_linePieces[2]));
-                                break;
-                            case 5:
-                                l_country = new Country(Integer.parseInt(l_linePieces[0]), l_linePieces[1],
-                                        Integer.parseInt(l_linePieces[2]), Integer.parseInt(l_linePieces[3]), Integer.parseInt(l_linePieces[4]));
-                                break;
-                            default:
-                                throw new Exception("InCorrect amount of arguments");
-
-                        }
-
-                        //throw error if duplicate found
-                        if (!isNull(d_riskMap.getCountryById(l_country.getDId()))) {
-                            throw new Exception("Duplicated found");
-                        }
-                        d_riskMap.addCountry(l_country);
-                        if (l_scanner.hasNextLine()) {
-                            l_line = l_scanner.nextLine();
-                        } else {
-                            break;
-                        }
-                    }
-
-                }
-                // load borders
-                if (l_linePieces[0].equals("[borders]")) {
-                    l_line = l_scanner.nextLine();
-                    while (!l_line.isEmpty()) {
-                        l_linePieces = l_line.split(" ");
-                        d_riskMap.addBorders(Integer.parseInt(l_linePieces[0]), Arrays.copyOfRange(l_linePieces, 1, l_linePieces.length));
-                        if (l_scanner.hasNextLine()) {
-                            l_line = l_scanner.nextLine();
-                        } else {
-                            break;
-                        }
-                    }
-
-                }
-            }
-
-
-            l_scanner.close();
-            return true;
-        } catch (Exception e) {
-            Logger.logError(e.getMessage());
-            if(!isNull(l_scanner)){
-                l_scanner.close();
-            }
-            cleanUp();
+        MapLoaderAdapter adapter;
+        if(isConquestMap(p_mapName)){
+            adapter=new MapLoaderAdapter(new ConquestMapReader());
+        }else{
+            adapter=new MapLoaderAdapter(new DominationMapReader());
+        }
+        d_riskMap=adapter.loadMap(p_mapName);
+        if(isNull(d_riskMap)){
             return false;
         }
+        return true;
     }
 
     /**
@@ -172,6 +74,33 @@ public class MapLoader {
      */
     public static void cleanUp(){
         d_riskMap=null;
+    }
+
+    /**
+     * Local method for pre-checking which format is there
+     * If "[map]" is found at the beginning return true(which means it is conquest map)
+     * @param p_mapName The file name of the map.
+     * @return Whether it is ConquestMap
+     */
+    private static boolean isConquestMap(String p_mapName){
+        Scanner l_scanner=null;
+        try{
+            File l_mapFile = new File(p_mapName);
+            l_scanner = new Scanner(l_mapFile);
+            String l_line = l_scanner.nextLine();
+            if(l_line.trim().equals("[Map]")){
+                return true;
+            }else{
+                return false;
+            }
+        }catch (Exception e){
+            Logger.logError(e.getMessage());
+            return false;
+        }finally {
+            if(!isNull(l_scanner)){
+                l_scanner.close();
+            }
+        }
     }
 
 }

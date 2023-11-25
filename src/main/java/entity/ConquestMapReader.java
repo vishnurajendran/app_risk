@@ -40,7 +40,7 @@ public class ConquestMapReader implements MapReader{
                     continue;
                 }
                 // load continent
-                if (l_line.equals("[continents]")) {
+                if (l_line.equals("[Continents]")) {
                     int l_continentID = 1;
                     l_line = l_scanner.nextLine();
                     while (!l_line.isEmpty()) {
@@ -60,7 +60,7 @@ public class ConquestMapReader implements MapReader{
                 }
 
                 // load countries
-                if (l_line.equals("[countries]")) {
+                if (l_line.equals("[Territories]")) {
                     l_line = l_scanner.nextLine();
                     int l_countryID = 1;
                     while (!l_line.isEmpty()) {
