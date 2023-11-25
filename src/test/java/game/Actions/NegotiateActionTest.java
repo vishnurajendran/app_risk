@@ -33,7 +33,7 @@ class NegotiateActionTest {
             d_gameEngine = new GameEngine();
             MapLoader.loadMap("testResources/ValidTestMap.map");
             d_riskMap = MapLoader.getMap();
-            d_gameEngine.setMap(d_riskMap);
+            d_gameEngine.setMap(d_riskMap, "testResources/ValidTestMap.map");
             ArrayList<String> players = new ArrayList<>();
             players.add("dummy1");
             players.add("dummy2");

@@ -9,6 +9,7 @@ import entity.RiskMap;
  * Blockade order class used to execute the blockade order.
  */
 public class BlockadeOrder extends Order{
+
     private Country d_country;
 
     /**
@@ -45,7 +46,10 @@ public class BlockadeOrder extends Order{
 
         d_riskMap.increaseCountryArmyById(d_targetCountry,d_riskMap.getCountryArmyById(d_country.getDId())*2);
         d_ctxPlayer.removeCountry(d_country);
+    }
 
-
+    @Override
+    public OrderType getOrderType() {
+        return OrderType.Blockade;
     }
 }

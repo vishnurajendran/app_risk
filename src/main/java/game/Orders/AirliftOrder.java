@@ -11,7 +11,6 @@ import entity.RiskMap;
  * @author shravani
  */
 public class AirliftOrder extends Order {
-
     private int d_armiesToAirlift;
 
     /**
@@ -71,5 +70,17 @@ public class AirliftOrder extends Order {
         } else {
             System.out.println("Airlift order failed: Player or RiskMap is null.");
         }
+    }
+
+    /**
+     * @return army count to airlift.
+     */
+    public int getArmiesToAirlift() {
+        return d_armiesToAirlift;
+    }
+
+    @Override
+    public OrderType getOrderType() {
+        return OrderType.Advance;
     }
 }
