@@ -1,17 +1,17 @@
 package game.States.Strategy;
 
-import game.Data.Context;
+import game.Data.StrategyData;
 import game.Orders.Order;
 
 /**
  * @author Soham
  */
 public abstract class Strategy{
-    protected Context d_context;
+    protected StrategyData d_strategyData;
 
     public abstract Order decide();
 
-    public void setContext(Context p_context) {
-        this.d_context = p_context;
+    public void setContext(StrategyData p_strategyData) {
+        this.d_strategyData = p_strategyData;
     }
 }

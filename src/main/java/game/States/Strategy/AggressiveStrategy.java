@@ -14,8 +14,8 @@ public class AggressiveStrategy extends Strategy{
      */
     @Override
     public Order decide() {
-        PlayerHandler.markComitted(d_context.getCurrentPlayer());
-        System.out.println("Committing advance order for: " + d_context.getCurrentPlayer().getPlayerName());
-        return new AdvanceOrder(d_context.getCurrentPlayer(), 0, 1, 4, d_context.getEngine().getMap());
+        PlayerHandler.markComitted(d_strategyData.getCurrentPlayer());
+        System.out.println("Committing advance order for: " + d_strategyData.getCurrentPlayer().getPlayerName());
+        return new AdvanceOrder(d_strategyData.getCurrentPlayer(), 0, 1, 4, d_strategyData.getEngine().getMap());
     }
 }

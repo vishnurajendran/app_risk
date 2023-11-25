@@ -1,6 +1,6 @@
 package entity;
 
-import game.Data.Context;
+import game.Data.StrategyData;
 import game.GameEngine;
 import game.Orders.Order;
 import game.States.Strategy.HumanStrategy;
@@ -69,7 +69,7 @@ public class Player {
         d_map = p_map;
         d_randGen = new Random(UUID.randomUUID().hashCode());
         d_playerStrategy = p_playerStrategy;
-        d_playerStrategy.setContext(new Context(this, new GameEngine()));
+        d_playerStrategy.setContext(new StrategyData(this, new GameEngine()));
     }
 
     /**
@@ -343,6 +343,6 @@ public class Player {
      * @param p_ctxGameEngine instance of game engine to be used for context
      */
     public void setStrategyContext(GameEngine p_ctxGameEngine){
-        d_playerStrategy.setContext(new Context(this, p_ctxGameEngine));
+        d_playerStrategy.setContext(new StrategyData(this, p_ctxGameEngine));
     }
 }
