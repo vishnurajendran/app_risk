@@ -36,9 +36,10 @@ public class MapLoader {
      * @return A boolean of whether the load is succeeded.
      */
     public static boolean loadMap(String p_mapName) {
+        Scanner l_scanner=null;
         try {
             File l_mapFile = new File(p_mapName);
-            Scanner l_scanner = new Scanner(l_mapFile);
+            l_scanner = new Scanner(l_mapFile);
             d_riskMap=new RiskMap();
             while (l_scanner.hasNextLine()) {
                 String l_line = l_scanner.nextLine();
@@ -138,6 +139,9 @@ public class MapLoader {
             return true;
         } catch (Exception e) {
             Logger.logError(e.getMessage());
+            if(!isNull(l_scanner)){
+                l_scanner.close();
+            }
             cleanUp();
             return false;
         }
