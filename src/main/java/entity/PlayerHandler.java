@@ -156,8 +156,12 @@ public class PlayerHandler {
         d_loadedMap = p_loadedMap;
         for (Player name : d_gamePlayers) {
             System.out.println(name.getPlayerName() + " Owns: ");
-            name.getCountriesOwned().forEach((key) -> System.out.println(" " + d_loadedMap.getCountryById(key.getDId()).getName() + ", ID: "
-                    + key.getDId() + ", Armies: " + d_loadedMap.getCountryById(key.getDId()).getArmy()));
+            name.getCountriesOwned().forEach((key) -> {
+                if(key != null)
+                    System.out.println(" " + d_loadedMap.getCountryById(key.getDId()).getName() + ", ID: "
+                    + key.getDId() + ", Armies: " + d_loadedMap.getCountryById(key.getDId()).getArmy());
+                }
+            );
             System.out.println();
         }
         l_currentPlayer.assignReinforcementsToPlayer();
