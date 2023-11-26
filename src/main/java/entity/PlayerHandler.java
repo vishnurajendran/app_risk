@@ -154,14 +154,15 @@ public class PlayerHandler {
         Player l_currentPlayer = d_gamePlayers.get(d_whichPlayersTurn % d_gamePlayers.size());
         Logger.log("Displaying countries assigned to players");
         d_loadedMap = p_loadedMap;
-        for (Player name : d_gamePlayers) {
-            System.out.println(name.getPlayerName() + " Owns: ");
-            name.getCountriesOwned().forEach((key) -> {
-                if(key != null)
-                    System.out.println(" " + d_loadedMap.getCountryById(key.getDId()).getName() + ", ID: "
-                    + key.getDId() + ", Armies: " + d_loadedMap.getCountryById(key.getDId()).getArmy());
-                }
-            );
+        for (Player l_player : d_gamePlayers) {
+            System.out.println(l_player.getPlayerName() + " Owns: ");
+            for (Country l_country : l_player.getCountriesOwned()) {
+                if(l_country == null)
+                    continue;
+
+                System.out.println(" " + d_loadedMap.getCountryById(l_country.getDId()).getName() + ", ID: "
+                            + l_country.getDId() + ", Armies: " + d_loadedMap.getCountryById(l_country.getDId()).getArmy());
+            }
             System.out.println();
         }
         l_currentPlayer.assignReinforcementsToPlayer();
@@ -179,6 +180,8 @@ public class PlayerHandler {
         ArrayList<Country> l_playerCountries = p_player.getCountriesOwned();
         System.out.println("The player owns following countries: ");
         for (Country value : l_playerCountries) {
+            if(value==null)
+                continue;
             System.out.println("ID: " + value.getDId() + "; Name: " + value.getName() + "; Armies: " + value.getArmy());
         }
     }
