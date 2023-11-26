@@ -2,10 +2,7 @@ package entity;
 
 import common.Logging.Logger;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
+import java.util.*;
 
 /**
  * This class handles the actions that happen to the player
@@ -288,5 +285,33 @@ public class PlayerHandler {
             }
         }
         return -1;
+    }
+
+    /**
+     * creates an instance of PlayerSave data with state info of PlayerHandler.
+     * @return an PlayerSaveData instance.
+     */
+    public static PlayerSaveData getPlayerSaveData(){
+        return new PlayerSaveData(d_gamePlayers, d_commitedPlayers, d_whichPlayersTurn);
+    }
+
+    /**
+     * load player handler state from PlayerSaveData
+     * @param p_data data to load from
+     * @return
+     */
+    public static boolean loadFromPlayerSaveData(PlayerSaveData p_data){
+        List<Player> l_playerList = new ArrayList<>(p_data.getPlayerList());
+        for (Integer l_id:p_data.getCommitedPlayers()) {
+            Optional<Player> l_player = l_playerList.stream().filter((l_playerRef)->l_playerRef.getPlayerId() == l_id).findFirst();
+            if(!l_player.isPresent()){
+                return false;
+            }
+            d_commitedPlayers.add(l_player.get());
+        }
+        d_gamePlayers = new ArrayList<>(l_playerList);
+        d_whichPlayersTurn = p_data.getPlayerTurn();
+        d_countriesAssigned = true;
+        return true;
     }
 }
