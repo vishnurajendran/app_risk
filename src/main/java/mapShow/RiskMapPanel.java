@@ -68,9 +68,9 @@ public class RiskMapPanel extends JPanel implements MouseWheelListener, MouseMot
     protected void paintComponent(Graphics p_graphics) {
         super.paintComponent(p_graphics);
         Color l_ogColor = p_graphics.getColor();
-        drawTitle(p_graphics);
         setBackground(new Color(35,35,35));
         drawMap(p_graphics);
+        drawTitle(p_graphics);
         drawLegend(p_graphics);
         p_graphics.setColor(l_ogColor);
     }
