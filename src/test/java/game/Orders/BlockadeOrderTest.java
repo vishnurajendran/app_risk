@@ -35,9 +35,9 @@ class BlockadeOrderTest {
 
 
         d_riskMap=new RiskMap();
-        d_player=new Player();
         d_country=new Country(1,"testCountry",1);
         d_riskMap.addCountry(d_country);
+        d_player=new Player(1,"no-name",d_riskMap);
         d_blockadeOrder=new BlockadeOrder(d_riskMap,d_player,d_country);
 
     }

@@ -9,7 +9,6 @@ import entity.Player;
  * author TaranjeetKaur
  */
 public class NegotiateOrder extends Order{
-
     Player d_negotiatedPlayer;
 
     /**
@@ -38,5 +37,17 @@ public class NegotiateOrder extends Order{
         d_ctxPlayer.addNegotiatedPlayer(d_negotiatedPlayer.getPlayerId());
         d_negotiatedPlayer.addNegotiatedPlayer(d_ctxPlayer.getPlayerId());
         d_ctxPlayer.removeCard(CardType.Diplomat);
+    }
+
+    /**
+     * @return target player for this order
+     */
+    public Player getNegotiatedPlayer() {
+        return d_negotiatedPlayer;
+    }
+
+    @Override
+    public OrderType getOrderType() {
+        return OrderType.Negotiate;
     }
 }

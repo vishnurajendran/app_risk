@@ -60,7 +60,7 @@ public class DeployAction extends GameAction {
                 Logger.log("Number exception");
                 return ISSUEODER_INVALID_CMD;
             }
-            if (!l_currentPlayer.getCountriesOwned().stream().anyMatch((a) -> a.getDId() == l_countryId)) {
+            if (!l_currentPlayer.getCountriesOwned().stream().anyMatch((a) -> a != null && a.getDId() == l_countryId)) {
                 Logger.log("The player doesn't have this country");
                 return ISSUEORDER_PLAYER_DOESNT_OWN_COUNTRY;
             } else if (l_currentPlayer.getAvailableReinforcements() < l_deployReinforcements) {

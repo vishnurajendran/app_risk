@@ -11,7 +11,6 @@ import java.util.Random;
  * @author Soham
  */
 public class AdvanceOrder extends Order {
-
     private int d_armiesToAdvance;
 
     /**
@@ -93,6 +92,11 @@ public class AdvanceOrder extends Order {
         }
     }
 
+    @Override
+    public OrderType getOrderType() {
+        return OrderType.Advance;
+    }
+
 
     public String canExecuteCommand(){
         // checks if player owns the country
@@ -113,6 +117,14 @@ public class AdvanceOrder extends Order {
         }
         return "SUCCESS";
     }
+
+    /**
+     * @return armies count to advance.
+     */
+    public int getArmiesToAdvance() {
+        return d_armiesToAdvance;
+    }
+
 }
 
 

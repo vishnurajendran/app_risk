@@ -127,7 +127,7 @@ public class GameStartState extends GameState {
         }
 
         // set the map and change state.
-        d_context.getEngine().setMap(l_map);
+        d_context.getEngine().setMap(l_map, l_mapFile);
         System.out.println("Loaded map: " + l_mapFile);
     }
 
