@@ -33,6 +33,7 @@ public class Player {
     private ArrayList<Integer> d_negotiatedPlayers;
     private final int d_playerId;
 
+    @ExcludeSerialisation
     private Strategy d_playerStrategy;
 
     public Player() {

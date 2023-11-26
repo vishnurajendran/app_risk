@@ -39,8 +39,8 @@ public class JsonSerialisation {
         return serialiser.toJson(obj);
     }
 
-    public static void main(String[] args) {
-        TestClass c = new TestClass();
-        System.out.println(toJson(c));
-    }
+//    public static void main(String[] args) {
+//        TestClass c = new TestClass();
+//        System.out.println(toJson(c));
+//    }
 }
