@@ -21,7 +21,7 @@ public class MapSave {
      * @param p_map  object of the map which is being processed.
      * @param p_file object of file to store map data.
      */
-    public static void saveMapFile(RiskMap p_map, File p_file, boolean isConquest) {
+    public static void saveMapFile(RiskMap p_map, String p_file, boolean isConquest) {
         MapWriterAdapter adapter;
 
 

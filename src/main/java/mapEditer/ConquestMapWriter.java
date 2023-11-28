@@ -16,12 +16,12 @@ public class ConquestMapWriter implements MapWriter {
      * @param p_file The file needed to write
      */
     @Override
-    public void writeMap(RiskMap p_map, File p_file) {
+    public void writeMap(RiskMap p_map, String p_file) {
         if (p_map == null) {
             System.out.println("Map object is NULL! ");
         }
         String l_content = parseMapAndReturnString(p_map);
-        FileIO.writeTextFile(p_file.getPath(), l_content);
+        FileIO.writeTextFile(p_file, l_content);
     }
 
     /**

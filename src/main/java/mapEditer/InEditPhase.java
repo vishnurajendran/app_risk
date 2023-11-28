@@ -56,8 +56,7 @@ public class InEditPhase extends Phase{
             isConquest=true;
         }
         try {
-            File file = new File(fileName);
-            MapSave.saveMapFile(d_mapEditor.d_map, file,isConquest);
+            MapSave.saveMapFile(d_mapEditor.d_map, fileName,isConquest);
             return true;
         } catch (Exception ex) {
             return false;

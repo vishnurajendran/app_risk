@@ -1,5 +1,6 @@
 package mapEditer;
 
+import common.FileIO.FileIO;
 import entity.RiskMap;
 import entity.MapLoader;
 import org.junit.jupiter.api.Test;
@@ -25,13 +26,12 @@ class MapSaveTest {
         l_loader.loadMap(TEST_MAP_PATH);
         RiskMap l_testMap = l_loader.getMap();
 
-        File l_file = new File(TEMP_MAP_PATH);
-        MapSave.saveMapFile(l_testMap, l_file,false);
+        MapSave.saveMapFile(l_testMap, TEMP_MAP_PATH,false);
         l_loader = new MapLoader();
         //check if you can load the map
         assertTrue(l_loader.loadMap(TEMP_MAP_PATH));
         assertTrue(MapValidator.validateMap(l_loader.getMap()));
 
-        l_file.delete();
+        FileIO.removeFile(TEMP_MAP_PATH);
     }
 }

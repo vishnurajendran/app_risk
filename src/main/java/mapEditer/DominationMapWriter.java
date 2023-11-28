@@ -1,5 +1,6 @@
 package mapEditer;
 
+import common.FileIO.FileIO;
 import entity.Continent;
 import entity.Country;
 import entity.RiskMap;
@@ -21,20 +22,16 @@ public class DominationMapWriter implements MapWriter {
      * @param p_file The file needed to write
      */
     @Override
-    public void writeMap(RiskMap p_map, File p_file) {
-        FileWriter l_fileWriter;
-        try {
-            if (p_map == null) {
-                System.out.println("Map object is NULL! ");
-            }
+    public void writeMap(RiskMap p_map, String p_file) {
 
-            String l_content = parseMapAndReturnString(p_map);
-            l_fileWriter = new FileWriter(p_file, false);
-            l_fileWriter.write(l_content);
-            l_fileWriter.close();
-        } catch (IOException e) {
-            System.err.println(e.getMessage());
+
+        if (p_map == null) {
+            System.out.println("Map object is NULL! ");
         }
+
+        String l_content = parseMapAndReturnString(p_map);
+        FileIO.writeTextFile(p_file, l_content);
+
     }
 
     /**
