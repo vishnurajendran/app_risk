@@ -33,7 +33,7 @@ class MapViewerTest {
         mapLoader.loadMap("testResources/test.map");
         RiskMap smallMap = mapLoader.getMap();
 
-        MapViewer.RiskMapPanel riskMapPanel = new MapViewer.RiskMapPanel(smallMap);
+        RiskMapPanel riskMapPanel = new RiskMapPanel(smallMap);
         assertNotNull(riskMapPanel);
     }
 
@@ -48,7 +48,7 @@ class MapViewerTest {
         mapLoader.loadMap("testResources/largeMap.map");
         RiskMap largeMap = mapLoader.getMap();
 
-        MapViewer.RiskMapPanel riskMapPanel = new MapViewer.RiskMapPanel(largeMap);
+        RiskMapPanel riskMapPanel = new RiskMapPanel(largeMap);
         assertNotNull(riskMapPanel);
     }
 }
