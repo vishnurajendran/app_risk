@@ -27,7 +27,7 @@ class ApplicationTest {
     void setUp() {
         d_outStream = new ByteArrayOutputStream();
         System.setOut(new PrintStream(d_outStream));
-        d_app = new Application(new GameInstantiatorMock(), new MapEditorInstantiatorMock());
+        d_app = new Application(new GameInstantiatorMock(), new MapEditorInstantiatorMock(), new TournamentInstantiatorMock() );
         d_app.startup();
     }
 
@@ -133,6 +133,20 @@ class ApplicationTest {
         assertEquals(d_app.getAppState(), AppState.MapEditor);
         d_app.processCommand(Command.parseString(ApplicationConstants.CMD_EXIT_SUB_APPLICATION));
         assertEquals(d_app.getAppState(), AppState.Standard);
+    }
+
+    /**
+     * Test handling of tournament commands
+     * no errors should be printed to the standard output
+     */
+    @Test
+    void testTournamentCmd() {
+        d_app.processCommand(Command.parseString(ApplicationConstants.CMD_START_TOURNAMENT));
+        assertEquals(d_app.getAppState(), AppState.Tournament);
+        d_app.processCommand(Command.parseString(ApplicationTestConstants.TOURNAMENT_TEST_CMD));
+        String l_actual = d_outStream.toString();
+        String l_errMsg = MessageFormat.format(ApplicationConstants.ERR_MSG_INVALID_CMD, ApplicationTestConstants.TOURNAMENT_TEST_CMD);
+        assertFalse(l_actual.contains(l_errMsg));
     }
 
     /**
