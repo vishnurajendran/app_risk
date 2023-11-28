@@ -30,4 +30,13 @@ public class TournamentConstants {
      * Error messages for tournament commands
      */
     public static final String CMD_INVALID_ARGUMENTS = "Error!, Invalid arguments to tournament command";
+
+    public static final String CMD_TOO_MANY_ARGUMENTS = "Error!, There are more arguments than allowed for the command";
+
+
+    public static final String CMD_TOO_FEW_ARGUMENTS = "Error!, There are less arguments than required for the command";
+
+    public static final String CMD_INVALID_MAP = "Error!, Map used for the tournament is invalid, please try again with valid map files";
+
+    public static final String CMD_INVALID_STRATEGY = "Error!, Strategy used for the tournament is invalid, please try again with valid strategy";
 }
