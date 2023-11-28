@@ -32,7 +32,7 @@ public class ConquestMapWriter implements MapWriter {
      */
     private static String parseMapAndReturnString(RiskMap p_Map) {
 
-        return "[Map]\n\n" + String.valueOf(processContinent(p_Map)) + "\n" +
+        return "[Map]\n\n" + String.valueOf(processContinent(p_Map)) +
                 processCountries(p_Map);
     }
 

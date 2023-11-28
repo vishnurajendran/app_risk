@@ -42,8 +42,8 @@ public class DominationMapWriter implements MapWriter {
      */
     private static String parseMapAndReturnString(RiskMap p_Map) {
 
-        return "\nname " + p_Map.getName() + "\n\n" + String.valueOf(processContinent(p_Map)) + "\n" +
-                processCountries(p_Map) + "\n" +
+        return "\nname " + p_Map.getName() + "\n\n" + String.valueOf(processContinent(p_Map)) +
+                processCountries(p_Map) +
                 processAdjacentCountries(p_Map);
     }
 

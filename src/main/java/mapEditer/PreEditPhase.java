@@ -33,10 +33,7 @@ public class PreEditPhase extends Phase{
             return false;
         }
 
-        if (!p_command.getCmdAttributes().get(0).getOption().isEmpty()) {
-            System.out.println("This command does not support options.");
-            return false;
-        }
+
         return true;
     }
 
