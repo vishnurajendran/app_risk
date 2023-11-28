@@ -22,6 +22,7 @@ public class RiskMap {
      * Default Constructor that only initialize the map.
      */
     public RiskMap() {
+        d_name = "untitled";
         d_countries = new HashMap<Integer, Country>();
         d_continents = new HashMap<Integer, Continent>();
     }
@@ -48,7 +49,7 @@ public class RiskMap {
             l_riskMapClone.d_countries.put(l_entryCountry.getKey(), l_entryCountry.getValue().clone());
         }
         for (Map.Entry<Integer, Country> l_entryCountry : this.d_countries.entrySet()) {
-            for(Integer l_neighborId : l_entryCountry.getValue().getBorders().keySet()){
+            for (Integer l_neighborId : l_entryCountry.getValue().getBorders().keySet()) {
                 l_riskMapClone.getCountryById(l_entryCountry.getKey()).addBorder(l_riskMapClone.getCountryById(l_neighborId));
             }
         }
@@ -141,7 +142,7 @@ public class RiskMap {
      */
     public void removeCountry(Country p_country) {
         removeCountryFromContinent(p_country);
-        for(Country l_neighborCountry : p_country.getBorders().values()){
+        for (Country l_neighborCountry : p_country.getBorders().values()) {
             l_neighborCountry.removeBorder(p_country);
         }
         d_countries.remove(p_country.getDId());
