@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="110f8b76-5f3e-457e-b973-8d8128eafbff" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../newMap.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/main/java/common/FileIO/FileIO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/main/java/common/Serialisation/ExStrat.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/main/java/common/Serialisation/ExcludeSerialisation.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/main/java/common/Serialisation/JsonSerialisation.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/main/java/common/Serialisation/TestClass.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/main/java/entity/ConquestMapReader.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/main/java/entity/DominationMapReader.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/main/java/entity/MapLoaderAdapter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/main/java/entity/MapReader.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/main/java/entity/MapSaveData.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/main/java/entity/PlayerSaveData.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/main/java/game/Data/GameSaveData.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/main/java/game/GameSaveManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/main/java/game/Orders/OrderType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/main/java/game/Orders/Serailisation/OrderSaveConverter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/main/java/game/Orders/Serailisation/OrderSaveData.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/main/java/mapEditer/ConquestMapWriter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/main/java/mapEditer/DominationMapWriter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/main/java/mapEditer/MapWriter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/main/java/mapEditer/MapWriterAdapter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/java/game/GameEngineSaveLoadTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/java/application/Application.java" beforeDir="false" afterPath="$PROJECT_DIR$/main/java/application/Application.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/java/application/ApplicationConstants.java" beforeDir="false" afterPath="$PROJECT_DIR$/main/java/application/ApplicationConstants.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/java/entity/MapLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/main/java/entity/MapLoader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/java/entity/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/main/java/entity/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/java/entity/PlayerHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/main/java/entity/PlayerHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/java/game/Actions/DeployAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/main/java/game/Actions/DeployAction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/java/game/GameCommands.java" beforeDir="false" afterPath="$PROJECT_DIR$/main/java/game/GameCommands.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/java/game/GameEngine.java" beforeDir="false" afterPath="$PROJECT_DIR$/main/java/game/GameEngine.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/java/game/Orders/AdvanceOrder.java" beforeDir="false" afterPath="$PROJECT_DIR$/main/java/game/Orders/AdvanceOrder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/java/game/Orders/AirliftOrder.java" beforeDir="false" afterPath="$PROJECT_DIR$/main/java/game/Orders/AirliftOrder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/java/game/Orders/BlockadeOrder.java" beforeDir="false" afterPath="$PROJECT_DIR$/main/java/game/Orders/BlockadeOrder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/java/game/Orders/BombOrder.java" beforeDir="false" afterPath="$PROJECT_DIR$/main/java/game/Orders/BombOrder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/java/game/Orders/DeployOrder.java" beforeDir="false" afterPath="$PROJECT_DIR$/main/java/game/Orders/DeployOrder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/java/game/Orders/NegotiateOrder.java" beforeDir="false" afterPath="$PROJECT_DIR$/main/java/game/Orders/NegotiateOrder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/java/game/Orders/Order.java" beforeDir="false" afterPath="$PROJECT_DIR$/main/java/game/Orders/Order.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/java/game/States/Concrete/GameStartState.java" beforeDir="false" afterPath="$PROJECT_DIR$/main/java/game/States/Concrete/GameStartState.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/java/mapEditer/MapSave.java" beforeDir="false" afterPath="$PROJECT_DIR$/main/java/mapEditer/MapSave.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/java/game/Actions/AddRemovePlayerActionTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/java/game/Actions/AddRemovePlayerActionTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/java/game/Actions/BlockadeActionTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/java/game/Actions/BlockadeActionTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/java/game/Actions/BombActionTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/java/game/Actions/BombActionTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/java/game/Actions/DeployActionTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/java/game/Actions/DeployActionTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/java/game/Actions/NegotiateActionTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/java/game/Actions/NegotiateActionTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/java/game/Orders/BlockadeOrderTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/java/game/Orders/BlockadeOrderTest.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 0
+}</component>
+  <component name="ProjectId" id="2YgX2L98aNFZLIgwPbMbup1HQpB" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;Merging build3__strategy__pattern&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="110f8b76-5f3e-457e-b973-8d8128eafbff" name="Changes" comment="" />
+      <created>1700947989327</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1700947989327</updated>
+      <workItem from="1700947990891" duration="8000" />
+      <workItem from="1700948012863" duration="21000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

@@ -1,8 +1,6 @@
 package entity;
 
-import common.Command;
 import common.Logging.Logger;
-import game.Orders.DeployOrder;
 
 import java.util.*;
 
@@ -156,10 +154,15 @@ public class PlayerHandler {
         Player l_currentPlayer = d_gamePlayers.get(d_whichPlayersTurn % d_gamePlayers.size());
         Logger.log("Displaying countries assigned to players");
         d_loadedMap = p_loadedMap;
-        for (Player name : d_gamePlayers) {
-            System.out.println(name.getPlayerName() + " Owns: ");
-            name.getCountriesOwned().forEach((key) -> System.out.println(" " + d_loadedMap.getCountryById(key.getDId()).getName() + ", ID: "
-                    + key.getDId() + ", Armies: " + d_loadedMap.getCountryById(key.getDId()).getArmy()));
+        for (Player l_player : d_gamePlayers) {
+            System.out.println(l_player.getPlayerName() + " Owns: ");
+            for (Country l_country : l_player.getCountriesOwned()) {
+                if(l_country == null)
+                    continue;
+
+                System.out.println(" " + d_loadedMap.getCountryById(l_country.getDId()).getName() + ", ID: "
+                            + l_country.getDId() + ", Armies: " + d_loadedMap.getCountryById(l_country.getDId()).getArmy());
+            }
             System.out.println();
         }
         l_currentPlayer.assignReinforcementsToPlayer();
@@ -177,6 +180,8 @@ public class PlayerHandler {
         ArrayList<Country> l_playerCountries = p_player.getCountriesOwned();
         System.out.println("The player owns following countries: ");
         for (Country value : l_playerCountries) {
+            if(value==null)
+                continue;
             System.out.println("ID: " + value.getDId() + "; Name: " + value.getName() + "; Armies: " + value.getArmy());
         }
     }
@@ -226,7 +231,7 @@ public class PlayerHandler {
         }
     }
 
-        public static Player getCurrentPlayer(){
+    public static Player getCurrentPlayer(){
         Player currentPlayer = null;
         if(!PlayerHandler.getGamePlayers().isEmpty()){
             int playerIndex = d_whichPlayersTurn % PlayerHandler.getGamePlayers().size();
@@ -287,5 +292,33 @@ public class PlayerHandler {
             }
         }
         return -1;
+    }
+
+    /**
+     * creates an instance of PlayerSave data with state info of PlayerHandler.
+     * @return an PlayerSaveData instance.
+     */
+    public static PlayerSaveData getPlayerSaveData(){
+        return new PlayerSaveData(d_gamePlayers, d_commitedPlayers, d_whichPlayersTurn);
+    }
+
+    /**
+     * load player handler state from PlayerSaveData
+     * @param p_data data to load from
+     * @return
+     */
+    public static boolean loadFromPlayerSaveData(PlayerSaveData p_data){
+        List<Player> l_playerList = new ArrayList<>(p_data.getPlayerList());
+        for (Integer l_id:p_data.getCommitedPlayers()) {
+            Optional<Player> l_player = l_playerList.stream().filter((l_playerRef)->l_playerRef.getPlayerId() == l_id).findFirst();
+            if(!l_player.isPresent()){
+                return false;
+            }
+            d_commitedPlayers.add(l_player.get());
+        }
+        d_gamePlayers = new ArrayList<>(l_playerList);
+        d_whichPlayersTurn = p_data.getPlayerTurn();
+        d_countriesAssigned = true;
+        return true;
     }
 }
