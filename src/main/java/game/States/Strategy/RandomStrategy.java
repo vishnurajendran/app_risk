@@ -30,7 +30,7 @@ public class RandomStrategy extends Strategy{
     }
 
     /**
-     * @return an order based on the strategy rules
+     * @return an order based on the strategy rules, if no good solution is found, returns null.
      */
     @Override
     public Order decide() {
@@ -61,8 +61,8 @@ public class RandomStrategy extends Strategy{
     }
 
     /**
-     * produces an Advance order that
-     * @return
+     * produces an Advance order that attempts to attack another player.
+     * @return Order for attack, if no candidates are found, returns null.
      */
     private Order randomAttack(){
         Player l_myPlayer = d_strategyData.getCurrentPlayer();
@@ -162,6 +162,11 @@ public class RandomStrategy extends Strategy{
         }
     }
 
+    /**
+     * generates a deploy-order, if no good candidates are found
+     * we just commit.
+     * @return Order for deploy, if no candidates are found, returns null.
+     */
     private Order randomDeploy(){
         Player l_myPlayer = d_strategyData.getCurrentPlayer();
         if(l_myPlayer.getAvailableReinforcements() <= 0){
