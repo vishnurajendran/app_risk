@@ -1,9 +1,13 @@
 package entity;
 
 import common.Serialisation.ExcludeSerialisation;
+import game.Data.StrategyData;
+import game.GameEngine;
 import game.Orders.Order;
 import game.Orders.Serailisation.OrderSaveData;
 import game.Orders.Serailisation.OrderSaveConverter;
+import game.States.Strategy.HumanStrategy;
+import game.States.Strategy.Strategy;
 
 import java.util.*;
 
@@ -29,8 +33,11 @@ public class Player {
     private ArrayList<Integer> d_negotiatedPlayers;
     private final int d_playerId;
 
+    @ExcludeSerialisation
+    private Strategy d_playerStrategy;
+
     public Player() {
-       this(0,"", null);
+        this(0,"", null);
     }
 
     /**
@@ -47,6 +54,18 @@ public class Player {
         d_ownedCards = new ArrayList<>();
         d_negotiatedPlayers = new ArrayList<>();
         d_map = p_map;
+        d_playerStrategy = new HumanStrategy();
+    }
+
+    public Player(int p_id, String p_playerName, RiskMap p_map, Strategy p_playerStrategy) {
+        d_playerId = p_id;
+        this.d_availableReinforcements = 5;
+        this.d_playerName = p_playerName;
+        d_listOfCountriesOwned = new ArrayList<>();
+        d_ownedCards = new ArrayList<>();
+        d_negotiatedPlayers = new ArrayList<>();
+        d_map = p_map;
+        d_playerStrategy = p_playerStrategy;
     }
 
     /**
@@ -58,6 +77,10 @@ public class Player {
             return;
         }
         d_orders.add(p_newOrder);
+    }
+
+    public void issueOrder(){
+        issueOrder(d_playerStrategy.decide());
     }
 
     /**
@@ -329,5 +352,13 @@ public class Player {
             l_saveData.add(OrderSaveConverter.createOrderSaveData(l_order));
         }
         return l_saveData;
+    }
+
+    public boolean isPlayerHuman(){
+        return d_playerStrategy instanceof HumanStrategy;
+    }
+
+    public void setStrategyContext(GameEngine p_ctxEngine){
+        d_playerStrategy.setContext(new StrategyData(this, p_ctxEngine));
     }
 }
