@@ -1,5 +1,6 @@
 package main;
 
+import Tournament.TournamentInstantiator;
 import application.Application;
 import common.Command;
 import common.ISubAppInstantiator;
@@ -46,7 +47,8 @@ public class Main {
         Scanner l_sc = new Scanner(System.in);
         ISubAppInstantiator l_gameInstantiator = new GameInstantiator();
         ISubAppInstantiator l_mapInstantiator = new MapEditorInstantiator();
-        Application l_app = new Application(l_gameInstantiator, l_mapInstantiator);
+        ISubAppInstantiator l_tournamentInstantiator = new TournamentInstantiator();
+        Application l_app = new Application(l_gameInstantiator, l_mapInstantiator, l_tournamentInstantiator);
 
         //init application.
         l_app.startup();
