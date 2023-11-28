@@ -12,11 +12,12 @@ import java.util.List;
 /**
  * Domination map writer that write in domination map format
  */
-public class DominationMapWriter implements MapWriter{
+public class DominationMapWriter implements MapWriter {
 
     /**
      * Write using domination file format
-     * @param p_map Risk map object
+     *
+     * @param p_map  Risk map object
      * @param p_file The file needed to write
      */
     @Override
@@ -35,6 +36,7 @@ public class DominationMapWriter implements MapWriter{
             System.err.println(e.getMessage());
         }
     }
+
     /**
      * The method to process the map by calling three different methods and to make a string to be written in map file.
      *
@@ -43,8 +45,8 @@ public class DominationMapWriter implements MapWriter{
      */
     private static String parseMapAndReturnString(RiskMap p_Map) {
 
-        return "\nname " + p_Map.getName() + "\n\n" + String.valueOf(processContinent(p_Map)) +
-                processCountries(p_Map) +
+        return "\nname " + p_Map.getName() + "\n\n" + String.valueOf(processContinent(p_Map)) + "\n" +
+                processCountries(p_Map) + "\n" +
                 processAdjacentCountries(p_Map);
     }
 

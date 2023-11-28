@@ -49,11 +49,15 @@ public class InEditPhase extends Phase{
             System.out.println("Error, this map cannot be saved, Validation failed");
             return false;
         }
-
         String fileName = p_command.getCmdAttributes().get(0).getArguments().get(0);
+        //check if "-c" is found and output conquest map as needed
+        boolean isConquest=false;
+        if(p_command.getCmdAttributes().get(0).getOption().equalsIgnoreCase("c")){
+            isConquest=true;
+        }
         try {
             File file = new File(fileName);
-            MapSave.saveMapFile(d_mapEditor.d_map, file);
+            MapSave.saveMapFile(d_mapEditor.d_map, file,isConquest);
             return true;
         } catch (Exception ex) {
             return false;

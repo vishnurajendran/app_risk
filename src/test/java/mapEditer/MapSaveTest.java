@@ -26,7 +26,7 @@ class MapSaveTest {
         RiskMap l_testMap = l_loader.getMap();
 
         File l_file = new File(TEMP_MAP_PATH);
-        MapSave.saveMapFile(l_testMap, l_file);
+        MapSave.saveMapFile(l_testMap, l_file,false);
         l_loader = new MapLoader();
         //check if you can load the map
         assertTrue(l_loader.loadMap(TEMP_MAP_PATH));

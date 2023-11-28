@@ -21,10 +21,9 @@ public class MapSave {
      * @param p_map  object of the map which is being processed.
      * @param p_file object of file to store map data.
      */
-    public static void saveMapFile(RiskMap p_map, File p_file) {
+    public static void saveMapFile(RiskMap p_map, File p_file, boolean isConquest) {
         MapWriterAdapter adapter;
-        //TODO ask for user input and use different file writers
-        boolean isConquest=false;
+
 
         if(isConquest){
             adapter=new MapWriterAdapter(new ConquestMapWriter());
@@ -33,6 +32,7 @@ public class MapSave {
         }
         adapter.saveFile(p_map,p_file);
     }
+
 
 
 
