@@ -91,6 +91,10 @@ public class GameCommands {
      */
     public static final String CMD_DIPLOMACY = "negotiate";
     /**
+     * Command for skip order
+     */
+    public static final String CMD_SKIP = "skip";
+    /**
      * Command for commit order
      */
     public static final String CMD_COMMIT = "commit";
@@ -98,7 +102,7 @@ public class GameCommands {
     /**
      * Valid command set
      */
-    public static final Set<String> CHECK_VALID_COMMANDS_FOR_ISSUEORDER = new HashSet<>(Arrays.asList(CMD_GAME_PLAYER, CMD_ASSIGN_COUNTRIES_TO_PLAYER, CMD_SHOWMAP, CMD_DEPLOY_COUNTRIES, CMD_BOMB, CMD_BLOCKADE, CMD_AIRLIFT, CMD_DIPLOMACY, CMD_ADVANCE, CMD_COMMIT));
+    public static final Set<String> CHECK_VALID_COMMANDS_FOR_ISSUEORDER = new HashSet<>(Arrays.asList(CMD_GAME_PLAYER, CMD_ASSIGN_COUNTRIES_TO_PLAYER, CMD_SHOWMAP, CMD_DEPLOY_COUNTRIES, CMD_BOMB, CMD_BLOCKADE, CMD_AIRLIFT, CMD_DIPLOMACY, CMD_ADVANCE, CMD_SKIP, CMD_COMMIT));
 
     /**
      * Error messages for deploying

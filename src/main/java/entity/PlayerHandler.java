@@ -1,6 +1,7 @@
 package entity;
 
 import common.Logging.Logger;
+import game.States.Strategy.CheaterStrategy;
 
 import java.util.*;
 

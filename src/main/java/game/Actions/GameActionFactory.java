@@ -76,4 +76,11 @@ public class GameActionFactory {
     public static GameAction getNegotiateAction() {
         return new NegotiateAction();
     }
+
+    /**
+     * @return new instance of SkipAction
+     */
+    public static GameAction getSkipAction(){
+        return new SkipAction();
+    }
 }

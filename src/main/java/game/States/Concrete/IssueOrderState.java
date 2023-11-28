@@ -38,6 +38,7 @@ public class IssueOrderState extends GameState {
         d_cmdToActionMap.put(GameCommands.CMD_AIRLIFT, this::cmdAirliftAction);
         d_cmdToActionMap.put(GameCommands.CMD_COMMIT, this::cmdCommitAction);
         d_cmdToActionMap.put(GameCommands.CMD_DIPLOMACY, this::cmdNegotiateAction);
+        d_cmdToActionMap.put(GameCommands.CMD_SKIP, this:: cmdSkipAction);
     }
 
     /**
@@ -210,6 +211,18 @@ public class IssueOrderState extends GameState {
             return;
 
         GameAction l_action = GameActionFactory.getNegotiateAction();
+        executeAction(l_action, p_command);
+    }
+
+    /**
+     * executes skip action
+     * @param p_command p_command for further processing
+     */
+    private void cmdSkipAction(Command p_command){
+        if(!validGameCommandAtThisTime()){
+            return;
+        }
+        GameAction l_action = GameActionFactory.getSkipAction();
         executeAction(l_action, p_command);
     }
 
