@@ -442,7 +442,7 @@ public class InEditPhase extends Phase{
                 break;
             }
         }
-
+        MapViewer.tryUpdateMapViewer();
         return l_executionSuccessful;
     }
 
