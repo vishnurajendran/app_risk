@@ -1,6 +1,8 @@
 package entity;
 
 import common.Logging.Logger;
+import game.GameCommands;
+import game.States.Strategy.*;
 
 import java.util.*;
 
@@ -63,7 +65,7 @@ public class PlayerHandler {
         // Create a LinkedHashSet to remove duplicates while preserving order
         LinkedHashSet<String> setWithoutDuplicates = new LinkedHashSet<>(p_playerNamesToAdd);
 
-        // Create a new ArrayList to store the elements without duplicates
+// Create a new ArrayList to store the elements without duplicates
         ArrayList<String> p_playerNames = new ArrayList<>(setWithoutDuplicates);
 
         ArrayList<String> d_duplicates = new ArrayList<>();
@@ -84,6 +86,49 @@ public class PlayerHandler {
             d_gamePlayers.add(new Player(generatePlayerId(),name, p_map));
         }
     }
+
+    /**
+     * This method checks if there are any duplicates in the list
+     * if there are, it removes them from adding
+     * then runs a loop to add all the players and their respective strategies
+     *
+     * @param p_playerNamesToAdd is the list of players to add to the d_gameplayers object
+     * @param p_strategiesToAdd is the list of strategies to add to game players
+     */
+    public static void addGamePlayers(ArrayList<String> p_playerNamesToAdd, ArrayList<String> p_strategiesToAdd, RiskMap p_map) {
+        // Create a LinkedHashSet to remove duplicates while preserving order
+        LinkedHashSet<String> setWithoutDuplicates = new LinkedHashSet<>(p_playerNamesToAdd);
+
+        // Create a new ArrayList to store the elements without duplicates
+        ArrayList<String> p_playerNames = new ArrayList<>(setWithoutDuplicates);
+
+        ArrayList<String> d_duplicates = new ArrayList<>();
+        for (String name : p_playerNames) {
+            for (Player player : d_gamePlayers) {
+                if (player.getPlayerName().equals(name)) {
+                    System.out.println(name + " already exists in the game");
+                    d_duplicates.add(name);
+                }
+            }
+        }
+
+        for (String name : d_duplicates) {
+            p_strategiesToAdd.remove(p_playerNames.indexOf(name));
+            p_playerNames.remove(name);
+        }
+
+        for (int i = 0; i < p_playerNames.size(); i++) {
+            Strategies l_playerStrategy = switch (p_strategiesToAdd.get(i).toLowerCase()){
+                case GameCommands.STRAT_RANDOM -> Strategies.Random;
+                case GameCommands.STRAT_AGGRESSIVE -> Strategies.Aggressive;
+                case GameCommands.STRAT_BENEVOLENT -> Strategies.Benevolent;
+                case GameCommands.STRAT_CHEATER -> Strategies.Cheater;
+                default -> Strategies.Human;
+            };
+            d_gamePlayers.add(new Player(generatePlayerId(),p_playerNames.get(i), p_map, l_playerStrategy));
+        }
+    }
+
 
     /**
      * @return a numerical number that can be used as an Id for players

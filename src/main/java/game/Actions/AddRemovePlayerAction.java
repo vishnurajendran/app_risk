@@ -29,11 +29,23 @@ public class AddRemovePlayerAction extends GameAction{
         GameEngine l_engine = d_context.getEngine();
         for (int i = 0; i < d_CmdOption.size(); i++) {
             if (d_CmdOption.get(i).equals(GameCommands.CMD_GAME_PLAYER_OPTION_ADD) && !d_CmdArguments.isEmpty()) {
-                PlayerHandler.addGamePlayers(d_CmdArguments.get(i), l_engine.getMap());
+                if(d_CmdOption.size() > i+1 && d_CmdArguments.size() > i+1){
+                    if(d_CmdOption.get(i+1).equals(GameCommands.CMD_GAME_PLAYER_OPTION_ADD_STRATEGIES) && d_CmdArguments.get(i).size() == d_CmdArguments.get(i+1).size()){
+                        PlayerHandler.addGamePlayers(d_CmdArguments.get(i), d_CmdArguments.get(i+1), l_engine.getMap());
+                        i++;
+                    } else{
+                        d_execStatus = ActionExecStatus.Fail;
+                        System.out.println("ERROR: Invalid Strategy command");
+                        return;
+                    }
+                } else{
+                    PlayerHandler.addGamePlayers(d_CmdArguments.get(i), l_engine.getMap());
+                }
             } else if (d_CmdOption.get(i).equals(GameCommands.CMD_GAME_PLAYER_OPTION_REMOVE) && !d_CmdArguments.isEmpty()) {
                 PlayerHandler.removeGamePlayers(d_CmdArguments.get(i));
             } else {
                 d_execStatus = ActionExecStatus.Fail;
+                System.out.println("Coming from addremoveplayeraction");
                 System.out.println(MessageFormat.format(ApplicationConstants.ERR_MSG_INVALID_CMD, p_cmd.getCmdName()));
             }
         }
@@ -64,7 +76,7 @@ public class AddRemovePlayerAction extends GameAction{
     public void postExecute() {
         System.out.println("\n[ Total Players In Game ]");
         for (Player l_player: PlayerHandler.getGamePlayers()) {
-            System.out.println("\t- " + l_player.getPlayerName());
+            System.out.println("\t- " + l_player.getPlayerName() + " | Strategy: " + l_player.getPlayerStrategy());
         }
     }
 
