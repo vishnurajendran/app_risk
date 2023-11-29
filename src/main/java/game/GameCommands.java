@@ -45,6 +45,11 @@ public class GameCommands {
      */
     public static final String CMD_GAME_PLAYER_OPTION_ADD = "add";
     /**
+     * Option to add player strategies in CMD_LOAD_MAP
+     */
+    public static final String CMD_GAME_PLAYER_OPTION_ADD_STRATEGIES = "strategy";
+
+    /**
      * Option to remove players in CMD_LOAD_MAP
      */
     public static final String CMD_GAME_PLAYER_OPTION_REMOVE = "remove";
@@ -91,10 +96,6 @@ public class GameCommands {
      */
     public static final String CMD_DIPLOMACY = "negotiate";
     /**
-     * Command for skip order
-     */
-    public static final String CMD_SKIP = "skip";
-    /**
      * Command for commit order
      */
     public static final String CMD_COMMIT = "commit";
@@ -102,26 +103,26 @@ public class GameCommands {
     /**
      * Command for cheater strategy
      */
-    public static final String STRAT_CHEATER = "cheater";
+    public static final String STRAT_CHEATER = "c";
     /**
      * Command for aggressive strategy
      */
-    public static final String STRAT_AGGRESSIVE = "aggressive";
+    public static final String STRAT_AGGRESSIVE = "a";
     /**
      * Command for benevolent strategy
      */
-    public static final String STRAT_BENEVOLENT = "benevolent";
+    public static final String STRAT_BENEVOLENT = "b";
     /**
      * Command for random strategy
      */
-    public static final String STRAT_RANDOM = "random";
+    public static final String STRAT_RANDOM = "r";
 
-    public static final Set<String> CHECK_NAMES_FOR_STRATEGY = new HashSet<>(Arrays.asList(STRAT_CHEATER, STRAT_AGGRESSIVE, STRAT_BENEVOLENT, STRAT_RANDOM));
+
 
     /**
      * Valid command set
      */
-    public static final Set<String> CHECK_VALID_COMMANDS_FOR_ISSUEORDER = new HashSet<>(Arrays.asList(CMD_GAME_PLAYER, CMD_ASSIGN_COUNTRIES_TO_PLAYER, CMD_SHOWMAP, CMD_DEPLOY_COUNTRIES, CMD_BOMB, CMD_BLOCKADE, CMD_AIRLIFT, CMD_DIPLOMACY, CMD_ADVANCE, CMD_SKIP, CMD_COMMIT));
+    public static final Set<String> CHECK_VALID_COMMANDS_FOR_ISSUEORDER = new HashSet<>(Arrays.asList(CMD_GAME_PLAYER, CMD_GAME_PLAYER_OPTION_ADD_STRATEGIES ,CMD_ASSIGN_COUNTRIES_TO_PLAYER, CMD_SHOWMAP, CMD_DEPLOY_COUNTRIES, CMD_BOMB, CMD_BLOCKADE, CMD_AIRLIFT, CMD_DIPLOMACY, CMD_ADVANCE, CMD_COMMIT));
 
     /**
      * Error messages for deploying

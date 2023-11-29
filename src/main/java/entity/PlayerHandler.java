@@ -71,7 +71,7 @@ public class PlayerHandler {
         ArrayList<String> d_duplicates = new ArrayList<>();
         for (String name : p_playerNames) {
             for (Player player : d_gamePlayers) {
-                if (player.getPlayerName().equals(name) && !GameCommands.CHECK_NAMES_FOR_STRATEGY.contains(player.getPlayerName())) {
+                if (player.getPlayerName().equals(name)) {
                     System.out.println(name + " already exists in the game");
                     d_duplicates.add(name);
                 }
@@ -83,30 +83,52 @@ public class PlayerHandler {
         }
 
         for (String name : p_playerNames) {
-            if(GameCommands.CHECK_NAMES_FOR_STRATEGY.contains(name)){
-                int playerID = generatePlayerId();
-                String playerName = name + playerID;
-                d_gamePlayers.add(new Player(playerID, playerName, p_map, cmdGetStrategy(name)));
-            }
-            else{
-                d_gamePlayers.add(new Player(generatePlayerId(),name, p_map));
-            }
+            d_gamePlayers.add(new Player(generatePlayerId(),name, p_map));
         }
     }
 
     /**
-     * @param p_cmdName name of the strategy
-     * @return an instance of strategy class based on their name
+     * This method checks if there are any duplicates in the list
+     * if there are, it removes them from adding
+     * then runs a loop to add all the players and their respective strategies
+     *
+     * @param p_playerNamesToAdd is the list of players to add to the d_gameplayers object
+     * @param p_strategiesToAdd is the list of strategies to add to game players
      */
-    private static Strategy cmdGetStrategy(String p_cmdName) {
-        return switch (p_cmdName) {
-            case GameCommands.STRAT_CHEATER -> new CheaterStrategy();
-            case GameCommands.STRAT_RANDOM -> new RandomStrategy();
-            case GameCommands.STRAT_BENEVOLENT -> new BenevolentStrategy();
-            case GameCommands.STRAT_AGGRESSIVE -> new AggressiveStrategy();
-            default -> new HumanStrategy();
-        };
+    public static void addGamePlayers(ArrayList<String> p_playerNamesToAdd, ArrayList<String> p_strategiesToAdd, RiskMap p_map) {
+        // Create a LinkedHashSet to remove duplicates while preserving order
+        LinkedHashSet<String> setWithoutDuplicates = new LinkedHashSet<>(p_playerNamesToAdd);
+
+        // Create a new ArrayList to store the elements without duplicates
+        ArrayList<String> p_playerNames = new ArrayList<>(setWithoutDuplicates);
+
+        ArrayList<String> d_duplicates = new ArrayList<>();
+        for (String name : p_playerNames) {
+            for (Player player : d_gamePlayers) {
+                if (player.getPlayerName().equals(name)) {
+                    System.out.println(name + " already exists in the game");
+                    d_duplicates.add(name);
+                }
+            }
+        }
+
+        for (String name : d_duplicates) {
+            p_strategiesToAdd.remove(p_playerNames.indexOf(name));
+            p_playerNames.remove(name);
+        }
+
+        for (int i = 0; i < p_playerNames.size(); i++) {
+            Strategies l_playerStrategy = switch (p_strategiesToAdd.get(i)){
+                case GameCommands.STRAT_RANDOM -> Strategies.Random;
+                case GameCommands.STRAT_AGGRESSIVE -> Strategies.Aggressive;
+                case GameCommands.STRAT_BENEVOLENT -> Strategies.Benevolent;
+                case GameCommands.STRAT_CHEATER -> Strategies.Cheater;
+                default -> Strategies.Human;
+            };
+            d_gamePlayers.add(new Player(generatePlayerId(),p_playerNames.get(i), p_map, l_playerStrategy));
+        }
     }
+
 
     /**
      * @return a numerical number that can be used as an Id for players

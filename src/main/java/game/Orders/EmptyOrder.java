@@ -3,7 +3,7 @@ package game.Orders;
 /**
  * @author Soham
  */
-public class SkipOrder extends Order{
+public class EmptyOrder extends Order{
     @Override
     public void executeOrder() {
         // do nothing here, since it is meant to skip the order
@@ -11,6 +11,6 @@ public class SkipOrder extends Order{
 
     @Override
     public OrderType getOrderType() {
-        return OrderType.Skip;
+        return OrderType.Empty;
     }
 }

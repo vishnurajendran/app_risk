@@ -12,5 +12,5 @@ public enum OrderType {
     Bomb,
     Deploy,
     Negotiate,
-    Skip
+    Empty
 }

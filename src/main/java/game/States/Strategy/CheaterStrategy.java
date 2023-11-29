@@ -4,7 +4,7 @@ import entity.Country;
 import entity.Player;
 import entity.PlayerHandler;
 import game.Orders.Order;
-import game.Orders.SkipOrder;
+import game.Orders.EmptyOrder;
 
 import java.util.*;
 
@@ -49,6 +49,6 @@ public class CheaterStrategy extends Strategy{
 
         PlayerHandler.markComitted(d_strategyData.getCurrentPlayer());
         // make an empty order class to return here.
-        return new SkipOrder();
+        return new EmptyOrder();
     }
 }

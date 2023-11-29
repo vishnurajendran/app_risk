@@ -77,10 +77,5 @@ public class GameActionFactory {
         return new NegotiateAction();
     }
 
-    /**
-     * @return new instance of SkipAction
-     */
-    public static GameAction getSkipAction(){
-        return new SkipAction();
-    }
+
 }
