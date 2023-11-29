@@ -97,8 +97,8 @@ public class MapEditor implements ISubApplication {
            }
         }
         else{
-            System.out.println("Incorrect command!" + p_command.getCmdName());
-            quitMapEditor();
+            System.out.println("Incorrect command!" + p_command.getCmdName() + ", please try again with valid command");
+            //quitMapEditor();
         }
     }
 

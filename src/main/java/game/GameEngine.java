@@ -29,7 +29,7 @@ import java.util.Map;
  * @author Soham
  */
 
-public class GameEngine implements ISubApplication {
+public class GameEngine implements ISubApplication , IEngine {
 
     //essential to save map data.
     private String d_mapPath;
@@ -84,6 +84,9 @@ public class GameEngine implements ISubApplication {
      * @param p_newState is the new state
      */
     public void changeState(GameStates p_newState) {
+        if(hasQuit())
+            return;
+
         Logger.log("Changing State From " + d_gameState + " >>> " + p_newState);
         d_gameState = p_newState;
         d_currentState = GameStateFactory.get(p_newState);
@@ -163,6 +166,7 @@ public class GameEngine implements ISubApplication {
     /**
      * @return returns the instance of the map loaded.
      */
+    @Override
     public RiskMap getMap() {
         return d_map;
     }

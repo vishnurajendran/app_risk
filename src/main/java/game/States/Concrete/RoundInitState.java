@@ -1,6 +1,7 @@
 package game.States.Concrete;
 
 import common.Command;
+import entity.Player;
 import entity.PlayerHandler;
 import game.Data.Context;
 import game.States.GameState;
@@ -16,21 +17,47 @@ public class RoundInitState extends GameState {
     public void setContext(Context p_ctx) {
         super.setContext(p_ctx);
         PlayerHandler.reassignValuesForNextTurn();
-        d_context.getEngine().changeState(GameStates.IssueOrder);
         issueOrderForAI();
+        d_context.getEngine().changeState(GameStates.IssueOrder);
+        super.setContext(new Context(PlayerHandler.getCurrentPlayer(), d_context.getEngine()));
+        d_context.getCurrentPlayer().setStrategyContext(d_context.getEngine());
     }
 
     /**
      * Handles issuing orders for AI players with strategies.
      */
     public void issueOrderForAI(){
-        while(!PlayerHandler.getCurrentPlayer().isPlayerHuman() && !PlayerHandler.isCommittedPlayer(PlayerHandler.getCurrentPlayer())){
+        while(PlayerHandler.getCommittedPlayerCount() < PlayerHandler.getGamePlayers().size()){
+            Player l_player = PlayerHandler.getCurrentPlayer();
+            if(PlayerHandler.isCommittedPlayer(l_player)) {
+                PlayerHandler.increasePlayerTurn(1);
+                continue;
+            }
+
+            if(l_player.isPlayerHuman())
+                break;
+
+            displayPlayerDetails();
             PlayerHandler.getCurrentPlayer().setStrategyContext(d_context.getEngine());
             PlayerHandler.getCurrentPlayer().issueOrder();
             PlayerHandler.increasePlayerTurn(1);
         }
-        super.setContext(new Context(PlayerHandler.getCurrentPlayer(), d_context.getEngine()));
-        d_context.getCurrentPlayer().setStrategyContext(d_context.getEngine());
+
+        if(PlayerHandler.getCommittedPlayerCount() >= PlayerHandler.getGamePlayers().size())
+            d_context.getEngine().changeState(GameStates.ExecuteOrder);
+    }
+
+    /**
+     * Used to display the player details
+     */
+    private void displayPlayerDetails(){
+        Player l_player = PlayerHandler.getCurrentPlayer();
+        if(l_player == null)
+            return;
+
+        String p_header = "\n\n[  CURRENT TURN (" + PlayerHandler.getPlayerTurn() + ")  ]\n";
+        System.out.println(p_header + l_player);
+        PlayerHandler.displayGamePlayersCountries(l_player);
     }
 
     /**

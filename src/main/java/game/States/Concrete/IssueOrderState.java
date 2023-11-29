@@ -62,16 +62,8 @@ public class IssueOrderState extends GameState {
     @Override
     public void performAction(Command p_command) {
         d_cmdToActionMap.get(p_command.getCmdName()).invoke(p_command);
-        issueOrdersForAI();
         super.setContext(new Context(PlayerHandler.getCurrentPlayer(), d_context.getEngine()));
         d_context.getCurrentPlayer().setStrategyContext(d_context.getEngine());
-    }
-
-    public void issueOrdersForAI(){
-        while(!PlayerHandler.getCurrentPlayer().isPlayerHuman() && !PlayerHandler.isCommittedPlayer(PlayerHandler.getCurrentPlayer())){
-            PlayerHandler.getCurrentPlayer().issueOrder();
-            PlayerHandler.increasePlayerTurn(1);
-        }
     }
 
     /**
@@ -103,8 +95,9 @@ public class IssueOrderState extends GameState {
             d_context.getEngine().changeState(GameStates.ExecuteOrder);
             return;
         }
+
         PlayerHandler.increasePlayerTurn(1);
-        displayPlayerDetails();
+        issueOrdersForAI();
     }
 
     /**
@@ -119,6 +112,33 @@ public class IssueOrderState extends GameState {
         System.out.println(p_header + l_player);
         PlayerHandler.displayGamePlayersCountries(l_player);
     }
+
+    /**
+     * Handles issuing orders for AI players with strategies.
+     */
+    public void issueOrdersForAI(){
+        while(PlayerHandler.getCommittedPlayerCount() < PlayerHandler.getGamePlayers().size()){
+            Player l_player = PlayerHandler.getCurrentPlayer();
+            displayPlayerDetails();
+
+            if(PlayerHandler.isCommittedPlayer(l_player)) {
+                PlayerHandler.increasePlayerTurn(1);
+                continue;
+            }
+
+            if(l_player.isPlayerHuman())
+                break;
+
+            PlayerHandler.getCurrentPlayer().setStrategyContext(d_context.getEngine());
+            PlayerHandler.getCurrentPlayer().issueOrder();
+            PlayerHandler.increasePlayerTurn(1);
+        }
+
+        if(PlayerHandler.getCommittedPlayerCount() >= PlayerHandler.getGamePlayers().size()) {
+            d_context.getEngine().changeState(GameStates.ExecuteOrder);
+        }
+    }
+
 
     /**
      * @param p_cmdName command to check
