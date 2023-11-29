@@ -1,6 +1,7 @@
 package game.States.Concrete;
 
 import common.Command;
+import entity.Player;
 import entity.PlayerHandler;
 import game.Data.Context;
 import game.States.GameState;
@@ -18,6 +19,8 @@ public class RoundInitState extends GameState {
         PlayerHandler.reassignValuesForNextTurn();
         d_context.getEngine().changeState(GameStates.IssueOrder);
         issueOrderForAI();
+        super.setContext(new Context(PlayerHandler.getCurrentPlayer(), d_context.getEngine()));
+        d_context.getCurrentPlayer().setStrategyContext(d_context.getEngine());
     }
 
     /**
@@ -29,8 +32,23 @@ public class RoundInitState extends GameState {
             PlayerHandler.getCurrentPlayer().issueOrder();
             PlayerHandler.increasePlayerTurn(1);
         }
-        super.setContext(new Context(PlayerHandler.getCurrentPlayer(), d_context.getEngine()));
-        d_context.getCurrentPlayer().setStrategyContext(d_context.getEngine());
+        if(!d_context.getCurrentPlayer().equals(PlayerHandler.getCurrentPlayer())){
+            displayPlayerDetails();
+        }
+
+    }
+
+    /**
+     * Used to display the player details
+     */
+    private void displayPlayerDetails(){
+        Player l_player = PlayerHandler.getCurrentPlayer();
+        if(l_player == null)
+            return;
+
+        String p_header = "\n\n[  CURRENT TURN (" + PlayerHandler.getPlayerTurn() + ")  ]\n";
+        System.out.println(p_header + l_player);
+        PlayerHandler.displayGamePlayersCountries(l_player);
     }
 
     /**

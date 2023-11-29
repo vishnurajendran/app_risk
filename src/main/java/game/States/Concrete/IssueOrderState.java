@@ -69,8 +69,12 @@ public class IssueOrderState extends GameState {
 
     public void issueOrdersForAI(){
         while(!PlayerHandler.getCurrentPlayer().isPlayerHuman() && !PlayerHandler.isCommittedPlayer(PlayerHandler.getCurrentPlayer())){
+            PlayerHandler.getCurrentPlayer().setStrategyContext(d_context.getEngine());
             PlayerHandler.getCurrentPlayer().issueOrder();
             PlayerHandler.increasePlayerTurn(1);
+        }
+        if(!d_context.getCurrentPlayer().equals(PlayerHandler.getCurrentPlayer())){
+            displayPlayerDetails();
         }
     }
 

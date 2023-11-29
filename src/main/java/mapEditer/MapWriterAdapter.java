@@ -23,7 +23,7 @@ public class MapWriterAdapter {
      * @param p_map RiskMap needed to be saved
      * @param p_file File needed to write
      */
-    public void saveFile(RiskMap p_map, File p_file){
+    public void saveFile(RiskMap p_map, String p_file){
         d_mapWriter.writeMap(p_map,p_file);
     }
 
