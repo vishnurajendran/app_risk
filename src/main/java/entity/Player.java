@@ -4,6 +4,7 @@ import common.Serialisation.ExcludeSerialisation;
 import game.Data.StrategyData;
 import game.GameCommands;
 import game.GameEngine;
+import game.IEngine;
 import game.Orders.Order;
 import game.Orders.Serailisation.OrderSaveData;
 import game.Orders.Serailisation.OrderSaveConverter;
@@ -364,9 +365,9 @@ public class Player {
 
     /**
      * set the strategy context to be used in strategy classes
-     * @param p_ctxEngine instance of the game engine
+     * @param p_ctxEngine instance of the Iengine
      */
-    public void setStrategyContext(GameEngine p_ctxEngine){
+    public void setStrategyContext(IEngine p_ctxEngine){
         d_playerStrategy.setContext(new StrategyData(this, p_ctxEngine));
     }
 

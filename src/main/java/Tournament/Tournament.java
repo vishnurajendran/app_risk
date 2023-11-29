@@ -7,7 +7,9 @@ import common.ISubApplication;
 import common.Logging.Logger;
 import entity.MapLoader;
 import entity.Player;
+import entity.PlayerHandler;
 import entity.RiskMap;
+import game.IEngine;
 import mapEditer.MapValidator;
 
 import java.util.ArrayList;
@@ -22,7 +24,7 @@ import static Tournament.TournamentConstants.*;
  *
  * @author TaranjeetKaur
  */
-public class Tournament implements ISubApplication {
+public class Tournament implements ISubApplication, IEngine {
 
 
     private boolean d_HasQuit;
@@ -36,6 +38,8 @@ public class Tournament implements ISubApplication {
     private ArrayList<RiskMap> d_maps;
 
     private ArrayList<ArrayList<String>> d_tournamentResult;
+
+    private ArrayList<String> d_playerStrategies;
 
 
     /**
@@ -143,7 +147,7 @@ public class Tournament implements ISubApplication {
                     System.out.println(TournamentConstants.CMD_TOO_MANY_ARGUMENTS);
                     return false;
                 }
-                if(!intialisePlayersForTournament(l_cAttribute.getArguments())){
+                if(!intialisePlayerStrategyForTournament(l_cAttribute.getArguments())){
                     System.out.println(TournamentConstants.CMD_INVALID_STRATEGY);
                     return false;
                 }
@@ -192,13 +196,14 @@ public class Tournament implements ISubApplication {
       * @param p_playerStrategyList List of Strategies
      * @return  true if intialisation successful, false otherwise.
      */
-    private boolean intialisePlayersForTournament(ArrayList<String> p_playerStrategyList){
+    private boolean intialisePlayerStrategyForTournament(ArrayList<String> p_playerStrategyList){
         for (String l_playerStrategy : p_playerStrategyList){
             if(!TOURNAMENT_VALIDSTRATEGIES.contains(l_playerStrategy)){
                 System.out.println(CMD_INVALID_STRATEGY);
                 return false;
             }
-            //Initialise player with given strategy
+            d_playerStrategies.add(l_playerStrategy);
+            Logger.log("Tournament :: Player strategy added " + l_playerStrategy);
         }
         return true;
     }
@@ -237,6 +242,14 @@ public class Tournament implements ISubApplication {
             d_tournamentResult.set(i, new ArrayList<String>(d_numberOfGames));
             for (int j=0;j<d_numberOfGames;j++){
                 // game j on map i;
+                PlayerHandler.addGamePlayers(d_playerStrategies, d_playerStrategies, d_maps.get(i));
+                PlayerHandler.assignCountriesToPlayer(d_maps.get(i));
+                PlayerHandler.countriesAssigned(true);
+
+                PlayerHandler.getCurrentPlayer().setStrategyContext(this);
+                PlayerHandler.getCurrentPlayer().issueOrder();
+                PlayerHandler.increasePlayerTurn(1);
+
             }
         }
     }

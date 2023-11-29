@@ -29,7 +29,7 @@ import java.util.Map;
  * @author Soham
  */
 
-public class GameEngine implements ISubApplication {
+public class GameEngine implements ISubApplication , IEngine {
 
     //essential to save map data.
     private String d_mapPath;
