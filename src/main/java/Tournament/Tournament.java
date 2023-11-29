@@ -14,8 +14,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import static Tournament.TournamentConstants.CMD_INVALID_MAP;
-import static Tournament.TournamentConstants.TOURNAMENT_VALIDOPTIONS;
+import static Tournament.TournamentConstants.*;
 
 /**
  * This class handles all the tournament commands
@@ -36,6 +35,8 @@ public class Tournament implements ISubApplication {
 
     private ArrayList<RiskMap> d_maps;
 
+    private ArrayList<ArrayList<String>> d_tournamentResult;
+
 
     /**
      * default constructor
@@ -52,7 +53,6 @@ public class Tournament implements ISubApplication {
     @Override
     public void initialise() {
         d_localCommands = new HashMap<>();
-        d_localCommands.put(TournamentConstants.CMD_START_TOURNAMENT, this::startTournament);
     }
 
     /**
@@ -90,10 +90,10 @@ public class Tournament implements ISubApplication {
      */
     @Override
     public void submitCommand(Command p_command) {
-        //validity of command entered.
-        //tournament -M listofmapfiles -P listofplayerstrategies -G numberofgames -D maxnumberofturns
-
-        boolean isValid = IsCommandValid(p_command);
+        boolean l_isValid = IsCommandValid(p_command);
+        if(l_isValid){
+            startTournament();
+        }
     }
 
     /**
@@ -193,9 +193,14 @@ public class Tournament implements ISubApplication {
      * @return  true if intialisation successful, false otherwise.
      */
     private boolean intialisePlayersForTournament(ArrayList<String> p_playerStrategyList){
-
-        //Aggressive, Benevolent, Random, Cheate
-        return false;
+        for (String l_playerStrategy : p_playerStrategyList){
+            if(!TOURNAMENT_VALIDSTRATEGIES.contains(l_playerStrategy)){
+                System.out.println(CMD_INVALID_STRATEGY);
+                return false;
+            }
+            //Initialise player with given strategy
+        }
+        return true;
     }
 
     /**
@@ -224,10 +229,33 @@ public class Tournament implements ISubApplication {
 
 
     /**
-     *
-     * @param command
+     *  This method starts the Tournament and sets the results.
      */
-    private void startTournament(Command command) {
+    private void startTournament() {
+        d_tournamentResult = new ArrayList<>(d_maps.size());
+        for(int i=0;i<d_maps.size();i++){
+            d_tournamentResult.set(i, new ArrayList<String>(d_numberOfGames));
+            for (int j=0;j<d_numberOfGames;j++){
+                // game j on map i;
+            }
+        }
+    }
+
+    /**
+     *  This method displays the Tournament results
+     */
+    private void displayTournamentResult() {
+        System.out.println("Tournament ended with the following results::");
+        for(int i=1; i<=d_numberOfGames; i++){
+            System.out.print("\t\t Game " + i);
+        }
+        System.out.println();
+        for(int i=0;i<d_tournamentResult.size();i++){
+            System.out.print("Map " + Integer.toString(i+1) + "\t");
+            for (int j=0;j<d_tournamentResult.get(i).size();j++){
+                System.out.print(d_tournamentResult.get(i).get(j) + "\t");
+            }
+        }
     }
 
     /**

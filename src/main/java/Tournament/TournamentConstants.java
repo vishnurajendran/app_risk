@@ -16,15 +16,29 @@ public class TournamentConstants {
      */
     public static final String CMD_START_TOURNAMENT = "tournament";
 
+    /**
+     * Valid options for tournament command
+     */
     public static final String CMD_OPTION_MAP = "M";
     public static final String CMD_OPTION_PLAYERSTRATEGY = "p";
     public static final String CMD_OPTION_GAMES = "g";
     public static final String CMD_OPTION_MAXIMUM_TURNS = "D";
 
     /**
+     * Player strategy constants
+     */
+    public static final String STRATEGY_AGGRESIVE = "Aggressive";
+    public static final String STRATEGY_BENEVOLENT = "Benevolent";
+    public static final String STRATEGY_RANDOM = "Random";
+    public static final String STRATEGY_CHEATER = "Cheater";
+
+    /**
      * tournament command options
      */
     public static final Set<String> TOURNAMENT_VALIDOPTIONS = new HashSet<>(Arrays.asList(CMD_OPTION_MAP, CMD_OPTION_GAMES, CMD_OPTION_PLAYERSTRATEGY, CMD_OPTION_MAXIMUM_TURNS));
+
+    public static final Set<String> TOURNAMENT_VALIDSTRATEGIES = new HashSet<>(Arrays.asList(STRATEGY_AGGRESIVE, STRATEGY_BENEVOLENT, STRATEGY_RANDOM, STRATEGY_CHEATER));
+
 
     /**
      * Error messages for tournament commands
