@@ -32,9 +32,9 @@ class StrategyTest {
     void TestStrategyAssign(){
         d_gameEngineTest.submitCommand(Command.parseString("loadmap testResources/WoW.map"));
         d_gameEngineTest.submitCommand(Command.parseString("gameplayer -add v1 v2 v3 -strategy h c a"));
-        assertEquals("Human", PlayerHandler.getGamePlayers().get(0).getPlayerStrategy());
-        assertEquals("Cheater", PlayerHandler.getGamePlayers().get(1).getPlayerStrategy());
-        assertEquals("Aggressive", PlayerHandler.getGamePlayers().get(2).getPlayerStrategy());
+        assertEquals(Strategies.Human, PlayerHandler.getGamePlayers().get(0).getPlayerStrategy());
+        assertEquals(Strategies.Cheater, PlayerHandler.getGamePlayers().get(1).getPlayerStrategy());
+        assertEquals(Strategies.Aggressive, PlayerHandler.getGamePlayers().get(2).getPlayerStrategy());
     }
 
 

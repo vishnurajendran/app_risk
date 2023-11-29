@@ -384,16 +384,16 @@ public class Player {
         };
     }
 
-    public String getPlayerStrategy(){
+    public Strategies getPlayerStrategy(){
         if(d_playerStrategy instanceof AggressiveStrategy){
-            return "Aggressive";
+            return Strategies.Aggressive;
         } else if(d_playerStrategy instanceof CheaterStrategy){
-            return "Cheater";
+            return Strategies.Cheater;
         } else if(d_playerStrategy instanceof BenevolentStrategy){
-            return "Benevolent";
+            return Strategies.Benevolent;
         } else if(d_playerStrategy instanceof RandomStrategy){
-            return "Random";
+            return Strategies.Random;
         }
-        return "Human";
+        return Strategies.Human;
     }
 }
