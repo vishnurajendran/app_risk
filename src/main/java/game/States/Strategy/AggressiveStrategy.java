@@ -1,14 +1,17 @@
 package game.States.Strategy;
 
 import entity.Country;
+import entity.Player;
 import entity.PlayerHandler;
-import game.Data.StrategyData;
 import game.Orders.AdvanceOrder;
 import game.Orders.DeployOrder;
 import game.Orders.Order;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
+
+import static java.util.Objects.isNull;
 
 /**
  * Represents an Aggressive strategy in the APP Risk game.
@@ -16,15 +19,13 @@ import java.util.List;
  */
 public class AggressiveStrategy extends Strategy {
 
-    private StrategyData d_strategyData;
+    Stack<Order> d_unsubmittedOrders;
 
     /**
-     * Constructor for AggressiveStrategy.
-     *
-     * @param strategyData The StrategyData instance to be used by this strategy.
+     * Default constructor that initialize orders to null;
      */
-    public AggressiveStrategy(StrategyData strategyData) {
-        this.d_strategyData = strategyData;
+    public AggressiveStrategy() {
+        d_unsubmittedOrders = null;
     }
 
     /**
@@ -37,34 +38,36 @@ public class AggressiveStrategy extends Strategy {
             // Handle the case where the current player or StrategyData is null.
             return null;
         }
+        Player l_player = d_strategyData.getCurrentPlayer();
 
-        PlayerHandler.markComitted(d_strategyData.getCurrentPlayer());
-        System.out.println("Committing orders for: " + d_strategyData.getCurrentPlayer().getPlayerName());
+        // check to see if a stack of orders is created
+        if (isNull(d_unsubmittedOrders)) {
+            d_unsubmittedOrders = new Stack<>();
 
-        Country strongestCountry = findStrongestCountry(d_strategyData.getCurrentPlayer().getCountriesOwned());
+            Country strongestCountry = findStrongestCountry(l_player.getCountriesOwned());
 
-        if (strongestCountry != null) {
             // Deploy armies in the strongest country
-            int armiesToDeploy = calculateArmiesToDeploy(strongestCountry);
-            DeployOrder deployOrder = new DeployOrder(d_strategyData.getCurrentPlayer(), armiesToDeploy, strongestCountry.getDId(), d_strategyData.getEngine().getMap());
+            int armiesToDeploy = l_player.getAvailableReinforcements();
+            DeployOrder deployOrder = new DeployOrder(l_player, armiesToDeploy, strongestCountry.getDId(), d_strategyData.getEngine().getMap());
 
             // Attack with the strongest country
             AdvanceOrder advanceOrder = attackWithStrongestCountry(strongestCountry);
 
-            // Move armies to maximize aggregation of forces in one country
-            DeployOrder moveOrder = moveArmies(strongestCountry);
+            d_unsubmittedOrders.push(deployOrder);
+            d_unsubmittedOrders.push(advanceOrder);
 
-            // Return a compound order containing deploy, advance, and move orders
-            List<Order> orders = new ArrayList<>();
-            orders.add(deployOrder);
-            orders.add(advanceOrder);
-            orders.add(moveOrder);
 
-            return (Order) orders;
-        } else {
-            // If no strong country found, do nothing
+        }
+        // Since the order stack is created, execute rest one by one
+        if (d_unsubmittedOrders.isEmpty()) {
+            PlayerHandler.markComitted(l_player);
+            d_unsubmittedOrders = null;
             return null;
         }
+
+        return d_unsubmittedOrders.pop();
+
+
     }
 
     /**
@@ -74,9 +77,7 @@ public class AggressiveStrategy extends Strategy {
      * @return The strongest country, or null if the list is empty.
      */
     private Country findStrongestCountry(List<Country> countries) {
-        if (countries.isEmpty()) {
-            return null;
-        }
+
 
         Country strongestCountry = countries.get(0);
 
@@ -89,54 +90,29 @@ public class AggressiveStrategy extends Strategy {
         return strongestCountry;
     }
 
-    /**
-     * Calculates the number of armies to deploy in the strongest country.
-     *
-     * @param strongestCountry The strongest country to reinforce.
-     * @return The number of armies to deploy.
-     */
-    private int calculateArmiesToDeploy(Country strongestCountry) {
-        // You can implement your own logic to determine the number of armies to deploy.
-        // For simplicity, let's deploy a fixed number of armies, e.g., 3.
-        return 3;
-    }
 
     /**
      * Creates an AdvanceOrder to attack with the strongest country.
      *
-     * @param strongestCountry The strongest country to launch an attack from.
+     * @param p_strongestCountry The strongest country to launch an attack from.
      * @return The AdvanceOrder representing the attack.
      */
-    private AdvanceOrder attackWithStrongestCountry(Country strongestCountry) {
+    private AdvanceOrder attackWithStrongestCountry(Country p_strongestCountry) {
         // You need to implement logic here to determine the target country for the attack.
         // For simplicity, let's assume you are attacking the first neighboring country for now.
-        List<Country> neighboringCountries = strongestCountry.isNeighbour();
-        if (!neighboringCountries.isEmpty()) {
-            Country targetCountry = neighboringCountries.get(0);
-            return new AdvanceOrder(d_strategyData.getCurrentPlayer(), strongestCountry.getDId(), targetCountry.getDId(), 1, d_strategyData.getEngine().getMap());
-        } else {
-            // If no neighboring countries, do nothing
-            return null;
+        ArrayList<Country> l_neighboringCountries = new ArrayList<>(p_strongestCountry.getBorders().values());
+
+        int l_amountAvailable=p_strongestCountry.getArmy()+d_strategyData.getCurrentPlayer().getAvailableReinforcements();
+        for (Country l_country : l_neighboringCountries) {
+            if (!d_strategyData.getCurrentPlayer().isCountryOwned(l_country)) {
+                return new AdvanceOrder(d_strategyData.getCurrentPlayer(), p_strongestCountry.getDId(), l_country.getDId(),l_amountAvailable , d_strategyData.getEngine().getMap());
+            }
         }
+
+
+        // Move to next place since all neighbour is not owned by current player
+        return new AdvanceOrder(d_strategyData.getCurrentPlayer(), p_strongestCountry.getDId(), l_neighboringCountries.get(0).getDId(), l_amountAvailable, d_strategyData.getEngine().getMap());
     }
 
-    /**
-     * Deploys armies from conquered territories to maximize aggregation of forces in one country.
-     *
-     * @param destinationCountry The country where armies are moved to.
-     * @return The DeployOrder representing the movement of armies.
-     */
-    private DeployOrder moveArmies(Country destinationCountry) {
-        // You need to implement logic here to determine the source country and the number of armies to move.
-        // For simplicity, let's assume you are moving armies from the first neighboring country.
-        List<Country> neighboringCountries = destinationCountry.isNeighbour();
-        if (!neighboringCountries.isEmpty()) {
-            Country sourceCountry = neighboringCountries.get(0);
-            int armiesToMove = sourceCountry.getArmy() - 1; // Move all armies except one for defense
-            return new DeployOrder(d_strategyData.getCurrentPlayer(), armiesToMove, destinationCountry.getDId(), d_strategyData.getEngine().getMap());
-        } else {
-            // If no neighboring countries, do nothing
-            return null;
-        }
-    }
+
 }
