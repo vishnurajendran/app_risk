@@ -1,7 +1,6 @@
 package game.States.Strategy;
 
 import entity.Country;
-import game.Data.StrategyData;
 import game.Orders.DeployOrder;
 import game.Orders.Order;
 import entity.PlayerHandler;
@@ -15,15 +14,14 @@ import java.util.List;
  */
 public class BenevolentStrategy extends Strategy {
 
-    private StrategyData d_strategyData;
+
 
     /**
      * Constructor for BenevolentStrategy.
      *
-     * @param strategyData The StrategyData instance to be used by this strategy.
      */
-    public BenevolentStrategy(StrategyData strategyData) {
-        this.d_strategyData = strategyData;
+    public BenevolentStrategy() {
+
     }
 
     /**
