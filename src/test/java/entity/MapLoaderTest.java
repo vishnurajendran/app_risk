@@ -55,4 +55,18 @@ class MapLoaderTest {
         assertEquals(4, l_Risk_map.getContinentIds().size());
         assertEquals("ameroki", l_Risk_map.getContinentById(1).getName());
     }
+
+    /**
+     * Unit test for map load for conquest map
+     */
+    @Test
+    void testConquest(){
+        assertNull(MapLoader.getMap());
+        MapLoader.loadMap("testResources/testConquest.map");
+        RiskMap l_Risk_map = MapLoader.getMap();
+        assertEquals(10, l_Risk_map.getCountryIds().size());
+        assertEquals("Territory_1", l_Risk_map.getCountryById(1).getName());
+        assertEquals(3, l_Risk_map.getContinentIds().size());
+        assertEquals("Continent_A", l_Risk_map.getContinentById(1).getName());
+    }
 }

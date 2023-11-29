@@ -39,6 +39,8 @@ public final class ApplicationConstants {
      */
     public static final String CMD_START_MAPEDITOR = "editmap";
 
+    public static final String CMD_START_TOURNAMENT = "tournament";
+
     /**
      * Message for invalid commands.
      */
@@ -58,6 +60,12 @@ public final class ApplicationConstants {
      * Message for invalid start map-editor command usage.
      */
     public static final String ERR_MSG_INVALID_MAP_EDITOR_GAME_CMD_USAGE = "to use editmap again. please exit and then try again";
+
+    /**
+     * Message for invalid start tournament command usage.
+     */
+    public static final String ERR_MSG_INVALID_TOURNAMENT_CMD_USAGE = "to use Tournament mode again. please exit and then try again";
+
 
     /**
      * Message for Invalid exit command calls.

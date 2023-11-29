@@ -88,6 +88,7 @@ public class GameEngine implements ISubApplication {
         d_gameState = p_newState;
         d_currentState = GameStateFactory.get(p_newState);
         d_currentState.setContext(new Context(PlayerHandler.getCurrentPlayer(), this));
+        MapViewer.tryUpdateMapViewer();
     }
 
 

@@ -2,12 +2,12 @@ package entity;
 
 import common.Serialisation.ExcludeSerialisation;
 import game.Data.StrategyData;
+import game.GameCommands;
 import game.GameEngine;
 import game.Orders.Order;
 import game.Orders.Serailisation.OrderSaveData;
 import game.Orders.Serailisation.OrderSaveConverter;
-import game.States.Strategy.HumanStrategy;
-import game.States.Strategy.Strategy;
+import game.States.Strategy.*;
 
 import java.util.*;
 
@@ -57,7 +57,7 @@ public class Player {
         d_playerStrategy = new HumanStrategy();
     }
 
-    public Player(int p_id, String p_playerName, RiskMap p_map, Strategy p_playerStrategy) {
+    public Player(int p_id, String p_playerName, RiskMap p_map, Strategies p_playerStrategy) {
         d_playerId = p_id;
         this.d_availableReinforcements = 5;
         this.d_playerName = p_playerName;
@@ -65,7 +65,7 @@ public class Player {
         d_ownedCards = new ArrayList<>();
         d_negotiatedPlayers = new ArrayList<>();
         d_map = p_map;
-        d_playerStrategy = p_playerStrategy;
+        setPlayerStrategy(p_playerStrategy);
     }
 
     /**
@@ -354,11 +354,46 @@ public class Player {
         return l_saveData;
     }
 
+    /**
+     * @return if player is human or not
+     */
+
     public boolean isPlayerHuman(){
         return d_playerStrategy instanceof HumanStrategy;
     }
 
+    /**
+     * set the strategy context to be used in strategy classes
+     * @param p_ctxEngine instance of the game engine
+     */
     public void setStrategyContext(GameEngine p_ctxEngine){
         d_playerStrategy.setContext(new StrategyData(this, p_ctxEngine));
+    }
+
+    /**
+     * This method sets the player strategy
+     * @param p_playerStrategy enum to set the strategy value
+     */
+    public void setPlayerStrategy(Strategies p_playerStrategy){
+        d_playerStrategy = switch (p_playerStrategy){
+            case Cheater -> new CheaterStrategy();
+            case Random -> new RandomStrategy();
+            case Benevolent -> new BenevolentStrategy();
+            case Aggressive -> new AggressiveStrategy();
+            default -> new HumanStrategy();
+        };
+    }
+
+    public Strategies getPlayerStrategy(){
+        if(d_playerStrategy instanceof AggressiveStrategy){
+            return Strategies.Aggressive;
+        } else if(d_playerStrategy instanceof CheaterStrategy){
+            return Strategies.Cheater;
+        } else if(d_playerStrategy instanceof BenevolentStrategy){
+            return Strategies.Benevolent;
+        } else if(d_playerStrategy instanceof RandomStrategy){
+            return Strategies.Random;
+        }
+        return Strategies.Human;
     }
 }
