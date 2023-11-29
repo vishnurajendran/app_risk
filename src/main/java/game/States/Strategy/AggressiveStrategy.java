@@ -5,6 +5,7 @@ import entity.Player;
 import entity.PlayerHandler;
 import game.Orders.AdvanceOrder;
 import game.Orders.DeployOrder;
+import game.Orders.EmptyOrder;
 import game.Orders.Order;
 
 import java.util.ArrayList;
@@ -36,7 +37,7 @@ public class AggressiveStrategy extends Strategy {
         // Ensure StrategyData is available
         if (d_strategyData == null || d_strategyData.getCurrentPlayer() == null) {
             // Handle the case where the current player or StrategyData is null.
-            return null;
+            return new EmptyOrder();
         }
         Player l_player = d_strategyData.getCurrentPlayer();
 
@@ -62,12 +63,10 @@ public class AggressiveStrategy extends Strategy {
         if (d_unsubmittedOrders.isEmpty()) {
             PlayerHandler.markComitted(l_player);
             d_unsubmittedOrders = null;
-            return null;
+            return new EmptyOrder();
         }
 
         return d_unsubmittedOrders.pop();
-
-
     }
 
     /**
