@@ -32,6 +32,7 @@ public class AddRemovePlayerAction extends GameAction{
                 if(d_CmdOption.size() > i+1 && d_CmdArguments.size() > i+1){
                     if(d_CmdOption.get(i+1).equals(GameCommands.CMD_GAME_PLAYER_OPTION_ADD_STRATEGIES) && d_CmdArguments.get(i).size() == d_CmdArguments.get(i+1).size()){
                         PlayerHandler.addGamePlayers(d_CmdArguments.get(i), d_CmdArguments.get(i+1), l_engine.getMap());
+                        i++;
                     } else{
                         d_execStatus = ActionExecStatus.Fail;
                         System.out.println("ERROR: Invalid Strategy command");
@@ -40,11 +41,11 @@ public class AddRemovePlayerAction extends GameAction{
                 } else{
                     PlayerHandler.addGamePlayers(d_CmdArguments.get(i), l_engine.getMap());
                 }
-
             } else if (d_CmdOption.get(i).equals(GameCommands.CMD_GAME_PLAYER_OPTION_REMOVE) && !d_CmdArguments.isEmpty()) {
                 PlayerHandler.removeGamePlayers(d_CmdArguments.get(i));
             } else {
                 d_execStatus = ActionExecStatus.Fail;
+                System.out.println("Coming from addremoveplayeraction");
                 System.out.println(MessageFormat.format(ApplicationConstants.ERR_MSG_INVALID_CMD, p_cmd.getCmdName()));
             }
         }

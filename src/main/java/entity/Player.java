@@ -378,9 +378,9 @@ public class Player {
         d_playerStrategy = switch (p_playerStrategy){
             case Cheater -> new CheaterStrategy();
             case Random -> new RandomStrategy();
-            case Human -> new HumanStrategy();
             case Benevolent -> new BenevolentStrategy();
             case Aggressive -> new AggressiveStrategy();
+            default -> new HumanStrategy();
         };
     }
 

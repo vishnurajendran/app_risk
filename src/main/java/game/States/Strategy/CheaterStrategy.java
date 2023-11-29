@@ -13,16 +13,18 @@ import java.util.*;
  */
 public class CheaterStrategy extends Strategy{
 
+    /**
+     * list of owned countries by the player
+     */
     public ArrayList<Country> d_playerCountries;
-
-    public ArrayList<ArrayList<Integer>> d_countriesToAdd;
 
     public CheaterStrategy(){
         d_playerCountries = new ArrayList<>();
-        d_countriesToAdd = new ArrayList<>();
     }
     /**
-     * @return an order based on the strategy rules
+     * This method gets all the countries for the player,
+     * and conquers all the neighboring countries with doubling army values
+     * @return an empty order since cheater directly executes the command without creating any orders
      */
     @Override
     public Order decide() {
