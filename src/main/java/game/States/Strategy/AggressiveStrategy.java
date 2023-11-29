@@ -50,10 +50,12 @@ public class AggressiveStrategy extends Strategy {
 
             // Check if the player has armies available for deployment
             int armiesToDeploy = l_player.getAvailableReinforcements();
+            Order deployOrder = new EmptyOrder();
             if (armiesToDeploy > 0) {
+                System.out.println("Deploying order");
                 // Deploy all armies to the strongest country
-                DeployOrder deployOrder = new DeployOrder(l_player, armiesToDeploy, strongestCountry.getDId(), d_strategyData.getEngine().getMap());
-
+                deployOrder = new DeployOrder(l_player, armiesToDeploy, strongestCountry.getDId(), d_strategyData.getEngine().getMap());
+            }
                 // Move all armies from other owned countries to the strongest country
                 for (Country ownedCountry : l_player.getCountriesOwned()) {
                     if (!ownedCountry.equals(strongestCountry)) {
@@ -65,16 +67,15 @@ public class AggressiveStrategy extends Strategy {
                 // Attack a neighboring country that the player does not own
                 AdvanceOrder attackOrder = attackWithStrongestCountry(strongestCountry);
 
-                d_unsubmittedOrders.push(deployOrder);
                 d_unsubmittedOrders.push(attackOrder);
-            } else {
-                // Mark the player as committed if there are no armies to deploy
-                PlayerHandler.markComitted(l_player);
-            }
-        }
+                if(!(deployOrder instanceof EmptyOrder)){
+                    d_unsubmittedOrders.push(deployOrder);
+                }
 
+            }
         // Execute orders one by one
         if (!d_unsubmittedOrders.isEmpty()) {
+            System.out.println("Executing: " + d_unsubmittedOrders);
             return d_unsubmittedOrders.pop();
         } else {
             // Mark player as committed when all orders are executed
@@ -90,7 +91,7 @@ public class AggressiveStrategy extends Strategy {
      * @param countries The list of countries to search.
      * @return The strongest country, or null if the list is empty.
      */
-    private Country findStrongestCountry(List<Country> countries) {
+    public Country findStrongestCountry(List<Country> countries) {
         Country strongestCountry = null;
 
         for (Country country : countries) {
@@ -116,6 +117,7 @@ public class AggressiveStrategy extends Strategy {
         // Advance all armies from other owned countries to the strongest country until other owned countries have 0 armies
         for (Country l_country : l_neighboringCountries) {
             if (!d_strategyData.getCurrentPlayer().isCountryOwned(l_country)) {
+                System.out.println("attacking country: " + l_country.getDId());
                 return new AdvanceOrder(d_strategyData.getCurrentPlayer(), p_strongestCountry.getDId(), l_country.getDId(), l_amountAvailable, d_strategyData.getEngine().getMap());
             }
         }

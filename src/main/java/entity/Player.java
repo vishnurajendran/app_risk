@@ -49,7 +49,7 @@ public class Player {
      */
     public Player(int p_id, String p_playerName, RiskMap p_map) {
         d_playerId = p_id;
-        this.d_availableReinforcements = 5;
+        this.d_availableReinforcements = 0;
         this.d_playerName = p_playerName;
         d_listOfCountriesOwned = new ArrayList<>();
         d_ownedCards = new ArrayList<>();
@@ -60,7 +60,7 @@ public class Player {
 
     public Player(int p_id, String p_playerName, RiskMap p_map, Strategies p_playerStrategy) {
         d_playerId = p_id;
-        this.d_availableReinforcements = 5;
+        this.d_availableReinforcements = 0;
         this.d_playerName = p_playerName;
         d_listOfCountriesOwned = new ArrayList<>();
         d_ownedCards = new ArrayList<>();
