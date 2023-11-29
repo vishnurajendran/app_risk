@@ -36,7 +36,7 @@ public class AggressiveStrategy extends Strategy {
         // Advance to attack a neighboring country not owned by the player
         AdvanceOrder advanceOrder = calculateAdvanceOrder(strongestCountry);
 
-        // Return the sequence of orders
+        // Return the sequence of order
         return new OrderSequence(deployOrder, advanceOrder, new MarkCommittedOrder(d_strategyData.getCurrentPlayer())) {
         };
     }
