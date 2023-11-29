@@ -33,7 +33,6 @@ public class CheaterStrategy extends Strategy{
 
         for(Country country : d_playerCountries){
             neighboringCountries = country.getBorders();
-            System.out.println();
             for(Map.Entry<Integer, Country> borders : neighboringCountries.entrySet()){
                 if(!d_strategyData.getCurrentPlayer().isCountryOwned(borders.getValue())){
                     for(Player player :PlayerHandler.getGamePlayers()){
