@@ -1,12 +1,10 @@
 package mapShow;
 
-import common.Logging.Logger;
 import entity.*;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -37,12 +35,12 @@ public class RiskMapPanel extends JPanel implements MouseWheelListener, MouseMot
     // All gui related vars
     //------------------------------
     private ViewMode d_currViewMode = ViewMode.CountryID;
-    private Point dragStartPos = new Point(0,0);
-    private Point dragCurrPos = new Point(0,0);
-    private Point cachedDragDelta = new Point(0,0);
+    private Point d_dragStartPos = new Point(0,0);
+    private Point d_dragCurrPos = new Point(0,0);
+    private Point d_cachedDragDelta = new Point(0,0);
 
-    private float zoomScale = 1;
-    private float zoomMultiplier = 1;
+    private float d_zoomScale = 1;
+    private float d_zoomMultiplier = 1;
 
 
     /**
@@ -150,8 +148,8 @@ public class RiskMapPanel extends JPanel implements MouseWheelListener, MouseMot
                 String l_continentName = d_RISK_MAP.getContinentById(l_country.getContinentId()).getName();
 
                 p_graphics.setColor(Color.GRAY);
-                int xCountryPos = (int)(l_country.getXCoordinates() * zoomScale) + cachedDragDelta.x;
-                int yCountryPos = (int)((l_country.getYCoordinates() + d_DELTA) * zoomScale) + cachedDragDelta.y;
+                int xCountryPos = (int)(l_country.getXCoordinates() * d_zoomScale) + d_cachedDragDelta.x;
+                int yCountryPos = (int)((l_country.getYCoordinates() + d_DELTA) * d_zoomScale) + d_cachedDragDelta.y;
 
                 p_graphics.fillOval(xCountryPos, yCountryPos, d_NODESIZE, d_NODESIZE);
                 l_countryPoint.put(l_country, new Point(xCountryPos, yCountryPos));
@@ -159,8 +157,8 @@ public class RiskMapPanel extends JPanel implements MouseWheelListener, MouseMot
                 // Draw connections to neighboring countries
                 p_graphics.setColor(Color.GRAY);
                 for (Country l_connectedCountry : l_country.getBorders().values()) {
-                    int xCountryPos2 = (int)(l_connectedCountry.getXCoordinates() * zoomScale) + cachedDragDelta.x;
-                    int yCountryPos2 = (int)((l_connectedCountry.getYCoordinates() + d_DELTA) * zoomScale) + cachedDragDelta.y;
+                    int xCountryPos2 = (int)(l_connectedCountry.getXCoordinates() * d_zoomScale) + d_cachedDragDelta.x;
+                    int yCountryPos2 = (int)((l_connectedCountry.getYCoordinates() + d_DELTA) * d_zoomScale) + d_cachedDragDelta.y;
                     p_graphics.drawLine(
                             xCountryPos + d_NODESIZE / 2, yCountryPos + d_NODESIZE / 2,
                             xCountryPos2 + d_NODESIZE / 2, yCountryPos2 + d_NODESIZE / 2
@@ -173,12 +171,12 @@ public class RiskMapPanel extends JPanel implements MouseWheelListener, MouseMot
             //Draw text over everything else
             for (Country l_country : d_RISK_MAP.getCountries()) {
 
-                int xCountryPos = (int)(l_country.getXCoordinates() * zoomScale) + cachedDragDelta.x;
-                int yCountryPos = (int)((l_country.getYCoordinates() + d_DELTA) * zoomScale) + cachedDragDelta.y;
+                int l_xCountryPos = (int)(l_country.getXCoordinates() * d_zoomScale) + d_cachedDragDelta.x;
+                int l_yCountryPos = (int)((l_country.getYCoordinates() + d_DELTA) * d_zoomScale) + d_cachedDragDelta.y;
                 // Draw country name
                 p_graphics.setColor(getCountryLabelColor());
                 p_graphics.setFont(new Font("default", Font.BOLD, 12));
-                p_graphics.drawString(getLabel(l_country) + "", xCountryPos, yCountryPos - d_NODESIZE / 2);
+                p_graphics.drawString(getLabel(l_country) + "", l_xCountryPos, l_yCountryPos - d_NODESIZE / 2);
             }
         }
 
@@ -199,8 +197,8 @@ public class RiskMapPanel extends JPanel implements MouseWheelListener, MouseMot
                 l_midX /= l_continent.getCountries().size();
                 String l_label =l_continent.getName();
 
-                int l_xLablePos = (int)(l_midX * zoomScale) + cachedDragDelta.x;
-                int l_yLabelPos = (int)(((l_minY) + d_DELTA - 40) * zoomScale) + cachedDragDelta.y;
+                int l_xLablePos = (int)(l_midX * d_zoomScale) + d_cachedDragDelta.x;
+                int l_yLabelPos = (int)(((l_minY) + d_DELTA - 40) * d_zoomScale) + d_cachedDragDelta.y;
 
                 p_graphics.setFont(new Font("default", Font.BOLD, 12));
                 p_graphics.drawString(l_label, l_xLablePos, l_yLabelPos);
@@ -255,37 +253,37 @@ public class RiskMapPanel extends JPanel implements MouseWheelListener, MouseMot
 
     @Override
     public void mouseWheelMoved(MouseWheelEvent e) {
-        float prevZoom = zoomScale;
-        zoomScale += (-1 * e.getWheelRotation() * 0.1f) * zoomMultiplier;
-        if(zoomScale > ZOOM_LIMIT_MAX)
-            zoomScale = ZOOM_LIMIT_MAX;
-        else if(zoomScale < ZOOM_LIMIT_MIN)
-            zoomScale = ZOOM_LIMIT_MIN;
+        float l_prevZoom = d_zoomScale;
+        d_zoomScale += (-1 * e.getWheelRotation() * 0.1f) * d_zoomMultiplier;
+        if(d_zoomScale > ZOOM_LIMIT_MAX)
+            d_zoomScale = ZOOM_LIMIT_MAX;
+        else if(d_zoomScale < ZOOM_LIMIT_MIN)
+            d_zoomScale = ZOOM_LIMIT_MIN;
 
         // only repaint, if this value changes, no-need to repaint again,
         // if the zoom-scale got clamped by new-value.
-        if(zoomScale != prevZoom)
+        if(d_zoomScale != l_prevZoom)
             repaint();
     }
 
     @Override
     public void mouseDragged(MouseEvent e) {
-        dragCurrPos.setLocation(e.getX(), e.getY());
-        cachedDragDelta.translate(dragCurrPos.x - dragStartPos.x, dragCurrPos.y - dragStartPos.y);
+        d_dragCurrPos.setLocation(e.getX(), e.getY());
+        d_cachedDragDelta.translate(d_dragCurrPos.x - d_dragStartPos.x, d_dragCurrPos.y - d_dragStartPos.y);
         repaint();
-        dragStartPos.setLocation(dragCurrPos);
+        d_dragStartPos.setLocation(d_dragCurrPos);
     }
 
     @Override
     public void mouseMoved(MouseEvent e) {
-        dragStartPos.setLocation(e.getX(), e.getY());
+        d_dragStartPos.setLocation(e.getX(), e.getY());
     }
 
     @Override
     public void keyTyped(KeyEvent e) {
-        char c = e.getKeyChar();
-        if(Character.isDigit(c)){
-            int digit = Integer.parseInt(Character.toString(c));
+        char l_keyChar = e.getKeyChar();
+        if(Character.isDigit(l_keyChar)){
+            int digit = Integer.parseInt(Character.toString(l_keyChar));
             if(digit > 0 && digit <= ViewMode.values().length){
                 d_currViewMode = ViewMode.values()[digit-1];
                 repaint();

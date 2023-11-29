@@ -29,8 +29,6 @@ public class RoundInitState extends GameState {
     public void issueOrderForAI(){
         while(PlayerHandler.getCommittedPlayerCount() < PlayerHandler.getGamePlayers().size()){
             Player l_player = PlayerHandler.getCurrentPlayer();
-            displayPlayerDetails();
-
             if(PlayerHandler.isCommittedPlayer(l_player)) {
                 PlayerHandler.increasePlayerTurn(1);
                 continue;
@@ -39,6 +37,7 @@ public class RoundInitState extends GameState {
             if(l_player.isPlayerHuman())
                 break;
 
+            displayPlayerDetails();
             PlayerHandler.getCurrentPlayer().setStrategyContext(d_context.getEngine());
             PlayerHandler.getCurrentPlayer().issueOrder();
             PlayerHandler.increasePlayerTurn(1);

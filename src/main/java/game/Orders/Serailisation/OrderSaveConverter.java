@@ -18,6 +18,7 @@ public class OrderSaveConverter {
             case Bomb      : return fromBombOrder(p_order);
             case Deploy    : return fromDeployOrder(p_order);
             case Negotiate : return fromNegotiateOrder(p_order);
+            case Empty     : return fromEmptyOrder(p_order);
             default        : return null;
         }
     }
@@ -106,6 +107,21 @@ public class OrderSaveConverter {
                 0);
     }
 
+    /**
+     * converts empty order to OrderSaveData
+     * @param p_order order to convert
+     * @return OrderSaveData instance
+     */
+    private static OrderSaveData fromEmptyOrder(Order p_order){
+        EmptyOrder l_negotiateOrder = (EmptyOrder) p_order;
+        int l_playerId = l_negotiateOrder.getCtxPlayer().getPlayerId();
+        return new OrderSaveData(OrderType.Empty,-1,
+                -1,
+               -1,
+                -1,
+                -1);
+    }
+
     public static Order parseOrderSaveData(OrderSaveData p_data, List<Player> p_playerList, RiskMap p_mapReference){
         switch(p_data.getType()){
             case Advance   : return toAdvanceOrder(p_data,p_playerList, p_mapReference);
@@ -114,6 +130,7 @@ public class OrderSaveConverter {
             case Bomb      : return toBombOrder(p_data,p_playerList, p_mapReference);
             case Deploy    : return toDeployOrder(p_data,p_playerList, p_mapReference);
             case Negotiate : return toNegotiateOrder(p_data, p_playerList);
+            case Empty     : return toEmptyOrder(p_data);
             default        : return null;
         }
     }
@@ -196,5 +213,14 @@ public class OrderSaveConverter {
         Player l_player = getPlayerById(p_data.getCtxPlayer(), p_playerList);
         Player l_otherPlayer = getPlayerById(p_data.getTargetPlayer(), p_playerList);
         return new NegotiateOrder(l_player, l_otherPlayer);
+    }
+
+    /**
+     * converts OrderSaveData instance to EmptyOrder
+     * @param p_data save data to convert from
+     * @return instance of order.
+     */
+    private static Order toEmptyOrder(OrderSaveData p_data){
+        return new EmptyOrder();
     }
 }
