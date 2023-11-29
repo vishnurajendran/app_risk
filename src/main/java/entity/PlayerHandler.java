@@ -1,7 +1,8 @@
 package entity;
 
 import common.Logging.Logger;
-import game.States.Strategy.CheaterStrategy;
+import game.GameCommands;
+import game.States.Strategy.*;
 
 import java.util.*;
 
@@ -64,13 +65,13 @@ public class PlayerHandler {
         // Create a LinkedHashSet to remove duplicates while preserving order
         LinkedHashSet<String> setWithoutDuplicates = new LinkedHashSet<>(p_playerNamesToAdd);
 
-        // Create a new ArrayList to store the elements without duplicates
+// Create a new ArrayList to store the elements without duplicates
         ArrayList<String> p_playerNames = new ArrayList<>(setWithoutDuplicates);
 
         ArrayList<String> d_duplicates = new ArrayList<>();
         for (String name : p_playerNames) {
             for (Player player : d_gamePlayers) {
-                if (player.getPlayerName().equals(name)) {
+                if (player.getPlayerName().equals(name) && !GameCommands.CHECK_NAMES_FOR_STRATEGY.contains(player.getPlayerName())) {
                     System.out.println(name + " already exists in the game");
                     d_duplicates.add(name);
                 }
@@ -82,8 +83,29 @@ public class PlayerHandler {
         }
 
         for (String name : p_playerNames) {
-            d_gamePlayers.add(new Player(generatePlayerId(),name, p_map));
+            if(GameCommands.CHECK_NAMES_FOR_STRATEGY.contains(name)){
+                int playerID = generatePlayerId();
+                String playerName = name + playerID;
+                d_gamePlayers.add(new Player(playerID, playerName, p_map, cmdGetStrategy(name)));
+            }
+            else{
+                d_gamePlayers.add(new Player(generatePlayerId(),name, p_map));
+            }
         }
+    }
+
+    /**
+     * @param p_cmdName name of the strategy
+     * @return an instance of strategy class based on their name
+     */
+    private static Strategy cmdGetStrategy(String p_cmdName) {
+        return switch (p_cmdName) {
+            case GameCommands.STRAT_CHEATER -> new CheaterStrategy();
+            case GameCommands.STRAT_RANDOM -> new RandomStrategy();
+            case GameCommands.STRAT_BENEVOLENT -> new BenevolentStrategy();
+            case GameCommands.STRAT_AGGRESSIVE -> new AggressiveStrategy();
+            default -> new HumanStrategy();
+        };
     }
 
     /**

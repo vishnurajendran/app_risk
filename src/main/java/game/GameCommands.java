@@ -100,6 +100,25 @@ public class GameCommands {
     public static final String CMD_COMMIT = "commit";
 
     /**
+     * Command for cheater strategy
+     */
+    public static final String STRAT_CHEATER = "cheater";
+    /**
+     * Command for aggressive strategy
+     */
+    public static final String STRAT_AGGRESSIVE = "aggressive";
+    /**
+     * Command for benevolent strategy
+     */
+    public static final String STRAT_BENEVOLENT = "benevolent";
+    /**
+     * Command for random strategy
+     */
+    public static final String STRAT_RANDOM = "random";
+
+    public static final Set<String> CHECK_NAMES_FOR_STRATEGY = new HashSet<>(Arrays.asList(STRAT_CHEATER, STRAT_AGGRESSIVE, STRAT_BENEVOLENT, STRAT_RANDOM));
+
+    /**
      * Valid command set
      */
     public static final Set<String> CHECK_VALID_COMMANDS_FOR_ISSUEORDER = new HashSet<>(Arrays.asList(CMD_GAME_PLAYER, CMD_ASSIGN_COUNTRIES_TO_PLAYER, CMD_SHOWMAP, CMD_DEPLOY_COUNTRIES, CMD_BOMB, CMD_BLOCKADE, CMD_AIRLIFT, CMD_DIPLOMACY, CMD_ADVANCE, CMD_SKIP, CMD_COMMIT));
