@@ -1,3 +1,13 @@
+/**
+ * A unit test for the BenevolentStrategy class.
+ *
+ * The BenevolentStrategyTest class contains test cases for the methods
+ * implemented in the BenevolentStrategy class, which is a part of the
+ * game's strategy package. The test cases focus on ensuring the correct
+ * functionality of the BenevolentStrategy methods.
+ *
+ * @author Shravani
+ */
 package game.States.Strategy;
 
 import common.Command;
@@ -18,6 +28,15 @@ class BenevolentStrategyTest {
     GameEngine d_gameEngineTest;
 
     ArrayList<Player> d_gamePlayersTest;
+
+    /**
+     * Sets up the initial conditions for each test case.
+     *
+     * This method is annotated with @BeforeEach to ensure that it runs
+     * before each test method. It initializes a GameEngine instance,
+     * loads a test map, adds a player with BenevolentStrategy, assigns
+     * countries, and performs other setup operations.
+     */
     @BeforeEach
     void setUp() {
         d_gameEngineTest = new GameEngine();
@@ -35,12 +54,22 @@ class BenevolentStrategyTest {
         d_gamePlayersTest.get(0).assignCountry(d_gameEngineTest.getMap().getCountryById(15), 1);
     }
 
+    /**
+     * Cleans up resources after each test case is executed.
+     *
+     */
     @AfterEach
     void tearDown() {
         d_gameEngineTest.shutdown();
         PlayerHandler.cleanup();
     }
 
+    /**
+     * Tests the findWeakestCountry method of the BenevolentStrategy class.
+     *
+     * This test case ensures that the findWeakestCountry method correctly
+     * identifies the weakest country owned by a player.
+     */
     @Test
     void testFindWeakestCountry() {
         BenevolentStrategy benevolentStrategy = new BenevolentStrategy();
@@ -49,6 +78,12 @@ class BenevolentStrategyTest {
         assertEquals(d_gameEngineTest.getMap().getCountryById(28), weakestCountry);
     }
 
+    /**
+     * Tests the deployOrder method of the BenevolentStrategy class.
+     *
+     * This test case ensures that the deployOrder method correctly deploys
+     * reinforcements to a weakest country owned by a player.
+     */
     @Test
     void testDeployOrder() {
         d_gamePlayersTest.get(0).issueOrder();
