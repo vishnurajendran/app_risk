@@ -130,7 +130,7 @@ class MapEditorTest {
         Country l_country1 = d_mapEditorTest.d_map.getCountryById(1);
         assertTrue(l_country1.isNeighbour(4));
         Country l_country2 = d_mapEditorTest.d_map.getCountryById(4);
-        assertFalse(l_country2.isNeighbour(1));
+        assertTrue(l_country2.isNeighbour(1));
         assertFalse(d_mapEditorTest.hasQuit());
     }
 
