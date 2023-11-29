@@ -53,7 +53,7 @@ public class BenevolentStrategy extends Strategy {
      * @param countries The list of countries to search.
      * @return The weakest country, or null if the list is empty.
      */
-    private Country findWeakestCountry(List<Country> countries) {
+    public Country findWeakestCountry(List<Country> countries) {
         if (countries.isEmpty()) {
             return null;
         }
