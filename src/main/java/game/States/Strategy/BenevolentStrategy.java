@@ -9,8 +9,8 @@ import entity.PlayerHandler;
 import java.util.List;
 
 /**
- * Benevolent strategy that focuses on protecting weak countries.
- * Deploys armies on the weakest country and reinforces it.
+ * Represents a Benevolent strategy in a Risk-style game.
+ * This strategy focuses on protecting weak countries by deploying armies on the weakest country and reinforcing it.
  */
 public class BenevolentStrategy extends Strategy {
 
@@ -25,7 +25,11 @@ public class BenevolentStrategy extends Strategy {
         this.d_strategyData = strategyData;
     }
 
-
+    /**
+     * Determines the next move for the Benevolent strategy.
+     *
+     * @return The Order representing the strategy's decision, or null if no action is taken.
+     */
     @Override
     public Order decide() {
         List<Country> playerCountries = d_strategyData.getCurrentPlayer().getCountriesOwned();
@@ -45,7 +49,12 @@ public class BenevolentStrategy extends Strategy {
         }
     }
 
-
+    /**
+     * Finds the weakest country among the given list of countries based on the number of armies.
+     *
+     * @param countries The list of countries to search.
+     * @return The weakest country, or null if the list is empty.
+     */
     private Country findWeakestCountry(List<Country> countries) {
         if (countries.isEmpty()) {
             return null;
@@ -62,12 +71,16 @@ public class BenevolentStrategy extends Strategy {
         return weakestCountry;
     }
 
-
+    /**
+     * Calculates the number of armies to deploy on the weakest country.
+     *
+     * @param weakestCountry The weakest country to reinforce.
+     * @return The DeployOrder representing the deployment of armies.
+     */
     private DeployOrder calculateArmiesToDeploy(Country weakestCountry) {
         int armiesToDeploy = 1;
-        int countryId = weakestCountry.getDId(); // Assuming there is a getId() method in the Country class
+        int countryId = weakestCountry.getDId();
 
         return new DeployOrder(d_strategyData.getCurrentPlayer(), armiesToDeploy, countryId, d_strategyData.getEngine().getMap());
     }
-
 }
