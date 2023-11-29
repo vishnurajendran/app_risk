@@ -1,6 +1,8 @@
 package game.Data;
+import Tournament.Tournament;
 import entity.Player;
 import game.GameEngine;
+import game.IEngine;
 
 /**
  * @author Soham
@@ -13,9 +15,9 @@ public class StrategyData {
     private Player d_currentPlayer;
 
     /**
-     * stores an instance of the game
+     * stores an instance of the game/tournament engine.
      */
-    private GameEngine d_gameEngine;
+    private IEngine d_engine;
 
 
     /**
@@ -30,9 +32,9 @@ public class StrategyData {
      * @param p_currentPlayer current active player
      * @param p_engine instance of the game engine
      */
-    public StrategyData(Player p_currentPlayer, GameEngine p_engine){
+    public StrategyData(Player p_currentPlayer, IEngine p_engine){
         d_currentPlayer = p_currentPlayer;
-        d_gameEngine = p_engine;
+        d_engine = p_engine;
     }
 
     /**
@@ -43,10 +45,10 @@ public class StrategyData {
     }
 
     /**
-     * @return the instance of game engine
+     * @return the instance of game engine or tournament engine whichever is active.
      */
-    public GameEngine getEngine() {
-        return d_gameEngine;
+    public IEngine getEngine() {
+        return d_engine;
     }
 
 }
