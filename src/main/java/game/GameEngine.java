@@ -166,6 +166,7 @@ public class GameEngine implements ISubApplication , IEngine {
     /**
      * @return returns the instance of the map loaded.
      */
+    @Override
     public RiskMap getMap() {
         return d_map;
     }

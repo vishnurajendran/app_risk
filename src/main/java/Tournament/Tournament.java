@@ -10,13 +10,17 @@ import entity.Player;
 import entity.PlayerHandler;
 import entity.RiskMap;
 import game.IEngine;
+import game.Orders.Order;
+import game.States.GameStates;
 import mapEditer.MapValidator;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static Tournament.TournamentConstants.*;
+import static java.util.Objects.isNull;
 
 /**
  * This class handles all the tournament commands
@@ -37,7 +41,9 @@ public class Tournament implements ISubApplication, IEngine {
 
     private ArrayList<RiskMap> d_maps;
 
-    private ArrayList<ArrayList<String>> d_tournamentResult;
+    private int d_currentMapIndex;
+
+    private String[][] d_tournamentResult;
 
     private ArrayList<String> d_playerStrategies;
 
@@ -95,6 +101,7 @@ public class Tournament implements ISubApplication, IEngine {
     @Override
     public void submitCommand(Command p_command) {
         boolean l_isValid = IsCommandValid(p_command);
+        Logger.log("Tournament Command valid:" + l_isValid);
         if(l_isValid){
             startTournament();
         }
@@ -197,6 +204,7 @@ public class Tournament implements ISubApplication, IEngine {
      * @return  true if intialisation successful, false otherwise.
      */
     private boolean intialisePlayerStrategyForTournament(ArrayList<String> p_playerStrategyList){
+        d_playerStrategies = new ArrayList<>();
         for (String l_playerStrategy : p_playerStrategyList){
             if(!TOURNAMENT_VALIDSTRATEGIES.contains(l_playerStrategy)){
                 System.out.println(CMD_INVALID_STRATEGY);
@@ -214,6 +222,7 @@ public class Tournament implements ISubApplication, IEngine {
      * @return  true if intialisation successful, false otherwise.
      */
     private boolean intialiseMapsForTournament(ArrayList<String> p_mapList){
+        d_maps = new ArrayList<>();
         for(String l_map : p_mapList){
             boolean l_isMapLoaded  = MapLoader.loadMap(l_map);
             if(!l_isMapLoaded){
@@ -232,26 +241,119 @@ public class Tournament implements ISubApplication, IEngine {
         return true;
     }
 
+    /**
+     *This method issues order for players in single turn according to the given strategy.
+     */
+    private void issueOrderForTournament(){
+        while(PlayerHandler.getCommittedPlayerCount() < PlayerHandler.getGamePlayers().size()){
+            Player l_player = PlayerHandler.getCurrentPlayer();
+            if(PlayerHandler.isCommittedPlayer(l_player)) {
+                PlayerHandler.increasePlayerTurn(1);
+                continue;
+            }
+            PlayerHandler.getCurrentPlayer().setStrategyContext(this);
+            PlayerHandler.getCurrentPlayer().issueOrder();
+            PlayerHandler.increasePlayerTurn(1);
+        }
+    }
+
+    /**
+     * This method executes order for players in single turn.
+     */
+    private void executeOrderForTournament(){
+        int l_index = 0;
+        Order orderToExecute = PlayerHandler.getGamePlayers().get(0).nextOrder();
+        do {
+            orderToExecute.executeOrder();
+             l_index = (l_index + 1) % PlayerHandler.getGamePlayers().size();
+            for (int p = 0; p < PlayerHandler.getGamePlayers().size(); p++) {
+                orderToExecute = PlayerHandler.getGamePlayers().get(l_index % PlayerHandler.getGamePlayers().size()).nextOrder();
+                if (orderToExecute == null) {
+                    l_index = (l_index + 1) % PlayerHandler.getGamePlayers().size();
+                } else {
+                    break;
+                }
+            }
+        } while (orderToExecute != null);
+    }
+
+    /**
+     * This method create the players with given strategies and assign countries for current game.
+     */
+    private void createPlayersAndAssignCountriesForTournament(){
+        PlayerHandler.addGamePlayers(d_playerStrategies, d_playerStrategies, d_maps.get(d_currentMapIndex));
+        PlayerHandler.assignCountriesToPlayer(d_maps.get(d_currentMapIndex));
+        PlayerHandler.countriesAssigned(true);
+    }
+
+    /**
+     * checks game state for tournament.
+     * @return true if game is over, false otherwise.
+     */
+    private boolean isGameOver(){
+        List<Player> l_playersToRemove = new ArrayList<>();
+        for (Player l_player: PlayerHandler.getGamePlayers()) {
+            if(l_player.getCountriesOwned().isEmpty())
+                l_playersToRemove.add(l_player);
+        }
+
+        while(!l_playersToRemove.isEmpty()){
+            Player l_playerToRemove = l_playersToRemove.remove(0);
+            PlayerHandler.getGamePlayers().remove(l_playerToRemove);
+            System.out.println(l_playerToRemove.getPlayerName() + " was eliminated from the game");
+        }
+
+        //shift state to game over, if only 1 player exists
+        if(PlayerHandler.getGamePlayers().size() == 1){
+            return true;
+        }
+        else
+            return false;
+    }
 
     /**
      *  This method starts the Tournament and sets the results.
      */
     private void startTournament() {
-        d_tournamentResult = new ArrayList<>(d_maps.size());
+        d_tournamentResult = new String[d_maps.size()][d_numberOfGames];
         for(int i=0;i<d_maps.size();i++){
-            d_tournamentResult.set(i, new ArrayList<String>(d_numberOfGames));
+            d_currentMapIndex = i;
             for (int j=0;j<d_numberOfGames;j++){
                 // game j on map i;
-                PlayerHandler.addGamePlayers(d_playerStrategies, d_playerStrategies, d_maps.get(i));
-                PlayerHandler.assignCountriesToPlayer(d_maps.get(i));
-                PlayerHandler.countriesAssigned(true);
+                createPlayersAndAssignCountriesForTournament();
 
-                PlayerHandler.getCurrentPlayer().setStrategyContext(this);
-                PlayerHandler.getCurrentPlayer().issueOrder();
-                PlayerHandler.increasePlayerTurn(1);
-
+                int l_turn = 1;
+                boolean l_isGameOver = false;
+                while(!l_isGameOver && l_turn<d_numberOfTurns){
+                    issueOrderForTournament();
+                    executeOrderForTournament();
+                    l_isGameOver = isGameOver();
+                }
+                if(l_isGameOver){
+                    String l_winner = PlayerHandler.getGamePlayers().get(0).getPlayerName();
+                    Logger.log("Result for map:" + i + ",game:" + j + l_winner);
+                    d_tournamentResult[i][j] = l_winner;
+                }
+                else{
+                    Logger.log("Result for map:" + i + ",game:" + j + "Draw");
+                    d_tournamentResult[i][j] = "Draw";
+                }
             }
         }
+    }
+
+    /**
+     * This method returns the map on which game is played.
+     *
+     * @return the instance of the map.
+     */
+    @Override
+    public RiskMap getMap() {
+        if(isNull(d_maps) ||  d_maps.size() >= d_currentMapIndex){
+            Logger.log("Error, inconsistent state. No maps for current index.");
+            return null;
+        }
+        return d_maps.get(d_currentMapIndex);
     }
 
     /**
@@ -263,10 +365,10 @@ public class Tournament implements ISubApplication, IEngine {
             System.out.print("\t\t Game " + i);
         }
         System.out.println();
-        for(int i=0;i<d_tournamentResult.size();i++){
+        for(int i=0;i<d_tournamentResult.length;i++){
             System.out.print("Map " + Integer.toString(i+1) + "\t");
-            for (int j=0;j<d_tournamentResult.get(i).size();j++){
-                System.out.print(d_tournamentResult.get(i).get(j) + "\t");
+            for (int j=0;j<d_tournamentResult[i].length;j++){
+                System.out.print(d_tournamentResult[i][j]+ "\t");
             }
         }
     }

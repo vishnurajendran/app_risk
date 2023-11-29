@@ -20,8 +20,8 @@ public class TournamentConstants {
      * Valid options for tournament command
      */
     public static final String CMD_OPTION_MAP = "M";
-    public static final String CMD_OPTION_PLAYERSTRATEGY = "p";
-    public static final String CMD_OPTION_GAMES = "g";
+    public static final String CMD_OPTION_PLAYERSTRATEGY = "P";
+    public static final String CMD_OPTION_GAMES = "G";
     public static final String CMD_OPTION_MAXIMUM_TURNS = "D";
 
     /**
