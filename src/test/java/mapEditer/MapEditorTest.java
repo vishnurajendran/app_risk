@@ -67,7 +67,7 @@ class MapEditorTest {
         d_mapEditorTest.submitCommand(Command.parseString("editmap testResources/ValidTestMap.map"));
         d_mapEditorTest.submitCommand(Command.parseString("editcountry -add 11 100 20"));
         assertFalse(d_mapEditorTest.d_map.hasCountry(11));
-        assertTrue(d_mapEditorTest.hasQuit());
+        assertFalse(d_mapEditorTest.hasQuit());
     }
 
     /**
