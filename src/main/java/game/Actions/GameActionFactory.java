@@ -76,4 +76,6 @@ public class GameActionFactory {
     public static GameAction getNegotiateAction() {
         return new NegotiateAction();
     }
+
+
 }

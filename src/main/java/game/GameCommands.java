@@ -45,6 +45,11 @@ public class GameCommands {
      */
     public static final String CMD_GAME_PLAYER_OPTION_ADD = "add";
     /**
+     * Option to add player strategies in CMD_LOAD_MAP
+     */
+    public static final String CMD_GAME_PLAYER_OPTION_ADD_STRATEGIES = "strategy";
+
+    /**
      * Option to remove players in CMD_LOAD_MAP
      */
     public static final String CMD_GAME_PLAYER_OPTION_REMOVE = "remove";
@@ -94,6 +99,25 @@ public class GameCommands {
      * Command for commit order
      */
     public static final String CMD_COMMIT = "commit";
+
+    /**
+     * Command for cheater strategy
+     */
+    public static final String STRAT_CHEATER = "c";
+    /**
+     * Command for aggressive strategy
+     */
+    public static final String STRAT_AGGRESSIVE = "a";
+    /**
+     * Command for benevolent strategy
+     */
+    public static final String STRAT_BENEVOLENT = "b";
+    /**
+     * Command for random strategy
+     */
+    public static final String STRAT_RANDOM = "r";
+
+
 
     /**
      * Valid command set
