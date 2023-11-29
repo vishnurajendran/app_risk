@@ -51,10 +51,14 @@ public class AggressiveStrategy extends Strategy {
             // Attack with the strongest country
             AdvanceOrder advanceOrder = attackWithStrongestCountry(strongestCountry);
 
-            // Return a compound order containing both deploy and advance orders
+            // Move armies to maximize aggregation of forces in one country
+            DeployOrder moveOrder = moveArmies(strongestCountry);
+
+            // Return a compound order containing deploy, advance, and move orders
             List<Order> orders = new ArrayList<>();
             orders.add(deployOrder);
             orders.add(advanceOrder);
+            orders.add(moveOrder);
 
             return (Order) orders;
         } else {
@@ -110,6 +114,26 @@ public class AggressiveStrategy extends Strategy {
         if (!neighboringCountries.isEmpty()) {
             Country targetCountry = neighboringCountries.get(0);
             return new AdvanceOrder(d_strategyData.getCurrentPlayer(), strongestCountry.getDId(), targetCountry.getDId(), 1, d_strategyData.getEngine().getMap());
+        } else {
+            // If no neighboring countries, do nothing
+            return null;
+        }
+    }
+
+    /**
+     * Deploys armies from conquered territories to maximize aggregation of forces in one country.
+     *
+     * @param destinationCountry The country where armies are moved to.
+     * @return The DeployOrder representing the movement of armies.
+     */
+    private DeployOrder moveArmies(Country destinationCountry) {
+        // You need to implement logic here to determine the source country and the number of armies to move.
+        // For simplicity, let's assume you are moving armies from the first neighboring country.
+        List<Country> neighboringCountries = destinationCountry.isNeighbour();
+        if (!neighboringCountries.isEmpty()) {
+            Country sourceCountry = neighboringCountries.get(0);
+            int armiesToMove = sourceCountry.getArmy() - 1; // Move all armies except one for defense
+            return new DeployOrder(d_strategyData.getCurrentPlayer(), armiesToMove, destinationCountry.getDId(), d_strategyData.getEngine().getMap());
         } else {
             // If no neighboring countries, do nothing
             return null;
