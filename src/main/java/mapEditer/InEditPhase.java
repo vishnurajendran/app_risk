@@ -182,6 +182,7 @@ public class InEditPhase extends Phase{
                     return false;
                 }
                 l_country.addBorder(l_neighborCountry);
+                l_neighborCountry.addBorder(l_country);
                 Logger.log("Neighbor added:" + l_country.toString());
             }
         }
