@@ -14,8 +14,10 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * this class tests if RandomStratergy generates an
- * order of advance or bomb or deploy.
+ * this class tests if RandomStrategy generates an
+ * order of advance or bomb or deploy. this test asks
+ * the strategy to generate order 100 times and checks if
+ * valid orders are generated at a reasonable distribution.
  */
 class RandomStrategyTest {
     GameEngine d_engine;
