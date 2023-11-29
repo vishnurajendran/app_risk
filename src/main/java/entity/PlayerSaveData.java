@@ -1,6 +1,7 @@
 package entity;
 
 import game.Orders.Serailisation.OrderSaveData;
+import game.States.Strategy.Strategies;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,6 +16,8 @@ import java.util.Map;
 public class PlayerSaveData {
     private List<Player> d_playerList;
     private List<Integer> d_commitedPlayers;
+    private Map<Integer, Strategies> d_strategyMap;
+
     private Map<Integer, List<OrderSaveData>> d_playerOrderMap;
     private int d_playerTurn = 0;
 
@@ -49,6 +52,11 @@ public class PlayerSaveData {
                     l_player.getOrderSaveData());
         }
 
+        d_strategyMap = new HashMap<>();
+        for(Player l_player : p_players){
+            d_strategyMap.put(l_player.getPlayerId(),
+                    l_player.getPlayerStrategy());
+        }
         d_playerTurn = p_playerTurn;
     }
 
@@ -80,4 +88,10 @@ public class PlayerSaveData {
         return d_playerOrderMap;
     }
 
+    /**
+     * @return player strategies mapping
+     */
+    public Map<Integer, Strategies> getPlayerStrategies() {
+        return d_strategyMap;
+    }
 }
