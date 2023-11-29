@@ -20,12 +20,13 @@ public class MapSave {
      *
      * @param p_map  object of the map which is being processed.
      * @param p_file object of file to store map data.
+     * @param p_isConquest boolean to decide between writers.
      */
-    public static void saveMapFile(RiskMap p_map, String p_file, boolean isConquest) {
+    public static void saveMapFile(RiskMap p_map, String p_file, boolean p_isConquest) {
         MapWriterAdapter adapter;
 
 
-        if(isConquest){
+        if(p_isConquest){
             adapter=new MapWriterAdapter(new ConquestMapWriter());
         }else {
             adapter=new MapWriterAdapter(new DominationMapWriter());
