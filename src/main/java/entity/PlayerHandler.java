@@ -118,7 +118,7 @@ public class PlayerHandler {
         }
 
         for (int i = 0; i < p_playerNames.size(); i++) {
-            Strategies l_playerStrategy = switch (p_strategiesToAdd.get(i)){
+            Strategies l_playerStrategy = switch (p_strategiesToAdd.get(i).toLowerCase()){
                 case GameCommands.STRAT_RANDOM -> Strategies.Random;
                 case GameCommands.STRAT_AGGRESSIVE -> Strategies.Aggressive;
                 case GameCommands.STRAT_BENEVOLENT -> Strategies.Benevolent;

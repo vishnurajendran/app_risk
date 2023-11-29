@@ -31,15 +31,8 @@ class RandomStrategyTest {
         d_engine = new GameEngine();
         d_engine.initialise();
         d_engine.submitCommand(Command.parseString("loadmap testResources/WoW.map"));
-        d_engine.submitCommand(Command.parseString("gameplayer -add p1 p2 p3 p4 p5 p6"));
-
+        d_engine.submitCommand(Command.parseString("gameplayer -add p1 p2 -strategy r h"));
         d_player = PlayerHandler.getGamePlayers().get(0);
-        //change this later...
-        Player l_playerClone = new Player(d_player.getPlayerId(), d_player.getPlayerName(),d_engine.getMap(),new RandomStrategy());
-        l_playerClone.setStrategyContext(d_engine);
-        PlayerHandler.getGamePlayers().set(0, l_playerClone);
-        d_player = PlayerHandler.getGamePlayers().get(0);
-
         d_engine.submitCommand(Command.parseString("assigncountries"));
     }
 

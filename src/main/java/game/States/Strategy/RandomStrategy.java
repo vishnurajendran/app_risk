@@ -1,13 +1,10 @@
 package game.States.Strategy;
 import entity.CardType;
-import game.Orders.AdvanceOrder;
-import game.Orders.BombOrder;
-import game.Orders.DeployOrder;
+import game.Orders.*;
 import entity.Country;
 import entity.Player;
 import entity.PlayerHandler;
 import game.Data.StrategyData;
-import game.Orders.Order;
 
 import java.util.*;
 
@@ -143,6 +140,13 @@ public class RandomStrategy extends Strategy{
     private Order randomAdvance(){
         Player l_myPlayer = d_strategyData.getCurrentPlayer();
         List<Country> l_ownedCountries = new ArrayList<>(l_myPlayer.getCountriesOwned());
+
+        // this will only happen in the event of a cheater
+        if(l_ownedCountries.size() <= 0){
+            PlayerHandler.markComitted(l_myPlayer);
+            return new EmptyOrder();
+        }
+
         Country l_srcCountry = l_ownedCountries.get(d_rng.nextInt(0, l_ownedCountries.size()));
         if(l_srcCountry.getArmy() <= 0)
             return randomDeploy();
@@ -175,6 +179,13 @@ public class RandomStrategy extends Strategy{
         }
 
         List<Country> l_ownedCountries = new ArrayList<>(l_myPlayer.getCountriesOwned());
+
+        // this will only happen in the event of a cheater
+        if(l_ownedCountries.size() <= 0){
+            PlayerHandler.markComitted(l_myPlayer);
+            return new EmptyOrder();
+        }
+
         Country l_country = l_ownedCountries.get(d_rng.nextInt(0, l_ownedCountries.size()));
         return new DeployOrder(l_myPlayer, d_rng.nextInt(1,
                 l_myPlayer.getAvailableReinforcements()+1),
