@@ -9,8 +9,9 @@ import entity.PlayerHandler;
 import java.util.List;
 
 /**
- * Represents a Benevolent strategy in a Risk-style game.
- * This strategy focuses on protecting weak countries by deploying armies on the weakest country and reinforcing it.
+ * Represents a Benevolent strategy in APP Risk game.
+ * This strategy focuses on protecting weak countries by deploying armies on the weakest
+ * country and reinforcing it.
  */
 public class BenevolentStrategy extends Strategy {
 
@@ -35,9 +36,8 @@ public class BenevolentStrategy extends Strategy {
         List<Country> playerCountries = d_strategyData.getCurrentPlayer().getCountriesOwned();
         Country weakestCountry = findWeakestCountry(playerCountries);
 
-        // Check if the current player has any armies
+
         if (d_strategyData.getCurrentPlayer().getAvailableReinforcements() == 0) {
-            // If no armies, mark the player as committed and return null
             PlayerHandler.markComitted(d_strategyData.getCurrentPlayer());
             return null;
         }
