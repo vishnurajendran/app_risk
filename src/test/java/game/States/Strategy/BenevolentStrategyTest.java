@@ -4,16 +4,13 @@ import common.Command;
 import entity.Country;
 import entity.Player;
 import entity.PlayerHandler;
-import game.Data.StrategyData;
 import game.GameEngine;
-import game.Orders.DeployOrder;
 import game.Orders.Order;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -46,10 +43,8 @@ class BenevolentStrategyTest {
 
     @Test
     void testFindWeakestCountry() {
-        // Assuming that the BenevolentStrategy is the current player
         BenevolentStrategy benevolentStrategy = new BenevolentStrategy();
 
-        // Test if it correctly finds the country with the least armies
         Country weakestCountry = benevolentStrategy.findWeakestCountry(d_gamePlayersTest.get(0).getCountriesOwned());
         assertEquals(d_gameEngineTest.getMap().getCountryById(28), weakestCountry);
     }
