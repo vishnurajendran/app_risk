@@ -66,7 +66,6 @@ public class RandomStrategy extends Strategy{
         List<Player> l_playerCopy = new ArrayList<>(PlayerHandler.getGamePlayers());
         l_playerCopy.remove(l_myPlayer);
         Player l_targetPlayer = l_playerCopy.get(d_rng.nextInt(0, l_playerCopy.size()));
-        l_playerCopy.remove(l_targetPlayer);
 
         // if we have a bomb card, just use that.
         if(l_myPlayer.isCardAvailable(CardType.Bomb)){
