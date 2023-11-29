@@ -65,8 +65,9 @@ public class BenevolentStrategy extends Strategy {
 
     private DeployOrder calculateArmiesToDeploy(Country weakestCountry) {
         int armiesToDeploy = 1;
+        int countryId = weakestCountry.getDId(); // Assuming there is a getId() method in the Country class
 
-
-        return new DeployOrder(d_strategyData.getCurrentPlayer(), armiesToDeploy, weakestCountry, d_strategyData.getEngine().getMap());
+        return new DeployOrder(d_strategyData.getCurrentPlayer(), armiesToDeploy, countryId, d_strategyData.getEngine().getMap());
     }
+
 }
