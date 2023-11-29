@@ -20,6 +20,7 @@ public class Application {
 
     private final ISubAppInstantiator d_gameInstantiator;
     private final ISubAppInstantiator d_mapEditorInstantiator;
+    private final ISubAppInstantiator d_tournamentInstantiator;
     private final HashMap<String, IMethod> d_cmdToActionMap;
     private ISubApplication d_activeSubApplication;
     private boolean d_initialised;
@@ -33,7 +34,7 @@ public class Application {
      * ie: the application will accept app commands only.
      */
     public Application() {
-        this(null, null);
+        this(null, null, null);
     }
 
     /**
@@ -42,10 +43,11 @@ public class Application {
      * @param p_gameInstantiator      instance of the game instantiator
      * @param p_mapEditorInstantiator instance of the map-editor instantiator
      */
-    public Application(ISubAppInstantiator p_gameInstantiator, ISubAppInstantiator p_mapEditorInstantiator) {
+    public Application(ISubAppInstantiator p_gameInstantiator, ISubAppInstantiator p_mapEditorInstantiator, ISubAppInstantiator p_tournamentInstantiator) {
         d_cmdToActionMap = new HashMap<>();
         d_gameInstantiator = p_gameInstantiator;
         d_mapEditorInstantiator = p_mapEditorInstantiator;
+        d_tournamentInstantiator = p_tournamentInstantiator;
     }
 
     /**
@@ -76,8 +78,8 @@ public class Application {
      * This instance.
      */
     public void startup() {
-        if (d_gameInstantiator == null || d_mapEditorInstantiator == null) {
-            Logger.logWarning("application has no references for map editor or game instantiators available, no commands will be processed");
+        if (d_gameInstantiator == null || d_mapEditorInstantiator == null || d_tournamentInstantiator == null) {
+            Logger.logWarning("application has no references for map editor,game or tournament instantiators available, no commands will be processed");
             return;
         }
         registerAppCommands();
@@ -142,6 +144,9 @@ public class Application {
             case MapEditor:
                 System.out.println(ApplicationConstants.ERR_MSG_INVALID_MAP_EDITOR_GAME_CMD_USAGE);
                 break;
+            case Tournament:
+                System.out.println(ApplicationConstants.ERR_MSG_INVALID_TOURNAMENT_CMD_USAGE);
+                break;
             default:
                 System.out.println(ApplicationConstants.ERR_INVALID_CMD_USAGE);
         }
@@ -184,6 +189,7 @@ public class Application {
         d_cmdToActionMap.put(ApplicationConstants.CMD_START_GAME, this::cmdStartGame);
         d_cmdToActionMap.put(ApplicationConstants.CMD_LOAD_GAME, this::cmdStartGame);
         d_cmdToActionMap.put(ApplicationConstants.CMD_START_MAPEDITOR, this::cmdStartMapEditor);
+        d_cmdToActionMap.put(ApplicationConstants.CMD_START_TOURNAMENT, this::cmdStartTournament);
         d_cmdToActionMap.put(ApplicationConstants.CMD_HELP, this::cmdHelp);
         Logger.log("Registered " + d_cmdToActionMap.size() + " Entries");
     }
@@ -256,6 +262,30 @@ public class Application {
             Logger.logError("Map-Editor Instance is null");
         } else {
             d_appState = AppState.MapEditor;
+            //This command will be further processed by the map editor
+            d_activeSubApplication.submitCommand(p_command);
+        }
+    }
+
+    /**
+     * This method loads a new instance of the tournament mode game
+     *
+     * @param p_command cmd object sent for additional processing
+     */
+    private void cmdStartTournament(Command p_command) {
+        Logger.log("Loading new Tournament Instance");
+        if (!d_appState.equals(AppState.Standard)) {
+            printInvalidStateStartCmdUsage(AppState.Game, p_command.getCmdName());
+            return;
+        }
+
+        closeCurrSubAppInstance();
+        d_activeSubApplication = createInstance(d_tournamentInstantiator);
+
+        if (d_activeSubApplication == null) {
+            Logger.logError("Tournament Instance is null");
+        } else {
+            d_appState = AppState.Tournament;
             //This command will be further processed by the map editor
             d_activeSubApplication.submitCommand(p_command);
         }

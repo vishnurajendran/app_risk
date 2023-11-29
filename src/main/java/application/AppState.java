@@ -14,4 +14,5 @@ public enum AppState {
     Game,
     //Only map-editor sub-application is active during this state
     MapEditor,
+    Tournament
 }

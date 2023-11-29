@@ -24,4 +24,9 @@ public final class ApplicationTestConstants {
      */
     public static final String MAPEDITOR_TEST_CMD = "mapeditorCMD";
 
+    /**
+     * Command to test Tournament command flow.
+     */
+    public static final String TOURNAMENT_TEST_CMD = "tournamentCMD";
+
 }
