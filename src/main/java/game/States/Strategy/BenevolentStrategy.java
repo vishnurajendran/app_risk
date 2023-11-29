@@ -4,6 +4,7 @@ import entity.Country;
 import game.Data.StrategyData;
 import game.Orders.DeployOrder;
 import game.Orders.Order;
+import entity.PlayerHandler;
 
 import java.util.List;
 
@@ -24,30 +25,27 @@ public class BenevolentStrategy extends Strategy {
         this.d_strategyData = strategyData;
     }
 
-    /**
-     * @return a deploy order based on the benevolent strategy rules
-     */
+
     @Override
     public Order decide() {
-
         List<Country> playerCountries = d_strategyData.getCurrentPlayer().getCountriesOwned();
-
         Country weakestCountry = findWeakestCountry(playerCountries);
 
+        // Check if the current player has any armies
+        if (d_strategyData.getCurrentPlayer().getAvailableReinforcements() == 0) {
+            // If no armies, mark the player as committed and return null
+            PlayerHandler.markComitted(d_strategyData.getCurrentPlayer());
+            return null;
+        }
+
         if (weakestCountry != null) {
-            int armiesToDeploy = calculateArmiesToDeploy(weakestCountry);
-            return new DeployOrder(d_strategyData.getCurrentPlayer(), weakestCountry, armiesToDeploy);
+            return calculateArmiesToDeploy(weakestCountry);
         } else {
-            return new DeployOrder(d_strategyData.getCurrentPlayer(), null, 0);
+            return null;
         }
     }
 
-    /**
-     * Find the weakest country among the given list of countries.
-     *
-     * @param countries List of countries to check
-     * @return The weakest country
-     */
+
     private Country findWeakestCountry(List<Country> countries) {
         if (countries.isEmpty()) {
             return null;
@@ -65,10 +63,10 @@ public class BenevolentStrategy extends Strategy {
     }
 
 
-    private int calculateArmiesToDeploy(Country weakestCountry) {
-        // Implement your logic to calculate the number of armies to deploy
-        // This can depend on various factors such as the number of territories owned, etc.
-        // For simplicity, let's deploy a fixed number of armies (e.g., 5)
-        return 3;
+    private DeployOrder calculateArmiesToDeploy(Country weakestCountry) {
+        int armiesToDeploy = 1;
+
+
+        return new DeployOrder(d_strategyData.getCurrentPlayer(), armiesToDeploy, weakestCountry, d_strategyData.getEngine().getMap());
     }
 }
