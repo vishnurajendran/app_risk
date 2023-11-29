@@ -2,76 +2,63 @@ package game.States.Strategy;
 
 import common.Command;
 import entity.Country;
+import entity.Player;
 import entity.PlayerHandler;
+import game.Data.StrategyData;
 import game.GameEngine;
 import game.Orders.DeployOrder;
 import game.Orders.Order;
-import game.States.Strategy.BenevolentStrategy;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
+import java.util.*;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class BenevolentStrategyTest {
-    GameEngine d_engine;
+    GameEngine d_gameEngineTest;
 
+    ArrayList<Player> d_gamePlayersTest;
     @BeforeEach
     void setUp() {
-        d_engine = new GameEngine();
-        d_engine.initialise();
-        d_engine.submitCommand(Command.parseString("loadmap testResources/WoW.map"));
-        d_engine.submitCommand(Command.parseString("gameplayer -add p1 -strategy b"));
-        d_engine.submitCommand(Command.parseString("assigncountries"));
+        d_gameEngineTest = new GameEngine();
+        d_gameEngineTest.initialise();
+        d_gameEngineTest.submitCommand(Command.parseString("loadmap testResources/WoW.map"));
+        d_gameEngineTest.submitCommand(Command.parseString("gameplayer -add p1 -strategy b"));
+        d_gameEngineTest.submitCommand(Command.parseString("assigncountries"));
+        d_gamePlayersTest = PlayerHandler.getGamePlayers();
+        for(Player player: d_gamePlayersTest){
+            player.setStrategyContext(d_gameEngineTest);
+        }
+        d_gamePlayersTest.get(0).assignReinforcementsToPlayer();
+        d_gamePlayersTest.get(0).assignCountry(d_gameEngineTest.getMap().getCountryById(28), 0);
+        d_gamePlayersTest.get(0).assignCountry(d_gameEngineTest.getMap().getCountryById(20), 1);
+        d_gamePlayersTest.get(0).assignCountry(d_gameEngineTest.getMap().getCountryById(15), 1);
     }
 
     @AfterEach
     void tearDown() {
-        d_engine.shutdown();
+        d_gameEngineTest.shutdown();
         PlayerHandler.cleanup();
     }
 
     @Test
     void testFindWeakestCountry() {
         // Assuming that the BenevolentStrategy is the current player
-        BenevolentStrategy benevolentStrategy = (BenevolentStrategy) PlayerHandler.getCurrentPlayer().getPlayerStrategy();
-
-        // Manually set the armies of countries for testing
-        Country country1 = d_engine.getMap().getCountryById(1);
-        Country country2 = d_engine.getMap().getCountryById(2);
-        Country country3 = d_engine.getMap().getCountryById(3);
-
-        country1.setArmy(5);
-        country2.setArmy(3);
-        country3.setArmy(7);
-
-        List<Country> countries = Arrays.asList(country1, country2, country3);
+        BenevolentStrategy benevolentStrategy = new BenevolentStrategy();
 
         // Test if it correctly finds the country with the least armies
-        Country weakestCountry = benevolentStrategy.findWeakestCountry(countries);
-        assertEquals(country2, weakestCountry);
+        Country weakestCountry = benevolentStrategy.findWeakestCountry(d_gamePlayersTest.get(0).getCountriesOwned());
+        assertEquals(d_gameEngineTest.getMap().getCountryById(28), weakestCountry);
     }
 
     @Test
     void testDeployOrder() {
-        // Assuming that the BenevolentStrategy is the current player
-        BenevolentStrategy benevolentStrategy = (BenevolentStrategy) PlayerHandler.getCurrentPlayer().getPlayerStrategy();
-
-        // Manually set the armies of countries for testing
-        Country weakestCountry = d_engine.getMap().getCountryById(2);
-        weakestCountry.setArmy(3);
-
-        int initialReinforcements = PlayerHandler.getCurrentPlayer().getAvailableReinforcements();
-
-        // Ensure that the decide method returns a DeployOrder
-        Order order = benevolentStrategy.decide();
-        assertTrue(order instanceof DeployOrder);
-
-        // Ensure that the correct number of armies is deployed
-        DeployOrder deployOrder = (DeployOrder) order;
-        assertEquals(initialReinforcements, deployOrder.getArmiesToDeploy());
+        d_gamePlayersTest.get(0).issueOrder();
+        Order order = d_gamePlayersTest.get(0).nextOrder();
+        order.executeOrder();
+        assertEquals(1, d_gameEngineTest.getMap().getCountryById(28).getArmy());
     }
 }
