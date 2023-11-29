@@ -84,6 +84,9 @@ public class GameEngine implements ISubApplication , IEngine {
      * @param p_newState is the new state
      */
     public void changeState(GameStates p_newState) {
+        if(hasQuit())
+            return;
+
         Logger.log("Changing State From " + d_gameState + " >>> " + p_newState);
         d_gameState = p_newState;
         d_currentState = GameStateFactory.get(p_newState);

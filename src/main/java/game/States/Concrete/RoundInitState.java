@@ -17,8 +17,8 @@ public class RoundInitState extends GameState {
     public void setContext(Context p_ctx) {
         super.setContext(p_ctx);
         PlayerHandler.reassignValuesForNextTurn();
-        d_context.getEngine().changeState(GameStates.IssueOrder);
         issueOrderForAI();
+        d_context.getEngine().changeState(GameStates.IssueOrder);
         super.setContext(new Context(PlayerHandler.getCurrentPlayer(), d_context.getEngine()));
         d_context.getCurrentPlayer().setStrategyContext(d_context.getEngine());
     }
@@ -27,15 +27,25 @@ public class RoundInitState extends GameState {
      * Handles issuing orders for AI players with strategies.
      */
     public void issueOrderForAI(){
-        while(!PlayerHandler.getCurrentPlayer().isPlayerHuman() && !PlayerHandler.isCommittedPlayer(PlayerHandler.getCurrentPlayer())){
+        while(PlayerHandler.getCommittedPlayerCount() < PlayerHandler.getGamePlayers().size()){
+            Player l_player = PlayerHandler.getCurrentPlayer();
+            displayPlayerDetails();
+
+            if(PlayerHandler.isCommittedPlayer(l_player)) {
+                PlayerHandler.increasePlayerTurn(1);
+                continue;
+            }
+
+            if(l_player.isPlayerHuman())
+                break;
+
             PlayerHandler.getCurrentPlayer().setStrategyContext(d_context.getEngine());
             PlayerHandler.getCurrentPlayer().issueOrder();
             PlayerHandler.increasePlayerTurn(1);
         }
-        if(!d_context.getCurrentPlayer().equals(PlayerHandler.getCurrentPlayer())){
-            displayPlayerDetails();
-        }
 
+        if(PlayerHandler.getCommittedPlayerCount() >= PlayerHandler.getGamePlayers().size())
+            d_context.getEngine().changeState(GameStates.ExecuteOrder);
     }
 
     /**
