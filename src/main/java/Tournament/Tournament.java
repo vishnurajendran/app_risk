@@ -14,10 +14,7 @@ import game.Orders.Order;
 import game.States.GameStates;
 import mapEditer.MapValidator;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static Tournament.TournamentConstants.*;
 import static java.util.Objects.isNull;
@@ -336,8 +333,37 @@ public class Tournament implements ISubApplication, IEngine {
                     d_tournamentResult[i][j] = l_winner;
                 }
                 else{
-                    Logger.log("Result for map:" + i + ",game:" + j + "Draw");
-                    d_tournamentResult[i][j] = "Draw";
+
+                    int score = PlayerHandler.getGamePlayers().get(0).getCountriesOwned().size();
+                    boolean draw = true;
+                    for (Player l_player:PlayerHandler.getGamePlayers()) {
+                        if(score != l_player.getCountriesOwned().size()){
+                            draw = false;
+                        }
+                    }
+
+                    if(draw){
+                        Logger.log("Result for map:" + i + ",game:" + j + "Draw");
+                        d_tournamentResult[i][j] = "Draw";
+                    }
+                    else {
+                        ArrayList<Player> l_playerCopy = new ArrayList<>(PlayerHandler.getGamePlayers());
+                        Collections.sort(l_playerCopy, new Comparator<Player>() {
+                            @Override
+                            public int compare(Player o1, Player o2) {
+                                int l_s1 = o1.getCountriesOwned().size();
+                                int l_s2 = o2.getCountriesOwned().size();
+                                if (l_s1 > l_s2)
+                                    return -1;
+                                else if (l_s2 > l_s1)
+                                    return 1;
+                                else return 0;
+                            }
+                        });
+                        String l_winner = l_playerCopy.get(0).getPlayerName();
+                        Logger.log("Result for map:" + i + ",game:" + j + l_winner);
+                        d_tournamentResult[i][j] = l_winner;
+                    }
                 }
                 PlayerHandler.cleanup();
             }
@@ -383,6 +409,7 @@ public class Tournament implements ISubApplication, IEngine {
                 }
                 System.out.print(l_winner+ "\t");
             }
+            System.out.println();
         }
     }
 

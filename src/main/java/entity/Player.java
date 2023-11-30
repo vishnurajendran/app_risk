@@ -1,4 +1,5 @@
 package entity;
+import common.Logging.Logger;
 import common.Serialisation.ExcludeSerialisation;
 import entity.Strategy.*;
 import game.Data.StrategyData;
@@ -304,11 +305,20 @@ public class Player {
      *
      */
     public void removeCountry(Country p_country){
+        Logger.log("Removing " + p_country.getDId() + " from " + getPlayerId());
         if(!d_listOfCountriesOwned.contains(p_country.getDId())){
             System.out.println("The player does not own the country");
             return;
         }
-        d_listOfCountriesOwned.remove(Integer.valueOf(p_country.getDId()));
+        Integer l_val = null;
+        for(Integer l_int : d_listOfCountriesOwned){
+            if(l_int == p_country.getDId()){
+                l_val = l_int;
+                break;
+            }
+        }
+        if(l_val != null)
+            d_listOfCountriesOwned.remove(l_val);
     }
 
     /**

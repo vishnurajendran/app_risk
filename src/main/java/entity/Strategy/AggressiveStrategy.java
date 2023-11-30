@@ -47,7 +47,10 @@ public class AggressiveStrategy extends Strategy {
 
             // Find the strongest country that the player owns
             Country strongestCountry = findStrongestCountry(l_player.getCountriesOwned());
-
+            if(strongestCountry == null){
+                PlayerHandler.markComitted(d_strategyData.getCurrentPlayer());
+                return new EmptyOrder();
+            }
             // Check if the player has armies available for deployment
             int armiesToDeploy = l_player.getAvailableReinforcements();
             Order deployOrder = new EmptyOrder();
