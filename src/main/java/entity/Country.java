@@ -79,6 +79,8 @@ public class Country {
 
     public void incrementArmy(int p_army) {
         this.d_army += p_army;
+        if(this.d_army < 0)
+            this.d_army = 0;
     }
 
     /**
