@@ -27,6 +27,9 @@ class DeployActionTest {
         d_gameEngine.initialise();
         d_gameEngine.submitCommand(Command.parseString("loadmap testResources/WoW.map"));
         PlayerHandler.addGamePlayers(new ArrayList<>(Arrays.asList("player1", "player2", "player3")), d_gameEngine.getMap());
+        for(Player player: PlayerHandler.getGamePlayers()){
+            player.assignReinforcementsToPlayer();
+        }
         ArrayList<Player> allPlayers = PlayerHandler.getGamePlayers();
         for (int i = 0; i < allPlayers.size(); i++) {
             allPlayers.get(i).assignCountry(d_gameEngine.getMap().getCountryById(i+1), 1);
