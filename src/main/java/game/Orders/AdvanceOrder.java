@@ -1,8 +1,10 @@
 package game.Orders;
 
+import common.Logging.Logger;
 import entity.Player;
 import entity.PlayerHandler;
 import entity.RiskMap;
+import mapShow.MapViewer;
 
 import java.util.Random;
 
@@ -54,18 +56,29 @@ public class AdvanceOrder extends Order {
             // removes the no of armies form sources country
             Player l_targetCountryOwner = null;
             for (Player player : PlayerHandler.getGamePlayers()) {
+                PlayerHandler.displayGamePlayersCountries(player);
                 if (player.isCountryOwned(d_riskMap.getCountryById(d_targetCountry))) {
                     player.removeCountry(d_riskMap.getCountryById(d_targetCountry));
                     l_targetCountryOwner = player;
+                    break;
                 }
             }
-            if(l_targetCountryOwner == null)return;
+
+            if(l_targetCountryOwner == null){
+                return;
+            }
+
             //assert l_targetCountryOwner != null;
             d_riskMap.getCountryById(d_sourceCountry).setArmy(d_riskMap.getCountryById(d_sourceCountry).getArmy() - d_armiesToAdvance);
-            if(l_targetCountryOwner.equals(d_ctxPlayer)){
+            if(l_targetCountryOwner.getPlayerId() == d_ctxPlayer.getPlayerId()){
+                d_ctxPlayer.assignCountry(d_riskMap.getCountryById(d_targetCountry),l_armiesInTargetCountry);
                 d_riskMap.getCountryById(d_targetCountry).setArmy(l_armiesInTargetCountry);
                 return;
             }
+            // subtract source army value.
+            d_riskMap.getCountryById(d_sourceCountry).incrementArmy(-1*l_armiesInSourceCountryAdvanced);
+
+            // run simulation
             while (l_armiesInSourceCountryAdvanced > 0 && l_armiesInTargetCountry > 0) {
                 double attacker = random.nextDouble();
                 double defender = random.nextDouble();
@@ -77,18 +90,19 @@ public class AdvanceOrder extends Order {
                     l_armiesInSourceCountryAdvanced--;
                 }
             }
+            d_riskMap.getCountryById(d_targetCountry).setArmy(l_armiesInTargetCountry);
+
             if (l_armiesInTargetCountry <= 0) {
                 System.out.println(d_ctxPlayer.getPlayerName() + " conquered " + d_riskMap.getCountryById(d_targetCountry).getName()
                         + " that was owned by " + l_targetCountryOwner.getPlayerName());
 
-                d_ctxPlayer.assignCountry(d_riskMap.getCountryById(d_targetCountry), l_armiesInSourceCountryAdvanced);
-                d_ctxPlayer.addRandomCard();
-                d_riskMap.getCountryById(d_targetCountry).setArmy(l_armiesInSourceCountryAdvanced);
                 l_targetCountryOwner.removeCountry(d_riskMap.getCountryById(d_targetCountry));
+                d_ctxPlayer.assignCountry(d_riskMap.getCountryById(d_targetCountry), l_armiesInSourceCountryAdvanced);
+                d_riskMap.getCountryById(d_targetCountry).setArmy(l_armiesInSourceCountryAdvanced);
+                d_ctxPlayer.addRandomCard();
             } else {
                 System.out.println(l_targetCountryOwner.getPlayerName() + " defended an attack from "
                         + d_ctxPlayer.getPlayerName() + " on " + d_riskMap.getCountryById(d_targetCountry).getName());
-
             }
         }
     }
