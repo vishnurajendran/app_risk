@@ -2,6 +2,7 @@ package game.States.Strategy;
 
 import entity.Country;
 import game.Orders.DeployOrder;
+import game.Orders.EmptyOrder;
 import game.Orders.Order;
 import entity.PlayerHandler;
 
@@ -34,16 +35,16 @@ public class BenevolentStrategy extends Strategy {
         List<Country> playerCountries = d_strategyData.getCurrentPlayer().getCountriesOwned();
         Country weakestCountry = findWeakestCountry(playerCountries);
 
-
         if (d_strategyData.getCurrentPlayer().getAvailableReinforcements() == 0) {
             PlayerHandler.markComitted(d_strategyData.getCurrentPlayer());
-            return null;
+            return new EmptyOrder();
         }
 
         if (weakestCountry != null) {
             return calculateArmiesToDeploy(weakestCountry);
         } else {
-            return null;
+            PlayerHandler.markComitted(d_strategyData.getCurrentPlayer());
+            return new EmptyOrder();
         }
     }
 
