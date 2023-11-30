@@ -12,6 +12,8 @@ import game.States.Strategy.*;
 
 import java.util.*;
 
+import static java.util.Objects.isNull;
+
 /**
  * Class PlayerDetails contains details of the player
  * @author Soham
@@ -318,6 +320,7 @@ public class Player {
      * @return True if it's owned by the player. False if is not
      */
     public boolean isCountryOwned(Country p_country){
+        if(isNull(p_country)) return false;
         return d_listOfCountriesOwned.contains(p_country.getDId());
     }
 

@@ -54,6 +54,15 @@ public class PlayerHandler {
         d_whichPlayersTurn = 0;
     }
 
+
+    /**
+     * Cleanup after each tournament turn.
+     */
+    public static void clearCommittedPlayers(){
+        d_commitedPlayers.clear();
+        d_whichPlayersTurn = 0;
+    }
+
     /**
      * This method checks if there are any duplicates in the list
      * if there are, it removes them from adding

@@ -101,7 +101,7 @@ public class AdvanceOrder extends Order {
     public String canExecuteCommand(){
         // checks if player owns the country
         if(!d_ctxPlayer.isCountryOwned(d_riskMap.getCountryById(d_sourceCountry))) {
-            return "ERROR: Advance execution failed. " + d_ctxPlayer.getPlayerName() + " doesn't own the country " + d_riskMap.getCountryById(d_sourceCountry).getName() + " anymore";
+            return "ERROR: Advance execution failed. " + d_ctxPlayer.getPlayerName() + " doesn't own the country " + d_sourceCountry + " anymore";
         }
         // checks if that country has enough armies to deploy
         else if(d_armiesToAdvance > d_riskMap.getCountryArmyById(d_sourceCountry)){

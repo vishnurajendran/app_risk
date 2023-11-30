@@ -302,6 +302,7 @@ public class Application {
         if(d_appState == AppState.Standard) {
             l_msg += "\tloadmap filename\n";
             l_msg += "\teditmap filename\n";
+            l_msg += "\t loadgame filename\n";
             l_msg += "\texit\n";
         }
 
