@@ -27,10 +27,10 @@ public class TournamentConstants {
     /**
      * Player strategy constants
      */
-    public static final String STRATEGY_AGGRESIVE = "Aggressive";
-    public static final String STRATEGY_BENEVOLENT = "Benevolent";
-    public static final String STRATEGY_RANDOM = "Random";
-    public static final String STRATEGY_CHEATER = "Cheater";
+    public static final String STRATEGY_AGGRESIVE = "a";
+    public static final String STRATEGY_BENEVOLENT = "b";
+    public static final String STRATEGY_RANDOM = "r";
+    public static final String STRATEGY_CHEATER = "c";
 
     /**
      * tournament command options

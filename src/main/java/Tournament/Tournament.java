@@ -111,7 +111,7 @@ public class Tournament implements ISubApplication, IEngine {
      *  This method checks the validity of tournament command parameters.
      * @param p_command   Command object
      */
-    private boolean IsCommandValid(Command p_command) {
+    public boolean IsCommandValid(Command p_command) {
         ArrayList<CommandAttribute> l_commandAttributes = p_command.getCmdAttributes();
         if(l_commandAttributes.size() != 4){
             System.out.println(TournamentConstants.CMD_INVALID_ARGUMENTS);
@@ -207,7 +207,6 @@ public class Tournament implements ISubApplication, IEngine {
         d_playerStrategies = new ArrayList<>();
         for (String l_playerStrategy : p_playerStrategyList){
             if(!TOURNAMENT_VALIDSTRATEGIES.contains(l_playerStrategy)){
-                System.out.println(CMD_INVALID_STRATEGY);
                 return false;
             }
             d_playerStrategies.add(l_playerStrategy);
@@ -227,13 +226,11 @@ public class Tournament implements ISubApplication, IEngine {
             boolean l_isMapLoaded  = MapLoader.loadMap(l_map);
             if(!l_isMapLoaded){
                 Logger.log("Invalid map:" + l_map);
-                System.out.println(CMD_INVALID_MAP);
                 return false;
             }
             boolean l_isMapValid = MapValidator.validateMap(MapLoader.getMap());
             if(!l_isMapValid){
                 Logger.log("Invalid map:" + l_map);
-                System.out.println(CMD_INVALID_MAP);
                 return false;
             }
             d_maps.add(MapLoader.getMap());
@@ -253,6 +250,7 @@ public class Tournament implements ISubApplication, IEngine {
             }
             PlayerHandler.getCurrentPlayer().setStrategyContext(this);
             PlayerHandler.getCurrentPlayer().issueOrder();
+            PlayerHandler.markComitted(l_player);
             PlayerHandler.increasePlayerTurn(1);
         }
     }
@@ -264,6 +262,7 @@ public class Tournament implements ISubApplication, IEngine {
         int l_index = 0;
         Order orderToExecute = PlayerHandler.getGamePlayers().get(0).nextOrder();
         do {
+            if(orderToExecute == null) break;
             orderToExecute.executeOrder();
              l_index = (l_index + 1) % PlayerHandler.getGamePlayers().size();
             for (int p = 0; p < PlayerHandler.getGamePlayers().size(); p++) {
@@ -327,7 +326,9 @@ public class Tournament implements ISubApplication, IEngine {
                 while(!l_isGameOver && l_turn<d_numberOfTurns){
                     issueOrderForTournament();
                     executeOrderForTournament();
+                    PlayerHandler.clearCommittedPlayers();
                     l_isGameOver = isGameOver();
+                    l_turn++;
                 }
                 if(l_isGameOver){
                     String l_winner = PlayerHandler.getGamePlayers().get(0).getPlayerName();
@@ -338,8 +339,10 @@ public class Tournament implements ISubApplication, IEngine {
                     Logger.log("Result for map:" + i + ",game:" + j + "Draw");
                     d_tournamentResult[i][j] = "Draw";
                 }
+                PlayerHandler.cleanup();
             }
         }
+        displayTournamentResult();
     }
 
     /**
@@ -349,7 +352,7 @@ public class Tournament implements ISubApplication, IEngine {
      */
     @Override
     public RiskMap getMap() {
-        if(isNull(d_maps) ||  d_maps.size() >= d_currentMapIndex){
+        if(isNull(d_maps) ||  d_currentMapIndex >= d_maps.size()){
             Logger.log("Error, inconsistent state. No maps for current index.");
             return null;
         }
@@ -368,7 +371,17 @@ public class Tournament implements ISubApplication, IEngine {
         for(int i=0;i<d_tournamentResult.length;i++){
             System.out.print("Map " + Integer.toString(i+1) + "\t");
             for (int j=0;j<d_tournamentResult[i].length;j++){
-                System.out.print(d_tournamentResult[i][j]+ "\t");
+                String l_winner = d_tournamentResult[i][j];
+                if(l_winner.equalsIgnoreCase("a")){
+                    l_winner = "Aggressive";
+                }else if(l_winner.equalsIgnoreCase("b")){
+                    l_winner = "Benevolent";
+                }else if(l_winner.equalsIgnoreCase("c")){
+                    l_winner = "Cheater";
+                }else if(l_winner.equalsIgnoreCase("r")){
+                    l_winner = "Random";
+                }
+                System.out.print(l_winner+ "\t");
             }
         }
     }

@@ -165,6 +165,8 @@ public class GameStartState extends GameState {
     public String getHelp() {
         String help = "";
         help += "\tgameplayer -add playername -remove playername\n";
+        help += "\tgameplayer -add playername -start strategyname\n";
+        help += "\t use a for aggressive b for benevolent c cheater r random h human\n";
         help += "\tassigncountries\n";
         return help;
     }
