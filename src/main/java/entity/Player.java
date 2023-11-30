@@ -1,14 +1,11 @@
 package entity;
-
 import common.Serialisation.ExcludeSerialisation;
+import entity.Strategy.*;
 import game.Data.StrategyData;
-import game.GameCommands;
-import game.GameEngine;
 import game.IEngine;
 import game.Orders.Order;
 import game.Orders.Serailisation.OrderSaveData;
 import game.Orders.Serailisation.OrderSaveConverter;
-import game.States.Strategy.*;
 
 import java.util.*;
 

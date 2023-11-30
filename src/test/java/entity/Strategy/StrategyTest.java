@@ -1,7 +1,8 @@
-package game.States.Strategy;
+package entity.Strategy;
 
 import common.Command;
 import entity.PlayerHandler;
+import entity.Strategy.Strategies;
 import game.GameEngine;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

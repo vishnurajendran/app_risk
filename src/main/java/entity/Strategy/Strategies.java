@@ -1,4 +1,4 @@
-package game.States.Strategy;
+package entity.Strategy;
 
 /**
  * Enums to denote which strategies are used by the player

@@ -1,8 +1,8 @@
 package entity;
 
 import common.Logging.Logger;
+import entity.Strategy.Strategies;
 import game.GameCommands;
-import game.States.Strategy.*;
 
 import java.util.*;
 

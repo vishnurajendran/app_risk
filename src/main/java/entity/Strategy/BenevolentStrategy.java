@@ -1,4 +1,4 @@
-package game.States.Strategy;
+package entity.Strategy;
 
 import entity.Country;
 import game.Orders.DeployOrder;

@@ -1,7 +1,7 @@
 package entity;
 
 import game.Orders.Serailisation.OrderSaveData;
-import game.States.Strategy.Strategies;
+import entity.Strategy.Strategies;
 
 import java.util.ArrayList;
 import java.util.HashMap;

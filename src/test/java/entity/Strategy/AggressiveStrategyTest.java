@@ -4,12 +4,13 @@
  *
  * @author Rachit
  */
-package game.States.Strategy;
+package entity.Strategy;
 
 import common.Command;
 import entity.Country;
 import entity.Player;
 import entity.PlayerHandler;
+import entity.Strategy.AggressiveStrategy;
 import game.GameEngine;
 import game.Orders.Order;
 import org.junit.jupiter.api.AfterEach;
