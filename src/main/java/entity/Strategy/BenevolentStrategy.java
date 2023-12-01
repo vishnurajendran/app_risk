@@ -79,7 +79,7 @@ public class BenevolentStrategy extends Strategy {
     private DeployOrder calculateArmiesToDeploy(Country weakestCountry) {
         int armiesToDeploy = 1;
         int countryId = weakestCountry.getDId();
-
+        PlayerHandler.markComitted(d_strategyData.getCurrentPlayer());
         return new DeployOrder(d_strategyData.getCurrentPlayer(), armiesToDeploy, countryId, d_strategyData.getEngine().getMap());
     }
 }

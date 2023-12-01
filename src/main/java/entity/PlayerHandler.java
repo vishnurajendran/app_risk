@@ -370,6 +370,10 @@ public class PlayerHandler {
             }
             d_commitedPlayers.add(l_player.get());
         }
+        for(Player l_player: l_playerList){
+            l_player.setPlayerStrategy(p_data.getPlayerStrategies().get(Integer.valueOf(l_player.getPlayerId())));
+        }
+
         d_gamePlayers = new ArrayList<>(l_playerList);
         d_whichPlayersTurn = p_data.getPlayerTurn();
         d_countriesAssigned = true;

@@ -1,0 +1,74 @@
+{
+  "d_gameState": "IssueOrder",
+  "d_playerSaveData": {
+    "d_playerList": [
+      {
+        "d_availableReinforcements": 3,
+        "d_playerName": "vishnu",
+        "d_listOfCountriesOwned": [
+          8,
+          4,
+          7,
+          2
+        ],
+        "bonusForOwningContinent": 0,
+        "d_ownedCards": [],
+        "d_negotiatedPlayers": [],
+        "d_playerId": 1
+      },
+      {
+        "d_availableReinforcements": 3,
+        "d_playerName": "soham",
+        "d_listOfCountriesOwned": [
+          5,
+          1,
+          9
+        ],
+        "bonusForOwningContinent": 0,
+        "d_ownedCards": [],
+        "d_negotiatedPlayers": [],
+        "d_playerId": 2
+      },
+      {
+        "d_availableReinforcements": 3,
+        "d_playerName": "taran",
+        "d_listOfCountriesOwned": [
+          10,
+          6,
+          3
+        ],
+        "bonusForOwningContinent": 0,
+        "d_ownedCards": [],
+        "d_negotiatedPlayers": [],
+        "d_playerId": 3
+      }
+    ],
+    "d_commitedPlayers": [],
+    "d_strategyMap": {
+      "1": "Human",
+      "2": "Random",
+      "3": "Benevolent"
+    },
+    "d_playerOrderMap": {
+      "1": [],
+      "2": [],
+      "3": []
+    },
+    "d_playerTurn": 0
+  },
+  "d_mapData": {
+    "d_path": "testresources/validtestmap.map",
+    "d_countryArmyData": {
+      "1": 4,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 7,
+      "6": 0,
+      "7": 0,
+      "8": 3,
+      "9": 2,
+      "10": 1
+    }
+  }
+}
