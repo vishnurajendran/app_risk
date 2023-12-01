@@ -407,7 +407,7 @@ public class Tournament implements ISubApplication, IEngine {
                 }else if(l_winner.equalsIgnoreCase("r")){
                     l_winner = "Random";
                 }
-                System.out.print(l_winner+ "\t");
+                System.out.print(l_winner+ "\t\t");
             }
             System.out.println();
         }
